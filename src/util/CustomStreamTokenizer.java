@@ -17,19 +17,24 @@ public class CustomStreamTokenizer {
 		st.eolIsSignificant(true);
 	}
 	
-	private int nextToken() throws IOException {
+	private static int nextToken() throws IOException {
 		return st.nextToken();
 	}
 	
-	private void nextLine() throws IOException {
+	private static void nextLine() throws IOException {
 		while (st.nextToken() != StreamTokenizer.TT_EOL) {
 		}
 	}
 	
-	public String nextString() throws IOException {
+	public static String nextString() throws IOException {
 		while (nextToken() != StreamTokenizer.TT_WORD) {
-			nextLine();
 		}
-		return st.sval;
+		String sval = st.sval;
+		nextLine();
+		return sval;
+	}
+	
+	public static void waitForInput() throws IOException {
+		nextLine();
 	}
 }
