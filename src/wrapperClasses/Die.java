@@ -3,8 +3,8 @@ package wrapperClasses;
 import util.CustomRandom;
 
 public class Die {
-	int size;
-	int faceValue;
+	private int size;
+	private int faceValue;
 	
 	public Die(int size) {
 		this.size = size;
