@@ -1,6 +1,6 @@
 package matador;
 
-import java.util.Scanner;
+import java.io.IOException;
 
 import util.CustomStreamTokenizer;
 import wrapperClasses.Player;
@@ -11,35 +11,38 @@ public class MatadorMain {
 	private static boolean playing = true;
 	private static Player[] players;
 	
-	public static void init(int numPlayers, int AIs) {
+	public static void init(int numPlayers, int AIs) throws IOException {
 		CustomStreamTokenizer.initTokenizer();
 		
 		players = new Player[numPlayers + AIs];
 		for (int i = 0; i < numPlayers; i++) {
 			System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
-			players[i] = new Player();
+			players[i] = new Player(CustomStreamTokenizer.nextString());
 		}
 		for (int i = 0; i < AIs; i++) {
 			players[numPlayers + i] = new Player();
 		}
 	}
 	
-	public static void startGameLoop() {
+	public static void startGameLoop() throws IOException {
 		int turns = 1;
-		int numPlayer = 0;
+		int currPlayer = 0;
 		while (playing) {
-			players[numPlayer].promptPlayer("test");
-			if (++numPlayer >= players.length) {
+			players[currPlayer].promptPlayer();
+			if (players[currPlayer].hasWon())
+				endGame();
+			if (++currPlayer >= players.length) {
 				turns ++;
-				numPlayer = 0;
+				currPlayer = 0;
 			}
 		}
+		
 	}
 	
 	public static void stop() {
 	}
 	
-	public static void endGame() {
+	private static void endGame() {
 		playing = false;
 	}
 }
