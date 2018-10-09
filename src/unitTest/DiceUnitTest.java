@@ -64,7 +64,7 @@ public class DiceUnitTest {
 			}
 		
 		
-				System.out.println("The dice rolled two: " + two + " times");
+					
 				System.out.println("The dice rolled three: " + three + " times");
 				System.out.println("The dice rolled four: " + four + " times");
 				System.out.println("The dice rolled five: " + five + " times");
@@ -75,6 +75,8 @@ public class DiceUnitTest {
 				System.out.println("The dice rolled ten: " + ten + " times");
 				System.out.println("The dice rolled eleven: " + eleven + " times");
 				System.out.println("The dice rolled twelve: " + twelve + " times");
+				
+				
 	}
 
 }
