@@ -55,7 +55,7 @@ public class Player {
 			if (!lastOverWinscore) {
 				lastOverWinscore = true;
 			}
-			else if (isSame()) {
+			else if (DiceCup.isSame()) {
 				System.out.println(name + " has won the game");
 				hasWon = true;
 			}
