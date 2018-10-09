@@ -23,7 +23,7 @@ public class MatadorMain {
 		
 		players = new Player[numPlayers + AIs];
 		for (int i = 0; i < numPlayers; i++) {
-			System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
+			System.out.print("Indtast navn pÃ¥ spiller " + (i + 1) + ": ");
 			players[i] = new Player(CustomStreamTokenizer.nextString());
 		}
 		for (int i = 0; i < AIs; i++) {
