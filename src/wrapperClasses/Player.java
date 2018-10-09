@@ -72,23 +72,25 @@ public class Player {
 	 */
 	public void playerRollDice() throws IOException {
 		System.out.println(" ");
-		int roll = DiceCup.roll();
+		int roll = DiceCup.roll(); //rolls the dice and saves the value
 		score += roll;
-		if (DiceCup.isSameAndNum(1))
+		if (DiceCup.isSameAndNum(1)) //If both dice shows 1 score gets reset
 			score = 0;
-		if (isAI) {
+		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + " is rolling their dice");
-		} else {
+		} else { //If player is an actual player it waits for an input from the player
 			System.out.print("It's your turn to roll " + name + " press enter to roll");
 			CustomStreamTokenizer.waitForInput();
 		}
+		//Prints information to the player
 		System.out.println(name + " rolled " + DiceCup.getDiceStringValues() + " for a total of " + DiceCup.getDiceIntValues());
 		System.out.println(name + " now has a total score of " + score);
-		if (DiceCup.isSameAndNum(1)) {
+		if (DiceCup.isSameAndNum(1)) { //Prints information to player if their score got resat
 			System.out.println(name + " rolled two one's and gets their score reset to 0");
 			lastOverWinscore = false;
 		}
-		if (DiceCup.isSameAndNum(6)) {
+		if (DiceCup.isSameAndNum(6)) { 
+			//If both dice rolled a 6  it checks for if they rolled two sixes last time and if they did they won
 			if (lastTwoSixes) {
 				System.out.println(name + " has rolled two sixes twice in a row, and hereby wins the game");
 				hasWon = true;
@@ -100,8 +102,8 @@ public class Player {
 		} else
 			lastTwoSixes = false;
 		
-		calcHasWon();
-		if (DiceCup.isSame() && !hasWon) {
+		calcHasWon(); //calculates whether the player has won now
+		if (DiceCup.isSame() && !hasWon) { //gives player an extra turn if they haven't won, and they rolled two identical 
 			System.out.println(name + " rolled two identical dice and get's another roll");
 			playerRollDice();
 		}
