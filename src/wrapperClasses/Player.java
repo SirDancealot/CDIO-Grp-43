@@ -89,6 +89,7 @@ public class Player {
 			System.out.println(name + " rolled two one's and gets their score reset to 0");
 			lastOverWinscore = false;
 		}
+		calcHasWon(); //calculates whether the player has won now
 		if (DiceCup.isSameAndNum(6)) { 
 			//If both dice rolled a 6  it checks for if they rolled two sixes last time and if they did they won
 			if (lastTwoSixes) {
@@ -102,7 +103,6 @@ public class Player {
 		} else
 			lastTwoSixes = false;
 		
-		calcHasWon(); //calculates whether the player has won now
 		if (DiceCup.isSame() && !hasWon) { //gives player an extra turn if they haven't won, and they rolled two identical 
 			System.out.println(name + " rolled two identical dice and get's another roll");
 			playerRollDice();
