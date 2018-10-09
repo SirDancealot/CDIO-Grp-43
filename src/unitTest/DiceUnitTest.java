@@ -1,35 +1,31 @@
 package unitTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
-
-import DiceCup.roll;
+import wrapperClasses.DiceCup;
 
 public class DiceUnitTest {
 
 	@Test
 	public void test() {
 		
-		roll testDice = new roll();
-				
 		final int totalRolls = 1000;
 		
-		int two;
-		int three;
-		int four;
-		int five;
-		int six;
-		int seven;
-		int eight;
-		int nine;
-		int ten;
-		int eleven;
-		int twelve;
+		int two = 0;
+		int three = 0;
+		int four = 0;
+		int five = 0;
+		int six = 0;
+		int seven = 0;
+		int eight = 0;
+		int nine = 0;
+		int ten = 0;
+		int eleven = 0;
+		int twelve = 0;
 		
+		int roll;
 		for (int i = 0; i < totalRolls; i++) {
 			
-			roll = diceTest.roll();
+			roll = DiceCup.roll();
 				switch (roll) {
                 case 2:
                     two++;
@@ -64,23 +60,21 @@ public class DiceUnitTest {
                 case 12:
                 	twelve++;
                     break;
-				}	
-				
-				System.out.println("The die rolled two: " + two + " times");
-				System.out.println("The die rolled three: " + three + " times");
-				System.out.println("The die rolled four: " + four + " times");
-				System.out.println("The die rolled five: " + five + " times");
-				System.out.println("The die rolled six: " + six + " times");
-				System.out.println("The die rolled siven: " + seven + " times");
-				System.out.println("The die rolled eight: " + eight + " times");
-				System.out.println("The die rolled nine: " + nine + " times");
-				System.out.println("The die rolled ten: " + ten + " times");
-				System.out.println("The die rolled eleven: " + eleven + " times");
-				System.out.println("The die rolled twelve: " + twelve + " times");
-				
-		}
+				}		
+			}
 		
 		
+				System.out.println("The dice rolled two: " + two + " times");
+				System.out.println("The dice rolled three: " + three + " times");
+				System.out.println("The dice rolled four: " + four + " times");
+				System.out.println("The dice rolled five: " + five + " times");
+				System.out.println("The dice rolled six: " + six + " times");
+				System.out.println("The dice rolled seven: " + seven + " times");
+				System.out.println("The dice rolled eight: " + eight + " times");
+				System.out.println("The dice rolled nine: " + nine + " times");
+				System.out.println("The dice rolled ten: " + ten + " times");
+				System.out.println("The dice rolled eleven: " + eleven + " times");
+				System.out.println("The dice rolled twelve: " + twelve + " times");
 	}
 
 }
