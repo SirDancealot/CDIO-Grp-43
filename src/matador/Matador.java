@@ -1,12 +1,23 @@
 package matador;
 
+import java.io.IOException;
+
 public class Matador {
-	public static void main(String[] args) {
-		boolean debugMode = args.length == 0;
-		int debugPlayers = 2;
-		int debugAIPlayers = 4;
+	/**
+	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
+	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
+	 * then the main game loop is started, and when that exits it closes the program
+	 * @param args
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		boolean defaultMode = args.length < 1;
+		int defaultPlayers = 2;
+		boolean defaultAIMode = args.length < 2;
+		int defaultAIPlayers = 0;
 		
-		MatadorMain.init(debugMode ? debugPlayers : Integer.valueOf(args[0]), debugMode ? debugAIPlayers : Integer.valueOf(args[1]));
+		MatadorMain.init(defaultMode ? defaultPlayers : Integer.valueOf(args[0]), defaultAIMode ? defaultAIPlayers : Integer.valueOf(args[1]));
 		MatadorMain.startGameLoop();
 		MatadorMain.stop();
 	}

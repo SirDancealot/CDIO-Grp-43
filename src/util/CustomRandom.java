@@ -7,10 +7,10 @@ public class CustomRandom {
 	
 	/**
 	 * @param maxNum
-	 * @return returns a random whole number between 0 and maxNum, both inclusive
+	 * @return returns a random whole number between 1 and maxNum, both inclusive
 	 */
 	public static int randInt(int maxNum) {
-		return rand.nextInt(maxNum + 1);
+		return rand.nextInt(maxNum) + 1;
 	}
 	
 	/**
@@ -20,5 +20,9 @@ public class CustomRandom {
 	 */
 	public static int randIntRange(int low, int high) {
 		return rand.nextInt(high + 1 - low) + low;
+	}
+	
+	public static Random getRandIntance() {
+		return rand;
 	}
 }
