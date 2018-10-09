@@ -37,4 +37,8 @@ public class CustomStreamTokenizer {
 	public static void waitForInput() throws IOException {
 		nextLine();
 	}
+	
+	public static StreamTokenizer getStInstance() {
+		return st;
+	}
 }

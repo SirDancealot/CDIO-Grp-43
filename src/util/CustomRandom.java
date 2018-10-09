@@ -21,4 +21,8 @@ public class CustomRandom {
 	public static int randIntRange(int low, int high) {
 		return rand.nextInt(high + 1 - low) + low;
 	}
+	
+	public static Random getRandIntance() {
+		return rand;
+	}
 }
