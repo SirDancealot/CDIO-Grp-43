@@ -1,6 +1,6 @@
-package wrapperClasses;
+package entity;
 
-import util.CustomRandom;
+import wrapperClasses.CustomRandom;
 
 public class Die {
 	private int size;

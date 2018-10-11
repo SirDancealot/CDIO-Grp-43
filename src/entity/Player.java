@@ -1,9 +1,8 @@
-package wrapperClasses;
+package entity;
 
 import java.io.IOException;
 
-import util.CustomStreamTokenizer;
-
+import wrapperClasses.CustomStreamTokenizer;
 import wrapperClasses.DiceCup;
 
 public class Player {

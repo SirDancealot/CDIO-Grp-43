@@ -2,65 +2,26 @@ package matador;
 
 import java.io.IOException;
 
-import util.CustomStreamTokenizer;
-import wrapperClasses.Player;
-
-
 public class MatadorMain {
-	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
-	private static boolean playing = true;
-	private static Player[] players;
-	
 	/**
-	 * The init function initializes the game with given number of players, AI's
-	 * and initializes any static classes necessary
-	 * @param numPlayers
-	 * @param AIs
+	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
+	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
+	 * then the main game loop is started, and when that exits it closes the program
+	 * @param args
+	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-	public static void init(int numPlayers, int AIs) throws IOException {
-		CustomStreamTokenizer.initTokenizer();
-		
-		players = new Player[numPlayers + AIs];
-		for (int i = 0; i < numPlayers; i++) {
-			System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
-			players[i] = new Player(CustomStreamTokenizer.nextString());
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		boolean defaultMode = args.length < 1;
+		int defaultPlayers = 2;
+		boolean defaultAIMode = args.length < 2;
+		int defaultAIPlayers = 0;
+		try {
+			Matador.init(defaultMode ? defaultPlayers : Integer.valueOf(args[0]), defaultAIMode ? defaultAIPlayers : Integer.valueOf(args[1]));
+		} catch (Exception e) {
+			Matador.init(defaultPlayers, defaultAIPlayers);
 		}
-		for (int i = 0; i < AIs; i++) {
-			players[numPlayers + i] = new Player();
-		}
-	}
-	
-	/**
-	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
-	 * @throws IOException
-	 */
-	public static void startGameLoop() throws IOException {
-		int turns = 1;
-		int currPlayer = 0;
-		while (playing) {
-			players[currPlayer].playerRollDice();
-			if (players[currPlayer].hasWon())
-				endGame();
-			if (++currPlayer >= players.length) {
-				turns ++;
-				currPlayer = 0;
-			}
-		}
-		
-	}
-	
-	/**
-	 * The stop function that runs as the very last thing in the game 
-	 * in case any objects needs to be closed or anything similar.
-	 */
-	public static void stop() {
-	}
-	
-	/**
-	 * The function that is run when a player has won the game and the game loop needs to stop.
-	 */
-	private static void endGame() {
-		playing = false;
+		Matador.startGameLoop();
+		Matador.stop();
 	}
 }

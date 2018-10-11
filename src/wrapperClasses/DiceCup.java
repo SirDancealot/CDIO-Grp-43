@@ -1,5 +1,7 @@
 package wrapperClasses;
 
+import entity.Die;
+
 public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();
 	
