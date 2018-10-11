@@ -1,0 +1,1 @@
+java -jar DiceGame.jar 1 1
