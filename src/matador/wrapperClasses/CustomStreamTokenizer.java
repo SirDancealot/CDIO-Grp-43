@@ -1,4 +1,4 @@
-package wrapperClasses;
+package matador.wrapperClasses;
 
 import java.io.BufferedReader;
 import java.io.IOException;

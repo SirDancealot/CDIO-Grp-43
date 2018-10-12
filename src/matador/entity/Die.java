@@ -1,6 +1,6 @@
-package entity;
+package matador.entity;
 
-import wrapperClasses.CustomRandom;
+import matador.wrapperClasses.CustomRandom;
 
 public class Die {
 	private int size;

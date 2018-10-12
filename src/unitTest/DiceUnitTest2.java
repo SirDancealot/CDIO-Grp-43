@@ -3,7 +3,8 @@ package unitTest;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.RepeatedTest;
-import wrapperClasses.DiceCup;
+
+import matador.wrapperClasses.DiceCup;
 
 public class DiceUnitTest2 {
 	

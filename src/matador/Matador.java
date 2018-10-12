@@ -2,8 +2,8 @@ package matador;
 
 import java.io.IOException;
 
-import entity.Player;
-import wrapperClasses.CustomStreamTokenizer;
+import matador.entity.Player;
+import matador.wrapperClasses.CustomStreamTokenizer;
 
 
 public class Matador {

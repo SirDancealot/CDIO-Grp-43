@@ -1,7 +1,8 @@
 package unitTest;
 
 import org.junit.jupiter.api.Test;
-import wrapperClasses.DiceCup;
+
+import matador.wrapperClasses.DiceCup;
 
 public class DiceUnitTest {
 

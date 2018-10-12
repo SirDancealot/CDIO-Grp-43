@@ -1,9 +1,9 @@
-package entity;
+package matador.entity;
 
 import java.io.IOException;
 
-import wrapperClasses.CustomStreamTokenizer;
-import wrapperClasses.DiceCup;
+import matador.wrapperClasses.CustomStreamTokenizer;
+import matador.wrapperClasses.DiceCup;
 
 public class Player {
 	private String name;

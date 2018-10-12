@@ -1,4 +1,4 @@
-package wrapperClasses;
+package matador.wrapperClasses;
 
 import java.util.Random;
 
