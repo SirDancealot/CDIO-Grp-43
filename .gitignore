@@ -1,1 +1,5 @@
 /bin/
+/.settings/
+/.idea/
+.DS_Store
+.project
