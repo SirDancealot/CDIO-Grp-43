@@ -1,4 +1,4 @@
-package matador.wrapperClasses;
+package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
-package matador.entity;
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-import matador.wrapperClasses.CustomRandom;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.CustomRandom;
 
 public class Die {
 	private int size;

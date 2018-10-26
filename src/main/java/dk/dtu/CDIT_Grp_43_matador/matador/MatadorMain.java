@@ -1,4 +1,4 @@
-package matador;
+package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 

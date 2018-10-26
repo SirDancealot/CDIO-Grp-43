@@ -1,6 +1,6 @@
-package matador.wrapperClasses;
+package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
-import matador.entity.Die;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Die;
 
 public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();

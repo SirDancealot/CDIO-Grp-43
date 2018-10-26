@@ -1,9 +1,9 @@
-package matador;
+package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
-import matador.entity.Player;
-import matador.wrapperClasses.CustomStreamTokenizer;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.CustomStreamTokenizer;
 
 
 public class Matador {
