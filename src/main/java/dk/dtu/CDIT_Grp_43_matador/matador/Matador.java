@@ -15,7 +15,11 @@ public class Matador {
 	private static final int defaultAIs = 0;
 	private static final String[] LANGS = LanguageController.getLangs();
 	
-	
+	/**
+	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void init(String[] args) throws IOException {
 		int numPlayers = defaultPlayers;
 		int AIs = defaultAIs;
@@ -58,29 +62,6 @@ public class Matador {
 			break;
 		}
 	}
-
-	
-	
-	
-	/**
-	 * The init function initializes the game with given number of players, AI's
-	 * and initializes any static classes necessary
-	 * @param numPlayers
-	 * @param AIs
-	 * @throws IOException
-	 *//*
-	public static void init(int numPlayers, int AIs) throws IOException {
-		CustomStreamTokenizer.initTokenizer();
-		
-		players = new Player[numPlayers + AIs];
-		for (int i = 0; i < numPlayers; i++) {
-			System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
-			players[i] = new Player(CustomStreamTokenizer.nextString());
-		}
-		for (int i = 0; i < AIs; i++) {
-			players[numPlayers + i] = new Player();
-		}
-	}*/
 	
 	/**
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
@@ -92,7 +73,9 @@ public class Matador {
 		while (playing) {
 			players[currPlayer].playerRollDice();
 			if (players[currPlayer].hasWon()) {
+				System.out.println(players[currPlayer] + " won in " + turns + " turns");
 				endGame();
+			}
 			if (++currPlayer >= players.length) {
 				turns ++;
 				currPlayer = 0;
