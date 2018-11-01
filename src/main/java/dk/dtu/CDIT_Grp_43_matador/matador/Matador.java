@@ -3,6 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.CustomStreamTokenizer;
 
 
@@ -10,6 +11,56 @@ public class Matador {
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
 	private static Player[] players;
+	private static final int defaultPlayers = 2;
+	private static final int defaultAIs = 0;
+	private static final String[] LANGS = LanguageController.getLangs();
+	
+	
+	public static void init(String[] args) throws IOException {
+		int numPlayers = defaultPlayers;
+		int AIs = defaultAIs;
+		int langIndex = 0;
+		
+		//The Custom Stream Tokenizer is initialized
+		CustomStreamTokenizer.initTokenizer();
+		
+		//Does different things dependent on the lenght of the args array
+		switch (args.length) {
+		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
+			for (int i = 0; i < LANGS.length; i++) {
+				if (LANGS[i].equals(args[3])) {
+					langIndex = i;
+					break;
+				}
+			}
+		case 2: //if the length is 2 or higer the number of ai's are specified and the number set here
+			try {
+				AIs = Integer.valueOf(args[1]);
+			} catch (Exception e) {
+				
+			}
+		case 1://if the lenght is 1 or higer the number of players are specified and the number is set here
+			try {
+				numPlayers = Integer.valueOf(args[0]);
+			} catch (Exception e) {
+				
+			}
+		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
+			LanguageController.initLang(langIndex);
+			players = new Player[numPlayers + AIs];
+			for (int i = 0; i < numPlayers; i++) {
+				System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
+				players[i] = new Player(CustomStreamTokenizer.nextString());
+			}
+			for (int i = 0; i < AIs; i++) {
+				players[numPlayers + i] = new Player();
+			}
+			break;
+		}
+	}
+
+	
+	
 	
 	/**
 	 * The init function initializes the game with given number of players, AI's
@@ -17,7 +68,7 @@ public class Matador {
 	 * @param numPlayers
 	 * @param AIs
 	 * @throws IOException
-	 */
+	 *//*
 	public static void init(int numPlayers, int AIs) throws IOException {
 		CustomStreamTokenizer.initTokenizer();
 		
@@ -29,7 +80,7 @@ public class Matador {
 		for (int i = 0; i < AIs; i++) {
 			players[numPlayers + i] = new Player();
 		}
-	}
+	}*/
 	
 	/**
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
@@ -40,7 +91,7 @@ public class Matador {
 		int currPlayer = 0;
 		while (playing) {
 			players[currPlayer].playerRollDice();
-			if (players[currPlayer].hasWon())
+			if (players[currPlayer].hasWon()) {
 				endGame();
 			if (++currPlayer >= players.length) {
 				turns ++;

@@ -15,12 +15,14 @@ public class MatadorMain {
 		boolean defaultMode = args.length < 1;
 		int defaultPlayers = 2;
 		boolean defaultAIMode = args.length < 2;
-		int defaultAIPlayers = 0;
+		int defaultAIPlayers = 0;/*
 		try {
 			Matador.init(defaultMode ? defaultPlayers : Integer.valueOf(args[0]), defaultAIMode ? defaultAIPlayers : Integer.valueOf(args[1]));
 		} catch (Exception e) {
 			Matador.init(defaultPlayers, defaultAIPlayers);
-		}
+		}*/
+		
+		Matador.init(args);
 		Matador.startGameLoop();
 		Matador.stop();
 	}
