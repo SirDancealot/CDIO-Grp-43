@@ -8,7 +8,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/matadorgui-3.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/LocalGitRepository/CDIO-Grp-43/res/lib/matadorgui-3.1.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
