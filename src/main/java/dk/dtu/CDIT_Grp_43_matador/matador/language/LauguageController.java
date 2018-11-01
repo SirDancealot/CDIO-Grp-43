@@ -7,7 +7,7 @@ public class LauguageController {
 	
 	public static void main(String[] args) {
 		
-		english = new NewLauguage("res/lauguage/english.txt"); 
+		english = new NewLauguage("res/language/english.txt"); 
 	}
 }
 
