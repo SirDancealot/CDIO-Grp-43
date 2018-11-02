@@ -14,9 +14,10 @@ public class MatadorMain {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
-		final String DEFAULTLANG = LanguageController.getLangs()[0];
+		final String DEFAULTLANG = SUPPORTEDLANGS[0];
 
 		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG };
 		try {
@@ -25,7 +26,14 @@ public class MatadorMain {
 			settings[i] = args[i];
 		}
 		} catch (Exception e){
+			String supportedLangString = "";
+			for (String string : SUPPORTEDLANGS) {
+				supportedLangString += string + " ";
+			}
 			
+			System.out.println("There was entered too many arguments when launching the program, the format is:\n"
+					+ "\tjava -jar Matador.jar <Players> <AI's> <Lang>\n"
+					+ "Currently supported languages are: " + supportedLangString);
 		}
 		
 		
