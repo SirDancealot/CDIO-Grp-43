@@ -11,8 +11,6 @@ public class Matador {
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
 	private static Player[] players;
-	private static final int defaultPlayers = 2;
-	private static final int defaultAIs = 0;
 	private static final String[] LANGS = LanguageController.getLangs();
 	
 	/**
@@ -21,8 +19,8 @@ public class Matador {
 	 * @throws IOException
 	 */
 	public static void init(String[] args) throws IOException {
-		int numPlayers = defaultPlayers;
-		int AIs = defaultAIs;
+		int numPlayers = 0;
+		int AIs = 0;
 		int langIndex = 0;
 		
 		//The Custom Stream Tokenizer is initialized
@@ -32,7 +30,7 @@ public class Matador {
 		switch (args.length) {
 		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
 			for (int i = 0; i < LANGS.length; i++) {
-				if (LANGS[i].equals(args[3])) {
+				if (LANGS[i].equals(args[2])) {
 					langIndex = i;
 					break;
 				}
@@ -73,7 +71,7 @@ public class Matador {
 		while (playing) {
 			players[currPlayer].playerRollDice();
 			if (players[currPlayer].hasWon()) {
-				System.out.println(players[currPlayer] + " won in " + turns + " turns");
+				System.out.println(players[currPlayer].toString() + " won in " + turns + " turns");
 				endGame();
 			}
 			if (++currPlayer >= players.length) {
