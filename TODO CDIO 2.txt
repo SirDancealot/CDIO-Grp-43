@@ -1,0 +1,21 @@
+Overview:
+	- Language
+	- GUI(Not for CDIO2 but could be an independent thing)
+	- New game logic
+	- Bord logic
+	
+	
+Classes needed:
+	- Tile
+	- GameBoard (Container for Tile)
+	- Score/Konto
+
+
+Files needed:
+	- English language
+	- Danish language?
+
+
+Working on:
+	- Language
+
