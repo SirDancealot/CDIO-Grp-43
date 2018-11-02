@@ -9,6 +9,7 @@ Classes needed:
 	- Tile
 	- GameBoard (Container for Tile)
 	- Score/Konto
+	- PlayerController (to move turn logic away from player and to a central class)
 
 
 Files needed:
