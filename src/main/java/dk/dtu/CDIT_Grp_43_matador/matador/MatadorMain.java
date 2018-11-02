@@ -2,6 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
+
 public class MatadorMain {
 	/**
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
@@ -12,17 +14,22 @@ public class MatadorMain {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		boolean defaultMode = args.length < 1;
-		int defaultPlayers = 2;
-		boolean defaultAIMode = args.length < 2;
-		int defaultAIPlayers = 0;/*
+		final String DEFAULTPLAYERS = "2";
+		final String DEFAULTAIPLAYERS = "0";
+		final String DEFAULTLANG = LanguageController.getLangs()[0];
+
+		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG };
 		try {
-			Matador.init(defaultMode ? defaultPlayers : Integer.valueOf(args[0]), defaultAIMode ? defaultAIPlayers : Integer.valueOf(args[1]));
-		} catch (Exception e) {
-			Matador.init(defaultPlayers, defaultAIPlayers);
-		}*/
+			
+		for (int i = 0; i < args.length; i++) {
+			settings[i] = args[i];
+		}
+		} catch (Exception e){
+			
+		}
 		
-		Matador.init(args);
+		
+		Matador.init(settings);
 		Matador.startGameLoop();
 		Matador.stop();
 	}
