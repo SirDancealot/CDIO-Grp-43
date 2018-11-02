@@ -46,6 +46,11 @@ public class Player {
 		return hasWon;
 	}
 	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 	/**
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
