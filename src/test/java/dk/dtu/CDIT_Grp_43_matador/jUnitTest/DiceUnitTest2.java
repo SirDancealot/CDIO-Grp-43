@@ -1,17 +1,17 @@
-package test.java.dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 
 
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
-import org.testng.annotations.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.RepeatedTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 
 
 public class DiceUnitTest2 {
 
-	/*
+	
 	
 	@RepeatedTest(100)
 	public void test() {
@@ -45,5 +45,5 @@ public class DiceUnitTest2 {
 		assertTrue((lowRoll * 1) <= totalEyes[10] && totalEyes[10] <= (highRoll * 1), "Wrong output recieved with 12's output was " + totalEyes[10] + " but should had been between " + (lowRoll * 1) + " and " + (highRoll * 1));
 	}
 
-	*/
+	
 }
