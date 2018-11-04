@@ -2,6 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.io.IOException;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.Matador;
+import dk.dtu.CDIT_Grp_43_matador.matador.gameBoardTiles.GameTile;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
@@ -15,9 +17,12 @@ public class Player {
 	
 	private boolean lastTwoSixes = false;
 	private boolean hasWon = false;
-	private boolean lastOverWinscore = false;
 	private static final int winScore = 3000;
-	private int score = 1000;
+
+	// Konto
+
+    private Konto playerKonto = new Konto(1000);
+	private int score = playerKonto.getInitialAmount();
 	
 	/**
 	 * @param Player name
@@ -58,15 +63,7 @@ public class Player {
 	 */
 	private void calcHasWon() {
 		if (score >= winScore) {
-			if (!lastOverWinscore) {
-				lastOverWinscore = true;
-			}
-			else if (DiceCup.isSame()) {
-				System.out.println(name + " has won the game");
 				hasWon = true;
-			}
-			if (!hasWon)
-				System.out.println(name + " now has a score of over 40 and only need to roll two of the same dice to win");
 		}
 	}
 
@@ -79,38 +76,29 @@ public class Player {
 	public void playerRollDice() throws IOException {
 		System.out.println(" ");
 		int roll = DiceCup.roll(); //rolls the dice and saves the value
-		score += roll;
-		if (DiceCup.isSameAndNum(1)) //If both dice shows 1 score gets reset
-			score = 0;
+
+        // Adding tile value to account
+
+        int added = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileValue();
+
+		score += added;
+
+
 		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + LanguageController.getHmap().get("playerRolling")); //tag: playerRolling
 		} else { //If player is an actual player it waits for an input from the player
 			System.out.print("It's your turn to roll " + name + " press enter to roll"); //tag: turnRoll //tag: enterRoll
 			CustomStreamTokenizer.waitForInput();
 		}
+
 		//Prints information to the player
-		System.out.println(name + " rolled " + DiceCup.getDiceStringValues() + " for a total of " + DiceCup.getDiceIntValues()); //tag: playerRolled //tag: rolledResult
+		System.out.println(name + " rolled " + Integer.toString(roll) + " for a total of " + Integer.toString(added)); //tag: playerRolled //tag: rolledResult
 		System.out.println(name + " now has a total score of " + score); //tag: playerTotalScore
-		if (DiceCup.isSameAndNum(1)) { //Prints information to player if their score got resat
-			System.out.println(name + " rolled two one's and gets their score reset to 0"); //tag: doubleOneReset
-			lastOverWinscore = false;
-		}
 		calcHasWon(); //calculates whether the player has won now
-		if (DiceCup.isSameAndNum(6)) { 
-			//If both dice rolled a 6  it checks for if they rolled two sixes last time and if they did they won
-			if (lastTwoSixes) {
-				System.out.println(name + " has rolled two sixes twice in a row, and hereby wins the game"); //tag: sixesWin
-				hasWon = true;
-			}
-			else {
-				System.out.println(name + " has rolled two sixes in one roll, if they do it again they win the game"); //tag: sixesAlmostWin
-				lastTwoSixes = true;
-			}
-		} else
-			lastTwoSixes = false;
+
 		
-		if (DiceCup.isSame() && !hasWon) { //gives player an extra turn if they haven't won, and they rolled two identical 
-			System.out.println(name + " rolled two identical dice and get's another roll"); //tag: additionalRoll
+		if (DiceCup.isSame() && roll == 10) { //gives player an extra turn if they haven't won, and they rolled two identical
+			System.out.println(name + " rolled 10 and get's another roll"); //tag: additionalRoll
 			playerRollDice();
 		}
 	}

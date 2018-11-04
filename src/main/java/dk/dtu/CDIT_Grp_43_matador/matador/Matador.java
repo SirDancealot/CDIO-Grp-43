@@ -12,7 +12,12 @@ public class Matador {
 	private static boolean playing = true;
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
-	
+	private static GameBoard matadorGameBourd;
+
+	public static GameBoard getMatadorGameBourd() {
+		return matadorGameBourd;
+	}
+
 	/**
 	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
 	 * @param args
@@ -22,7 +27,9 @@ public class Matador {
 		int numPlayers = 0;
 		int AIs = 0;
 		int langIndex = 0;
-		
+
+		matadorGameBourd = new GameBoard();
+
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
 		

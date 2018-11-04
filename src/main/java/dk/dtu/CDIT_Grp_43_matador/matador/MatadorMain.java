@@ -16,11 +16,13 @@ public class MatadorMain {
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
+
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
 		final String DEFAULTLANG = SUPPORTEDLANGS[0];
+
 
 		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG };
 		try {
