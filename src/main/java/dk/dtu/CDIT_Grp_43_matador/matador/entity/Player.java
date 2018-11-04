@@ -83,7 +83,7 @@ public class Player {
 		if (DiceCup.isSameAndNum(1)) //If both dice shows 1 score gets reset
 			score = 0;
 		if (isAI) { //If player is an AI rolls automatically
-			System.out.println(name + " is rolling their dice"); //tag: playerRolling
+			System.out.println(name + LanguageController.getHmap().get("playerRolling")); //tag: playerRolling
 		} else { //If player is an actual player it waits for an input from the player
 			System.out.print("It's your turn to roll " + name + " press enter to roll"); //tag: turnRoll //tag: enterRoll
 			CustomStreamTokenizer.waitForInput();
