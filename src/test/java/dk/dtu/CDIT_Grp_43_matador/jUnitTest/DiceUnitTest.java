@@ -1,8 +1,8 @@
-package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+package test.java.dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-import org.junit.jupiter.api.Test;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+import org.testng.annotations.Test;
 
 public class DiceUnitTest {
 
