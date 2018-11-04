@@ -3,7 +3,6 @@
 /.idea/
 .DS_Store
 .project
-*.class
 
 # User-specific stuff
 .idea/**/workspace.xml
