@@ -16,8 +16,8 @@ public class Player {
 	private boolean lastTwoSixes = false;
 	private boolean hasWon = false;
 	private boolean lastOverWinscore = false;
-	private static final int winScore = 40;
-	private int score = 0;
+	private static final int winScore = 3000;
+	private int score = 1000;
 	
 	/**
 	 * @param Player name
@@ -57,7 +57,7 @@ public class Player {
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
 	private void calcHasWon() {
-		if (score >= 40) {
+		if (score >= winScore) {
 			if (!lastOverWinscore) {
 				lastOverWinscore = true;
 			}
