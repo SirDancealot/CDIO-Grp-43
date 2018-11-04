@@ -26,7 +26,7 @@ public class Matador {
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
 		
-		//Does different things dependent on the lenght of the args array
+		//Does different things dependent on the length of the args array
 		switch (args.length) {
 		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
 			for (int i = 0; i < LANGS.length; i++) {
@@ -51,7 +51,7 @@ public class Matador {
 			LanguageController.initLang(langIndex);
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				System.out.print("Indtast navn på spiller " + (i + 1) + ": ");
+				System.out.print("Indtast navn på spiller " + (i + 1) + ": "); //tag: enterName
 				players[i] = new Player(CustomStreamTokenizer.nextString());
 			}
 			for (int i = 0; i < AIs; i++) {
