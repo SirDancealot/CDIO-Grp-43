@@ -1,10 +1,10 @@
-package main.java.dk.dtu.CDIT_Grp_43_matador.matador.language;
+package dk.dtu.CDIT_Grp_43_matador.matador.language;
 
 
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +18,7 @@ public class LanguageController {
 	private static String[] LANGS = { "english.txt", "danish.txt"  };
 	private static String[] gameLines;
     private static HashMap<String, String> hmap;
+
 
 	public static String[] getLangs() {
 		return LANGS;

@@ -1,4 +1,4 @@
-package main.java.dk.dtu.CDIT_Grp_43_matador.matador.util;
+package dk.dtu.CDIT_Grp_43_matador.matador.util;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

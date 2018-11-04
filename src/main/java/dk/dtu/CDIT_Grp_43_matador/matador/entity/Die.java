@@ -1,9 +1,9 @@
-package main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity;
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class Die {
 	private int size;

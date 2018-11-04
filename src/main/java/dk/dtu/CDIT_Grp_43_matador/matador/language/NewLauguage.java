@@ -1,6 +1,6 @@
-package main.java.dk.dtu.CDIT_Grp_43_matador.matador.language;
+package dk.dtu.CDIT_Grp_43_matador.matador.language;
 
-import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
 public class NewLauguage {
 
