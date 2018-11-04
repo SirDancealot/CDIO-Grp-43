@@ -2,7 +2,10 @@ package test.java.dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 
 
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 import org.testng.annotations.Test;
 
 

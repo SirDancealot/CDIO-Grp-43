@@ -1,11 +1,11 @@
-package dk.dtu.CDIT_Grp_43_matador.matador;
+package main.java.dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.CustomStreamTokenizer;
-
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class Matador {
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();

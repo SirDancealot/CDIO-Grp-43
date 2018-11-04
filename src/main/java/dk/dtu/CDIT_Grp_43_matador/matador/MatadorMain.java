@@ -2,7 +2,10 @@ package main.java.dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import main.java.dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class MatadorMain {
 	/**
@@ -37,8 +40,8 @@ public class MatadorMain {
 		}
 		
 		
-		dk.dtu.CDIT_Grp_43_matador.matador.Matador.init(settings);
-		dk.dtu.CDIT_Grp_43_matador.matador.Matador.startGameLoop();
-		dk.dtu.CDIT_Grp_43_matador.matador.Matador.stop();
+		Matador.init(settings);
+		Matador.startGameLoop();
+		Matador.stop();
 	}
 }
