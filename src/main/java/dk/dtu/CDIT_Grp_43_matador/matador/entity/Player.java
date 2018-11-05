@@ -3,7 +3,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.Matador;
-import dk.dtu.CDIT_Grp_43_matador.matador.gameBoardTiles.GameTile;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
@@ -15,6 +14,7 @@ public class Player {
 	private boolean isAI = false;
 	private static int aiNum = 1;
 	
+	private static GameBoard bord = GameBoard.getInstance();
 	private boolean lastTwoSixes = false;
 	private boolean hasWon = false;
 	private static final int winScore = 3000;
@@ -85,7 +85,7 @@ public class Player {
 
         // Adding tile value to account
 
-		String tilesLandendOn = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileName();
+		String tilesLandendOn = bord.getGameTiles()[roll-1].getTileName();
 
         int added = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileValue();
 

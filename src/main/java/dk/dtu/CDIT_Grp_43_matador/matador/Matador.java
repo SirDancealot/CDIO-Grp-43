@@ -11,12 +11,12 @@ public class Matador {
 	private static boolean playing = true;
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
-	private static GameBoard matadorGameBourd;
+	private static GameBoard bord = GameBoard.getInstance();
 	private static Lang lang;
 	private static DiceCup diceCup = DiceCup.getInstance();
 
-	public static GameBoard getMatadorGameBourd() {
-		return matadorGameBourd;
+	public static GameBoard getBord() {
+		return bord;
 	}
 
 	/**
@@ -28,8 +28,6 @@ public class Matador {
 		int numPlayers = 0;
 		int AIs = 0;
 		int langIndex = 0;
-
-		matadorGameBourd = new GameBoard();
 
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
@@ -56,6 +54,7 @@ public class Matador {
 				
 			}
 		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
+			matadorGameBourd = GameBoard.getInstance();
 			initLang(langIndex);
 			diceCup.changeCustomDice(new int[] {6}, new int[] {6});
 			players = new Player[numPlayers + AIs];
@@ -102,6 +101,7 @@ public class Matador {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
 		Player.setLang(lang);
+		matadorGameBourd.setLang(lang);
 	}
 	
 	/**
