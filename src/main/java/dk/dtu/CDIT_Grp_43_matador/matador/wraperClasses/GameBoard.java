@@ -11,10 +11,6 @@ public class GameBoard {
     private Lang lang;
     private static final GameBoard INSTANCE = new GameBoard();
     
-//	private String[] gameTilesNames = {"(Man kan ikke slå 1 med to terninger)","Tower","Crater ","Palace gates", "Cold Desert", "Walled city", "Monastery",
-//            "Black cave", "Huts in the mountain", "The Werewall (werewolf-wall)", "The pit", "Goldmine"};
-//    private int[] gameTilesValue = {0,250,-100,100, -20, 180, 0, -70, 60, -80, -50, 650};
-
     private Tile[] gameTiles;
     private HashMap<String, String> tileInfo;
     
@@ -32,11 +28,6 @@ public class GameBoard {
     		gameTiles[tileNum-1] = new Tile(lang.getTag("Tile" + tileNum), tileInfo.get("Tile" + tileNum));
     		tileNum++;
     	}
-    	   	
-    	
-//        for(int i = 0; i < gameTilesNames.length; i++){
-//            gameTiles[i] = new Tile(gameTilesNames[i], gameTilesValue[i]);
-//        }
     }
 
     // Getters
@@ -48,5 +39,8 @@ public class GameBoard {
 	public static GameBoard getInstance() {
 		return INSTANCE;
 	}
-
+	
+	public Tile landOnTile(int tileNum) {
+		return gameTiles[tileNum-1];
+	}
 }

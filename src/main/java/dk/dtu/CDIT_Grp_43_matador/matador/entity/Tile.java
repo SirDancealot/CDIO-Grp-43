@@ -10,13 +10,12 @@ public class Tile {
 
     public Tile(String tileName, String tileInfoString){
     	String[] nameInfo = tileName.split(",");
-    	
         this.tileName = nameInfo[0];
         this.tileMessage = nameInfo[1];
         
         String[] tileInfo = tileInfoString.split(";");
         for (String string : tileInfo) {
-        	String[] split = string.split("=");
+        	String[] split = string.split(":");
         	switch (split[0]) {
 			case "Score":
 				tileValue = Integer.valueOf(split[1]);

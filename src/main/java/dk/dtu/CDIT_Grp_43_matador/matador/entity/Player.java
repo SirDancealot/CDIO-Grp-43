@@ -19,6 +19,7 @@ public class Player {
 	private boolean hasWon = false;
 	private static final int winScore = 3000;
 	private static Lang lang;
+	private Tile currTile;
 	
 	// Konto
 
@@ -82,15 +83,10 @@ public class Player {
 	public void playerRollDice() throws IOException {
 		System.out.println(" ");
 		int roll = DiceCup.roll(); //rolls the dice and saves the value
+		currTile = bord.landOnTile(roll);
 
         // Adding tile value to account
-
-		String tilesLandendOn = bord.getGameTiles()[roll-1].getTileName();
-
-        int added = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileValue();
-
-		score += added;
-
+		score += currTile.getTileValue();
 
 		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
@@ -100,12 +96,12 @@ public class Player {
 		}
 
 		//Prints information to the player
-		System.out.println(name + lang.getTag("Player:playerRolled") +" "+ Integer.toString(roll) +lang.getTag("Player:landedOn")+" "+tilesLandendOn+lang.getTag("Player:rolledResult")+" "+ Integer.toString(added)); //tag: playerRolled //tag: rolledResult //tag: landedOn
+		System.out.println(name + lang.getTag("Player:playerRolled") +" "+ roll +lang.getTag("Player:landedOn")+" "+currTile.getTileName()+lang.getTag("Player:rolledResult")+" "+ currTile.getTileValue()); //tag: playerRolled //tag: rolledResult //tag: landedOn
 		System.out.println(name + lang.getTag("Player:playerTotalScore") +" "+ score); //tag: playerTotalScore
 		calcHasWon(); //calculates whether the player has won now
 
 		
-		if (DiceCup.isSame() && roll == 10) { //gives player an extra turn if they haven't won, and they rolled two identical
+		if (currTile.givesExtraTurn()) { //gives player an extra turn if they haven't won, and they rolled two identical
 			System.out.println(name+" " + lang.getTag("Player:additionalRoll")); //tag: additionalRoll
 			playerRollDice();
 		}

@@ -18,7 +18,7 @@ public class MatadorMain {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
-		final String DEFAULTAIPLAYERS = "2";
+		final String DEFAULTAIPLAYERS = "0";
 		final String DEFAULTLANG = SUPPORTEDLANGS[0];
 
 
