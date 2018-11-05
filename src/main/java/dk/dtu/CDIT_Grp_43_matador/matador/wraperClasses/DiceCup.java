@@ -12,6 +12,25 @@ public class DiceCup {
 	private static Die d2 = new Die(6);
 	
 	private DiceCup() { }
+
+    /**
+     * Changes the dice to a standard die of given size
+     * @param d1newSize is the new number of sides for d1
+     * @param d2newSize is the new number of sides for d2
+     */
+	public void changeRegularDice(int d1newSize, int d2newSize){
+	    d1 = new Die(d1newSize);
+	    d2 = new Die(d2newSize);
+    }
+    /**
+     * Changes the dice to have specific sides with specific values
+     * @param d1sides an integer array that describes the number of sides for d1 to have
+     * @param d2sides an integer array that describes the number of sides for d2 to have
+     */
+    public void changeCustomDice(int[] d1sides, int[] d2sides ){
+	    d1 = new Die(d1sides);
+	    d2 = new Die(d2sides);
+    }
 	
 	public static DiceCup getInstance() {
 		return INSTANCE;
