@@ -1,3 +1,5 @@
+Player:playerOneName ; Indtast navn på spiller 1:
+Player:playerTwoName ; Indtast navn på spiller 2:
 Player:playerRolling ; ruller med terningerne ;
 Player:turnRoll ; Det er din tur ;
 Player:enterRoll ; tryk enter for at ruller med terningerne ;

@@ -42,17 +42,17 @@ public class LanguageController {
         }
 
         hmap = new HashMap<String, String>();
-
-        hmap.put("playerRolling", gameLines[0]);
-        hmap.put("turnRoll", gameLines[1]);
-        hmap.put("enterRoll", gameLines[2]);
-        hmap.put("playerRolled", gameLines[3]);
-        hmap.put("rolledResult", gameLines[4]);
-        hmap.put("playerTotalScore", gameLines[5]);
-        hmap.put("doubleOnReset", gameLines[6]);
-        hmap.put("sixesWin", gameLines[7]);
-        hmap.put("sixesAlmostWin", gameLines[8]);
-        hmap.put("additionalRoll", gameLines[9]);
+        hmap.put("enterPlayerName", gameLines[0]);
+        hmap.put("playerRolling", gameLines[1]);
+        hmap.put("turnRoll", gameLines[2]);
+        hmap.put("enterRoll", gameLines[3]);
+        hmap.put("playerRolled", gameLines[4]);
+        hmap.put("rolledResult", gameLines[5]);
+        hmap.put("playerTotalScore", gameLines[6]);
+        hmap.put("doubleOnReset", gameLines[7]);
+        hmap.put("sixesWin", gameLines[8]);
+        hmap.put("sixesAlmostWin", gameLines[9]);
+        hmap.put("additionalRoll", gameLines[10]);
 	}
 }
 
