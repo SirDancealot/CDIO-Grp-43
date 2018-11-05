@@ -26,7 +26,7 @@ public class Player {
 	private int score = playerKonto.getInitialAmount();
 	
 	/**
-	 * @param Player name
+	 * @param {@code Player} name
 	 * @return A {@code Player} instantiated as an actual player
 	 */
 
@@ -76,7 +76,7 @@ public class Player {
 	/**
 	 * The function that should be called every time an action is required of a {@code Player}, 
 	 * also works if the {@code Player} is an AI.
-	 * @param msg
+	 * @param {@code msg}
 	 * @throws IOException 
 	 */
 	public void playerRollDice() throws IOException {
@@ -95,18 +95,18 @@ public class Player {
 		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
 		} else { //If player is an actual player it waits for an input from the player
-			System.out.print("It's your turn to roll " + name + " press enter to roll"); //tag: turnRoll //tag: enterRoll
+			System.out.print(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
 			CustomStreamTokenizer.waitForInput();
 		}
 
 		//Prints information to the player
-		System.out.println(name + " rolled " + Integer.toString(roll) +" landed on "+tilesLandendOn+" for a total of " + Integer.toString(added)); //tag: playerRolled //tag: rolledResult
-		System.out.println(name + " now has a total score of " + score); //tag: playerTotalScore
+		System.out.println(name + lang.getTag("Player:playerRolled") +" "+ Integer.toString(roll) +lang.getTag("Player:landedOn")+" "+tilesLandendOn+lang.getTag("Player:rolledResult")+" "+ Integer.toString(added)); //tag: playerRolled //tag: rolledResult //tag: landedOn
+		System.out.println(name + lang.getTag("Player:playerTotalScore") +" "+ score); //tag: playerTotalScore
 		calcHasWon(); //calculates whether the player has won now
 
 		
 		if (DiceCup.isSame() && roll == 10) { //gives player an extra turn if they haven't won, and they rolled two identical
-			System.out.println(name + " rolled 10 and get's another roll"); //tag: additionalRoll
+			System.out.println(name+" " + lang.getTag("Player:additionalRoll")); //tag: additionalRoll
 			playerRollDice();
 		}
 	}
