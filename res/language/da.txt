@@ -8,3 +8,4 @@ Player:doubleOneReset= har rullet to ens i træk og må derfor starte forfra og 
 Player:sixesWin= har ruller 6 to gange i træk og vinder derfor spillet
 Player:sixesAlmostWin= har lige rullet 6, hvis næste slag også er 6 vinder personer spillet
 Player:additionalRoll= har rullet to ens og får derfor en tur mere
+Matador:enterPlayerName=Indtast navn på spiller 

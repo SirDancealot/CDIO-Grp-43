@@ -14,6 +14,7 @@ public class LanguageController {
 
 	public static Lang getCurrentLanguage() {
 		return currentLanguage;
+
 	}
 
     public static void initLang(int langIndex) throws IOException {

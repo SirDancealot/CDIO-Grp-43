@@ -8,3 +8,4 @@ Player:doubleOneReset= rolled two one's and gets their score reset to 0
 Player:sixesWin= has rolled two sixes twice in a row, and hereby wins the game
 Player:sixesAlmostWin= has rolled two sixes in one roll, if they do it again they win the game
 Player:additionalRoll= rolled two identical dice and get's another roll
+Matador:enterPlayerName=Enter name of Player 
