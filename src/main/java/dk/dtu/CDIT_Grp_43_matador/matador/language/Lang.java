@@ -23,7 +23,6 @@ public class Lang {
 		while ((str = langReader.readLine()) != null) {
 			tokens = str.split("=");
 			langTokens.put(tokens[0], tokens[1]);
-			System.out.println(tokens[0]);
 		}
 	}
 

@@ -18,7 +18,7 @@ public class LanguageController {
 	}
 
     public static void initLang(int langIndex) throws IOException {
-        currentLanguage = new Lang("res/language/"+LANGS[langIndex]+".txt");
+        currentLanguage = new Lang("res/lang/"+LANGS[langIndex]+".txt");
         initLangs[langIndex] = currentLanguage;
 	}
     

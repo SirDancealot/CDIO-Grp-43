@@ -58,7 +58,7 @@ public class Matador {
 			initLang(langIndex);
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				System.out.print(lang.getTag("Matador:enterPlayerName" )+ (i + 1)+": "); //tag: enterPlayerName
+				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
 				players[i] = new Player(CustomStreamTokenizer.nextString());
 			}
 			for (int i = 0; i < AIs; i++) {
