@@ -1,7 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
-
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
@@ -58,7 +57,7 @@ public class Matador {
 			LanguageController.initLang(langIndex);
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				System.out.print("Indtast navn på spiller " + (i + 1) + ": "); //tag: enterName
+				System.out.print(LanguageController.getHmap().get("enterPlayerName" )+ (i + 1)+" "); //tag: enterPlayerName
 				players[i] = new Player(CustomStreamTokenizer.nextString());
 			}
 			for (int i = 0; i < AIs; i++) {
