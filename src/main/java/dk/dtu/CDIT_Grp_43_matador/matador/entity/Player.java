@@ -3,11 +3,9 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.Matador;
-import dk.dtu.CDIT_Grp_43_matador.matador.gameBoardTiles.GameTile;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
+
 
 public class Player {
 	private String name;
@@ -100,7 +98,7 @@ public class Player {
 		calcHasWon(); //calculates whether the player has won now
 
 		
-		if (DiceCup.isSame() && roll == 10) { //gives player an extra turn if they haven't won, and they rolled two identical
+		if ( roll == 10) { //gives player an extra turn if they haven't won, and they rolled two identical
 			System.out.println(name + " rolled 10 and get's another roll"); //tag: additionalRoll
 			playerRollDice();
 		}
