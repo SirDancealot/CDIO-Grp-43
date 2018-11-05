@@ -1,21 +1,11 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.language;
 
-
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
-
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Set;
-
 
 public class LanguageController {
 	
 	private static NewLauguage currentLanguage;
-	private static String[] LANGS = { "english.txt", "danish.txt"  };
+	private static String[] LANGS = { "eng", "da"  };
 	private static String[] gameLines;
     private static HashMap<String, String> hmap;
 
@@ -30,7 +20,7 @@ public class LanguageController {
 
     public static void initLang(int langIndex) {
 
-        currentLanguage = new NewLauguage("res/language/"+LANGS[langIndex]);
+        currentLanguage = new NewLauguage("res/language/"+LANGS[langIndex]+".txt");
         gameLines = new String[currentLanguage.getTokens().length/2];
 
         int index = 0;
