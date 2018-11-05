@@ -13,6 +13,7 @@ public class Matador {
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard matadorGameBourd;
 	private static Lang lang;
+	private static int currPlayer = 0;
 
 	public static GameBoard getMatadorGameBourd() {
 		return matadorGameBourd;
@@ -74,14 +75,13 @@ public class Matador {
 	 */
 	public static void startGameLoop() throws IOException {
 		int turns = 1;
-		int currPlayer = 0;
 		while (playing) {
 			players[currPlayer].playerRollDice();
 			if (players[currPlayer].hasWon()) {
 				System.out.println(players[currPlayer].toString() + " won in " + turns + " turns");
 				endGame();
 			}
-			if (++currPlayer >= players.length) {
+			else if (++currPlayer >= players.length) {
 				turns ++;
 				currPlayer = 0;
 			}
@@ -108,4 +108,12 @@ public class Matador {
 	private static void endGame() {
 		playing = false;
 	}
+
+	public static int getCurrPlayer() {
+		return currPlayer;
+	}
+	public static void resetGame(){
+		playing = true;
+	}
 }
+
