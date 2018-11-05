@@ -2,13 +2,10 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 
 
-//import static org.junit.jupiter.api.Assertions.*;
-import static org.testng.Assert.assertTrue;
 
-//import org.junit.jupiter.api.RepeatedTest;
-
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import org.junit.jupiter.api.RepeatedTest;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class DiceUnitTest2 {

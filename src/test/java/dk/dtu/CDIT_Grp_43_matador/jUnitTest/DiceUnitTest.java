@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 public class DiceUnitTest {
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void test() {
 		
 		final int totalRolls = 1000;
