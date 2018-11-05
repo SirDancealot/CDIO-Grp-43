@@ -37,7 +37,7 @@ public class Die {
 			faceValue = CustomRandom.randInt(size);
 			return faceValue;
 		} else {
-			faceValue = sides[CustomRandom.randInt(sides.length - 1)];
+			faceValue = sides[CustomRandom.randInt(sides.length) - 1];
 			return faceValue;
 		}
 	}
