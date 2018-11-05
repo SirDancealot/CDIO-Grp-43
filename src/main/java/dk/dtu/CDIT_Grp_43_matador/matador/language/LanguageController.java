@@ -42,7 +42,6 @@ public class LanguageController {
         }
 
         hmap = new HashMap<String, String>();
-
         hmap.put("playerRolling", gameLines[0]);
         hmap.put("turnRoll", gameLines[1]);
         hmap.put("enterRoll", gameLines[2]);
