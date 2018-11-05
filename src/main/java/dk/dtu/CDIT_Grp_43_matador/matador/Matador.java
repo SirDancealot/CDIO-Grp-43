@@ -80,7 +80,7 @@ public class Matador {
 		while (playing) {
 			players[currPlayer].playerRollDice();
 			if (players[currPlayer].hasWon()) {
-				System.out.println(players[currPlayer].toString() + " won in " + turns + " turns");
+				System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
 				endGame();
 			}
 			if (++currPlayer >= players.length) {

@@ -5,10 +5,12 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
+
 public class Die {
 	private int size;
 	private int faceValue;
 	private int sides[];
+	private static Lang lang;
 
 	/**
 	 * Initializes a {@code Die} with a set size and rolls a value for the die
@@ -54,6 +56,6 @@ public class Die {
 
 		@Override
 		public String toString () {
-			return "This dice has " + size + " sides and currently has rolled a " + faceValue;
+			return lang.getTag("Die:sizeOfSides") +" "+ size + lang.getTag("Die:faceValueOfDie") + faceValue;
 		}
 }
