@@ -13,6 +13,7 @@ public class Matador {
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard matadorGameBourd;
 	private static Lang lang;
+	private static DiceCup diceCup = DiceCup.getInstance();
 
 	public static GameBoard getMatadorGameBourd() {
 		return matadorGameBourd;
@@ -56,6 +57,7 @@ public class Matador {
 			}
 		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
 			initLang(langIndex);
+			diceCup.changeCustomDice(new int[]{6, 6, 6}, new int[]{6, 6, 6});
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
 				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
