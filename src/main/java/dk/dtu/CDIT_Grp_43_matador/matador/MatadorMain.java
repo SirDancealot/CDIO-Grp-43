@@ -1,11 +1,9 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class MatadorMain {
 	/**
@@ -20,7 +18,7 @@ public class MatadorMain {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
-		final String DEFAULTAIPLAYERS = "0";
+		final String DEFAULTAIPLAYERS = "2";
 		final String DEFAULTLANG = SUPPORTEDLANGS[0];
 
 

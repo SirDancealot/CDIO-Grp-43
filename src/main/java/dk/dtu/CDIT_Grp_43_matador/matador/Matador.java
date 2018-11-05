@@ -13,6 +13,7 @@ public class Matador {
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard matadorGameBourd;
+	private static Lang lang;
 
 	public static GameBoard getMatadorGameBourd() {
 		return matadorGameBourd;
@@ -55,7 +56,7 @@ public class Matador {
 				
 			}
 		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
-			LanguageController.initLang(langIndex);
+			initLang(langIndex);
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
 				System.out.print("Indtast navn på spiller " + (i + 1) + ": "); //tag: enterName
@@ -94,6 +95,12 @@ public class Matador {
 	 * in case any objects needs to be closed or anything similar.
 	 */
 	public static void stop() {
+	}
+	
+	private static void initLang(int langIndex) throws IOException {
+		LanguageController.initLang(langIndex);
+		lang = LanguageController.getCurrentLanguage();
+		Player.setLang(lang);
 	}
 	
 	/**

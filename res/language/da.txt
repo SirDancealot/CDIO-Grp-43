@@ -1,10 +1,10 @@
-Player:playerRolling ; ruller med terningerne ;
-Player:turnRoll ; Det er din tur ;
-Player:enterRoll ; tryk enter for at ruller med terningerne ;
-Player:playerRolled ; rullet ;
-Player:rolledResult ; har ialt ;
-Player:playerTotalScore ; har nu ialt ;
-Player:doubleOneReset ; har rullet to ens i træk og må derfor starte forfra og har nu en scorer på nul ;
-Player:sixesWin ; har ruller 6 to gange i træk og vinder derfor spillet ;
-Player:sixesAlmostWin ; har lige rullet 6, hvis næste slag også er 6 vinder personer spillet ;
-Player:additionalRoll ; har rullet to ens og får derfor en tur mere ;
+Player:playerRolling= ruller med terningerne
+Player:turnRoll=Det er din tur
+Player:enterRoll= tryk enter for at ruller med terningerne
+Player:playerRolled= rullet
+Player:rolledResult= har ialt
+Player:playerTotalScore= har nu ialt
+Player:doubleOneReset= har rullet to ens i træk og må derfor starte forfra og har nu en scorer på nul
+Player:sixesWin= har ruller 6 to gange i træk og vinder derfor spillet
+Player:sixesAlmostWin= har lige rullet 6, hvis næste slag også er 6 vinder personer spillet
+Player:additionalRoll= har rullet to ens og får derfor en tur mere

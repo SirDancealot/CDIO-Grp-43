@@ -18,7 +18,8 @@ public class Player {
 	private boolean lastTwoSixes = false;
 	private boolean hasWon = false;
 	private static final int winScore = 3000;
-
+	private static Lang lang;
+	
 	// Konto
 
     private Konto playerKonto = new Konto(1000);
@@ -33,6 +34,10 @@ public class Player {
 		this.name = name;
 	}
 
+	public static void setLang(Lang lang) {
+		Player.lang = lang;
+	}
+	
 	/**
 	 * @return A {@code Player} instantiated as an AI
 	 */
@@ -88,7 +93,7 @@ public class Player {
 
 
 		if (isAI) { //If player is an AI rolls automatically
-			System.out.println(name + LanguageController.getHmap().get("playerRolling")); //tag: playerRolling
+			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
 		} else { //If player is an actual player it waits for an input from the player
 			System.out.print("It's your turn to roll " + name + " press enter to roll"); //tag: turnRoll //tag: enterRoll
 			CustomStreamTokenizer.waitForInput();
