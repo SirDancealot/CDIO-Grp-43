@@ -11,12 +11,23 @@ public class Lang {
 	private String[] tokens;
 	private HashMap<String, String> langTokens = new HashMap<String, String>(); 
 	BufferedReader langReader;
+	private String lang;
 	
-	public Lang(String path) throws IOException {
+	/**
+	 * @param path is the path of the language file for this language
+	 * @param lang is what language this object is initialized as
+	 * @throws IOException
+	 */
+	public Lang(String path, String lang) throws IOException {
 		loadNewLauguage(path);
+		this.lang = lang;
 	}
 
-
+	/**
+	 * Stores all the strings to be printed in a {@code HashMap} under a uniform tag.
+	 * @param path is the {@code String} representation of the location of the lang file
+	 * @throws IOException
+	 */
 	private void loadNewLauguage(String path) throws IOException {
 		langReader = new BufferedReader(new FileReader(path));
 		String str;
@@ -26,7 +37,15 @@ public class Lang {
 		}
 	}
 
+	/**
+	 * @param tag is the tag of the string to be printed, where the string differ from language to language but the tag does not
+	 * @return Returns the string to be printed in the corresponding language
+	 */
 	public String getTag(String tag) {
 		return langTokens.get(tag);
+	}
+	
+	public String getLang() {
+		return lang;
 	}
 }
