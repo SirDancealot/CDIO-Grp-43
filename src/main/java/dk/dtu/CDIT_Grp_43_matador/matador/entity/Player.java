@@ -28,6 +28,7 @@ public class Player {
 	 * @param Player name
 	 * @return A {@code Player} instantiated as an actual player
 	 */
+
 	public Player(String name) {
 		this.name = name;
 	}
@@ -79,6 +80,8 @@ public class Player {
 
         // Adding tile value to account
 
+		String tilesLandendOn = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileName();
+
         int added = Matador.getMatadorGameBourd().getGameTiles()[roll-1].getTileValue();
 
 		score += added;
@@ -92,7 +95,7 @@ public class Player {
 		}
 
 		//Prints information to the player
-		System.out.println(name + " rolled " + Integer.toString(roll) + " for a total of " + Integer.toString(added)); //tag: playerRolled //tag: rolledResult
+		System.out.println(name + " rolled " + Integer.toString(roll) +" landed on "+tilesLandendOn+" for a total of " + Integer.toString(added)); //tag: playerRolled //tag: rolledResult
 		System.out.println(name + " now has a total score of " + score); //tag: playerTotalScore
 		calcHasWon(); //calculates whether the player has won now
 
