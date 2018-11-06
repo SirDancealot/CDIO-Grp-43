@@ -1,11 +1,15 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.GUI;
 
+
+import dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures;
+
 import java.awt.*;
 import javax.swing.*;
 
-import static dk.dtu.CDIT_Grp_43_matador.matador.util.gameTextures.createGameBoardTextures;
 
-public class MatodorGUI {
+import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
+
+public class MatodorGUI{
 
     private JFrame gameScreen;
     private Container screenContainer;
@@ -14,35 +18,57 @@ public class MatodorGUI {
     // Gui elements
     private JPanel gameTitle;
     private JPanel startButton;
+    private JPanel bg;
+    private JPanel tile;
 
-    public static void main(String[] args) {
-        new MatodorGUI(800, 600);
-    }
+    private int screenLeft, screenTop, screenHeight, screenWidth;
 
-    public MatodorGUI(int height, int width){
 
+    public MatodorGUI(int width, int height){
 
         gameScreen = new JFrame();
-        gameScreen.setSize(height, width);
-        gameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameScreen.getContentPane().setBackground(Color.black);
+        gameScreen.setResizable(false);
+        gameScreen.setSize(width, height);
         gameScreen.setLayout(null);
+        gameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameScreen.setVisible(true);
         screenContainer = gameScreen.getContentPane();
 
-        createGameBoardTextures();
-        screenSetup();
+        screenLeft = gameScreen.getInsets().left;
+        screenTop = gameScreen.getInsets().top;
+        screenHeight = gameScreen.getInsets().bottom;
+        screenWidth = gameScreen.getInsets().right;
 
+        System.out.println(screenLeft);
+        System.out.println(screenTop);
+        System.out.println(screenHeight);
+        System.out.println(screenWidth);
+
+
+        screenSetup();
 
     }
 
     private void screenSetup() {
-        gameTitle = elements.CreateNewPanel(100, 100, 600, 150, Color.black, "Matador", Color.white, "Times New Roman", 90);
-        startButton = elements.CreateNewButton(300, 400, 200, 100, Color.black, "Start", Color.black, Color.white, "Times New Roman", 30 );
+        bg = elements.createBg();
+        //tile = elements.createImageIcon(0);
+        //gameTitle = elements.CreateNewPanel(100, 100, 600, 150, Color.black, "Matador", Color.white, "Times New Roman", 90);
+        //startButton = elements.CreateNewButton(300, 400, 200, 100, Color.black, "Start", Color.black, Color.white, "Times New Roman", 30 );
 
-        screenContainer.add(gameTitle);
-        screenContainer.add(startButton);
+        //screenContainer.add(gameTitle);
+        //screenContainer.add(startButton);
+        //screenContainer.add(tile);
+        screenContainer.add(bg);
+
+        System.out.println("all good ");
+
     }
+
+    public static void main(String[] args) {
+        createGameBoardTextures();
+          new MatodorGUI(516, 539);
+    }
+
 
 
 }

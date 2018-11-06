@@ -1,5 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.GUI;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -35,6 +37,52 @@ public class GUI_Elements {
         panel.add(button);
 
         return panel;
+    }
+
+    public JPanel createBg() {
+
+        ImageIcon icon = new ImageIcon(GameTextures.gameBackground);
+
+        if (icon != null) {
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel();
+
+            label.setIcon(icon);
+            panel.add(label);
+
+
+
+            System.out.println("panel createt");
+            System.out.println(panel.getSize());
+            System.out.println(label.getSize());
+
+            panel.setBounds(0, -5, 500, 505);
+
+            return panel;
+        } else {
+            System.err.println("Couldn't find file: " );
+            return null;
+        }
+    }
+
+    public JPanel createImageIcon(int imageIndex) {
+
+        ImageIcon icon = new ImageIcon(GameTextures.tileTextures[imageIndex]);
+
+        if (icon != null) {
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel();
+
+            label.setIcon(icon);
+            panel.setBounds(0, 0, 100, 100);
+            panel.add(label);
+
+            System.out.println("panel createt");
+            return panel;
+        } else {
+            System.err.println("Couldn't find file: " );
+            return null;
+        }
     }
 
 }
