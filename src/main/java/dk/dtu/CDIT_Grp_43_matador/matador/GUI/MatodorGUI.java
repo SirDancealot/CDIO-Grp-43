@@ -16,12 +16,15 @@ public class MatodorGUI{
     private GUI_Elements elements = new GUI_Elements();
 
     // Gui elements
-    private JPanel gameTitle;
+    private JPanel gameMessage;
     private JPanel startButton;
     private JPanel bg;
-    private JPanel tile;
 
-    private int screenLeft, screenTop, screenHeight, screenWidth;
+    public JTextArea getTextArea() {
+        return textArea;
+    }
+
+    private JTextArea textArea;
 
 
     public MatodorGUI(int width, int height){
@@ -33,42 +36,35 @@ public class MatodorGUI{
         gameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameScreen.setVisible(true);
         screenContainer = gameScreen.getContentPane();
-
-        screenLeft = gameScreen.getInsets().left;
-        screenTop = gameScreen.getInsets().top;
-        screenHeight = gameScreen.getInsets().bottom;
-        screenWidth = gameScreen.getInsets().right;
-
-        System.out.println(screenLeft);
-        System.out.println(screenTop);
-        System.out.println(screenHeight);
-        System.out.println(screenWidth);
-
+        screenContainer.setBackground(Color.black);
 
         screenSetup();
-
     }
 
     private void screenSetup() {
         bg = elements.createBg();
-        //tile = elements.createImageIcon(0);
-        //gameTitle = elements.CreateNewPanel(100, 100, 600, 150, Color.black, "Matador", Color.white, "Times New Roman", 90);
-        //startButton = elements.CreateNewButton(300, 400, 200, 100, Color.black, "Start", Color.black, Color.white, "Times New Roman", 30 );
+        startButton = elements.CreateNewButton(160, 380, 100, 55, Color.black, "Roll", Color.black, Color.white, "Times New Roman", 30 );
+        gameMessage = elements.CreateNewPanel(35, 600, 530, 150, Color.white, "Game message", Color.black, "Times New Roman", 20);
+        //textArea = elements.CreateTextArea(35, 630, 530,120,6,45);
 
-        //screenContainer.add(gameTitle);
-        //screenContainer.add(startButton);
-        //screenContainer.add(tile);
+        // I couldn´t make JTextArea under GUI_Elements tries for like 4 houers.
+
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.white);
+        textArea = new JTextArea(6, 45);
+        textArea.setEnabled(false);
+        textArea.setSelectedTextColor(Color.black);
+        textArea.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(textArea);
+        scroll.setViewportView(textArea);
+        panel.setBounds(35, 630, 530, 120);
+        panel.add(scroll);
+
+
+        screenContainer.add(panel);
+        screenContainer.add(gameMessage);
+        screenContainer.add(startButton);
         screenContainer.add(bg);
 
-        System.out.println("all good ");
-
     }
-
-    public static void main(String[] args) {
-        createGameBoardTextures();
-          new MatodorGUI(516, 539);
-    }
-
-
-
 }

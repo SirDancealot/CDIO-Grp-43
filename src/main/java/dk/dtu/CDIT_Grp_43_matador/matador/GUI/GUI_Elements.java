@@ -7,13 +7,12 @@ import java.awt.*;
 
 public class GUI_Elements {
 
-    public JPanel CreateNewPanel(int x, int y, int height, int width, Color panelColor, String jpanelText, Color jpanelColor, String titleFont, int fontSize){
+    public JPanel CreateNewPanel(int x, int y, int width, int height, Color panelColor, String jpanelText, Color jpanelColor, String titleFont, int fontSize){
 
         JPanel panel = new JPanel();
         JLabel label = new JLabel(jpanelText);
         Font titelFont = new Font(titleFont, Font.PLAIN, fontSize);
-
-        panel.setBounds(x, y, height, width);
+        panel.setBounds(x, y, width, height);
         panel.setBackground(panelColor);
         label.setForeground(jpanelColor);
         label.setFont(titelFont);
@@ -22,13 +21,13 @@ public class GUI_Elements {
         return panel;
     }
 
-    public JPanel CreateNewButton(int x, int y, int height, int width, Color panelColor, String buttonText, Color buttonBgColor, Color buttonFgColor, String titleFont, int fontSize){
+    public JPanel CreateNewButton(int x, int y, int width, int height, Color panelColor, String buttonText, Color buttonBgColor, Color buttonFgColor, String titleFont, int fontSize){
 
         JPanel panel = new JPanel();
         JButton button = new JButton(buttonText);
         Font titelFont = new Font(titleFont, Font.PLAIN, fontSize);
 
-        panel.setBounds(x, y, height, width);
+        panel.setBounds(x, y, width, height);
         panel.setBackground(panelColor);
         button.setBackground(buttonBgColor);
         button.setForeground(buttonFgColor);
@@ -42,22 +41,12 @@ public class GUI_Elements {
     public JPanel createBg() {
 
         ImageIcon icon = new ImageIcon(GameTextures.gameBackground);
-
         if (icon != null) {
             JPanel panel = new JPanel();
             JLabel label = new JLabel();
-
             label.setIcon(icon);
             panel.add(label);
-
-
-
-            System.out.println("panel createt");
-            System.out.println(panel.getSize());
-            System.out.println(label.getSize());
-
-            panel.setBounds(0, -5, 500, 505);
-
+            panel.setBounds(0, -5, 600, 605);
             return panel;
         } else {
             System.err.println("Couldn't find file: " );
@@ -84,5 +73,24 @@ public class GUI_Elements {
             return null;
         }
     }
+
+    
+
+    public JPanel CreateTextArea(int x, int y, int width, int height, int rows, int columes){
+
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.white);
+        JTextArea textArea = new JTextArea(rows, columes);
+        textArea.setEnabled(false);
+        textArea.setSelectedTextColor(Color.black);
+        textArea.setWrapStyleWord(true);
+        JScrollPane scroll = new JScrollPane(textArea);
+        scroll.setViewportView(textArea);
+        panel.setBounds(x, y, width, height);
+        panel.add(scroll);
+        return panel;
+
+    }
+
 
 }

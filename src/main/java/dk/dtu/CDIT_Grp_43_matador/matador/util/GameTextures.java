@@ -14,7 +14,7 @@ public class GameTextures {
         // Loading in textures for res
 
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("monopolyGameTileSheet.png"));
-        gameBackground = ImageLoader.loadImage("gameboard.png");
+        gameBackground = ImageLoader.loadImage("paintGameBoard.png");
 
         // Creating game textures
 
