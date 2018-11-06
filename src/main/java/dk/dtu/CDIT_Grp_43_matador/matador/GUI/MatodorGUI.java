@@ -3,6 +3,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador.GUI;
 import java.awt.*;
 import javax.swing.*;
 
+import static dk.dtu.CDIT_Grp_43_matador.matador.util.gameTextures.createGameBoardTextures;
+
 public class MatodorGUI {
 
     private JFrame gameScreen;
@@ -28,7 +30,9 @@ public class MatodorGUI {
         gameScreen.setVisible(true);
         screenContainer = gameScreen.getContentPane();
 
+        createGameBoardTextures();
         screenSetup();
+
 
     }
 

@@ -12,14 +12,12 @@ public class gameTextures {
     public static void createGameBoardTextures() {
 
         // Loading in textures for res
-        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/sheet3.png"));
-        gameBackground = ImageLoader.loadImage("/textures/bg.png");
+        //SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("res/textures/gameboard.jpg"));
+        gameBackground = ImageLoader.loadImage("res/textures/monopolyGameTileSheet.png");
 
         // Creating game textures
 
         tileTextures = new BufferedImage[12];
-
-        tileTextures[0] = sheet.crop(0, 0,imageCropWidth, imageCropWidth);
 
 
     }
