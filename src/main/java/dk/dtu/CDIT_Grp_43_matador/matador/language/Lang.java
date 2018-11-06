@@ -5,10 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+
 
 public class Lang {
 
-	private String[] tokens;
+//	private String[] tokens;
 	private HashMap<String, String> langTokens = new HashMap<String, String>(); 
 	BufferedReader langReader;
 	private String lang;
@@ -19,7 +21,9 @@ public class Lang {
 	 * @throws IOException
 	 */
 	public Lang(String path, String lang) throws IOException {
-		loadNewLauguage(path);
+		this.langTokens = TextReader.fileToHashMap(path);
+		
+		//loadNewLauguage(path);
 		this.lang = lang;
 	}
 
@@ -28,14 +32,14 @@ public class Lang {
 	 * @param path is the {@code String} representation of the location of the lang file
 	 * @throws IOException
 	 */
-	private void loadNewLauguage(String path) throws IOException {
-		langReader = new BufferedReader(new FileReader(path));
-		String str;
-		while ((str = langReader.readLine()) != null) {
-			tokens = str.split("=");
-			langTokens.put(tokens[0], tokens[1]);
-		}
-	}
+//	private void loadNewLauguage(String path) throws IOException {
+//		langReader = new BufferedReader(new FileReader(path));
+//		String str;
+//		while ((str = langReader.readLine()) != null) {
+//			tokens = str.split("=");
+//			langTokens.put(tokens[0], tokens[1]);
+//		}
+//	}
 
 	/**
 	 * @param tag is the tag of the string to be printed, where the string differ from language to language but the tag does not
