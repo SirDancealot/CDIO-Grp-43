@@ -31,6 +31,7 @@ public class GUI_Elements {
         button.setBackground(buttonBgColor);
         button.setForeground(buttonFgColor);
         button.setFont(titelFont);
+        button.setFocusPainted(false);
         panel.add(button);
 
         return panel;
