@@ -1,5 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
+
 import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GUI.MatodorGUI;
@@ -11,8 +12,15 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
 
 public class Matador {
+
+
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
+
+	public static Player[] getPlayers() {
+		return players;
+	}
+
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
@@ -72,8 +80,8 @@ public class Matador {
 			bord.initBoard();
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
-				players[i] = new Player(CustomStreamTokenizer.nextString());
+				//System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
+				players[i] = new Player("");
 			}
 			for (int i = 0; i < AIs; i++) {
 				players[numPlayers + i] = new Player();

@@ -9,6 +9,10 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class Player {
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private String name;
 	
 	private boolean isAI = false;
@@ -72,6 +76,10 @@ public class Player {
 		if (score >= winScore) {
 				hasWon = true;
 		}
+	}
+
+	public int getScore() {
+		return score;
 	}
 
 	/**
