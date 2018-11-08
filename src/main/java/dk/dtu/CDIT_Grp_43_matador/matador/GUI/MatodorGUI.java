@@ -606,17 +606,17 @@ public class MatodorGUI{
             if(Matador.getPlayers()[currPlayer].hasWon()){
                 endGame(currPlayer);
                 Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
-            }
-
-            if(roll == 10){
-                turn++;
-                Matador.getGame().getTextArea().append(Matador.getPlayers()[0].getName()+" you landend on The Werewall so your get an extra turn");
-                Matador.getGame().getTextArea().append("\n");
-                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-                Matador.getGame().getTextArea().append("\n");
             }else{
-                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-                Matador.getGame().getTextArea().append("\n");
+                if(roll == 10){
+                    turn++;
+                    Matador.getGame().getTextArea().append(Matador.getPlayers()[0].getName()+" you landend on The Werewall so your get an extra turn");
+                    Matador.getGame().getTextArea().append("\n");
+                    Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                    Matador.getGame().getTextArea().append("\n");
+                }else{
+                    Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                    Matador.getGame().getTextArea().append("\n");
+                }
             }
 
         }else{
@@ -637,19 +637,17 @@ public class MatodorGUI{
             if(Matador.getPlayers()[currPlayer].hasWon()){
                 endGame(currPlayer);
                 Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
-                return;
-            }
-
-
-            if(roll == 10){
-                turn++;
-                Matador.getGame().getTextArea().append(Matador.getPlayers()[1].getName()+" you landend on The Werewall so your get an extra turn");
-                Matador.getGame().getTextArea().append("\n");
-                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-                Matador.getGame().getTextArea().append("\n");
             }else{
-                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-                Matador.getGame().getTextArea().append("\n");
+                if(roll == 10){
+                    turn++;
+                    Matador.getGame().getTextArea().append(Matador.getPlayers()[1].getName()+" you landend on The Werewall so your get an extra turn");
+                    Matador.getGame().getTextArea().append("\n");
+                    Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                    Matador.getGame().getTextArea().append("\n");
+                }else{
+                    Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                    Matador.getGame().getTextArea().append("\n");
+                }
             }
         }
 
