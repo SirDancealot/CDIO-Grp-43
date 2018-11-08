@@ -100,18 +100,26 @@ public class Matador {
 	 * @throws IOException
 	 */
 	public static void startGameLoop() {
-		int turns = 1;
 		while (playing) {
-			players[currPlayer].playerRollDice();
-			if (players[currPlayer].hasWon()) {
-				System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
-				endGame();
-			}
-			else if (++currPlayer >= players.length) {
-				turns ++;
-				currPlayer = 0;
-			}
+			tick();
+			update();
 		}
+	}
+	
+	private static void tick() {
+		int turns = 1;
+		players[currPlayer].playerRollDice();
+		if (players[currPlayer].hasWon()) {
+			System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
+			endGame();
+		}
+		else if (++currPlayer >= players.length) {
+			turns ++;
+			currPlayer = 0;
+		}
+	}
+	
+	private static void update() {
 		
 	}
 	

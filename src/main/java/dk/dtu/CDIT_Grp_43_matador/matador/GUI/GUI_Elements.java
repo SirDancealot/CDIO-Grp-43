@@ -39,7 +39,7 @@ public class GUI_Elements {
     }
 
     public JPanel createBg() {
-
+    	
         ImageIcon icon = new ImageIcon(GameTextures.gameBackground);
         if (icon != null) {
             JPanel panel = new JPanel();
