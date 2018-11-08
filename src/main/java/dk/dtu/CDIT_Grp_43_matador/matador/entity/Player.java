@@ -24,6 +24,7 @@ public class Player {
 	private static final int winScore = 3000;
 	private static Lang lang;
 	private Tile currTile;
+	private int roll;
 	
 	// Konto
 
@@ -82,6 +83,10 @@ public class Player {
 		return score;
 	}
 
+	public int getRoll() {
+		return roll;
+	}
+
 	/**
 	 * The function that should be called every time an action is required of a {@code Player}, 
 	 * also works if the {@code Player} is an AI.
@@ -90,7 +95,7 @@ public class Player {
 	 */
 	public void playerRollDice() {
 		System.out.println(" ");
-		int roll = DiceCup.roll(); //rolls the dice and saves the value
+		roll = DiceCup.roll(); //rolls the dice and saves the value
 		currTile = bord.landOnTile(roll);
 
         // Adding tile value to account
@@ -121,12 +126,13 @@ public class Player {
 		Matador.getGame().getTextArea().append("\n");
 		calcHasWon(); //calculates whether the player has won now
 
-		
+		/*
 		if (currTile.givesExtraTurn()) { //gives player an extra turn if they haven't won, and they rolled two identical
 			System.out.println(name+" " + lang.getTag("Player:additionalRoll")); //tag: additionalRoll
 			Matador.getGame().getTextArea().append(name+" " + lang.getTag("Player:additionalRoll"));
 			Matador.getGame().getTextArea().append("\n");
 			playerRollDice();
 		}
+		*/
 	}
 }

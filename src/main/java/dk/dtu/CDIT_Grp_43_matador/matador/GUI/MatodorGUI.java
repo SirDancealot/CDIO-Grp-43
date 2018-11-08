@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
-import java.io.IOException;
 import javax.swing.*;
 
 
@@ -56,6 +55,12 @@ public class MatodorGUI{
     private JPanel player2AddTitelHolder;
     private JLabel player2AddTitel;
     private Font player2AddTitelFont;
+
+    // Name error
+
+    private JPanel errorMessageHolder;
+    private JLabel errorMessage;
+    private Font errorMessageFont;
 
     // Game BG
 
@@ -120,6 +125,36 @@ public class MatodorGUI{
     private ImageIcon winnerBgImage;
     private JLabel winnerBgImageContainer;
 
+    private int[][] gameTilePosition = new int[][]{
+            {65,490},
+            {65,340},
+            {65,200},
+            {65,60},
+            {200,60},
+            {340,60},
+            {490,60},
+            {490,200},
+            {490,340},
+            {490,490},
+            {340,490},
+            {160,490},
+    };
+
+    JPanel[] gameTiles = new JPanel[12];
+
+    // Player1 game piece
+
+    private JPanel gamePiecePlayer1Holder;
+    private JLabel gamePiecePlayer1;
+    private Font gamePiecePlayer1Font;
+
+    // Player2 game piece
+
+    private JPanel gamePiecePlayer2Holder;
+    private JLabel gamePiecePlayer2;
+    private Font gamePiecePlayer2Font;
+
+
     // Turns
     private int turn = 0;
     private int currPlayer;
@@ -136,6 +171,7 @@ public class MatodorGUI{
         screenContainer.setBackground(Color.black);
 
         screenSetup();
+        createPices();
         startScreen();
         screenUpdate();
     }
@@ -210,8 +246,17 @@ public class MatodorGUI{
         player1NameInputButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addPlayer2();
+
+                screenContainer.remove(errorMessageHolder);
                 screenUpdate();
+
+                if(player1NameInput.getText().length() >= 1){
+                    addPlayer2();
+                    screenUpdate();
+                }else{
+                    screenContainer.add(errorMessageHolder);
+                    screenUpdate();
+                }
             }
         });
 
@@ -254,17 +299,38 @@ public class MatodorGUI{
         player2NameInputButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameScreen();
+
+
+                screenContainer.remove(errorMessageHolder);
                 screenUpdate();
+
+                if(player2NameInput.getText().length() >= 1){
+                    gameScreen();
+                    screenUpdate();
+                }else{
+                    screenContainer.add(errorMessageHolder);
+                    screenUpdate();
+                }
             }
         });
+
+        // error message
+
+        errorMessageHolder = new JPanel();
+        errorMessage = new JLabel("Input a name");
+        errorMessageFont = new Font("Times New Roman", Font.PLAIN, 20);
+        errorMessageHolder.setBounds(200,390,400,50);
+        errorMessageHolder.setBackground(black);
+        errorMessage.setForeground(Color.red);
+        errorMessage.setFont(errorMessageFont);
+        errorMessageHolder.add(errorMessage);
 
         // BG image
 
         BG_Image = new ImageIcon(GameTextures.gameBackground);
         BG_holder = new JPanel();
         BG_container = new JLabel();
-        BG_container.setIcon(BG_Image );
+        BG_container.setIcon(BG_Image);
         BG_holder .add(BG_container);
         BG_holder.setBounds(0, -5, 600, 605);
 
@@ -321,7 +387,7 @@ public class MatodorGUI{
         displayPlayer1NameFont = new Font("Times New Roman", Font.PLAIN, 40);
         displayPlayer1NameHolder.setBounds(600, 100, 150, 50);
         displayPlayer1NameHolder.setBackground(black);
-        displayPlayer1Name.setForeground(white);
+        displayPlayer1Name.setForeground(Color.blue);
         displayPlayer1Name.setFont(displayPlayer1NameFont);
         displayPlayer1NameHolder.add(displayPlayer1Name);
 
@@ -343,7 +409,7 @@ public class MatodorGUI{
         displayPlayer2NameFont = new Font("Times New Roman", Font.PLAIN, 40);
         displayPlayer2NameHolder.setBounds(600, 240, 150, 50);
         displayPlayer2NameHolder.setBackground(black);
-        displayPlayer2Name.setForeground(white);
+        displayPlayer2Name.setForeground(Color.green);
         displayPlayer2Name.setFont(displayPlayer2NameFont);
         displayPlayer2NameHolder.add(displayPlayer2Name);
 
@@ -379,6 +445,20 @@ public class MatodorGUI{
         winnerBgImageHolder.add(winnerBgImageContainer);
         winnerBgImageHolder.setBounds(100, 100, 400, 400);
 
+        // Player 1 gamePiece
+        gamePiecePlayer1Holder = new JPanel();
+        gamePiecePlayer1 = new JLabel();
+        gamePiecePlayer1Holder.setBackground(Color.blue);
+        gamePiecePlayer1Holder.add(gamePiecePlayer1);
+        gamePiecePlayer1Holder.setBounds(135, 490 , 15, 40);
+
+        // Player 2 gamePiece
+        gamePiecePlayer2Holder = new JPanel();
+        gamePiecePlayer2 = new JLabel();
+        gamePiecePlayer2Holder.setBackground(Color.green);
+        gamePiecePlayer2Holder.add(gamePiecePlayer2);
+        gamePiecePlayer2Holder.setBounds(250, 490 , 15, 40);
+
     }
 
     public void startScreen(){
@@ -411,17 +491,14 @@ public class MatodorGUI{
         screenContainer.remove(player2NameInputHolder);
         screenContainer.remove(player2NameInputButtonHolder);
 
+        screenContainer.add(gamePiecePlayer1Holder);
+        screenContainer.add(gamePiecePlayer2Holder);
         screenContainer.add(displayPlayer1NameHolder);
         screenContainer.add(displayPlayer1ScoreHolder);
         screenContainer.add(displayPlayer2NameHolder);
         screenContainer.add(displayPlayer2ScoreHolder);
 
-        // Test
-
-        //screenContainer.add(winnerBgImageHolder);
-        //screenContainer.add(displayWinnerOfGameHolder);
-
-        // Test
+        displayGamePices();
 
         screenContainer.add(gameMessageAreaHolder);
         screenContainer.add(gameMessageHolder);
@@ -436,10 +513,13 @@ public class MatodorGUI{
         screenContainer.remove(rollButtonHolder);
 
         if(currPlayer ==0){
-            displayWinnerOfGame.setText("not you "+ Matador.getPlayers()[1].getName()+", "+Matador.getPlayers()[0].getName());
+            displayWinnerOfGame.setText("not you "+ Matador.getPlayers()[1].getName()+"!!, "+Matador.getPlayers()[0].getName()+" xD");
         }else{
-            displayWinnerOfGame.setText("not you "+Matador.getPlayers()[0].getName()+", "+Matador.getPlayers()[1].getName());
+            displayWinnerOfGame.setText("not you "+Matador.getPlayers()[0].getName()+"!!, "+Matador.getPlayers()[1].getName()+" xD");
         }
+        removeGamePices();
+        screenContainer.remove(gamePiecePlayer1Holder);
+        screenContainer.remove(gamePiecePlayer2Holder);
         screenContainer.remove(BG_holder);
         screenContainer.add(winnerBgImageHolder);
         screenContainer.add(displayWinnerOfGameHolder);
@@ -453,34 +533,127 @@ public class MatodorGUI{
         gameScreen.repaint();
     }
 
+    public void createPices(){
+
+        for(int i = 0; i < gameTilePosition.length; i++){
+
+            if(i == 11){
+                JPanel panel = new JPanel();
+                ImageIcon image = new ImageIcon();
+                JLabel label = new JLabel("Start");
+                Font labelFont = new Font("Times New Roman", Font.PLAIN, 30);
+                panel.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.black));
+                label.setIcon(image);
+                label.setFont(labelFont);
+                label.setForeground(black);
+                panel.setBackground(Color.white);
+                panel.add(label);
+                panel.setBounds(gameTilePosition[i][0],gameTilePosition[i][1], 80,40 );
+                gameTiles[i] = panel;
+            }else{
+                JPanel panel = new JPanel();
+                ImageIcon image = new ImageIcon();
+                JLabel label = new JLabel(Integer.toString(i+2));
+                Font labelFont = new Font("Times New Roman", Font.PLAIN, 30);
+                panel.setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.black));
+                label.setIcon(image);
+                label.setFont(labelFont);
+                panel.setBackground(white);
+                panel.add(label);
+                panel.setBounds(gameTilePosition[i][0],gameTilePosition[i][1], 40,40 );
+                gameTiles[i] = panel;
+            }
+        }
+    }
+
+    public void displayGamePices(){
+
+        for(int i = 0; i < gameTiles.length; i++){
+            screenContainer.add(gameTiles[i]);
+        }
+        screenUpdate();
+    }
+
+    public void removeGamePices(){
+        for(int i = 0; i < gameTiles.length; i++){
+            screenContainer.remove(gameTiles[i]);
+        }
+        screenUpdate();
+    }
+
+
+
+
+
+
     public void gameLoop(){
 
         if(turn%2==0){
             Matador.getPlayers()[0].playerRollDice();
-            System.out.println("player1");
             displayPlayer1Score.setText(Integer.toString(Matador.getPlayers()[0].getScore()));
-            //displayPlayer2Score.setText(Integer.toString(Matador.getPlayers()[1].getScore()));
             turn++;
             currPlayer = 0;
-            Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-            Matador.getGame().getTextArea().append("\n");
+
+            int roll = Matador.getPlayers()[0].getRoll();
+
+            gamePiecePlayer1Holder.setBounds(gameTilePosition[roll-2][0]-15, gameTilePosition[roll-2][1], 15, 40);
+
+            if(roll == 12 ){
+                Matador.getGame().getTextArea().append("you hit the jackpot, gold in the maintains, you are rich!!!");
+                Matador.getGame().getTextArea().append("\n");
+            }
+
+            if(Matador.getPlayers()[currPlayer].hasWon()){
+                endGame(currPlayer);
+                Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
+            }
+
+            if(roll == 10){
+                turn++;
+                Matador.getGame().getTextArea().append(Matador.getPlayers()[0].getName()+" you landend on The Werewall so your get an extra turn");
+                Matador.getGame().getTextArea().append("\n");
+                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                Matador.getGame().getTextArea().append("\n");
+            }else{
+                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                Matador.getGame().getTextArea().append("\n");
+            }
+
         }else{
             Matador.getPlayers()[1].playerRollDice();
-            System.out.println("player2");
-            //displayPlayer1Score.setText(Integer.toString(Matador.getPlayers()[0].getScore()));
             displayPlayer2Score.setText(Integer.toString(Matador.getPlayers()[1].getScore()));
             turn++;
             currPlayer = 1;
-            Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
-            Matador.getGame().getTextArea().append("\n");
+
+            int roll = Matador.getPlayers()[1].getRoll();
+
+            gamePiecePlayer2Holder.setBounds(gameTilePosition[roll-2][0]+40, gameTilePosition[roll-2][1] , 15, 40);
+
+            if(roll == 12 ){
+                Matador.getGame().getTextArea().append("you hit the jackpot, gold in the maintains, you are rich!!!");
+                Matador.getGame().getTextArea().append("\n");
+            }
+
+            if(Matador.getPlayers()[currPlayer].hasWon()){
+                endGame(currPlayer);
+                Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
+                return;
+            }
+
+
+            if(roll == 10){
+                turn++;
+                Matador.getGame().getTextArea().append(Matador.getPlayers()[1].getName()+" you landend on The Werewall so your get an extra turn");
+                Matador.getGame().getTextArea().append("\n");
+                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                Matador.getGame().getTextArea().append("\n");
+            }else{
+                Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+                Matador.getGame().getTextArea().append("\n");
+            }
         }
 
-        if(Matador.getPlayers()[currPlayer].hasWon()){
-            endGame(currPlayer);
-            Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
 
-
-        }
         }
 
 }
