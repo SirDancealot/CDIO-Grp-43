@@ -8,6 +8,7 @@ public class GameTextures {
 
     public static BufferedImage[] tileTextures;
     public static BufferedImage gameBackground;
+    public static BufferedImage winning;
 
     public static void createGameBoardTextures() {
 
@@ -15,6 +16,7 @@ public class GameTextures {
 
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("monopolyGameTileSheet.png"));
         gameBackground = ImageLoader.loadImage("paintGameBoard.png");
+        winning = ImageLoader.loadImage("winning.png");
 
         // Creating game textures
 

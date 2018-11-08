@@ -88,13 +88,15 @@ public class Player {
 	 * @param {@code msg}
 	 * @throws IOException 
 	 */
-	public void playerRollDice() throws IOException {
+	public void playerRollDice() {
 		System.out.println(" ");
 		int roll = DiceCup.roll(); //rolls the dice and saves the value
 		currTile = bord.landOnTile(roll);
 
         // Adding tile value to account
 		score += currTile.getTileValue();
+
+		/*
 
 		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
@@ -104,8 +106,10 @@ public class Player {
 			System.out.print(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
 			Matador.getGame().getTextArea().append(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll"));
 			Matador.getGame().getTextArea().append("\n");
-			CustomStreamTokenizer.waitForInput();
+			//CustomStreamTokenizer.waitForInput();
 		}
+
+		*/
 
 		//Prints information to the player
 		System.out.println(name + lang.getTag("Player:playerRolled") +" "+ roll +lang.getTag("Player:landedOn")+" "+currTile.getTileName()+lang.getTag("Player:rolledResult")+" "+ currTile.getTileValue()); //tag: playerRolled //tag: rolledResult //tag: landedOn

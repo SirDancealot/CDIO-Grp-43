@@ -1,5 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
+/*
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -29,3 +31,4 @@ class MatadorMainBalanceTest {
         assertTrue(low<p1 && p1<high,"p1 won " + p1 + "times and p2 won " + p2 + "times");
     }
 }
+*/

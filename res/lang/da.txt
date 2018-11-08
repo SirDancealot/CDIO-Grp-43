@@ -1,6 +1,6 @@
 Player:playerRolling= ruller med terningerne
 Player:turnRoll=Det er din tur
-Player:enterRoll= tryk enter for at ruller med terningerne
+Player:enterRoll= tryk på knappen for at ruller med terningerne
 Player:playerRolled= rullet
 Player:rolledResult= har ialt
 Player:playerTotalScore= har nu ialt

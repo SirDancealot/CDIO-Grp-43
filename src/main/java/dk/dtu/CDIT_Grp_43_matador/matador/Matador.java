@@ -24,6 +24,11 @@ public class Matador {
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
+
+	public static Lang getLang() {
+		return lang;
+	}
+
 	private static Lang lang;
 	private static int currPlayer = 0;
 	private static DiceCup diceCup = DiceCup.getInstance();
@@ -94,7 +99,7 @@ public class Matador {
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
 	 * @throws IOException
 	 */
-	public static void startGameLoop() throws IOException {
+	public static void startGameLoop() {
 		int turns = 1;
 		while (playing) {
 			players[currPlayer].playerRollDice();

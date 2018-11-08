@@ -109,7 +109,20 @@ public class MatodorGUI{
     private JLabel displayPlayer2Score;
     private Font displayPlayer2ScoreFont;
 
+    // Display winner of game
 
+    private JPanel displayWinnerOfGameHolder;
+    private JLabel displayWinnerOfGame;
+    private Font displayWinnerOfGameFont;
+
+    // winner
+    private JPanel winnerBgImageHolder;
+    private ImageIcon winnerBgImage;
+    private JLabel winnerBgImageContainer;
+
+    // Turns
+    private int turn = 0;
+    private int currPlayer;
 
     public MatodorGUI(int width, int height){
 
@@ -334,7 +347,7 @@ public class MatodorGUI{
         displayPlayer2Name.setFont(displayPlayer2NameFont);
         displayPlayer2NameHolder.add(displayPlayer2Name);
 
-        //Display player 1 score
+        //Display player 2 score
 
         displayPlayer2ScoreHolder = new JPanel();
         displayPlayer2Score = new JLabel("1000");
@@ -346,6 +359,25 @@ public class MatodorGUI{
         displayPlayer2ScoreHolder.add(displayPlayer2Score);
 
 
+        // Display winner of game
+
+        displayWinnerOfGameHolder = new JPanel();
+        displayWinnerOfGame = new JLabel("Not you james, william !!!");
+        displayWinnerOfGameFont = new Font("Times New Roman", Font.PLAIN, 25);
+        displayWinnerOfGameHolder.setBounds(100, 500, 400, 35);
+        displayWinnerOfGameHolder.setBackground(white);
+        displayWinnerOfGame.setForeground(black);
+        displayWinnerOfGame.setFont(displayWinnerOfGameFont);
+        displayWinnerOfGameHolder.add(displayWinnerOfGame);
+
+        // Display winner image
+
+        winnerBgImage = new ImageIcon(GameTextures.winning);
+        winnerBgImageHolder = new JPanel();
+        winnerBgImageContainer = new JLabel();
+        winnerBgImageContainer.setIcon(winnerBgImage);
+        winnerBgImageHolder.add(winnerBgImageContainer);
+        winnerBgImageHolder.setBounds(100, 100, 400, 400);
 
     }
 
@@ -384,11 +416,37 @@ public class MatodorGUI{
         screenContainer.add(displayPlayer2NameHolder);
         screenContainer.add(displayPlayer2ScoreHolder);
 
+        // Test
+
+        //screenContainer.add(winnerBgImageHolder);
+        //screenContainer.add(displayWinnerOfGameHolder);
+
+        // Test
+
         screenContainer.add(gameMessageAreaHolder);
         screenContainer.add(gameMessageHolder);
         screenContainer.add(rollButtonHolder);
         screenContainer.add(BG_holder);
+
+        Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+        Matador.getGame().getTextArea().append("\n");
     }
+
+    public void endGame(int currPlayer){
+        screenContainer.remove(rollButtonHolder);
+
+        if(currPlayer ==0){
+            displayWinnerOfGame.setText("not you "+ Matador.getPlayers()[1].getName()+", "+Matador.getPlayers()[0].getName());
+        }else{
+            displayWinnerOfGame.setText("not you "+Matador.getPlayers()[0].getName()+", "+Matador.getPlayers()[1].getName());
+        }
+        screenContainer.remove(BG_holder);
+        screenContainer.add(winnerBgImageHolder);
+        screenContainer.add(displayWinnerOfGameHolder);
+        screenContainer.add(BG_holder);
+        screenUpdate();
+    }
+
 
     public void screenUpdate(){
         gameScreen.revalidate();
@@ -396,30 +454,33 @@ public class MatodorGUI{
     }
 
     public void gameLoop(){
-        int turn = 0;
-
-        displayPlayer1Score.setText(Integer.toString(Matador.getPlayers()[0].getScore()));
-        displayPlayer2Score.setText(Integer.toString(Matador.getPlayers()[1].getScore()));
 
         if(turn%2==0){
+            Matador.getPlayers()[0].playerRollDice();
             System.out.println("player1");
+            displayPlayer1Score.setText(Integer.toString(Matador.getPlayers()[0].getScore()));
+            //displayPlayer2Score.setText(Integer.toString(Matador.getPlayers()[1].getScore()));
             turn++;
+            currPlayer = 0;
+            Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[1].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+            Matador.getGame().getTextArea().append("\n");
         }else{
+            Matador.getPlayers()[1].playerRollDice();
             System.out.println("player2");
+            //displayPlayer1Score.setText(Integer.toString(Matador.getPlayers()[0].getScore()));
+            displayPlayer2Score.setText(Integer.toString(Matador.getPlayers()[1].getScore()));
             turn++;
+            currPlayer = 1;
+            Matador.getGame().getTextArea().append(Matador.getLang().getTag("Player:turnRoll")+" "+Matador.getPlayers()[0].getName()+"," + Matador.getLang().getTag("Player:enterRoll"));
+            Matador.getGame().getTextArea().append("\n");
         }
-        /*
-        while (playing) {
-            players[currPlayer].playerRollDice();
-            if (players[currPlayer].hasWon()) {
-                System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
-                endGame();
-            }
-            else if (++currPlayer >= players.length) {
-                turns ++;
-                currPlayer = 0;
-            }
-            */
+
+        if(Matador.getPlayers()[currPlayer].hasWon()){
+            endGame(currPlayer);
+            Matador.getGame().getTextArea().append(Matador.getPlayers()[currPlayer].toString()+" "+ Matador.getLang().getTag("Matador:wonIn") +" " + turn +" "+ Matador.getLang().getTag("Matador:turns"));
+
+
+        }
         }
 
 }
