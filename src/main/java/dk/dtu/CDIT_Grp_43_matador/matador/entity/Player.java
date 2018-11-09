@@ -2,11 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.io.IOException;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.Matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class Player {
 	public void setName(String name) {
@@ -19,7 +16,6 @@ public class Player {
 	private static int aiNum = 1;
 	
 	private static GameBoard bord = GameBoard.getInstance();
-	private boolean lastTwoSixes = false;
 	private boolean hasWon = false;
 	private static final int winScore = 3000;
 	private static Lang lang;
@@ -28,8 +24,7 @@ public class Player {
 	
 	// Konto
 
-    private Konto playerKonto = new Konto(1000);
-	private int score = playerKonto.getInitialAmount();
+    private Account playerAccount = new Account(1000);
 	
 	/**
 	 * @param {@code Player} name
@@ -78,13 +73,13 @@ public class Player {
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
 	private void calcHasWon() {
-		if (score >= winScore) {
+		if (playerAccount.getMoney() >= winScore) {
 				hasWon = true;
 		}
 	}
 
 	public int getScore() {
-		return score;
+		return playerAccount.getMoney();
 	}
 
 	public int getRoll() {
@@ -103,7 +98,7 @@ public class Player {
 		currTile = bord.landOnTile(roll);
 
         // Adding tile value to account
-		score += currTile.getTileValue();
+		playerAccount.addMoney(currTile.getTileValue());
 
 		
 
@@ -122,7 +117,7 @@ public class Player {
 
 		System.out.println(name + lang.getTag("Player:arrivedAt") + currTile.getTileName());
 		System.out.println(currTile.getTileMessage());
-		System.out.println(name + lang.getTag("Player:playerTotalScore") + score);
+		System.out.println(name + lang.getTag("Player:playerTotalScore") + playerAccount.getMoney());
 		System.out.println();
 		
 		/*

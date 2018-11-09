@@ -9,38 +9,22 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
-import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
+//import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
 
 public class Matador {
 
 	private static int turns = 1;
-	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
 
-	public static Player[] getPlayers() {
-		return players;
-	}
 
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
-
-	public static Lang getLang() {
-		return lang;
-	}
-
 	private static Lang lang;
 	private static Timer timer;
 	private static int currPlayer = 0;
 	private static DiceCup diceCup = DiceCup.getInstance();
 	private static MatodorGUI game;
-	public static GameBoard getBord() {
-		return bord;
-	}
-
-	public static MatodorGUI getGame() {
-		return game;
-	}
 
 	/**
 	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
@@ -152,6 +136,7 @@ public class Matador {
 		playing = false;
 	}
 
+	//Getters
 	public static int getCurrPlayer() {
 		return currPlayer;
 	}
@@ -166,5 +151,21 @@ public class Matador {
 	}
 	public static int getTurn(){
 		return turns;
+	}
+
+	public static Player[] getPlayers() {
+		return players;
+	}
+
+	public static Lang getLang() {
+		return lang;
+	}
+
+	public static GameBoard getBord() {
+		return bord;
+	}
+
+	public static MatodorGUI getGame() {
+		return game;
 	}
 }

@@ -1,9 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();
