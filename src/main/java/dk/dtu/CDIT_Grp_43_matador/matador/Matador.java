@@ -71,7 +71,7 @@ public class Matador {
 			timer = new Timer(tps);
 			timer.initTimer();
 			initLang(langIndex);
-			diceCup.changeCustomDice(new int[] {5}, new int[] {5});
+			//diceCup.changeCustomDice(new int[] {5}, new int[] {5});
 			bord.initBoard();
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
