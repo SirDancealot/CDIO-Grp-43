@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
+import java.io.IOException;
+
 import javax.swing.*;
 
 
@@ -362,7 +364,12 @@ public class MatodorGUI{
         rollButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameLoop();
+                try {
+					gameLoop();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 screenUpdate();
             }
         });
@@ -586,7 +593,7 @@ public class MatodorGUI{
 
 
 
-    public void gameLoop(){
+    public void gameLoop() throws IOException{
 
         if(turn%2==0){
             Matador.getPlayers()[0].playerRollDice();

@@ -30,6 +30,7 @@ public class Matador {
 	}
 
 	private static Lang lang;
+	private static Timer timer;
 	private static int currPlayer = 0;
 	private static DiceCup diceCup = DiceCup.getInstance();
 	private static MatodorGUI game;
@@ -50,16 +51,19 @@ public class Matador {
 		int numPlayers = 0;
 		int AIs = 0;
 		int langIndex = 0;
-
+		int tps = 20;
+		
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
 
 		// GUI
-		createGameBoardTextures();
-		game = new MatodorGUI(800, 800);
+		//createGameBoardTextures();
+		//game = new MatodorGUI(800, 800);
 		
 		//Does different things dependent on the length of the args array
 		switch (args.length) {
+		case 4:
+			tps = Integer.valueOf(args[3]);
 		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
 			for (int i = 0; i < LANGS.length; i++) {
 				if (LANGS[i].equals(args[2])) {
@@ -80,13 +84,15 @@ public class Matador {
 				
 			}
 		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
+			timer = new Timer(tps);
+			timer.initTimer();
 			initLang(langIndex);
-			//diceCup.changeCustomDice(new int[] {6}, new int[] {6});
+			//diceCup.changeCustomDice(new int[] {5}, new int[] {5});
 			bord.initBoard();
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				//System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
-				players[i] = new Player("");
+				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
+				players[i] = new Player(CustomStreamTokenizer.nextString());
 			}
 			for (int i = 0; i < AIs; i++) {
 				players[numPlayers + i] = new Player();
@@ -99,14 +105,17 @@ public class Matador {
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
 	 * @throws IOException
 	 */
-	public static void startGameLoop() {
+	public static void startGameLoop() throws IOException {
 		while (playing) {
-			tick();
+			if (timer.getMissingTicks() > 0) {
+				timer.tick();
+				tick();
+			}
 			update();
 		}
 	}
 	
-	private static void tick() {
+	private static void tick() throws IOException {
 		int turns = 1;
 		players[currPlayer].playerRollDice();
 		if (players[currPlayer].hasWon()) {
@@ -120,7 +129,7 @@ public class Matador {
 	}
 	
 	private static void update() {
-		
+		timer.update();
 	}
 	
 	/**
@@ -147,6 +156,7 @@ public class Matador {
 	public static int getCurrPlayer() {
 		return currPlayer;
 	}
+	
 	public static void resetGame(){
 		playing = true;
 	}
