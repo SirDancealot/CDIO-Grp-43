@@ -30,7 +30,7 @@ public class Account {
     }
 
     private int withdrawMoney (int money){
-    	this.money -= money;
+    	this.money -= Math.abs(money);
     	if (this.money < 0) {
     		this.money = 0;
     		return 0;
