@@ -9,7 +9,7 @@ public class Tile {
     
 
     public Tile(String tileName, String tileInfoString){
-    	String[] nameInfo = tileName.split(",");
+    	String[] nameInfo = tileName.split(";");
         this.tileName = nameInfo[0];
         this.tileMessage = nameInfo[1];
         
