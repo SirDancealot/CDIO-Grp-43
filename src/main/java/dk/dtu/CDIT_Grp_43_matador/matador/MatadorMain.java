@@ -20,9 +20,10 @@ public class MatadorMain {
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
 		final String DEFAULTLANG = SUPPORTEDLANGS[0];
+		final String DEFAULTTPS = "20";
 
 
-		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG };
+		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG, DEFAULTTPS };
 		try {
 			
 		for (int i = 0; i < args.length; i++) {
@@ -41,7 +42,7 @@ public class MatadorMain {
 		
 		
 		Matador.init(settings);
-		//Matador.startGameLoop();
+		Matador.startGameLoop();
 		Matador.stop();
 	}
 }
