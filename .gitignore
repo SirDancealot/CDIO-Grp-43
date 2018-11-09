@@ -44,7 +44,6 @@ target/
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip
@@ -52,5 +51,3 @@ target/
 *.ear
 *.sar
 *.class
-
-
