@@ -1,6 +1,6 @@
 Player:playerRolling= is rolling their dice
 Player:turnRoll=It's your turn to roll
-Player:enterRoll= press enter to roll
+Player:enterRoll= press the button to roll
 Player:playerRolled= rolled
 Player:landedOn= and landed on
 Player:rolledResult= for a total of

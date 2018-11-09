@@ -1,23 +1,44 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
+
 import java.io.IOException;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.GUI.MatodorGUI;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
+import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
+
 public class Matador {
+
+
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
+
+	public static Player[] getPlayers() {
+		return players;
+	}
+
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
+
+	public static Lang getLang() {
+		return lang;
+	}
+
 	private static Lang lang;
 	private static int currPlayer = 0;
 	private static DiceCup diceCup = DiceCup.getInstance();
-
+	private static MatodorGUI game;
 	public static GameBoard getBord() {
 		return bord;
+	}
+
+	public static MatodorGUI getGame() {
+		return game;
 	}
 
 	/**
@@ -32,6 +53,10 @@ public class Matador {
 
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
+
+		// GUI
+		createGameBoardTextures();
+		game = new MatodorGUI(800, 800);
 		
 		//Does different things dependent on the length of the args array
 		switch (args.length) {
@@ -60,8 +85,8 @@ public class Matador {
 			bord.initBoard();
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
-				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
-				players[i] = new Player(CustomStreamTokenizer.nextString());
+				//System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
+				players[i] = new Player("");
 			}
 			for (int i = 0; i < AIs; i++) {
 				players[numPlayers + i] = new Player();
@@ -74,19 +99,27 @@ public class Matador {
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
 	 * @throws IOException
 	 */
-	public static void startGameLoop() throws IOException {
-		int turns = 1;
+	public static void startGameLoop() {
 		while (playing) {
-			players[currPlayer].playerRollDice();
-			if (players[currPlayer].hasWon()) {
-				System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
-				endGame();
-			}
-			else if (++currPlayer >= players.length) {
-				turns ++;
-				currPlayer = 0;
-			}
+			tick();
+			update();
 		}
+	}
+	
+	private static void tick() {
+		int turns = 1;
+		players[currPlayer].playerRollDice();
+		if (players[currPlayer].hasWon()) {
+			System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
+			endGame();
+		}
+		else if (++currPlayer >= players.length) {
+			turns ++;
+			currPlayer = 0;
+		}
+	}
+	
+	private static void update() {
 		
 	}
 	

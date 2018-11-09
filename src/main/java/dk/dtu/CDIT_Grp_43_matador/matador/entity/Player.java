@@ -9,6 +9,10 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 public class Player {
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private String name;
 	
 	private boolean isAI = false;
@@ -20,6 +24,7 @@ public class Player {
 	private static final int winScore = 3000;
 	private static Lang lang;
 	private Tile currTile;
+	private int roll;
 	
 	// Konto
 
@@ -74,36 +79,60 @@ public class Player {
 		}
 	}
 
+	public int getScore() {
+		return score;
+	}
+
+	public int getRoll() {
+		return roll;
+	}
+
 	/**
 	 * The function that should be called every time an action is required of a {@code Player}, 
 	 * also works if the {@code Player} is an AI.
 	 * @param {@code msg}
 	 * @throws IOException 
 	 */
-	public void playerRollDice() throws IOException {
+	public void playerRollDice() {
 		System.out.println(" ");
-		int roll = DiceCup.roll(); //rolls the dice and saves the value
+		roll = DiceCup.roll(); //rolls the dice and saves the value
 		currTile = bord.landOnTile(roll);
 
         // Adding tile value to account
 		score += currTile.getTileValue();
 
+		/*
+
 		if (isAI) { //If player is an AI rolls automatically
 			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
+			Matador.getGame().getTextArea().append(name + lang.getTag("Player:playerRolling"));
+			Matador.getGame().getTextArea().append("\n");
 		} else { //If player is an actual player it waits for an input from the player
 			System.out.print(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
-			CustomStreamTokenizer.waitForInput();
+			Matador.getGame().getTextArea().append(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll"));
+			Matador.getGame().getTextArea().append("\n");
+			//CustomStreamTokenizer.waitForInput();
 		}
+
+		*/
 
 		//Prints information to the player
 		System.out.println(name + lang.getTag("Player:playerRolled") +" "+ roll +lang.getTag("Player:landedOn")+" "+currTile.getTileName()+lang.getTag("Player:rolledResult")+" "+ currTile.getTileValue()); //tag: playerRolled //tag: rolledResult //tag: landedOn
 		System.out.println(name + lang.getTag("Player:playerTotalScore") +" "+ score); //tag: playerTotalScore
+		Matador.getGame().getTextArea().append(name + lang.getTag("Player:playerRolled") +" "+ roll +lang.getTag("Player:landedOn")+" "+currTile.getTileName()+lang.getTag("Player:rolledResult")+" "+ currTile.getTileValue());
+		Matador.getGame().getTextArea().append("\n");
+		Matador.getGame().getTextArea().append(name + lang.getTag("Player:playerTotalScore") +" "+ score);
+		Matador.getGame().getTextArea().append("\n");
+		Matador.getGame().getTextArea().append("\n");
 		calcHasWon(); //calculates whether the player has won now
 
-		
+		/*
 		if (currTile.givesExtraTurn()) { //gives player an extra turn if they haven't won, and they rolled two identical
 			System.out.println(name+" " + lang.getTag("Player:additionalRoll")); //tag: additionalRoll
+			Matador.getGame().getTextArea().append(name+" " + lang.getTag("Player:additionalRoll"));
+			Matador.getGame().getTextArea().append("\n");
 			playerRollDice();
 		}
+		*/
 	}
 }

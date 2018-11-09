@@ -1,6 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-
+/*
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.RepeatedTest;
@@ -44,3 +44,4 @@ public class DiceUnitTest2 {
     }
 
 }
+*/

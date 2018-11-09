@@ -41,7 +41,7 @@ public class MatadorMain {
 		
 		
 		Matador.init(settings);
-		Matador.startGameLoop();
+		//Matador.startGameLoop();
 		Matador.stop();
 	}
 }
