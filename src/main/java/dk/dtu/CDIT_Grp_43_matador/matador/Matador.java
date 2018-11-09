@@ -13,7 +13,7 @@ import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoa
 
 public class Matador {
 
-
+	private static int turns = 1;
 	private CustomStreamTokenizer cst = new CustomStreamTokenizer();
 	private static boolean playing = true;
 
@@ -52,7 +52,7 @@ public class Matador {
 		int AIs = 0;
 		int langIndex = 0;
 		int tps = 20;
-		
+
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
 
@@ -115,8 +115,7 @@ public class Matador {
 		}
 	}
 	
-	private static void tick() throws IOException {
-		int turns = 1;
+	public static void tick() throws IOException {
 		players[currPlayer].playerRollDice();
 		if (players[currPlayer].hasWon()) {
 			System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
@@ -156,8 +155,16 @@ public class Matador {
 	public static int getCurrPlayer() {
 		return currPlayer;
 	}
-	
+
 	public static void resetGame(){
 		playing = true;
+		turns = 1;
+	}
+
+	public static boolean isPlaying() {
+		return playing;
+	}
+	public static int getTurn(){
+		return turns;
 	}
 }
