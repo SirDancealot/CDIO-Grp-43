@@ -35,7 +35,7 @@ public class Matador {
 		int numPlayers = 0;
 		int AIs = 0;
 		int langIndex = 0;
-		int tps = 20;
+		Double tps = 20.0;
 
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
@@ -47,7 +47,7 @@ public class Matador {
 		//Does different things dependent on the length of the args array
 		switch (args.length) {
 		case 4:
-			tps = Integer.valueOf(args[3]);
+			tps = Double.valueOf(args[3]);
 		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
 			for (int i = 0; i < LANGS.length; i++) {
 				if (LANGS[i].equals(args[2])) {
@@ -71,7 +71,7 @@ public class Matador {
 			timer = new Timer(tps);
 			timer.initTimer();
 			initLang(langIndex);
-			//diceCup.changeCustomDice(new int[] {5}, new int[] {5});
+			//diceCup.changeCustomDice(new int[] {6}, new int[] {6});
 			bord.initBoard();
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {

@@ -6,10 +6,10 @@ public class Timer {
 	
 	private int missingTicks;
 	private long last;
-	private int tps;
+	private double tps;
 	private long dMs = 0;
 	
-	public Timer(int tps) {
+	public Timer(double tps) {
 		this.tps = tps;
 	}
 	
