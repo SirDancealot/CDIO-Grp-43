@@ -1,9 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
-
-/*
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.CustomStreamTokenizer;
 import org.junit.jupiter.api.RepeatedTest;
 
 import java.io.IOException;
@@ -12,23 +9,32 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MatadorMainBalanceTest {
 
-    int games = 1000;
-    double high = (games/2)*1.05;
-    double low = (games/2)*0.95;
+    private Player[] players;
 
-    int p1 = 0;
-    int p2 = 0;
+    public void setup() throws IOException {
+        Matador.resetGame();
+        Matador.init(new String[] {"0" , "2"});
+        players = Matador.getPlayers();
+
+    }
+
+    
 
 
-    @RepeatedTest(5)
+    @RepeatedTest(100)
     public void winningTest() throws IOException {
 
-        for (int i = 0; i < 1000; i++) {
 
+        setup();
+
+        while(Matador.isPlaying()){
+            Matador.tick();
+
+            assertTrue(players[Matador.getCurrPlayer()].getScore()>=0);
 
 
         }
-        assertTrue(low<p1 && p1<high,"p1 won " + p1 + "times and p2 won " + p2 + "times");
     }
+
 }
-*/
+
