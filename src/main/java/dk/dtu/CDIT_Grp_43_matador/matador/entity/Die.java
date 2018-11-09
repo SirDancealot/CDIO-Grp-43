@@ -56,6 +56,6 @@ public class Die {
 
 		@Override
 		public String toString () {
-			return lang.getTag("Die:sizeOfSides") +" "+ size + lang.getTag("Die:faceValueOfDie") + faceValue;
+			return lang.getTag("Die:sizeOfSides") + size + lang.getTag("Die:faceValueOfDie") + faceValue;
 		}
 }

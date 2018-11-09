@@ -107,7 +107,7 @@ public class Player {
 			//Matador.getGame().getTextArea().append(name + lang.getTag("Player:playerRolling"));
 			//Matador.getGame().getTextArea().append("\n");
 		} else { //If player is an actual player it waits for an input from the player
-			System.out.print(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
+			System.out.print(lang.getTag("Player:turnRoll") + name + "," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
 			CustomStreamTokenizer.waitForInput();
 			
 			//Matador.getGame().getTextArea().append(lang.getTag("Player:turnRoll")+" "+name+"," + lang.getTag("Player:enterRoll"));
@@ -115,7 +115,7 @@ public class Player {
 			//CustomStreamTokenizer.waitForInput();
 		}
 
-		System.out.println(name + lang.getTag("Player:arrivedAt") + currTile.getTileName());
+		System.out.println(name + lang.getTag("Player:arrivedAt") + currTile.getTileName() + lang.getTag("Player:rolledResult") + roll);
 		System.out.println(currTile.getTileMessage());
 		System.out.println(name + lang.getTag("Player:playerTotalScore") + playerAccount.getMoney());
 		System.out.println();

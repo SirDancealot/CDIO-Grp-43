@@ -23,7 +23,6 @@ public class Matador {
 	private static Lang lang;
 	private static Timer timer;
 	private static int currPlayer = 0;
-	private static DiceCup diceCup = DiceCup.getInstance();
 	private static MatodorGUI game;
 
 	/**
@@ -102,7 +101,7 @@ public class Matador {
 	public static void tick() throws IOException {
 		players[currPlayer].playerRollDice();
 		if (players[currPlayer].hasWon()) {
-			System.out.println(players[currPlayer].toString()+" "+ lang.getTag("Matador:wonIn") +" " + turns +" "+ lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
+			System.out.println(players[currPlayer].toString() + lang.getTag("Matador:wonIn") + turns + lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
 			endGame();
 		}
 		else if (++currPlayer >= players.length) {
@@ -127,6 +126,7 @@ public class Matador {
 		lang = LanguageController.getCurrentLanguage();
 		Player.setLang(lang);
 		bord.setLang(lang);
+		DiceCup.setLang(lang);
 	}
 	
 	/**
