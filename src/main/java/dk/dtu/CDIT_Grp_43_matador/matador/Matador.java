@@ -2,8 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 
 import java.io.IOException;
-
-import dk.dtu.CDIT_Grp_43_matador.matador.GUI.MatodorGUI;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
@@ -23,7 +21,6 @@ public class Matador {
 	private static Lang lang;
 	private static Timer timer;
 	private static int currPlayer = 0;
-	private static MatodorGUI game;
 
 	/**
 	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
@@ -38,10 +35,6 @@ public class Matador {
 
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
-
-		// GUI
-		//createGameBoardTextures();
-		//game = new MatodorGUI(800, 800);
 		
 		//Does different things dependent on the length of the args array
 		switch (args.length) {
@@ -165,7 +158,4 @@ public class Matador {
 		return bord;
 	}
 
-	public static MatodorGUI getGame() {
-		return game;
-	}
 }
