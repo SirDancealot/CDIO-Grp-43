@@ -1,0 +1,24 @@
+Overview:
+	- GUI (formegentligt bare bruge deres library (matadorgui.jar))
+	- chancekort
+	- udvidelse af tiles samt gameBoard
+	- oprydning af bloated klasser (primært player)
+	- nyt spil logik (potientielt i en ny controller klasse)
+	- forbedring af klasse navne
+	- fjern statiske metoder (i hvert faldet nogle af dem)
+	- udvidelse af player
+	
+	- skal vælge en af 3:
+		- gameBoard indeholder player og tiles
+		- gameBoard indeholder player som indeholder tiles
+		- gameBoard indeholder tiles som indeholder player
+	
+Classes needed:
+	- en til hver type af tile, som arver fra tile (start, chance, gå i fengsel, på besøg, gratis parkering, ejndomme)
+	- GUI controller
+	- logic controller
+	- chanceCard (med wrapper chanceCardDeck)
+	
+Files needed:
+	- chanceCards.txt (eller hvordan vi ellers vil angive dem)
+	- Tiles.txt (teknisk set eksistere den allerede, skal bare have helt nyt indhold)
