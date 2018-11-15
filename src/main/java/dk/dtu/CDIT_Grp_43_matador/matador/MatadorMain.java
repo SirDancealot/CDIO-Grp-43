@@ -25,10 +25,9 @@ public class MatadorMain {
 
 		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG, DEFAULTTPS };
 		try {
-			
-		for (int i = 0; i < args.length; i++) {
-			settings[i] = args[i];
-		}
+			for (int i = 0; i < args.length; i++) {
+				settings[i] = args[i];
+			}
 		} catch (Exception e){
 			String supportedLangString = "";
 			for (String string : SUPPORTEDLANGS) {
@@ -36,8 +35,9 @@ public class MatadorMain {
 			}
 			
 			System.out.println("There was entered too many arguments when launching the program, the format is:\n"
-					+ "\tjava -jar Matador.jar <Players> <AI's> <Lang>\n"
-					+ "Currently supported languages are: " + supportedLangString);
+					+ "\tjava -jar Matador.jar <Players> <AI's> <Lang> <tps>\n"
+					+ "Currently supported languages are: " + supportedLangString + "\n"
+					+ "The game will now launch with default settings");
 		}
 		
 		

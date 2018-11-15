@@ -31,9 +31,13 @@ public class DiceCup {
 	    d2 = new Die(d2sides);
     }
 	
+    /**
+     * @return Returns the singleton instance og DiceCup
+     */
 	public static DiceCup getInstance() {
 		return INSTANCE;
 	}
+	
 	/**
 	 * Rolls the two dice in the DiceCup
 	 * @return Returns the sum of the two rolls
