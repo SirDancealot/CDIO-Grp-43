@@ -2,7 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 public class Tile {
 
-    private int tileValue;
+    protected int tileValue;
     private boolean extraTurn = false;
     private String tileName;
     private String tileMessage;
