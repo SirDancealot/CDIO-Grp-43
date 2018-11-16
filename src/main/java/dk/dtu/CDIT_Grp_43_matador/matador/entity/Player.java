@@ -25,10 +25,9 @@ public class Player {
     private Account playerAccount = new Account(1000);
 	
 	/**
-	 * @param {@code Player} name
-	 * @return A {@code Player} instantiated as an actual player
+	 * @param name the name this player has.
 	 */
-	public Player(String name) {
+    public Player(String name) {
 		this.name = name;
 	}
 	public static void setLang(Lang lang) {
@@ -37,7 +36,7 @@ public class Player {
 
 
 	/**
-	 * @return A {@code Player} instantiated as an AI
+	 * Constructor for initializing {@code Player} as an AI
 	 */
 	public Player() {
 		this.name = "AI " + aiNum;
@@ -82,8 +81,7 @@ public class Player {
 	/**
 	 * The function that should be called every time an action is required of a {@code Player}, 
 	 * also works if the {@code Player} is an AI.
-	 * @param {@code msg}
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public void playerRollDice() throws IOException {
 		System.out.println(" ");

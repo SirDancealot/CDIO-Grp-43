@@ -61,7 +61,7 @@ public class DiceCup {
 	}
 	
 	/**
-	 * @param num
+	 * @param num the number to test whether both die equals
 	 * @return Returns whether the value on the two dice and the same and have the specified {@code num} shown on them
 	 */
 	public static boolean isSameAndNum(int num) {

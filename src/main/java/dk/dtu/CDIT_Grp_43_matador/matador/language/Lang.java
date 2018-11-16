@@ -17,7 +17,7 @@ public class Lang {
 	/**
 	 * @param path is the path of the language file for this language
 	 * @param lang is what language this object is initialized as
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public Lang(String path, String lang) throws IOException {
 		this.langTokens = TextReader.fileToHashMap(path);

@@ -24,8 +24,8 @@ public class Matador {
 
 	/**
 	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
-	 * @param args
-	 * @throws IOException
+	 * @param args the settings for how to initialize the project
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void init(String[] args) throws IOException {
 		int numPlayers = 0;
@@ -79,7 +79,7 @@ public class Matador {
 	
 	/**
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void startGameLoop() throws IOException {
 		while (playing) {

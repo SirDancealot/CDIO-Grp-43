@@ -9,12 +9,11 @@ public class MatadorMain {
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
 	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
 	 * then the main game loop is started, and when that exits it closes the program
-	 * @param args
-	 * @throws NumberFormatException
-	 * @throws IOException
+	 * @param args the settitings registrerd when the program is launched.
+	 * @throws IOException if an I/O error occurs.
 	 */
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
