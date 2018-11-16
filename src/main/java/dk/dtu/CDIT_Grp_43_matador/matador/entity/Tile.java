@@ -1,6 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-public class Tile {
+public abstract class Tile {
 
     protected int tileValue;
     private boolean extraTurn = false;
@@ -46,4 +46,6 @@ public class Tile {
     public boolean givesExtraTurn() {
     	return extraTurn;
     }
+
+    public abstract void landOnTile();
 }
