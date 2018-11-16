@@ -1,18 +1,43 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Die;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 
 public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();
 	
 	private static Die d1 = new Die(6);
 	private static Die d2 = new Die(6);
+	private static Lang lang;
 	
 	private DiceCup() { }
+
+    /**
+     * Changes the dice to a standard die of given size
+     * @param d1newSize is the new number of sides for d1
+     * @param d2newSize is the new number of sides for d2
+     */
+	public void changeRegularDice(int d1newSize, int d2newSize){
+	    d1 = new Die(d1newSize);
+	    d2 = new Die(d2newSize);
+    }
+    /**
+     * Changes the dice to have specific sides with specific values
+     * @param d1sides an integer array that describes the number of sides for d1 to have
+     * @param d2sides an integer array that describes the number of sides for d2 to have
+     */
+    public void changeCustomDice(int[] d1sides, int[] d2sides ){
+	    d1 = new Die(d1sides);
+	    d2 = new Die(d2sides);
+    }
 	
+    /**
+     * @return Returns the singleton instance og DiceCup
+     */
 	public static DiceCup getInstance() {
 		return INSTANCE;
 	}
+	
 	/**
 	 * Rolls the two dice in the DiceCup
 	 * @return Returns the sum of the two rolls
@@ -36,7 +61,7 @@ public class DiceCup {
 	}
 	
 	/**
-	 * @param num
+	 * @param num the number to test whether both die equals
 	 * @return Returns whether the value on the two dice and the same and have the specified {@code num} shown on them
 	 */
 	public static boolean isSameAndNum(int num) {
@@ -61,6 +86,10 @@ public class DiceCup {
 	 * @return Returns a string representing the value of the two dice
 	 */
 	public static String getDiceStringValues() {
-		return "a " + d1.getFaceValue() + " and a " + d2.getFaceValue();
+		return lang.getTag("DiceCup:d1") + d1.getFaceValue() + lang.getTag("DiceCup:d1") + d2.getFaceValue();
+	}
+	
+	public static void setLang(Lang lang) {
+		DiceCup.lang = lang;
 	}
 }

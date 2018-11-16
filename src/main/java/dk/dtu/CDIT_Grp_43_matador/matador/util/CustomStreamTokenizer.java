@@ -1,4 +1,5 @@
-package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
+package dk.dtu.CDIT_Grp_43_matador.matador.util;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
