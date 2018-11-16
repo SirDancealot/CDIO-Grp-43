@@ -5,10 +5,17 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Property extends Tile {
     private Player ejer = null;
+    private Tile sisterTile;
 
     public Property (String tilename, String tileinfo) {
         super(tilename, tileinfo);
         this.ejer = ejer;
         int a = tileValue;
+    }
+
+
+    @Override
+    public  void landOnTile() {
+
     }
 }
