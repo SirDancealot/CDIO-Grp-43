@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.io.IOException;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {

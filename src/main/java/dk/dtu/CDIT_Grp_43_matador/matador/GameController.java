@@ -9,7 +9,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 //import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
 
-public class Matador {
+public class GameController {
 
 	private static int turns = 1;
 	private static boolean playing = true;

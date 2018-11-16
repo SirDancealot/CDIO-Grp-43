@@ -14,11 +14,11 @@ class MatadorMainBalanceTest {
 
 
     public void setup() throws IOException {
-        Matador.resetGame();
-        Matador.init(new String[] {"0" , "2"});
+        GameController.resetGame();
+        GameController.init(new String[] {"0" , "2"});
         DiceCup dc = DiceCup.getInstance();
         dc.changeCustomDice(new int[] {1}, new int[] {2});
-        players = Matador.getPlayers();
+        players = GameController.getPlayers();
 
     }
 
@@ -31,11 +31,11 @@ class MatadorMainBalanceTest {
 
         setup();
 
-        while(Matador.isPlaying()){
-            Matador.tick();
+        while(GameController.isPlaying()){
+            GameController.tick();
 
-           assertTrue(players[Matador.getCurrPlayer()].getScore()>=0);
-            if(Matador.getTurn()>100)
+           assertTrue(players[GameController.getCurrPlayer()].getScore()>=0);
+            if(GameController.getTurn()>100)
                 break;
 
         }

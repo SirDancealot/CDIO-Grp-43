@@ -16,9 +16,9 @@ class MatadorMainTestWinRate {
 
 
     public void rungame() throws IOException {
-        Matador.resetGame();
-        Matador.init(new String[] {"0" , "2"});
-        Matador.startGameLoop();
+        GameController.resetGame();
+        GameController.init(new String[] {"0" , "2"});
+        GameController.startGameLoop();
     }
 
     @RepeatedTest(5)
@@ -26,7 +26,7 @@ class MatadorMainTestWinRate {
 
         for (int i = 0; i < 1000; i++) {
             rungame();
-            if(Matador.getCurrPlayer() == 0){
+            if(GameController.getCurrPlayer() == 0){
                 p1++;
             } else {
                 p2++;

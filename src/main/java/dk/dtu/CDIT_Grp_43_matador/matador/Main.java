@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 
-public class MatadorMain {
+public class Main {
 	/**
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
 	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
@@ -12,7 +12,6 @@ public class MatadorMain {
 	 * @param args the settitings registrerd when the program is launched.
 	 * @throws IOException if an I/O error occurs.
 	 */
-
 	public static void main(String[] args) throws IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
@@ -39,8 +38,8 @@ public class MatadorMain {
 		}
 		
 		
-		Matador.init(settings);
-		Matador.startGameLoop();
-		Matador.stop();
+		GameController.init(settings);
+		GameController.startGameLoop();
+		GameController.stop();
 	}
 }
