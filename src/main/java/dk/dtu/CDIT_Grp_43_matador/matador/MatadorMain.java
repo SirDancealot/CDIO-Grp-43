@@ -1,7 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 
@@ -10,12 +9,11 @@ public class MatadorMain {
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
 	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
 	 * then the main game loop is started, and when that exits it closes the program
-	 * @param args
-	 * @throws NumberFormatException
-	 * @throws IOException
+	 * @param args the settitings registrerd when the program is launched.
+	 * @throws IOException if an I/O error occurs.
 	 */
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	public static void main(String[] args) throws IOException {
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
@@ -25,10 +23,9 @@ public class MatadorMain {
 
 		String[] settings = { DEFAULTPLAYERS, DEFAULTAIPLAYERS, DEFAULTLANG, DEFAULTTPS };
 		try {
-			
-		for (int i = 0; i < args.length; i++) {
-			settings[i] = args[i];
-		}
+			for (int i = 0; i < args.length; i++) {
+				settings[i] = args[i];
+			}
 		} catch (Exception e){
 			String supportedLangString = "";
 			for (String string : SUPPORTEDLANGS) {
@@ -36,8 +33,9 @@ public class MatadorMain {
 			}
 			
 			System.out.println("There was entered too many arguments when launching the program, the format is:\n"
-					+ "\tjava -jar Matador.jar <Players> <AI's> <Lang>\n"
-					+ "Currently supported languages are: " + supportedLangString);
+					+ "\tjava -jar Matador.jar <Players> <AI's> <Lang> <tps>\n"
+					+ "Currently supported languages are: " + supportedLangString + "\n"
+					+ "The game will now launch with default settings");
 		}
 		
 		

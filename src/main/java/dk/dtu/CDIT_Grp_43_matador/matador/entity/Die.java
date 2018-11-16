@@ -14,8 +14,7 @@ public class Die {
 
 	/**
 	 * Initializes a {@code Die} with a set size and rolls a value for the die
-	 *
-	 * @param size
+	 * @param size the number of sides this die will have.
 	 */
 	public Die(int size) {
 		this.size = size;
@@ -30,7 +29,7 @@ public class Die {
 	/**
 	 * Rolls a new random value for the die based on the our {@code CustomRandom} class
 	 *
-	 * @return Returns a random number which the die can roll
+	 * @return A random number which the die can roll
 	 */
 	public int roll() {
 		if (sides == null) {

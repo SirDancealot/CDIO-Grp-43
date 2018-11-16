@@ -25,7 +25,7 @@ public class LanguageController {
 	/**
 	 * Initializes a new language and sets it as current language, should only be called once during initial initialization
 	 * @param langIndex is the index of the language to be initialized from the array {@code LANGS}
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs.
 	 */
     public static void initLang(int langIndex) throws IOException {
         currentLanguage = new Lang("res/lang/"+LANGS[langIndex]+".txt", LANGS[langIndex]);
@@ -36,7 +36,7 @@ public class LanguageController {
      * 
      * @param lang the string representation of the language to use, which is the name of the language file without the filetype .txt
      * @return Returns -1 if setting a new language failed or 1 if it was successful.
-     * @throws IOException
+     * @throws IOException if an I/O error occurs.
      */
     public static int setNewLang(String lang) throws IOException {
     	int langIndex = -1;
