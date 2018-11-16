@@ -1,12 +1,12 @@
 Overview:
-	- GUI (formegentligt bare bruge deres library (matadorgui.jar))
-	- chancekort
-	- udvidelse af tiles samt gameBoard
-	- oprydning af bloated klasser (primært player)
-	- nyt spil logik (potientielt i en ny controller klasse)
-	- forbedring af klasse navne
-	- fjern statiske metoder (i hvert faldet nogle af dem)
-	- udvidelse af player
+	- GUI (formegentligt bare bruge deres library (matadorgui.jar)) - William og Anders
+	- chancekort - Nicklas
+	- udvidelse af tiles samt gameBoard - Magnus
+	- oprydning af bloated klasser (primært player) - Michael
+	- nyt spil logik (potientielt i en ny controller klasse) - Philip
+	- forbedring af klasse navne - Michael
+	- fjern statiske metoder (i hvert faldet nogle af dem) - Michael
+	- udvidelse af player - (subdel af både game logik og Gui) - William, Anders og Philip
 	
 	- skal vælge en af 3:
 		- gameBoard indeholder player og tiles
