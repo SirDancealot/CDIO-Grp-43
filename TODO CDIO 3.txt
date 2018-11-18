@@ -17,7 +17,7 @@ Classes needed:
 	- en til hver type af tile, som arver fra tile (start, chance, gå i fengsel, på besøg, gratis parkering, ejndomme)
 	- GUI controller
 	- logic controller
-	- chanceCard (med wrapper chanceCardDeck)
+	- chanceCard (med wrapper chanceCardDeck)3
 	
 Files needed:
 	- chanceCards.txt (eller hvordan vi ellers vil angive dem)

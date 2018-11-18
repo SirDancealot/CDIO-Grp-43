@@ -1,4 +1,4 @@
-Tile1:Score:0;Start
+Tile1=Score:0;Start
 Tile2=Score:1
 Tile3=Score:1
 Tile4=Score:0;ChanceCard
