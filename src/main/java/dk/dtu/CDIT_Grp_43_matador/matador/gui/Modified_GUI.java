@@ -7,11 +7,12 @@ import gui_fields.GUI_Car;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Modified_GUI {
     private final Color BASECOLOR = GUI_Board.BASECOLOR;
-    private GUI_BoardController bc;
+    private Modified_GUI_BoardController bc;
     private static boolean null_fields_allowed = false;
 
     public Modified_GUI(){
@@ -19,7 +20,7 @@ public class Modified_GUI {
         for(int i = 0; i < fields.length; i++){
             fields[i] = fields[i];
         }
-        bc = new GUI_BoardController(fields);
+        bc = new Modified_GUI_BoardController(fields);
     }
 
     private void check_for_null_fields(GUI_Field[] fields) {
@@ -99,7 +100,7 @@ public class Modified_GUI {
     public void setDice(int faceValue1, int x1, int y1, int faceValue2, int x2, int y2) {
         this.bc.setDice(faceValue1, x1, y1, faceValue2, x2, y2);
     }
-
+    /*
     public void setDice(int faceValue1, int rotation1, int faceValue2, int rotation2) {
         this.bc.setDice(faceValue1, rotation1, faceValue2, rotation2);
     }
@@ -107,7 +108,7 @@ public class Modified_GUI {
     public void setDice(int faceValue1, int faceValue2) {
         this.bc.setDice(faceValue1, faceValue2);
     }
-
+    */
     public void setDie(int faceValue) {
         this.bc.setDie(faceValue);
     }
