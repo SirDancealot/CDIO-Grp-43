@@ -112,4 +112,18 @@ public class Player {
 		}
 		
 	}
+
+	public boolean addMoney (int money) {
+		return playerAccount.addMoney(money);
+	}
+	public boolean withdrawMoney (int money) {
+		return playerAccount.withdrawMoney(money);
+	}
+	public boolean payMoney (Player p, int money) {
+		if (this.withdrawMoney(money)) {
+			if (p.addMoney(money)) {
+				return true;
+			}
+		} return false;
+	}
 }

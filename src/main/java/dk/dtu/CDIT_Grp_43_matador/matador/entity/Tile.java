@@ -3,10 +3,11 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 public abstract class Tile {
 
     protected int tileValue;
-    private boolean extraTurn = false;
-    private String tileName;
-    private String tileMessage;
-    
+    protected boolean buyable = false;
+    protected boolean extraTurn = false;
+    protected String tileName;
+    protected String tileMessage;
+
 
     public Tile(String tileName, String tileInfoString){
     	String[] nameInfo = tileName.split(";");
@@ -47,5 +48,7 @@ public abstract class Tile {
     	return extraTurn;
     }
 
-    public abstract void landOnTile();
+    protected boolean landOnTile(Player p) {
+        return true;
+    }
 }
