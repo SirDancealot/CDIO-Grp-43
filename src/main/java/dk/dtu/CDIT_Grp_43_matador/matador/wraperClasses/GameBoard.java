@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
@@ -25,7 +26,7 @@ public class GameBoard {
     	gameTiles = new Tile[tileInfo.size()];
     	int tileNum = 1;
     	while(lang.getTag("Tile" + tileNum) != null) {
-    		gameTiles[tileNum-1] = new Tile(lang.getTag("Tile" + tileNum), tileInfo.get("Tile" + tileNum));
+    		gameTiles[tileNum-1] = new Property(lang.getTag("Tile" + tileNum), tileInfo.get("Tile" + tileNum));
     		tileNum++;
     	}
     }

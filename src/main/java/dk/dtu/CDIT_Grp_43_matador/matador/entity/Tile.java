@@ -10,7 +10,7 @@ public abstract class Tile {
 
     public Tile(String tileName, String tileInfoString){
     	String[] nameInfo = tileName.split(";");
-        this.tileName = nameInfo[0];git
+        this.tileName = nameInfo[0];
         this.tileMessage = nameInfo[1];
         
         String[] tileInfo = tileInfoString.split(";");
