@@ -21,7 +21,6 @@ public class Lang {
 	 */
 	public Lang(String path, String lang) throws IOException {
 		this.langTokens = TextReader.fileToHashMap(path);
-		
 		//loadNewLauguage(path);
 		this.lang = lang;
 	}
@@ -51,4 +50,12 @@ public class Lang {
 	public String getLang() {
 		return lang;
 	}
+
+
+
+
+
+
+
+
 }
