@@ -8,39 +8,20 @@ import gui_main.GUI;
 public class GUI_TEST {
 
     public static void main(String[] args) {
-        GUI_Controller controller = new GUI_Controller();
+        GUI_Controller controller = GUI_Controller.getINSTANCE();
 
-        String[] names = {"william", "james", "Bob", "chris"};
-        int money = 1000;
-
-        int currentPlayer = 0;
-        int rolled = 4;
-        String rolledString;
-        controller.addplayers(names, money);
+        String[] lang = {"DK","Eng"};
+        controller.setupGame(lang);
+        controller.addplayers(controller.getNames(), 1000);
         controller.displayPlayers(controller.getAllPlayer());
 
-        String[] lang = {"eng", "dk"};
+        controller.movePlayer(controller.getAllPlayer(), 0,0,5);
+        controller.displayOwner(controller.getAllPlayer(), 0, 5);
+        controller.movePlayer(controller.getAllPlayer(), 0,5,5);
+        controller.displayOwner(controller.getAllPlayer(), 0, 10);
 
-
-            rolledString = controller.getGui().getUserButtonPressed("Roll dices", lang );
-
-
-        while (true){
-
-            rolledString = controller.getGui().getUserButtonPressed("Roll dices", "Roll" );
-            if(rolledString == "Roll"){
-                controller.getGui().setDie(rolled);
-                controller.movePlayer(controller.getAllPlayer(), currentPlayer, controller.getPlayerPosition(), rolled);
-                currentPlayer++;
-
-                if(currentPlayer == names.length){
-                    currentPlayer = 0;
-                }
-            }
-
-
-        }
-
+        controller.movePlayer(controller.getAllPlayer(), 1,0,5);
+        controller.displayOwner(controller.getAllPlayer(), 0, 5);
     }
 }
 

@@ -2,6 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 
 import java.io.IOException;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.gui.GUI_Controller;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
@@ -12,7 +14,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 public class GameController {
 	//Singleton instance and getter
 	private static final GameController INSTANCE = new GameController();
-	
+
 	private GameController() {}
 	
 	public static GameController getInstance() {
@@ -21,7 +23,6 @@ public class GameController {
 	
 	//Logical variables
 	private static int turns = 1;
-	private static int currPlayer = 0;
 	private static boolean playing = true;
 	
 	//Container variables
@@ -29,67 +30,35 @@ public class GameController {
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
 	private static Lang lang;
-	private static Timer timer;
 	private static LogicController logic = LogicController.getINSTANCE();
+	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
 
-	
-	/**
-	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
-	 * @param args the settings for how to initialize the project
-	 * @throws IOException if an I/O error occurs.
-	 */
-	public void init(String[] args) throws IOException {
-		int numPlayers = 0;
-		int AIs = 0;
-		int langIndex = 0;
-		Double tps = 20.0;
+
+	public void init() throws IOException {
 
 		//The Custom Stream Tokenizer is initialized
 		CustomStreamTokenizer.initTokenizer();
-		
-		//Does different things dependent on the length of the args array
-		switch (args.length) {
-		case 4:
-			tps = Double.valueOf(args[3]);
-		case 3: //if the length is 3 or higher a language for the game is specified and then initialized here
-			for (int i = 0; i < LANGS.length; i++) {
-				if (LANGS[i].equals(args[2])) {
-					langIndex = i;
-					break;
-				}
-			}
-		case 2: //if the length is 2 or higer the number of ai's are specified and the number set here
-			try {
-				AIs = Integer.valueOf(args[1]);
-			} catch (Exception e) {
-				
-			}
-		case 1://if the lenght is 1 or higer the number of players are specified and the number is set here
-			try {
-				numPlayers = Integer.valueOf(args[0]);
-			} catch (Exception e) {
-				
-			}
-		default: //if the length is 0 or higer this runs as the last and initializes the players, per default numPlayers, AIs and langIndex is set to default values, and then changed if the length of args was higer then 0
-			timer = new Timer(tps);
-			timer.initTimer();
-			initLang(langIndex);
-			//diceCup.changeCustomDice(new int[] {6}, new int[] {6});
-			bord.initBoard();
 
+		// Gui
 
+		gui_controller.setupGame(LANGS);
+		gui_controller.addplayers(gui_controller.getNames(), 1000);
+		gui_controller.displayPlayers(gui_controller.getAllPlayer());
+		int numPlayers = gui_controller.getNumberOfPlayers();
+		int langIndex = gui_controller.getLangIndex();
+		String[] names = gui_controller.getNames();
 
+		initLang(langIndex);
+		bord.initBoard();
 
-			players = new Player[numPlayers + AIs];
-			for (int i = 0; i < numPlayers; i++) {
-				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName
-				players[i] = new Player(CustomStreamTokenizer.nextString());
-			}
-			for (int i = 0; i < AIs; i++) {
-				players[numPlayers + i] = new Player();
-			}
-			break;
+		players = new Player[numPlayers];
+		for (int i = 0; i < numPlayers; i++) {
+			System.out.println(names[i]);
+			players[i] = new Player(names[i]);
 		}
+
+		// Init logic
+		logic.init(players);
 	}
 	
 	/**
@@ -98,18 +67,17 @@ public class GameController {
 	 */
 	public void startGameLoop() throws IOException {
 		while (playing) {
-			if (timer.getMissingTicks() > 0) {
-				timer.tick();
-				logic.tick();
-				if(logic.isEndOfGame())
-					playing = false;
+
+			if(logic.isEndOfGame()){
+				playing = false;
 			}
 			update();
 		}
 	}
 
 	private void update() {
-		timer.update();
+		//logic.tick();
+		gui_controller.updateDisplay(4,0,0, 800, 4);
 	}
 	
 	/**
@@ -134,11 +102,6 @@ public class GameController {
 		playing = false;
 	}
 
-	//Getters
-	public int getCurrPlayer() {
-		return currPlayer;
-	}
-
 	public void resetGame(){
 		playing = true;
 		turns = 1;
@@ -147,7 +110,7 @@ public class GameController {
 	public boolean isPlaying() {
 		return playing;
 	}
-	
+
 	public int getTurn(){
 		return turns;
 	}

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/*
 class MatadorMainBalanceTest {
 	private GameController game = GameController.getInstance();
     private Player[] players;
@@ -40,3 +40,4 @@ class MatadorMainBalanceTest {
 
 }
 
+*/

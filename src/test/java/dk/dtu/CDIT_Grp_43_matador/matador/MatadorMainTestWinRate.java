@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+
 class MatadorMainTestWinRate {
 	GameController game = GameController.getInstance();
 	
@@ -37,3 +39,5 @@ class MatadorMainTestWinRate {
         System.out.println("p1 won " + p1 + "times and p2 won " + p2 + "times");
     }
 }
+
+*/

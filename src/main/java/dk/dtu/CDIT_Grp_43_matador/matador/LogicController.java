@@ -23,7 +23,6 @@ public class LogicController {
     public void init(Player[] players){
 
         this.players = players;
-
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
 
