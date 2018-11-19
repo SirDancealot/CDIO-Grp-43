@@ -12,10 +12,10 @@ public class Start extends Tile {
      * @param tilename parsed to superclass constructor {@code Tile}.
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
-    public Start(String tilename, String tileinfo) {
+    public Start(String tilename, String tileinfo, int tileIndex) {
         super (tilename, tileinfo);
-    }
 
+    }
     /**
      * What happens when the player passes start. The player receives the overStartBonus
      * to their balance through the addMoney method in the Player class.

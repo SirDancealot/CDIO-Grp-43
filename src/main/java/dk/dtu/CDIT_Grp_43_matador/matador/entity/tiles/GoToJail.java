@@ -11,7 +11,7 @@ public class GoToJail extends Tile {
      * @param tilename parsed to superclass constructor {@code Tile}.
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
-    public GoToJail(String tilename, String tileinfo) {
+    public GoToJail(String tilename, String tileinfo, int tileIndex) {
         super (tilename, tileinfo);
     }
 

@@ -11,7 +11,7 @@ public class Chance extends Tile {
      * @param tilename parsed to superclass constructor {@code Tile}.
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
-    public Chance (String tilename, String tileinfo) {
+    public Chance (String tilename, String tileinfo, int tileIndex) {
         super (tilename, tileinfo);
 
     }
