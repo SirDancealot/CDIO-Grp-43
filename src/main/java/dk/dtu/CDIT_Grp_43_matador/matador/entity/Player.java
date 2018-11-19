@@ -14,6 +14,7 @@ public class Player {
 	
 	private boolean isAI = false;
 	private static int aiNum = 1;
+	private boolean inJail = false;
 	
 	private static GameBoard bord = GameBoard.getInstance();
 	private boolean hasWon = false;
@@ -125,5 +126,13 @@ public class Player {
 				return true;
 			}
 		} return false;
+	}
+
+	public void setInJail(boolean inJail) {
+		this.inJail = inJail;
+	}
+
+	public boolean isInJail() {
+		return inJail;
 	}
 }

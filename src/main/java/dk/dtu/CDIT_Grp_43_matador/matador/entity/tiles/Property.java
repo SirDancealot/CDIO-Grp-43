@@ -50,4 +50,8 @@ public class Property extends Tile {
     public boolean isBuyalbe () {
         return buyable;
     }
+    @Override
+    public boolean passedTile(Player p) {
+        return true;
+    }
 }
