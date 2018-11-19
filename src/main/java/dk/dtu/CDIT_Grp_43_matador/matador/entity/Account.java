@@ -22,20 +22,22 @@ public class Account {
         this.money = money;
     }
 
-    public int addMoney(int money){
+    public boolean addMoney(int money){
     	if (money < 0)
     		return withdrawMoney(money);
         this.money += money;
-        return 1;
+        return true;
     }
 
-    private int withdrawMoney (int money){
+    public boolean withdrawMoney (int money){
+        if (money <= 0)
+            return addMoney(money);
     	this.money -= Math.abs(money);
     	if (this.money < 0) {
     		this.money = 0;
-    		return 0;
+    		return false;
     	}
-    	return 1;
+    	return true;
     }
 
 }
