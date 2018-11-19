@@ -8,21 +8,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class ChanceCardDeck {
-    private ArrayList<ChanceCard> cards;
+    private Queue<ChanceCard> cards;
 
     public ChanceCardDeck() {
-        cards = new ArrayList<ChanceCard>();
+        cards = new PriorityQueue<ChanceCard>();
     }
 
     public ChanceCard nextCard() {
-        ChanceCard card = cards.get(0);
-        ArrayList<ChanceCard> newCards = new ArrayList<ChanceCard>();
-        for (int i = 1; i < cards.size(); i++) {
-            newCards.add(cards.get(i));
-        }
-        cards = newCards;
+        ChanceCard card = cards.poll();
         return card;
     }
 
@@ -36,9 +33,13 @@ public class ChanceCardDeck {
 
     public void init() throws IOException {
         HashMap<String, String> chanceMap = TextReader.fileToHashMap("res/Cards.txt");
+        ArrayList<ChanceCard> tmpCards = new ArrayList<ChanceCard>();
         for (Map.Entry<String, String> entry : chanceMap.entrySet()) {
-            cards.add(new ChanceCard(entry.getKey(), entry.getValue()));
+            tmpCards.add(new ChanceCard(entry.getKey(), entry.getValue()));
         }
-        Collections.shuffle(cards);
+        Collections.shuffle(tmpCards);
+        for (ChanceCard chanceCard : tmpCards) {
+			cards.add(chanceCard);
+		}
     }
 }
