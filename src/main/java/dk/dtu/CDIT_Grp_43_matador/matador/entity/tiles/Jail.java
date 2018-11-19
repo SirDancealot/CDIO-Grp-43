@@ -3,16 +3,16 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
-public class Start extends Tile {
-    private int overStartBonus = 2;
-
-    public Start(String tilename, String tileinfo) {
+public class Jail extends Tile {
+    private int outOfJailPrice = 1;
+    public Jail (String tilename, String tileinfo) {
         super (tilename, tileinfo);
     }
 
     @Override
     public boolean passedTile(Player p) {
-        return p.addMoney(overStartBonus);
+        if (p.isInJail())
+            return p.withdrawMoney(outOfJailPrice);
+        return true;
     }
-
 }

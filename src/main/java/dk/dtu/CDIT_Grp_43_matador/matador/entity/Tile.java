@@ -29,6 +29,9 @@ public abstract class Tile {
 			}
         }
     }
+    protected boolean passedTile(Player p){
+        return true;
+    }
 
     // Getters
 
