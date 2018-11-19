@@ -13,9 +13,10 @@ import java.util.Queue;
 
 public class ChanceCardDeck {
     private Queue<ChanceCard> cards;
+    private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
 
-    public ChanceCardDeck() {
-        cards = new PriorityQueue<ChanceCard>();
+    private ChanceCardDeck() { 
+    	cards = new PriorityQueue<ChanceCard>();
     }
 
     public ChanceCard nextCard() {
@@ -25,10 +26,6 @@ public class ChanceCardDeck {
 
     public void returnCardToDeck(ChanceCard card) {
         cards.add(card);
-    }
-
-    public int size() {
-        return cards.size();
     }
 
     public void init() throws IOException {
@@ -42,4 +39,12 @@ public class ChanceCardDeck {
 			cards.add(chanceCard);
 		}
     }
+    
+    public int size() {
+    	return cards.size();
+    }
+
+    public static ChanceCardDeck getInstance() {
+		return INSTANCE;
+	}
 }
