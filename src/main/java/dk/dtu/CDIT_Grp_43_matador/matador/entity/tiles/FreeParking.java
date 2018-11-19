@@ -11,8 +11,8 @@ public class FreeParking extends Tile {
      * @param tilename parsed to superclass constructor {@code Tile}.
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
-    public FreeParking(String tilename, String tileinfo) {
-        super (tilename, tileinfo);
+    public FreeParking(String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
     }
 
     /**
