@@ -9,25 +9,36 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 //import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
 
-public class Matador {
-
+public class GameController {
+	//Singleton instance and getter
+	private static final GameController INSTANCE = new GameController();
+	
+	private GameController() {}
+	
+	public static GameController getInstance() {
+		return INSTANCE;
+	}
+	
+	//Logical variables
 	private static int turns = 1;
+	private static int currPlayer = 0;
 	private static boolean playing = true;
-
-
+	
+	//Container variables
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
 	private static Lang lang;
 	private static Timer timer;
-	private static int currPlayer = 0;
+	private static LogicController logic = LogicController.getINSTANCE();
 
+	
 	/**
 	 * The init function initializes everything that needs to be, all the players, ais, lang and more.
 	 * @param args the settings for how to initialize the project
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public static void init(String[] args) throws IOException {
+	public void init(String[] args) throws IOException {
 		int numPlayers = 0;
 		int AIs = 0;
 		int langIndex = 0;
@@ -81,29 +92,19 @@ public class Matador {
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
 	 * @throws IOException if an I/O error occurs.
 	 */
-	public static void startGameLoop() throws IOException {
+	public void startGameLoop() throws IOException {
 		while (playing) {
 			if (timer.getMissingTicks() > 0) {
 				timer.tick();
-				tick();
+				logic.tick();
+				if(logic.isEndOfGame())
+					playing = false;
 			}
 			update();
 		}
 	}
-	
-	public static void tick() throws IOException {
-		players[currPlayer].playerRollDice();
-		if (players[currPlayer].hasWon()) {
-			System.out.println(players[currPlayer].toString() + lang.getTag("Matador:wonIn") + turns + lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
-			endGame();
-		}
-		else if (++currPlayer >= players.length) {
-			turns ++;
-			currPlayer = 0;
-		}
-	}
-	
-	private static void update() {
+
+	private void update() {
 		timer.update();
 	}
 	
@@ -111,10 +112,10 @@ public class Matador {
 	 * The stop function that runs as the very last thing in the game 
 	 * in case any objects needs to be closed or anything similar.
 	 */
-	public static void stop() {
+	public void stop() {
 	}
 	
-	private static void initLang(int langIndex) throws IOException {
+	private void initLang(int langIndex) throws IOException {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
 		Player.setLang(lang);
@@ -125,37 +126,39 @@ public class Matador {
 	/**
 	 * The function that is run when a player has won the game and the game loop needs to stop.
 	 */
-	private static void endGame() {
+	private void endGame() {
 		playing = false;
 	}
 
 	//Getters
-	public static int getCurrPlayer() {
+	public int getCurrPlayer() {
 		return currPlayer;
 	}
 
-	public static void resetGame(){
+	public void resetGame(){
 		playing = true;
 		turns = 1;
 	}
 
-	public static boolean isPlaying() {
+	public boolean isPlaying() {
 		return playing;
 	}
-	public static int getTurn(){
+	
+	public int getTurn(){
 		return turns;
 	}
 
-	public static Player[] getPlayers() {
+	public Player[] getPlayers() {
 		return players;
 	}
 
-	public static Lang getLang() {
+	public Lang getLang() {
 		return lang;
 	}
 
-	public static GameBoard getBord() {
+	public GameBoard getBord() {
 		return bord;
 	}
+
 
 }

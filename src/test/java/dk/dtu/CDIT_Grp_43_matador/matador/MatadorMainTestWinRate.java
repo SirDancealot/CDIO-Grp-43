@@ -6,7 +6,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MatadorMainTestWinRate {
-
+	GameController game = GameController.getInstance();
+	
     int games = 1000;
     double high = (games/2)*1.05;
     double low = (games/2)*0.95;
@@ -16,9 +17,9 @@ class MatadorMainTestWinRate {
 
 
     public void rungame() throws IOException {
-        Matador.resetGame();
-        Matador.init(new String[] {"0" , "2"});
-        Matador.startGameLoop();
+    	game.resetGame();
+        game.init(new String[] {"0" , "2"});
+        game.startGameLoop();
     }
 
     @RepeatedTest(5)
@@ -26,7 +27,7 @@ class MatadorMainTestWinRate {
 
         for (int i = 0; i < 1000; i++) {
             rungame();
-            if(Matador.getCurrPlayer() == 0){
+            if(game.getCurrPlayer() == 0){
                 p1++;
             } else {
                 p2++;
