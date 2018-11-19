@@ -8,7 +8,7 @@ public class Jail extends Tile {
     public String type = "Jail";
 
     public Jail(String tilename, String tileinfo, int tileIndex){
-        super(tilename, tileinfo);
+        super(tilename, tileinfo, tileIndex);
 
     }
 

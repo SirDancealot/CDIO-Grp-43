@@ -12,7 +12,7 @@ public class GoToJail extends Tile {
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
     public GoToJail(String tilename, String tileinfo, int tileIndex) {
-        super (tilename, tileinfo);
+        super (tilename, tileinfo, tileIndex);
     }
 
     /**

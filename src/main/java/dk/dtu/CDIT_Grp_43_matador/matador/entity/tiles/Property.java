@@ -15,7 +15,7 @@ public class Property extends Tile {
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
     public Property (String tilename, String tileinfo, int tileIndex) {
-        super(tilename, tileinfo);
+        super(tilename, tileinfo, tileIndex);
         this.owner = owner;
         this.buyable = true;
         int rent = tileValue;

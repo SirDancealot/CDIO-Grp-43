@@ -13,7 +13,7 @@ public class Start extends Tile {
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
     public Start(String tilename, String tileinfo, int tileIndex) {
-        super (tilename, tileinfo);
+        super (tilename, tileinfo, tileIndex);
 
     }
     /**

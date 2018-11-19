@@ -21,7 +21,7 @@ public abstract class Tile {
         for (String string : tileInfo) {
             String[] split = string.split(":");
             switch (split[0]) {
-                case "Score":
+                case "Tilevalue":
                     tileValue = Integer.valueOf(split[1]);
                     break;
                 case "name":
