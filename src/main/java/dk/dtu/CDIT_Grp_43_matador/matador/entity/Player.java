@@ -22,7 +22,8 @@ public class Player {
 	private static Lang lang;
 	private Tile currTile;
 	private int roll;
-	
+	private int currPos = 0;
+
 	// Konto
     private Account playerAccount = new Account(1000);
 	
@@ -32,10 +33,6 @@ public class Player {
     public Player(String name) {
 		this.name = name;
 	}
-	public static void setLang(Lang lang) {
-		Player.lang = lang;
-	}
-
 
 	/**
 	 * Constructor for initializing {@code Player} as an AI
@@ -45,7 +42,24 @@ public class Player {
 		aiNum++;
 		this.isAI = true;
 	}
-	
+
+	/**
+	 * Moves the player the assisgned number around the board and handles wraparound the board
+	 * @param moving How long the player has to move
+	 * @return Returns true if players moved all the way around the board else returns false
+	 */
+
+	public boolean move(int moving){
+		currPos += moving;
+
+		if(currPos >= bord.getBoardSize()){
+			currPos-=bord.getBoardSize();
+			return true;
+		}
+
+		return false;
+	}
+
 	public void setAI(boolean isAI) {
 		this.isAI = isAI;
 	}
@@ -78,40 +92,12 @@ public class Player {
 	public int getRoll() {
 		return roll;
 	}
+	public static void setLang(Lang lang) {
+		Player.lang = lang;
+	}
 
-
-	/**
-	 * The function that should be called every time an action is required of a {@code Player}, 
-	 * also works if the {@code Player} is an AI.
-	 * @throws IOException if an I/O error occurs.
-	 */
-	public void playerRollDice() throws IOException {
-		System.out.println(" ");
-		roll = DiceCup.roll(); //rolls the dice and saves the value
-		currTile = bord.landOnTile(roll);
-
-        // Adding tile value to account
-		playerAccount.addMoney(currTile.getTileValue());
-
-		
-
-		if (isAI) { //If player is an AI rolls automatically
-			System.out.println(name + lang.getTag("Player:playerRolling")); //tag: playerRolling
-		} else { //If player is an actual player it waits for an input from the player
-			System.out.print(lang.getTag("Player:turnRoll") + name + "," + lang.getTag("Player:enterRoll")); //tag: turnRoll //tag: enterRoll
-			CustomStreamTokenizer.waitForInput();
-		}
-
-		System.out.println(name + lang.getTag("Player:arrivedAt") + currTile.getTileName() + lang.getTag("Player:rolledResult") + roll);
-		System.out.println(currTile.getTileMessage());
-		System.out.println(name + lang.getTag("Player:playerTotalScore") + playerAccount.getMoney());
-		System.out.println();
-		calcHasWon();
-
-		if (currTile.givesExtraTurn() && !hasWon) { //gives player an extra turn if they haven't won, and they rolled two identical
-			playerRollDice();
-		}
-		
+	public int getCurrPos() {
+		return currPos;
 	}
 
 	public boolean addMoney (int money) {

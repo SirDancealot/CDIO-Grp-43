@@ -13,6 +13,7 @@ public class Main {
 	 * @throws IOException if an I/O error occurs.
 	 */
 	public static void main(String[] args) throws IOException {
+		final GameController game = GameController.getInstance();
 		final String[] SUPPORTEDLANGS = LanguageController.getLangs();
 		final String DEFAULTPLAYERS = "2";
 		final String DEFAULTAIPLAYERS = "0";
@@ -38,8 +39,8 @@ public class Main {
 		}
 		
 		
-		GameController.init(settings);
-		GameController.startGameLoop();
-		GameController.stop();
+		game.init(settings);
+		game.startGameLoop();
+		game.stop();
 	}
 }
