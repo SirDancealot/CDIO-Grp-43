@@ -7,6 +7,7 @@ public abstract class Tile {
     protected boolean extraTurn = false;
     protected String tileName;
     protected String tileMessage;
+    protected String type;
 
     /**
      * Super constructor for all tile classes, should be called in all sub classes.

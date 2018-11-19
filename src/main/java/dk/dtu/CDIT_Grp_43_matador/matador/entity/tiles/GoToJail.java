@@ -4,6 +4,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class GoToJail extends Tile {
+    public String type = "GoToJail";
+
     /**
      * Used to control what happens to the player when landing on the GoToJail tile.
      * @param tilename parsed to superclass constructor {@code Tile}.

@@ -4,6 +4,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Chance extends Tile {
+    public String type = "Chance";
 
     /**
      * representing the 4 chance tiles on the board.

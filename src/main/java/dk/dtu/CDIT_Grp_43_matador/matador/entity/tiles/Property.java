@@ -6,6 +6,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 public class Property extends Tile {
     private Player owner = null;
     private Tile sisterTile;
+    public String type = "Property";
 
     /**
      * Class for the property tiles that a player can own, and that others can pay rent to stay on.
