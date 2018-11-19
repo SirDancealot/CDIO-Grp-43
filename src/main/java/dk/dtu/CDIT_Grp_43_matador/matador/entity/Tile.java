@@ -29,6 +29,8 @@ public class Tile {
         }
     }
 
+    public void passedTile(Player p){}
+
     // Getters
 
     public int getTileValue() {
@@ -45,5 +47,9 @@ public class Tile {
     
     public boolean givesExtraTurn() {
     	return extraTurn;
+    }
+
+    public boolean landOnTile(Player p) {
+        return true;
     }
 }

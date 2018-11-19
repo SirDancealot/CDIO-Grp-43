@@ -30,6 +30,7 @@ public class GameController {
 	private static GameBoard bord = GameBoard.getInstance();
 	private static Lang lang;
 	private static Timer timer;
+	private static LogicController logic = LogicController.getINSTANCE();
 
 	
 	/**
@@ -95,24 +96,14 @@ public class GameController {
 		while (playing) {
 			if (timer.getMissingTicks() > 0) {
 				timer.tick();
-				tick();
+				logic.tick();
+				if(logic.isEndOfGame())
+					playing = false;
 			}
 			update();
 		}
 	}
-	
-	public void tick() throws IOException {
-		players[currPlayer].playerRollDice();
-		if (players[currPlayer].hasWon()) {
-			System.out.println(players[currPlayer].toString() + lang.getTag("Matador:wonIn") + turns + lang.getTag("Matador:turns"));//tag: wonInTurns //tag: turns
-			endGame();
-		}
-		else if (++currPlayer >= players.length) {
-			turns ++;
-			currPlayer = 0;
-		}
-	}
-	
+
 	private void update() {
 		timer.update();
 	}
