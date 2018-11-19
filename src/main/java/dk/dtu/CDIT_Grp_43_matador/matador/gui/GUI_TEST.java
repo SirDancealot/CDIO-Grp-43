@@ -13,16 +13,21 @@ public class GUI_TEST {
         String[] names = {"william", "james", "Bob", "chris"};
         int money = 1000;
 
-
         int currentPlayer = 0;
         int rolled = 4;
         String rolledString;
         controller.addplayers(names, money);
         controller.displayPlayers(controller.getAllPlayer());
 
+        String[] lang = {"eng", "dk"};
+
+
+            rolledString = controller.getGui().getUserButtonPressed("Roll dices", lang );
+
 
         while (true){
-            rolledString = controller.getGui().getUserButtonPressed("Roll dices", "Roll");
+
+            rolledString = controller.getGui().getUserButtonPressed("Roll dices", "Roll" );
             if(rolledString == "Roll"){
                 controller.getGui().setDie(rolled);
                 controller.movePlayer(controller.getAllPlayer(), currentPlayer, controller.getPlayerPosition(), rolled);

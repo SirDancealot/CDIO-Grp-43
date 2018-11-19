@@ -30,7 +30,7 @@ class MatadorMainBalanceTest {
         setup();
 
         while(game.isPlaying()){
-        	game.tick();
+        	//game.tick();
 
            assertTrue(players[game.getCurrPlayer()].getScore()>=0);
             if(game.getTurn()>100)

@@ -1,4 +1,4 @@
-package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+/*package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,4 +48,4 @@ public class ChanceCardDeckTests {
 
         assertEquals(startSize, actual);
     }
-}
+}*/

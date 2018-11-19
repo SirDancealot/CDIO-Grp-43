@@ -51,7 +51,7 @@ public class ChanceCard {
         this.value = value;
     }
     public boolean useCard() {
-        
+        return true;
 }
 
     public String getCardDescription() {

@@ -76,6 +76,10 @@ public class GameController {
 			initLang(langIndex);
 			//diceCup.changeCustomDice(new int[] {6}, new int[] {6});
 			bord.initBoard();
+
+
+
+
 			players = new Player[numPlayers + AIs];
 			for (int i = 0; i < numPlayers; i++) {
 				System.out.print(lang.getTag("Matador:enterPlayerName") + (i + 1) + ": "); //tag: enterPlayerName

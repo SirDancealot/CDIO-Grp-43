@@ -42,7 +42,7 @@ public abstract class Tile {
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
-    protected boolean passedTile(Player p) {
+    public boolean passedTile(Player p) {
         return true;
     }
 
@@ -52,7 +52,7 @@ public abstract class Tile {
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
-    protected boolean landOnTile(Player p) {
+    public boolean landOnTile(Player p) {
         return true;
     }
 
