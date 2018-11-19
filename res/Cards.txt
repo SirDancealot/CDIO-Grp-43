@@ -1,7 +1,7 @@
-moveToStart=Ryk din brik til start. Modtag M2
-moveFiveForward=Ryk op til fem felter frem
-tooMuchCandy=Du har spist for meget slik, betal M2 til banken.
-getOutOfJailFreeCard=Du løslades uden omkostninger. Behold dette kort, indtil du får brug for det.
-goToSeafront=Ryk frem til Strandpromenaden
-itIsYourBirthday=Det er din fødselsdag! Alle giver dig M1. Tillykke med fødselsdagen!
-completedHomeWork=Du har lavet alle dine lektier! Modtag M2 fra banken.
+Card1=moveTo:Start
+Card2=move:5
+Card3=money:-2
+Card4=moveTo:Promenade
+Card5=payAll:-1
+Card6=money:2
+Card7=keep;freeJail
