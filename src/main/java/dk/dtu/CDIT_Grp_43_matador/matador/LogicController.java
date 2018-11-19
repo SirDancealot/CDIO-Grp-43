@@ -9,11 +9,18 @@ public class LogicController {
     private static LogicController INSTANCE = new LogicController();
 
     private Player[] players;
-    private int currPlayerIndex = 0;
     private DiceCup diceCup;
     private GameBoard board;
     private LogicController(){}
     private boolean endOfGame = false;
+
+    // Turn base varibels
+
+    private int currPlayerIndex = 0;
+    private int currPlayerScore = 1000;
+    private int currPlayerPosition;
+    private int currPlayerRolled;
+    //private int currPlayerOldPosion;
 
     /**
      * Initializes the sigleton class {@code LogicController}
@@ -21,11 +28,9 @@ public class LogicController {
      */
 
     public void init(Player[] players){
-
         this.players = players;
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
-
     }
 
     /**
@@ -35,15 +40,19 @@ public class LogicController {
     public void tick(){
         Player currPlayer = players[currPlayerIndex];
 
-        int roll = diceCup.roll();
+        currPlayerRolled = 1;
 
-        int oldPos = currPlayer.getCurrPos();
+        //currPlayerOldPosion = currPlayer.getCurrPos();
 
-        currPlayer.move(roll);
+        currPlayer.move(currPlayerRolled);
 
+        currPlayerPosition = currPlayer.getCurrPos();
+
+        /*
         for (int pos = oldPos; pos < oldPos+roll; pos++){
             board.passedTile(currPlayer, pos%board.getBoardSize());
         }
+        */
 
         if(!board.landOnTile(currPlayer)){
             endOfGame = true;
@@ -60,5 +69,23 @@ public class LogicController {
 
     public boolean isEndOfGame() {
         return endOfGame;
+    }
+
+    // Getters
+
+    public int getCurrPlayerIndex() {
+        return currPlayerIndex;
+    }
+
+    public int getCurrPlayerScore() {
+        return currPlayerScore;
+    }
+
+    public int getCurrPlayerPosition() {
+        return currPlayerPosition;
+    }
+
+    public int getCurrPlayerRolled() {
+        return currPlayerRolled;
     }
 }

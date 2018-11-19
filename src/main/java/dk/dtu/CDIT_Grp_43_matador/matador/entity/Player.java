@@ -34,14 +34,6 @@ public class Player {
 		this.name = name;
 	}
 
-	/**
-	 * Constructor for initializing {@code Player} as an AI
-	 */
-	public Player() {
-		this.name = "AI " + aiNum;
-		aiNum++;
-		this.isAI = true;
-	}
 
 	/**
 	 * Moves the player the assisgned number around the board and handles wraparound the board
@@ -56,7 +48,6 @@ public class Player {
 			currPos-=bord.getBoardSize();
 			return true;
 		}
-
 		return false;
 	}
 

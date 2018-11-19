@@ -76,8 +76,8 @@ public class GameController {
 	}
 
 	private void update() {
-		//logic.tick();
-		gui_controller.updateDisplay(4,0,0, 800, 4);
+		logic.tick();
+		gui_controller.updateDisplay(logic.getCurrPlayerRolled(),logic.getCurrPlayerIndex(),logic.getCurrPlayerPosition(), logic.getCurrPlayerScore());
 	}
 	
 	/**

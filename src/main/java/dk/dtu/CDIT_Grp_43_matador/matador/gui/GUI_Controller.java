@@ -76,12 +76,12 @@ public class GUI_Controller {
 
 
     // Update GUI
-    public void updateDisplay(int rolled, int currentPlayer, int currentPlayerPosition, int score, int tileIndex){
+    public void updateDisplay(int rolled, int currentPlayer, int currentPlayerPosition, int score){
         String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(currentPlayer+1)+" it´s your turn, please Roll dices", "Roll" );
         getGui().setDie(rolled);
         setScore(getAllPlayer(), currentPlayer, score);
         movePlayer(getAllPlayer(), currentPlayer, currentPlayerPosition, rolled);
-        displayOwner(getAllPlayer(), currentPlayer, tileIndex);
+        displayOwner(getAllPlayer(), currentPlayer, currentPlayerPosition);
     }
 
     // Created players
