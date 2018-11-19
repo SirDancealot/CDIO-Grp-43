@@ -8,9 +8,10 @@ public class Property extends Tile {
     private Tile sisterTile;
 
     /**
-     *
-     * @param tilename
-     * @param tileinfo
+     * Class for the property tiles that a player can own, and that others can pay rent to stay on.
+     * There are also a sistertile to each property which will double the rent if a player owns both.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
     public Property (String tilename, String tileinfo) {
         super(tilename, tileinfo);
@@ -21,11 +22,11 @@ public class Property extends Tile {
 
     /**
      * This is a function to buy this instance of a tile.
-     * @param p the player thats buying the tile.
-     * @return wether this tile was succesfully bought.
+     * @param p the player that's buying the tile.
+     * @return True if the purchase was a success.
      */
     public boolean buyTile (Player p) {
-        if (p.withdrawMoney(tileValue)) {
+        if (p.withDrawMoney(tileValue)) {
             this.owner = p;
             return true;
         }
@@ -33,9 +34,9 @@ public class Property extends Tile {
     }
 
     /**
-     *
-     * @param p
-     * @return
+     * Used when a player lands on a tile, and if the decides whether the player needs to pay rent, or buy the property.
+     * @param p The current player.
+     * @return True if everything goes well, and false if the player is out of money ergo lost.
      */
     @Override
     public boolean landOnTile(Player p) {
@@ -47,11 +48,19 @@ public class Property extends Tile {
         }
         return true;
     }
-    public boolean isBuyalbe () {
-        return buyable;
-    }
+
+    /**
+     * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
+     * @param p The current player.
+     * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
+     */
     @Override
     public boolean passedTile(Player p) {
         return true;
     }
+
+    public boolean isBuyalbe () {
+        return buyable;
+    }
+
 }

@@ -9,10 +9,15 @@ public class Jail extends Tile {
         super (tilename, tileinfo);
     }
 
+    /**
+     * Used when a player needs to pay to leave jail. Calling the withDrawMoney from the Player class
+     * @param p The current player.
+     * @return returns true if everything went as planned.
+     */
     @Override
     public boolean passedTile(Player p) {
         if (p.isInJail())
-            return p.withdrawMoney(outOfJailPrice);
+            return p.withDrawMoney(outOfJailPrice);
         return true;
     }
 }
