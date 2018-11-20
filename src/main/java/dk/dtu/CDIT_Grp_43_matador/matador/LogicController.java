@@ -1,10 +1,9 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
-
-import java.util.ArrayList;
 
 public class LogicController {
 
@@ -13,17 +12,13 @@ public class LogicController {
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
+    private InformationExchanger infExch = InformationExchanger.getInstance();
     private LogicController(){}
     private boolean endOfGame = false;
 
     // Turn base varibels
 
     private int currPlayerIndex = 0;
-    private int currPlayerScore;
-    private int currPlayerPosition;
-    private int currPlayerRolled;
-    private int currPlayerInt;
-    private int currPlayerPositionAfterRoll;
 
     /**
      * Initializes the sigleton class {@code LogicController}
@@ -42,27 +37,22 @@ public class LogicController {
 
     public void tick(){
         Player currPlayer = players[currPlayerIndex];
-
-        // Before roll
-        currPlayerInt = currPlayerIndex;
-        currPlayerPosition = currPlayer.getCurrPos();
+        infExch.setCurrPlayer(currPlayer);
+        infExch.setCurrPlayerIndex(currPlayerIndex);
 
         // After roll
-        currPlayerRolled = diceCup.roll();
-        currPlayer.move(currPlayerRolled);
-        currPlayerPositionAfterRoll = currPlayer.getCurrPos();
-
-
-
-        if(currPlayerPositionAfterRoll > 23){
-            currPlayerPositionAfterRoll = currPlayerPositionAfterRoll%24;
-            currPlayer.setCurrPos(currPlayerPositionAfterRoll);
-            currPlayer.addMoney(2);
+        int roll = diceCup.roll();
+        infExch.setCurrPlayerRolled(roll);
+        currPlayer.move(roll);
+        infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
+        if(!board.landOnTile(currPlayer)){
+            endOfGame = true;
+            return ;
         }
+        
+        infExch.setCurrPlayerScore(currPlayer.getScore());
 
-        currPlayerScore = currPlayer.getScore();
-
-        if(++currPlayerIndex >=players.length)
+        if(++currPlayerIndex >= players.length)
             currPlayerIndex = 0;
     }
 
@@ -72,26 +62,5 @@ public class LogicController {
 
     public boolean isEndOfGame() {
         return endOfGame;
-    }
-
-    // Getters
-
-
-    public int getCurrPlayerInt() { return currPlayerInt; }
-
-    public int getCurrPlayerScore() {
-        return currPlayerScore;
-    }
-
-    public int getCurrPlayerPosition() {
-        return currPlayerPosition;
-    }
-
-    public int getCurrPlayerRolled() {
-        return currPlayerRolled;
-    }
-
-    public int getCurrPlayerPositionAfterRoll() {
-        return currPlayerPositionAfterRoll;
     }
 }

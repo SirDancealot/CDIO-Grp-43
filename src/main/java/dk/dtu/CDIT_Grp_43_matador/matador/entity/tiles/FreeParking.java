@@ -11,8 +11,8 @@ public class FreeParking extends Tile {
      * @param tilename parsed to superclass constructor {@code Tile}.
      * @param tileinfo parsed to superclass constructor {@code Tile}.
      */
-    public FreeParking(String tilename, String tileinfo) {
-        super (tilename, tileinfo);
+    public FreeParking(String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
     }
 
     /**
@@ -22,5 +22,10 @@ public class FreeParking extends Tile {
      */
     public boolean passedTile (Player p) {
         return true;
+    }
+    
+    @Override
+    public boolean landOnTile(Player p) {
+    	return super.landOnTile(p);
     }
 }

@@ -1,6 +1,8 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import gui_codebehind.GUI_BoardController;
 import gui_codebehind.GUI_FieldFactory;
@@ -10,6 +12,7 @@ import gui_main.GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class GUI_Controller {
 
@@ -21,7 +24,9 @@ public class GUI_Controller {
     private int langIndex = 0;
     private String[] names;
     private static GUI_Controller INSTANCE = new GUI_Controller();
-
+    private static Lang currLang;
+    private static InformationExchanger infExch = InformationExchanger.getInstance();
+    
     private GUI_Controller() {
          gui = new Modified_GUI();
     }
@@ -29,21 +34,24 @@ public class GUI_Controller {
 
     // Start game
 
-    public void setupGame(String[] lang){
+    public void setupGame(String[] lang) throws IOException{
 
         // Select language
 
         String rolledString = getGui().getUserButtonPressed("Select language", lang );
-        switch (rolledString) {
-            case "DK":
-                System.out.println("DK");
-                langIndex = 0;
-                break;
-            case "Eng":
-                langIndex = 1;
-                System.out.println("Eng");
-                break;
-        }
+        LanguageController.setNewLang(rolledString);
+        currLang = LanguageController.getCurrentLanguage();
+//        switch (rolledString) {
+//            case "da":
+//                System.out.println("da");
+//                langIndex = 0;
+//                
+//                break;
+//            case "eng":
+//                langIndex = 1;
+//                System.out.println("eng");
+//                break;
+//        }
 
         // Number of players
         String number_of_players = getGui().getUserButtonPressed("Select the number of players", "1", "2", "3", "4" );
@@ -76,12 +84,12 @@ public class GUI_Controller {
 
 
     // Update GUI
-    public void updateDisplay(int rolled, int currentPlayer, int currentPlayerPosition, int score, int currentPlayerPositionAfterRoll ){
-        String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(currentPlayer+1)+" it´s your turn, please Roll dices", "Roll" );
-        getGui().setDie(rolled);
-        setScore(getAllPlayer(), currentPlayer, score);
-        movePlayer(getAllPlayer(), currentPlayer, currentPlayerPosition, currentPlayerPositionAfterRoll);
-        displayOwner(getAllPlayer(), currentPlayer, currentPlayerPositionAfterRoll);
+    public void updateDisplay(){
+        String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(infExch.getCurrPlayerIndex()+1)+" it´s your turn, please Roll dices", "Roll" );
+        getGui().setDie(infExch.getCurrPlayerRolled());
+        setScore(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerScore());
+        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerNewPos());
+        displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
     }
 
     // Created players

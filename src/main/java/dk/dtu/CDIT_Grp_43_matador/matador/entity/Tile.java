@@ -1,7 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 public abstract class Tile {
-
+    protected int tileIndex;
     protected int tileValue;
     protected boolean buyable = false;
     protected boolean extraTurn = false;
@@ -11,24 +11,21 @@ public abstract class Tile {
 
     /**
      * Super constructor for all tile classes, should be called in all sub classes.
-     *
-     * @param tileName       the name on the current tile gathered from Tiles.txt file.
+     * @param tileName the name on the current tile gathered from Tiles.txt file.
      * @param tileInfoString Info regarding the different properties for each tile, such as rent, and type of tile.
      */
-    public Tile(String tileName, String tileInfoString) {
+    public Tile(String tileName, String tileInfoString, int tileIndex) {
         String[] nameInfo = tileName.split(";");
-        this.tileName = nameInfo[0];
-        this.tileMessage = nameInfo[1];
-
+        this.tileIndex = tileIndex;
         String[] tileInfo = tileInfoString.split(";");
         for (String string : tileInfo) {
             String[] split = string.split(":");
             switch (split[0]) {
-                case "Score":
+                case "Tilevalue":
                     tileValue = Integer.valueOf(split[1]);
                     break;
-                case "ExtraTurn":
-                    extraTurn = true;
+                case "name":
+                    tileName = split[1];
                     break;
                 default:
                     break;
@@ -38,7 +35,6 @@ public abstract class Tile {
 
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
-     *
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
@@ -48,7 +44,6 @@ public abstract class Tile {
 
     /**
      * Method used when the player lands on a tile. Gets elaborated on in the tile sub classes.
-     *
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
@@ -62,6 +57,10 @@ public abstract class Tile {
         return tileValue;
     }
 
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
     public String getTileName() {
         return tileName;
     }
@@ -73,5 +72,7 @@ public abstract class Tile {
     public boolean givesExtraTurn() {
         return extraTurn;
     }
+
+
 }
 

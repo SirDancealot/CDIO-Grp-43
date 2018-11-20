@@ -42,14 +42,14 @@ public class DiceCup {
 	 * Rolls the two dice in the DiceCup
 	 * @return Returns the sum of the two rolls
 	 */
-	public static int roll() {
+	public int roll() {
 		return d1.roll();
 	}
 	
 	/**
 	 * @return Returns the sum of the current rolls on the two dice without re-rolling them
 	 */
-	public static int getDiceIntValues() {
+	public int getDiceIntValues() {
 		return d1.getFaceValue();
 	}
 	
@@ -73,7 +73,7 @@ public class DiceCup {
 	/**
 	 * @return Returns the current value of the first {@code Die}
 	 */
-	public static int getD1Val() {
+	public int getD1Val() {
 		return d1.getFaceValue();
 	}
 

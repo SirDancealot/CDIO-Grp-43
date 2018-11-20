@@ -53,7 +53,6 @@ public class GameController {
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
-			System.out.println(names[i]);
 			players[i] = new Player(names[i]);
 		}
 
@@ -77,13 +76,7 @@ public class GameController {
 
 	private void update() {
 		logic.tick();
-		System.out.println(logic.getCurrPlayerRolled());
-		System.out.println(logic.getCurrPlayerInt());
-		System.out.println(logic.getCurrPlayerPosition());
-		System.out.println(logic.getCurrPlayerScore());
-		System.out.println(logic.getCurrPlayerPositionAfterRoll());
-		System.out.println("");
-		gui_controller.updateDisplay(logic.getCurrPlayerRolled(),logic.getCurrPlayerInt(),logic.getCurrPlayerPosition(), logic.getCurrPlayerScore(), logic.getCurrPlayerPositionAfterRoll());
+		gui_controller.updateDisplay();
 	}
 	
 	/**
@@ -97,7 +90,6 @@ public class GameController {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
 		Player.setLang(lang);
-		bord.setLang(lang);
 		DiceCup.setLang(lang);
 	}
 	

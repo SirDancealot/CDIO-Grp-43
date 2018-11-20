@@ -6,16 +6,10 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	private String name;
-	
 	private boolean isAI = false;
 	private static int aiNum = 1;
 	private boolean inJail = false;
-	
 	private static GameBoard bord = GameBoard.getInstance();
 	private boolean hasWon = false;
 	private static Lang lang;
@@ -25,7 +19,7 @@ public class Player {
 
 	// Konto
     private Account playerAccount = new Account(20);
-	
+
 	/**
 	 * @param name the name this player has.
 	 */
@@ -53,15 +47,7 @@ public class Player {
 	public void setAI(boolean isAI) {
 		this.isAI = isAI;
 	}
-	public boolean isAI() {
-		return isAI;
-	}
-	public String getName() {
-		return name;
-	}
-	public boolean hasWon() {
-		return hasWon;
-	}
+
 	@Override
 	public String toString() {
 		return name;
@@ -71,20 +57,6 @@ public class Player {
 	/**
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
-
-	public int getScore() {
-		return playerAccount.getMoney();
-	}
-	public int getRoll() {
-		return roll;
-	}
-	public static void setLang(Lang lang) {
-		Player.lang = lang;
-	}
-
-	public int getCurrPos() {
-		return currPos;
-	}
 
 	public boolean addMoney (int money) {
 		return playerAccount.addMoney(money);
@@ -100,15 +72,39 @@ public class Player {
 		} return false;
 	}
 
-	public void setInJail(boolean inJail) {
-		this.inJail = inJail;
-	}
+// Getters and setters
 
 	public boolean isInJail() {
 		return inJail;
 	}
+	public boolean isAI() {
+        return isAI;
+    }
+    public boolean hasWon() {
+        return hasWon;
+    }
 
-	public void setCurrPos(int currPos) {
-		this.currPos = currPos;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
+        return playerAccount.getMoney();
+    }
+    public int getRoll() {
+        return roll;
+    }
+    public int getCurrPos() {
+        return currPos;
+    }
+
+    public static void setLang(Lang lang) {
+        Player.lang = lang;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
 }
