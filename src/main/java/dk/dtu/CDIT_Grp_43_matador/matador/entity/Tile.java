@@ -57,6 +57,10 @@ public abstract class Tile {
         return tileValue;
     }
 
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
     public String getTileName() {
         return tileName;
     }
@@ -68,5 +72,7 @@ public abstract class Tile {
     public boolean givesExtraTurn() {
         return extraTurn;
     }
+
+
 }
 

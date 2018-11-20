@@ -6,16 +6,10 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	private String name;
-	
 	private boolean isAI = false;
 	private static int aiNum = 1;
 	private boolean inJail = false;
-	
 	private static GameBoard bord = GameBoard.getInstance();
 	private boolean hasWon = false;
 	private static final int winScore = 3000;
@@ -63,15 +57,7 @@ public class Player {
 	public void setAI(boolean isAI) {
 		this.isAI = isAI;
 	}
-	public boolean isAI() {
-		return isAI;
-	}
-	public String getName() {
-		return name;
-	}
-	public boolean hasWon() {
-		return hasWon;
-	}
+
 	@Override
 	public String toString() {
 		return name;
@@ -85,19 +71,6 @@ public class Player {
 		if (playerAccount.getMoney() >= winScore) {
 				hasWon = true;
 		}
-	}
-	public int getScore() {
-		return playerAccount.getMoney();
-	}
-	public int getRoll() {
-		return roll;
-	}
-	public static void setLang(Lang lang) {
-		Player.lang = lang;
-	}
-
-	public int getCurrPos() {
-		return currPos;
 	}
 
 	public boolean addMoney (int money) {
@@ -114,11 +87,39 @@ public class Player {
 		} return false;
 	}
 
-	public void setInJail(boolean inJail) {
-		this.inJail = inJail;
-	}
+// Getters and setters
 
 	public boolean isInJail() {
 		return inJail;
 	}
+	public boolean isAI() {
+        return isAI;
+    }
+    public boolean hasWon() {
+        return hasWon;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
+        return playerAccount.getMoney();
+    }
+    public int getRoll() {
+        return roll;
+    }
+    public int getCurrPos() {
+        return currPos;
+    }
+
+    public static void setLang(Lang lang) {
+        Player.lang = lang;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
 }
