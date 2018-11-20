@@ -45,7 +45,6 @@ public class LogicController {
         infExch.setCurrPlayerRolled(roll);
         currPlayer.move(roll);
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
-        
         if(!board.landOnTile(currPlayer)){
             endOfGame = true;
             return ;

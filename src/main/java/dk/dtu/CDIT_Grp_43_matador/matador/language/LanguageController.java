@@ -28,7 +28,7 @@ public class LanguageController {
 	 * @throws IOException if an I/O error occurs.
 	 */
     public static void initLang(int langIndex) throws IOException {
-        currentLanguage = new Lang("res/lang/"+LANGS[langIndex]+".txt", LANGS[langIndex]);
+        currentLanguage = new Lang("./res/lang/"+LANGS[langIndex]+".txt", LANGS[langIndex]);
         initLangs[langIndex] = currentLanguage;
 	}
     
@@ -52,7 +52,7 @@ public class LanguageController {
     		currentLanguage = initLangs[langIndex];
     		return 1;
     	}
-    	currentLanguage = new Lang("res/language/"+LANGS[langIndex]+".txt", LANGS[langIndex]);
+    	currentLanguage = new Lang("./res/lang/"+LANGS[langIndex]+".txt", LANGS[langIndex]);
     	initLangs[langIndex] = currentLanguage;
     	return 1;
     }
