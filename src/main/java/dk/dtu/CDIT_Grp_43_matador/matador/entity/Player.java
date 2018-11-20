@@ -18,14 +18,13 @@ public class Player {
 	
 	private static GameBoard bord = GameBoard.getInstance();
 	private boolean hasWon = false;
-	private static final int winScore = 3000;
 	private static Lang lang;
 	private Tile currTile;
 	private int roll;
 	private int currPos = 0;
 
 	// Konto
-    private Account playerAccount = new Account(1000);
+    private Account playerAccount = new Account(20);
 	
 	/**
 	 * @param name the name this player has.
@@ -72,11 +71,7 @@ public class Player {
 	/**
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
-	private void calcHasWon() {
-		if (playerAccount.getMoney() >= winScore) {
-				hasWon = true;
-		}
-	}
+
 	public int getScore() {
 		return playerAccount.getMoney();
 	}
@@ -111,5 +106,9 @@ public class Player {
 
 	public boolean isInJail() {
 		return inJail;
+	}
+
+	public void setCurrPos(int currPos) {
+		this.currPos = currPos;
 	}
 }

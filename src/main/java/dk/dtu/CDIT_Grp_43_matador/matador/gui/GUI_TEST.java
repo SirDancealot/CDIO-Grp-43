@@ -12,16 +12,9 @@ public class GUI_TEST {
 
         String[] lang = {"DK","Eng"};
         controller.setupGame(lang);
-        controller.addplayers(controller.getNames(), 1000);
+        controller.addplayers(controller.getNames(), 20);
         controller.displayPlayers(controller.getAllPlayer());
 
-        controller.movePlayer(controller.getAllPlayer(), 0,0,5);
-        controller.displayOwner(controller.getAllPlayer(), 0, 5);
-        controller.movePlayer(controller.getAllPlayer(), 0,5,5);
-        controller.displayOwner(controller.getAllPlayer(), 0, 10);
-
-        controller.movePlayer(controller.getAllPlayer(), 1,0,5);
-        controller.displayOwner(controller.getAllPlayer(), 0, 5);
     }
 }
 

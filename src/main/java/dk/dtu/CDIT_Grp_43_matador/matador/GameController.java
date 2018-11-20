@@ -42,14 +42,14 @@ public class GameController {
 		// Gui
 
 		gui_controller.setupGame(LANGS);
-		gui_controller.addplayers(gui_controller.getNames(), 1000);
+		gui_controller.addplayers(gui_controller.getNames(), 20);
 		gui_controller.displayPlayers(gui_controller.getAllPlayer());
 		int numPlayers = gui_controller.getNumberOfPlayers();
 		int langIndex = gui_controller.getLangIndex();
 		String[] names = gui_controller.getNames();
 
 		initLang(langIndex);
-		bord.initBoard();
+		//bord.initBoard();
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
@@ -77,7 +77,13 @@ public class GameController {
 
 	private void update() {
 		logic.tick();
-		gui_controller.updateDisplay(logic.getCurrPlayerRolled(),logic.getCurrPlayerIndex(),logic.getCurrPlayerPosition(), logic.getCurrPlayerScore());
+		System.out.println(logic.getCurrPlayerRolled());
+		System.out.println(logic.getCurrPlayerInt());
+		System.out.println(logic.getCurrPlayerPosition());
+		System.out.println(logic.getCurrPlayerScore());
+		System.out.println(logic.getCurrPlayerPositionAfterRoll());
+		System.out.println("");
+		gui_controller.updateDisplay(logic.getCurrPlayerRolled(),logic.getCurrPlayerInt(),logic.getCurrPlayerPosition(), logic.getCurrPlayerScore(), logic.getCurrPlayerPositionAfterRoll());
 	}
 	
 	/**

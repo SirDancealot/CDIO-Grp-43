@@ -17,10 +17,12 @@ public class LogicController {
     // Turn base varibels
 
     private int currPlayerIndex = 0;
-    private int currPlayerScore = 1000;
+
+    private int currPlayerScore;
     private int currPlayerPosition;
     private int currPlayerRolled;
-    //private int currPlayerOldPosion;
+    private int currPlayerInt;
+    private int currPlayerPositionAfterRoll;
 
     /**
      * Initializes the sigleton class {@code LogicController}
@@ -40,24 +42,22 @@ public class LogicController {
     public void tick(){
         Player currPlayer = players[currPlayerIndex];
 
-        currPlayerRolled = 1;
-
-        //currPlayerOldPosion = currPlayer.getCurrPos();
-
-        currPlayer.move(currPlayerRolled);
-
+        // Before roll
+        currPlayerInt = currPlayerIndex;
         currPlayerPosition = currPlayer.getCurrPos();
 
-        /*
-        for (int pos = oldPos; pos < oldPos+roll; pos++){
-            board.passedTile(currPlayer, pos%board.getBoardSize());
-        }
-        */
+        // After roll
+        currPlayerRolled = diceCup.roll();
+        currPlayer.move(currPlayerRolled);
+        currPlayerPositionAfterRoll = currPlayer.getCurrPos();
 
-        if(!board.landOnTile(currPlayer)){
-            endOfGame = true;
-            return ;
+        if(currPlayerPositionAfterRoll > 23){
+            currPlayerPositionAfterRoll = currPlayerPositionAfterRoll%24;
+            currPlayer.setCurrPos(currPlayerPositionAfterRoll);
+            currPlayer.addMoney(2);
         }
+
+        currPlayerScore = currPlayer.getScore();
 
         if(++currPlayerIndex >=players.length)
             currPlayerIndex = 0;
@@ -73,9 +73,8 @@ public class LogicController {
 
     // Getters
 
-    public int getCurrPlayerIndex() {
-        return currPlayerIndex;
-    }
+
+    public int getCurrPlayerInt() { return currPlayerInt; }
 
     public int getCurrPlayerScore() {
         return currPlayerScore;
@@ -87,5 +86,9 @@ public class LogicController {
 
     public int getCurrPlayerRolled() {
         return currPlayerRolled;
+    }
+
+    public int getCurrPlayerPositionAfterRoll() {
+        return currPlayerPositionAfterRoll;
     }
 }

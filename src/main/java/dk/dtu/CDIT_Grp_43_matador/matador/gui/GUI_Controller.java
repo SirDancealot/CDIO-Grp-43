@@ -76,12 +76,12 @@ public class GUI_Controller {
 
 
     // Update GUI
-    public void updateDisplay(int rolled, int currentPlayer, int currentPlayerPosition, int score){
+    public void updateDisplay(int rolled, int currentPlayer, int currentPlayerPosition, int score, int currentPlayerPositionAfterRoll ){
         String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(currentPlayer+1)+" it´s your turn, please Roll dices", "Roll" );
         getGui().setDie(rolled);
         setScore(getAllPlayer(), currentPlayer, score);
-        movePlayer(getAllPlayer(), currentPlayer, currentPlayerPosition, rolled);
-        displayOwner(getAllPlayer(), currentPlayer, currentPlayerPosition);
+        movePlayer(getAllPlayer(), currentPlayer, currentPlayerPosition, currentPlayerPositionAfterRoll);
+        displayOwner(getAllPlayer(), currentPlayer, currentPlayerPositionAfterRoll);
     }
 
     // Created players
@@ -106,9 +106,9 @@ public class GUI_Controller {
     }
 
     // Move current player
-    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPosition, int rolled){
+    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPosition, int playerPositionAfterRoll){
         gui.getFields()[playerPosition].setCar(allPlayer[currentPlayer], false);
-        gui.getFields()[playerPosition+rolled].setCar(allPlayer[currentPlayer], true);
+        gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
     }
 
     // Set score
@@ -118,8 +118,8 @@ public class GUI_Controller {
 
     // displayOwner
 
-   public void displayOwner(GUI_Player[] allPlayer, int currentPlayer, int tileIndex){
-       GUI_Field f = gui.getFields()[tileIndex];
+   public void displayOwner(GUI_Player[] allPlayer, int currentPlayer, int playerPosition){
+       GUI_Field f = gui.getFields()[playerPosition];
        if (f instanceof GUI_Ownable) {
            GUI_Ownable o = (GUI_Ownable)f;
            o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
