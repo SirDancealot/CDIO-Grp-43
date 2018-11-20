@@ -49,7 +49,7 @@ public class GameController {
 		String[] names = gui_controller.getNames();
 
 		initLang(langIndex);
-		//bord.initBoard();
+		bord.initBoard();
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {

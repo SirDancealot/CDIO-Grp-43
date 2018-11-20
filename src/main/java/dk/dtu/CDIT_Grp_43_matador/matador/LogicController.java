@@ -4,6 +4,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
+import java.util.ArrayList;
+
 public class LogicController {
 
     private static LogicController INSTANCE = new LogicController();
@@ -17,7 +19,6 @@ public class LogicController {
     // Turn base varibels
 
     private int currPlayerIndex = 0;
-
     private int currPlayerScore;
     private int currPlayerPosition;
     private int currPlayerRolled;
@@ -50,6 +51,8 @@ public class LogicController {
         currPlayerRolled = diceCup.roll();
         currPlayer.move(currPlayerRolled);
         currPlayerPositionAfterRoll = currPlayer.getCurrPos();
+
+
 
         if(currPlayerPositionAfterRoll > 23){
             currPlayerPositionAfterRoll = currPlayerPositionAfterRoll%24;
