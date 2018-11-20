@@ -12,16 +12,6 @@ public class Account {
         return Integer.toString(money);
     }
 
-    // Getter and setters
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
     public boolean addMoney(int money){
     	if (money < 0)
     		return withdrawMoney(money);
@@ -39,5 +29,16 @@ public class Account {
     	}
     	return true;
     }
+
+    // Getter and setters
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
 
 }
