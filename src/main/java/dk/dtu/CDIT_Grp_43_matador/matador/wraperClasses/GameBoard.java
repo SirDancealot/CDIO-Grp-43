@@ -3,34 +3,22 @@ package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 import java.io.IOException;
 import java.util.HashMap;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
+
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
 public class GameBoard {
-    private Lang lang;
     private static final GameBoard INSTANCE = new GameBoard();
     private int boardSize;
     private Tile[] gameTiles;
-    private HashMap<String, String> tileInfo;
-    
-    public void setLang(Lang lang) {
-		this.lang = lang;
-	}
+    private Factory factory = Factory.getInstance();
     
     private GameBoard(){    }
 
     public void initBoard() throws IOException {
-    	tileInfo = TextReader.fileToHashMap("res/Tiles.txt");
-    	gameTiles = new Tile[tileInfo.size()];
+    	gameTiles = factory.createTiles();
     	boardSize = gameTiles.length;
-    	int tileNum = 1;
-    	while(lang.getTag("Tile" + tileNum) != null) {
-    		gameTiles[tileNum-1] = new Property(lang.getTag("Tile" + tileNum), tileInfo.get("Tile" + tileNum));
-    		tileNum++;
-    	}
     }
 
 	/**
@@ -52,7 +40,11 @@ public class GameBoard {
 		return INSTANCE;
 	}
 	
-	public boolean landOnTile(Player p) {return gameTiles[p.getCurrPos()].landOnTile(p); }
+	public boolean landOnTile(Player p) {
+		System.out.println("in boardLandOnTile");
+		System.out.println(p.getCurrPos());
+		return gameTiles[p.getCurrPos()].landOnTile(p); 
+	}
 
 	public int getBoardSize() {
 		return boardSize;

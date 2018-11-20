@@ -23,4 +23,9 @@ public class FreeParking extends Tile {
     public boolean passedTile (Player p) {
         return true;
     }
+    
+    @Override
+    public boolean landOnTile(Player p) {
+    	return super.landOnTile(p);
+    }
 }

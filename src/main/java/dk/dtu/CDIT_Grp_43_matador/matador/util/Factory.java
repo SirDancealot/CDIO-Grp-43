@@ -12,6 +12,10 @@ import java.util.HashMap;
 import static dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer.*;
 
 public class Factory {
+	private static final Factory INSTANCE = new Factory();
+	
+	private Factory() { }
+	
     public Tile[] createTiles() throws IOException {
         HashMap <String, String> tileTags = TextReader.fileToHashMap("./res/Tiles.txt");
         Lang lang = LanguageController.getCurrentLanguage();
@@ -56,5 +60,7 @@ public class Factory {
         return tiles;
     }
 
-
+    public static Factory getInstance() {
+		return INSTANCE;
+	}
 }

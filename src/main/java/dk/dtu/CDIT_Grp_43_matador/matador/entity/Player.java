@@ -58,20 +58,6 @@ public class Player {
 	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
 	 */
 
-	public int getScore() {
-		return playerAccount.getMoney();
-	}
-	public int getRoll() {
-		return roll;
-	}
-	public static void setLang(Lang lang) {
-		Player.lang = lang;
-	}
-
-	public int getCurrPos() {
-		return currPos;
-	}
-
 	public boolean addMoney (int money) {
 		return playerAccount.addMoney(money);
 	}

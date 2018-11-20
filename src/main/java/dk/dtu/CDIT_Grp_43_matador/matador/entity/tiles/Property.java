@@ -16,9 +16,7 @@ public class Property extends Tile {
      */
     public Property (String tilename, String tileinfo, int tileIndex) {
         super(tilename, tileinfo, tileIndex);
-        this.owner = owner;
         this.buyable = true;
-        int rent = tileValue;
     }
 
     /**
@@ -41,10 +39,14 @@ public class Property extends Tile {
      */
     @Override
     public boolean landOnTile(Player p) {
-        if (owner ==  null) {
+    	System.out.println("In land on tile");
+    	System.out.println(this.tileIndex);
+        if (owner ==  null && buyable) {
+        	System.out.println("Bought");
             return buyTile(p);
         }
         if (owner != p) {
+        	System.out.println("Payed");
             return p.payMoney(owner, tileValue);
         }
         return true;

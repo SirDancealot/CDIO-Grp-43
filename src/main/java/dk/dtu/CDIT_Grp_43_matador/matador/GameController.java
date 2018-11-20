@@ -90,7 +90,6 @@ public class GameController {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
 		Player.setLang(lang);
-		bord.setLang(lang);
 		DiceCup.setLang(lang);
 	}
 	
