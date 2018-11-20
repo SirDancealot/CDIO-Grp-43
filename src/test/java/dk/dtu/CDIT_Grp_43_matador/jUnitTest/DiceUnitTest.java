@@ -6,7 +6,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import org.junit.jupiter.api.*;
 
 public class DiceUnitTest {
-
+	DiceCup dc = DiceCup.getInstance();
 	@Test
 	public void test() {
 		
@@ -27,7 +27,7 @@ public class DiceUnitTest {
 		int roll;
 		for (int i = 0; i < totalRolls; i++) {
 			
-			roll = DiceCup.roll();
+			roll = dc.roll();
 				switch (roll) {
                 case 2:
                     two++;
