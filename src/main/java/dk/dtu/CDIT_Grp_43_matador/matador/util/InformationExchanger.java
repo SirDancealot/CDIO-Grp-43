@@ -43,6 +43,8 @@ public class InformationExchanger {
 		this.currPlayerOldPos = this.currPlayerNewPos;
 		this.currPlayerNewPos = currPlayerNewPos;
 	}
+
+
 	
 	public int getCurrPlayerOldPos() {
 		return currPlayerOldPos;

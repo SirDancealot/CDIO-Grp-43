@@ -43,8 +43,10 @@ public class LogicController {
         // After roll
         int roll = diceCup.roll();
         infExch.setCurrPlayerRolled(roll);
+        infExch.setCurrPlayerOldPos(currPlayer.getCurrPos());
         currPlayer.move(roll);
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
+
         if(!board.landOnTile(currPlayer)){
             endOfGame = true;
             return ;

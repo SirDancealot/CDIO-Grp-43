@@ -88,7 +88,7 @@ public class GUI_Controller {
         String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(infExch.getCurrPlayerIndex()+1)+" it´s your turn, please Roll dices", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
         setScore(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerScore());
-        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerNewPos());
+        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
     }
 
@@ -114,8 +114,11 @@ public class GUI_Controller {
     }
 
     // Move current player
-    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPosition, int playerPositionAfterRoll){
-        gui.getFields()[playerPosition].setCar(allPlayer[currentPlayer], false);
+    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPositionAfterRoll){
+
+        for(int i = 0; i < 24; i++){
+            gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
+        }
         gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
     }
 
