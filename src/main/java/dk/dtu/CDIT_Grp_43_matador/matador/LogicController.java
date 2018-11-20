@@ -48,6 +48,7 @@ public class LogicController {
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
 
         if(!board.landOnTile(currPlayer)){
+
             endOfGame = true;
             return ;
         }

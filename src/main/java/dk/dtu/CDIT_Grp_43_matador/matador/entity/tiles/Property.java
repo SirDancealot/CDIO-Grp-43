@@ -52,6 +52,9 @@ public class Property extends Tile {
         return true;
     }
 
+
+
+
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
      * @param p The current player.

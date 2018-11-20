@@ -14,6 +14,7 @@ public class InformationExchanger {
 	private int currPlayerNewPos = 0;
 	private int currPlayerIndex;
 	private int currPlayerRolled;
+	private boolean tileOwned = false;
 	
 	
 	private InformationExchanger() { }
