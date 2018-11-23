@@ -16,7 +16,7 @@ public class LogicController {
     private LogicController(){}
     private boolean endOfGame = false;
 
-    // Turn base varibels
+    // Turn base variables
 
     private int currPlayerIndex = 0;
 

@@ -1,6 +1,11 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+
 public class ChanceCard {
+    private static final GameBoard BOARD = GameBoard.getInstance();
+    private static final InformationExchanger infExch = InformationExchanger.getInstance();
     private final String value;
     private boolean moveTo = false;
     private String moveToTag;
@@ -52,9 +57,34 @@ public class ChanceCard {
     }
 
     public boolean useCard(Player p) {
+        if (move)
+            p.move(moveAmt);
+        if (money)
+            if (!p.addMoney(moneyAmt))
+                return false;
+        if (moveTo)
+            movePlayerTo(p);
+        if (payAll)
+           if (!payAllPlayers(p))
+               return false;
         return true;
     }
+    private void movePlayerTo(Player p) {
+        Tile tile = BOARD.getTileByName(moveToTag);
+        int moveDestAmt = tile.getTileIndex()-p.getCurrPos();
+        if (moveDestAmt < 0)
+            moveDestAmt+=BOARD.getBoardSize();
+        p.move(moveDestAmt);
 
+    }
+    private boolean payAllPlayers(Player p) {
+        boolean succeded = true;
+        for (Player player : infExch.getPlayers()){
+           if (!p.payMoney(player,payAllAmt))
+               succeded = false;
+        }
+        return succeded;
+    }
     public String getCardDescription() {
         return value;
     }
