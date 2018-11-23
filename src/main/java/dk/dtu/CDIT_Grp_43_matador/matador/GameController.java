@@ -29,6 +29,7 @@ public class GameController {
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
+	private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
 	private static Lang lang;
 	private static LogicController logic = LogicController.getINSTANCE();
 	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
@@ -50,6 +51,7 @@ public class GameController {
 
 		initLang(langIndex);
 		bord.initBoard();
+		deck.init();
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {

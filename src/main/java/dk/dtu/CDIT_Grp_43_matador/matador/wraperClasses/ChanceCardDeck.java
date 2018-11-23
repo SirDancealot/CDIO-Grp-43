@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class ChanceCardDeck {
@@ -19,7 +19,7 @@ public class ChanceCardDeck {
      * Sets up the deck of chance cards.
      */
     private ChanceCardDeck() { 
-    	cards = new PriorityQueue<ChanceCard>();
+    	cards = new LinkedList<ChanceCard>();
     }
 
     /**
