@@ -8,6 +8,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
  */
 public class InformationExchanger {
 	private static final InformationExchanger INSTANCE = new InformationExchanger();
+	private Player[] players;
 	private Player currPlayer;
 	private int currPlayerScore;
 	private int currPlayerOldPos = 0;
@@ -73,5 +74,13 @@ public class InformationExchanger {
 	
 	public static InformationExchanger getInstance() {
 		return INSTANCE;
+	}
+	
+	public void setPlayers(Player[] players) {
+		this.players = players;
+	}
+	
+	public Player[] getPlayers() {
+		return players;
 	}
 }

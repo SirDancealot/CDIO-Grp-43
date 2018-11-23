@@ -27,6 +27,7 @@ public class LogicController {
 
     public void init(Player[] players){
         this.players = players;
+        infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
     }
