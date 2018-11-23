@@ -16,7 +16,7 @@ public class LogicController {
     private LogicController(){}
     private boolean endOfGame = false;
 
-    // Turn base varibels
+    // Turn base variables
 
     private int currPlayerIndex = 0;
 
@@ -27,6 +27,7 @@ public class LogicController {
 
     public void init(Player[] players){
         this.players = players;
+        infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
     }

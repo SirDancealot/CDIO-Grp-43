@@ -57,4 +57,12 @@ public class GameBoard {
 	public int getBoardSize() {
 		return boardSize;
 	}
+
+	public Tile getTileByName(String name) {
+		for ( Tile tile : gameTiles) {
+			if (tile.getTileName()==name)
+				return tile;
+		}
+		return null;
+	}
 }
