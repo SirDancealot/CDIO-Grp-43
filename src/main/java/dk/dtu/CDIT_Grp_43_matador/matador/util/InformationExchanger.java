@@ -1,6 +1,8 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.util;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+
 /**
  * A Class to convey information between {@code LogicController} and {@code GUI_Controller}
  * @author mj
@@ -45,8 +47,14 @@ public class InformationExchanger {
 		this.currPlayerNewPos = currPlayerNewPos;
 	}
 
+	public void setTileOwned(boolean tileOwned) {
+		this.tileOwned = tileOwned;
+	}
 
-	
+	public boolean isTileOwned() {
+		return tileOwned;
+	}
+
 	public int getCurrPlayerOldPos() {
 		return currPlayerOldPos;
 	}

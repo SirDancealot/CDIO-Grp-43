@@ -46,6 +46,14 @@ public class GameBoard {
 		return gameTiles[p.getCurrPos()].landOnTile(p); 
 	}
 
+	public boolean isTileOwned(int tileIndex) {
+		return gameTiles[tileIndex].isOwned();
+	}
+
+	public Player getTileOwner(int tileIndex) {
+		return  gameTiles[tileIndex].getOwner();
+	}
+
 	public int getBoardSize() {
 		return boardSize;
 	}

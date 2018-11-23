@@ -24,7 +24,6 @@ public class Account {
             return addMoney(money);
     	this.money -= Math.abs(money);
     	if (this.money < 0) {
-    		this.money = 0;
     		return false;
     	}
     	return true;

@@ -42,6 +42,14 @@ public abstract class Tile {
         return true;
     }
 
+    public Player getOwner() {
+        return null;
+    }
+
+    public  boolean isOwned() {
+        return false;
+    }
+
     /**
      * Method used when the player lands on a tile. Gets elaborated on in the tile sub classes.
      * @param p The current player.

@@ -48,11 +48,11 @@ public class LogicController {
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
 
         if(!board.landOnTile(currPlayer)){
-
             endOfGame = true;
+            infExch.setCurrPlayerScore(currPlayer.getScore());
             return ;
         }
-        
+        infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
         infExch.setCurrPlayerScore(currPlayer.getScore());
 
         if(++currPlayerIndex >= players.length)

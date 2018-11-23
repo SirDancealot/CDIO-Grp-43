@@ -52,8 +52,10 @@ public class Property extends Tile {
         return true;
     }
 
-
-
+    @Override
+    public boolean isOwned(){
+        return owner != null;
+    }
 
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
@@ -63,6 +65,10 @@ public class Property extends Tile {
     @Override
     public boolean passedTile(Player p) {
         return true;
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 
     public boolean isBuyalbe () {

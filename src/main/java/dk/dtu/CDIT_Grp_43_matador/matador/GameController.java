@@ -69,6 +69,8 @@ public class GameController {
 
 			if(logic.isEndOfGame()){
 				playing = false;
+				System.out.println("Game end");
+
 			}
 			update();
 		}

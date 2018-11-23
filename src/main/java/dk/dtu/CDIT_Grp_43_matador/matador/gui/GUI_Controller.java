@@ -54,12 +54,8 @@ public class GUI_Controller {
 //        }
 
         // Number of players
-        String number_of_players = getGui().getUserButtonPressed("Select the number of players", "1", "2", "3", "4" );
+        String number_of_players = getGui().getUserButtonPressed("Select the number of players",  "2", "3", "4" );
         switch (number_of_players) {
-            case "1":
-                System.out.println("1 player");
-                numberOfPlayers = 1;
-                break;
             case "2":
                 System.out.println("2 player");
                 numberOfPlayers = 2;
@@ -89,7 +85,7 @@ public class GUI_Controller {
         getGui().setDie(infExch.getCurrPlayerRolled());
         setScore(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerScore());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
-        displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
+        displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
     }
 
     // Created players
@@ -129,12 +125,15 @@ public class GUI_Controller {
 
     // displayOwner
 
-   public void displayOwner(GUI_Player[] allPlayer, int currentPlayer, int playerPosition){
-       GUI_Field f = gui.getFields()[playerPosition];
-       if (f instanceof GUI_Ownable) {
-           GUI_Ownable o = (GUI_Ownable)f;
-           o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
-       }
+   public void displayOwner(GUI_Player[] allPlayer, int currentPlayer, int playerPosition, boolean owned){
+
+        if(owned){
+            GUI_Field f = gui.getFields()[playerPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
+            }
+        }
    }
 
     // Getters and setters
