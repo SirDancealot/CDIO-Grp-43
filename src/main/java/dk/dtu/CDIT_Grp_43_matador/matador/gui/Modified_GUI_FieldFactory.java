@@ -1,5 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import gui_fields.GUI_Brewery;
 import gui_fields.GUI_Chance;
 import gui_fields.GUI_Field;
@@ -10,12 +12,17 @@ import gui_fields.GUI_Start;
 import gui_fields.GUI_Street;
 import gui_fields.GUI_Tax;
 import java.awt.Color;
+import java.io.IOException;
 
 public final class Modified_GUI_FieldFactory {
+
+
     private Modified_GUI_FieldFactory() {
     }
 
     public static GUI_Field[] makeFields() {
+
+
         GUI_Field[] fields = new GUI_Field[24];
         int i = 0;
         int var2 = i + 1;

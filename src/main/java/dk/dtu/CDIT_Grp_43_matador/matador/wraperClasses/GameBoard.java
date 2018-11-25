@@ -12,14 +12,14 @@ public class GameBoard {
     private static final GameBoard INSTANCE = new GameBoard();
     private int boardSize;
     private Tile[] gameTiles;
-    private Factory factory = Factory.getInstance();
-    
-    private GameBoard(){    }
+	private Factory factory = Factory.getInstance();
 
-    public void initBoard() throws IOException {
-    	gameTiles = factory.createTiles();
-    	boardSize = gameTiles.length;
-    }
+	private GameBoard(){    }
+
+	public void initBoard() throws IOException {
+		gameTiles = factory.createTiles();
+		boardSize = gameTiles.length;
+	}
 
 	/**
 	 * Calls the funktion {@code passedTile} on the given tile
