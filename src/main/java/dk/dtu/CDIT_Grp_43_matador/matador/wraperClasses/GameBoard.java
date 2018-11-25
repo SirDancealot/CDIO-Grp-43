@@ -59,8 +59,10 @@ public class GameBoard {
 	}
 
 	public Tile getTileByName(String name) {
-		for ( Tile tile : gameTiles) {
-			if (tile.getTileName()==name)
+		System.out.println("Search name: " + name);
+		for (Tile tile : gameTiles) {
+			System.out.println("Tile name: " + tile.getTileName());
+			if (tile.getTileName().equalsIgnoreCase(name))
 				return tile;
 		}
 		return null;

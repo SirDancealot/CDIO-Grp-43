@@ -25,7 +25,7 @@ public abstract class Tile {
                     tileValue = Integer.valueOf(split[1]);
                     break;
                 case "name":
-                    tileName = split[1];
+                    this.tileName = split[1];
                     break;
                 default:
                     break;

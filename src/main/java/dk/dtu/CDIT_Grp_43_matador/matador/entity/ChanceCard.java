@@ -71,6 +71,8 @@ public class ChanceCard {
     }
     private void movePlayerTo(Player p) {
         Tile tile = BOARD.getTileByName(moveToTag);
+        System.out.println(tile);
+        System.out.println(p);
         int moveDestAmt = tile.getTileIndex()-p.getCurrPos();
         if (moveDestAmt < 0)
             moveDestAmt+=BOARD.getBoardSize();
