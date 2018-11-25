@@ -18,11 +18,22 @@ public class InformationExchanger {
 	private int currPlayerIndex;
 	private int currPlayerRolled;
 	private boolean tileOwned = false;
+	private String currentTurnText;
 	
 	
 	private InformationExchanger() { }
-	
-	
+
+	public void addToCurrentTurnText(String currentTurnText) {
+		this.currentTurnText += currentTurnText;
+	}
+
+	public String getCurrentTurnText() {
+		return currentTurnText;
+	}
+	public void setCurrentTurnText(String currentTurnText) {
+		this.currentTurnText = currentTurnText;
+	}
+
 	public Player getCurrPlayer() {
 		return currPlayer;
 	}

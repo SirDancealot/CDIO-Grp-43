@@ -39,14 +39,13 @@ public class Property extends Tile {
      */
     @Override
     public boolean landOnTile(Player p) {
-    	System.out.println("In land on tile");
-    	System.out.println(this.tileIndex);
+    	//System.out.println("In land on tile");
+    	//System.out.println(this.tileIndex);
         if (owner ==  null && buyable) {
-        	System.out.println("Bought");
             return buyTile(p);
         }
         if (owner != p) {
-        	System.out.println("Payed");
+        	//System.out.println("Payed");
             return p.payMoney(owner, tileValue);
         }
         return true;

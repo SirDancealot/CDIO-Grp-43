@@ -41,7 +41,6 @@ public class GameController {
 		CustomStreamTokenizer.initTokenizer();
 
 		// Gui
-
 		gui_controller.setupGame(LANGS);
 		gui_controller.addplayers(gui_controller.getNames(), 20);
 		gui_controller.displayPlayers(gui_controller.getAllPlayer());

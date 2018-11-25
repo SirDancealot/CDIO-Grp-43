@@ -37,6 +37,10 @@ public class LogicController {
      */
 
     public void tick(){
+
+        // Reset current turn text
+        infExch.setCurrentTurnText("");
+
         Player currPlayer = players[currPlayerIndex];
         infExch.setCurrPlayer(currPlayer);
         infExch.setCurrPlayerIndex(currPlayerIndex);
@@ -48,6 +52,7 @@ public class LogicController {
         currPlayer.move(roll);
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
 
+
         if(!board.landOnTile(currPlayer)){
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
@@ -56,8 +61,12 @@ public class LogicController {
         infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
         infExch.setCurrPlayerScore(currPlayer.getScore());
 
-        if(++currPlayerIndex >= players.length)
+        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex)+ " rolled " + Integer.toString(roll)+ " landed on "+ Integer.toString(currPlayer.getCurrPos())+"    ");
+        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex)+ " bought the property for " + Integer.toString(5));
+
+        if(++currPlayerIndex >= players.length){
             currPlayerIndex = 0;
+        }
     }
 
     public static LogicController getINSTANCE() {
