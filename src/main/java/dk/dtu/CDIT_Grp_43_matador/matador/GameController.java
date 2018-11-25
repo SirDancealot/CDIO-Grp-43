@@ -70,7 +70,7 @@ public class GameController {
 		while (playing) {
 
 			if(logic.isEndOfGame()){
-				playing = false;
+				endGame();
 				System.out.println("Game end");
 
 			}
