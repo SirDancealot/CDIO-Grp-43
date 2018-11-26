@@ -30,8 +30,7 @@ public class Chance extends Tile {
         System.out.println(currCard);
         currCard.useCard(p);
         deck.returnCardToDeck(currCard);
-        return true;
-
+        return super.landOnTile(p);
     }
 
 }

@@ -41,7 +41,6 @@ public class GameBoard {
 	}
 	
 	public boolean landOnTile(Player p) {
-		System.out.println("in boardLandOnTile");
 		System.out.println(p.getCurrPos());
 		return gameTiles[p.getCurrPos()].landOnTile(p); 
 	}
@@ -59,9 +58,7 @@ public class GameBoard {
 	}
 
 	public Tile getTileByName(String name) {
-		System.out.println("Search name: " + name);
 		for (Tile tile : gameTiles) {
-			System.out.println("Tile name: " + tile.getTileName());
 			if (tile.getTileName().equalsIgnoreCase(name))
 				return tile;
 		}

@@ -57,16 +57,30 @@ public class ChanceCard {
     }
 
     public boolean useCard(Player p) {
-        if (move)
+    	String cardString = "";
+        if (move) {
+        	cardString += "moveing: " + moveAmt + "\n";
             p.move(moveAmt);
-        if (money)
-            if (!p.addMoney(moneyAmt))
+        }
+        if (money) {
+        	cardString += "recieving money: " + moneyAmt + "\n";
+            if (!p.addMoney(moneyAmt)) {
+            	System.out.println(cardString);
                 return false;
-        if (moveTo)
+            }
+        }
+        if (moveTo) {
+        	cardString += "moveing to tile: " + moveToTag + "\n";
             movePlayerTo(p);
-        if (payAll)
-           if (!payAllPlayers(p))
+        }
+        if (payAll) {
+        	cardString += "paying all players: " + payAllAmt + "\n";
+           if (!payAllPlayers(p)) {
+        	   System.out.println(cardString);
                return false;
+           }
+        }
+        System.out.println(cardString);
         return true;
     }
     private void movePlayerTo(Player p) {
@@ -77,7 +91,6 @@ public class ChanceCard {
         if (moveDestAmt < 0)
             moveDestAmt+=BOARD.getBoardSize();
         p.move(moveDestAmt);
-
     }
     private boolean payAllPlayers(Player p) {
         boolean succeded = true;

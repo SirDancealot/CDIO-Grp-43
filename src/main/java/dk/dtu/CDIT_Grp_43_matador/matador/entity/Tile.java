@@ -4,7 +4,6 @@ public abstract class Tile {
     protected int tileIndex;
     protected int tileValue;
     protected boolean buyable = false;
-    protected boolean extraTurn = false;
     protected String tileName;
     protected String tileMessage;
     protected String type;
@@ -56,6 +55,7 @@ public abstract class Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     public boolean landOnTile(Player p) {
+    	System.out.println("Landed on tile: " + this);
         return true;
     }
 
@@ -76,11 +76,10 @@ public abstract class Tile {
     public String getTileMessage() {
         return tileMessage;
     }
-
-    public boolean givesExtraTurn() {
-        return extraTurn;
+    
+    @Override
+    public String toString() {
+    	return this.tileName;
     }
-
-
 }
 

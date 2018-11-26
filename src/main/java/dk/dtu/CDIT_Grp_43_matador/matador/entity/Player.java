@@ -16,6 +16,7 @@ public class Player {
 	private Tile currTile;
 	private int roll;
 	private int currPos = 0;
+	private boolean firstTurn = true;
 
 	// Konto
     private Account playerAccount = new Account(20);
@@ -105,6 +106,10 @@ public class Player {
     public int getCurrPos() {
         return currPos;
     }
+    
+    public boolean isFirstTurn() {
+		return firstTurn;
+	}
 
     public static void setLang(Lang lang) {
         Player.lang = lang;
@@ -115,4 +120,8 @@ public class Player {
     public void setInJail(boolean inJail) {
         this.inJail = inJail;
     }
+    
+    public void setFirstTurn(boolean firstTurn) {
+		this.firstTurn = firstTurn;
+	}
 }

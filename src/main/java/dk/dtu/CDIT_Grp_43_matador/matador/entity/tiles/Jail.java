@@ -19,8 +19,10 @@ public class Jail extends Tile {
      */
     @Override
     public boolean passedTile(Player p) {
-        if (p.isInJail())
+        if (p.isInJail()) {
+        	p.setInJail(false);
             return p.withDrawMoney(outOfJailPrice);
+        }
         return true;
     }
 }

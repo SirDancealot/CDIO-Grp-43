@@ -24,7 +24,7 @@ public class GoToJail extends Tile {
     public boolean landOnTile(Player p) {
         p.setInJail(true);
         p.moveTo("jail");
-        return true;
+        return super.landOnTile(p);
     }
 
 

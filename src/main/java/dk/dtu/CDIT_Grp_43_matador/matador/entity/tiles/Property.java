@@ -42,13 +42,15 @@ public class Property extends Tile {
     	//System.out.println("In land on tile");
     	//System.out.println(this.tileIndex);
         if (owner ==  null && buyable) {
+        	super.landOnTile(p);
             return buyTile(p);
         }
         if (owner != p) {
-        	//System.out.println("Payed");
+        	System.out.println("Payed");
+        	super.landOnTile(p);
             return p.payMoney(owner, tileValue);
         }
-        return true;
+        return super.landOnTile(p);
     }
 
     @Override

@@ -49,6 +49,12 @@ public class LogicController {
         int roll = diceCup.roll();
         infExch.setCurrPlayerRolled(roll);
         infExch.setCurrPlayerOldPos(currPlayer.getCurrPos());
+        for (int i = 0; i < roll; i++) {
+			if (currPlayer.isFirstTurn())
+				currPlayer.setFirstTurn(false);
+			else
+				board.passedTile(currPlayer, currPlayer.getCurrPos() + i);
+		}
         currPlayer.move(roll);
 
 
