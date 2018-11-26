@@ -66,7 +66,7 @@ public class GUI_Controller {
     public void updateDisplay(){
         String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(infExch.getCurrPlayerIndex()+1)+" it´s your turn, please Roll dices", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
-        setScore(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerScore());
+        setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
         displayCurrentTurn(infExch.getCurrentTurnText());
@@ -108,8 +108,12 @@ public class GUI_Controller {
     }
 
     // Set score
-    public void setScore(GUI_Player[] allPlayer, int currentPlayer, int score){
-        allPlayer[currentPlayer].setBalance(score);
+    public void setScore(GUI_Player[] guiPlayer, Player[] logicPlayers){
+    	for (int i = 0; i < guiPlayer.length; i++) {
+			guiPlayer[i].setBalance(logicPlayers[i].getScore());
+		}
+    	
+        //allPlayer[currentPlayer].setBalance(score);
     }
 
     // displayOwner

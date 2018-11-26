@@ -53,7 +53,7 @@ public class LogicController {
 			if (currPlayer.isFirstTurn())
 				currPlayer.setFirstTurn(false);
 			else
-				board.passedTile(currPlayer, currPlayer.getCurrPos() + i);
+				board.passedTile(currPlayer, (currPlayer.getCurrPos() + i) % board.getBoardSize());
 		}
         currPlayer.move(roll);
 
