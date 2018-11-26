@@ -43,6 +43,14 @@ public class Player {
 		}
 		return false;
 	}
+	
+	public boolean moveTo(String tileName) {
+		Tile targetTile = bord.getTileByName(tileName);
+		int targetPos = targetTile.getTileIndex() - currPos;
+		if (targetPos < 0)
+			targetPos += bord.getBoardSize();
+		return move(targetPos);
+	}
 
 	public void setAI(boolean isAI) {
 		this.isAI = isAI;
