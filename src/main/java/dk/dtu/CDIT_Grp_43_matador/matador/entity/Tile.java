@@ -81,5 +81,9 @@ public abstract class Tile {
     public String toString() {
     	return this.tileName;
     }
+
+	public String getSisterTag() {
+		return null;
+	}
 }
 

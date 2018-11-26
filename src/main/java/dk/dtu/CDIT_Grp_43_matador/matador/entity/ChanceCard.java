@@ -61,6 +61,7 @@ public class ChanceCard {
         if (move) {
         	cardString += "moveing: " + moveAmt + "\n";
             p.move(moveAmt);
+            return BOARD.landOnTile(p);
         }
         if (money) {
         	cardString += "recieving money: " + moneyAmt + "\n";
@@ -72,6 +73,7 @@ public class ChanceCard {
         if (moveTo) {
         	cardString += "moveing to tile: " + moveToTag + "\n";
             movePlayerTo(p);
+            return BOARD.landOnTile(p);
         }
         if (payAll) {
         	cardString += "paying all players: " + payAllAmt + "\n";
@@ -92,10 +94,11 @@ public class ChanceCard {
             moveDestAmt+=BOARD.getBoardSize();
         p.move(moveDestAmt);
     }
+    
     private boolean payAllPlayers(Player p) {
         boolean succeded = true;
         for (Player player : infExch.getPlayers()){
-           if (!p.payMoney(player,payAllAmt))
+           if (!p.payMoney(player, payAllAmt))
                succeded = false;
         }
         return succeded;

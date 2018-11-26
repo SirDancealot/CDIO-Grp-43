@@ -1,11 +1,14 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import java.util.ArrayList;
+
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Property extends Tile {
+	private static final int NUMOFTILESINSET = 2;
     private Player owner = null;
-    private Tile sisterTile;
+    private String sisterTag;
     public String type = "Property";
 
     /**
@@ -17,6 +20,18 @@ public class Property extends Tile {
     public Property (String tilename, String tileinfo, int tileIndex) {
         super(tilename, tileinfo, tileIndex);
         this.buyable = true;
+        String[] tileInfoTags = tileinfo.split(";");
+        for (String string : tileInfoTags) {
+        	String[] tagInfo = string.split(":");
+			switch (tagInfo[0].toLowerCase()) {
+			case "sister":
+				sisterTag = tagInfo[1];
+				break;
+
+			default:
+				break;
+			}
+		}
     }
 
     /**
@@ -27,6 +42,7 @@ public class Property extends Tile {
     public boolean buyTile (Player p) {
         if (p.withDrawMoney(tileValue)) {
             this.owner = p;
+            p.addOwnedTile(this);
             return true;
         }
         return false;
@@ -48,7 +64,7 @@ public class Property extends Tile {
         if (owner != p) {
         	System.out.println("Payed");
         	super.landOnTile(p);
-            return p.payMoney(owner, tileValue);
+            return p.payMoney(owner, tileSetOwned() ? 2 * tileValue : tileValue);
         }
         return super.landOnTile(p);
     }
@@ -57,6 +73,18 @@ public class Property extends Tile {
     public boolean isOwned(){
         return owner != null;
     }
+    
+    private boolean tileSetOwned() {
+    	ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
+    	int tilesInSetOwned = 0;
+    	for (Tile tile : playerOwnedTileSet) {
+    		//System.out.println("Tile: " + tile + " is also owned");
+			if (tile.getOwner() == this.owner && this.sisterTag == tile.getSisterTag())
+				tilesInSetOwned++;
+		}
+    	System.out.println("Tiles in set owned: " + tilesInSetOwned);
+    	return NUMOFTILESINSET == tilesInSetOwned;
+	}
 
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
@@ -75,5 +103,10 @@ public class Property extends Tile {
     public boolean isBuyalbe () {
         return buyable;
     }
+    
+    @Override
+    public String getSisterTag() {
+		return sisterTag;
+	}
 
 }

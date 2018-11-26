@@ -1,6 +1,8 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
@@ -17,6 +19,7 @@ public class Player {
 	private int roll;
 	private int currPos = 0;
 	private boolean firstTurn = true;
+	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 
 	// Konto
     private Account playerAccount = new Account(20);
@@ -80,6 +83,10 @@ public class Player {
 			}
 		} return false;
 	}
+	
+	public void setMoney(int money) {
+		playerAccount.setMoney(money);
+	}
 
 // Getters and setters
 
@@ -123,5 +130,13 @@ public class Player {
     
     public void setFirstTurn(boolean firstTurn) {
 		this.firstTurn = firstTurn;
+	}
+    
+    public void addOwnedTile(Tile t) {
+    	ownedTiles.add(t);
+	}
+    
+    public ArrayList<Tile> getOwnedTiles() {
+		return ownedTiles;
 	}
 }

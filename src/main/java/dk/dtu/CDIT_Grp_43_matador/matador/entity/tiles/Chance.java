@@ -28,9 +28,10 @@ public class Chance extends Tile {
     public boolean landOnTile(Player p) {
         ChanceCard currCard = deck.nextCard();
         System.out.println(currCard);
-        currCard.useCard(p);
+        boolean succeded = currCard.useCard(p);
         deck.returnCardToDeck(currCard);
-        return super.landOnTile(p);
+        super.landOnTile(p);
+        return succeded;
     }
 
 }

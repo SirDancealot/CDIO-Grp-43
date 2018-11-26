@@ -42,9 +42,10 @@ public class GameController {
 
 		// Gui
 		gui_controller.setupGame(LANGS);
-		gui_controller.addplayers(gui_controller.getNames(), 20);
-		gui_controller.displayPlayers(gui_controller.getAllPlayer());
 		int numPlayers = gui_controller.getNumberOfPlayers();
+		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;
+		gui_controller.addplayers(gui_controller.getNames(), startMoney);
+		gui_controller.displayPlayers(gui_controller.getAllPlayer());
 		int langIndex = gui_controller.getLangIndex();
 		String[] names = gui_controller.getNames();
 
@@ -55,6 +56,7 @@ public class GameController {
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
 			players[i] = new Player(names[i]);
+			players[i].setMoney(startMoney);
 		}
 
 		// Init logic
@@ -67,20 +69,16 @@ public class GameController {
 	 */
 	public void startGameLoop() throws IOException {
 		while (playing) {
-
+			logic.tick();
 			if(logic.isEndOfGame()){
 				endGame();
 				System.out.println("Game end");
 
 			}
-			update();
+			gui_controller.updateDisplay();
 		}
 	}
 
-	private void update() {
-		logic.tick();
-		gui_controller.updateDisplay();
-	}
 	
 	/**
 	 * The stop function that runs as the very last thing in the game 
