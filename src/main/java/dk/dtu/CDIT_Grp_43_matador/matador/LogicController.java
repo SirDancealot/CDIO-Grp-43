@@ -50,19 +50,20 @@ public class LogicController {
         infExch.setCurrPlayerRolled(roll);
         infExch.setCurrPlayerOldPos(currPlayer.getCurrPos());
         currPlayer.move(roll);
-        infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
 
 
         if(!board.landOnTile(currPlayer)){
+        	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
             return ;
         }
+        infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
         infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
         infExch.setCurrPlayerScore(currPlayer.getScore());
 
-        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex)+ " rolled " + Integer.toString(roll)+ " landed on "+ Integer.toString(currPlayer.getCurrPos())+"    ");
-        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex)+ " bought the property for " + Integer.toString(5));
+        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex + 1)+ " rolled " + Integer.toString(roll)+ " landed on "+ Integer.toString(currPlayer.getCurrPos())+"    \n");
+        infExch.addToCurrentTurnText("Player "+Integer.toString(currPlayerIndex + 1)+ " bought the property for " + Integer.toString(5));
 
         if(++currPlayerIndex >= players.length){
             currPlayerIndex = 0;

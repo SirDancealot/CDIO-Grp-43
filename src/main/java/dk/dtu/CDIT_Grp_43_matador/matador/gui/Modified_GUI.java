@@ -43,7 +43,6 @@ public class Modified_GUI {
     }
 
     public void showMessage(String msg) {
-        msg = msg.replace("\n", "<BR>");
         this.bc.showMessage(msg);
     }
 

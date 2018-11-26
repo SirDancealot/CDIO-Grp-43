@@ -23,6 +23,7 @@ public class GoToJail extends Tile {
     @Override
     public boolean landOnTile(Player p) {
         p.setInJail(true);
+        p.moveTo("jail");
         return true;
     }
 
