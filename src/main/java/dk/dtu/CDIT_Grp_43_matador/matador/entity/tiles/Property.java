@@ -78,8 +78,7 @@ public class Property extends Tile {
     	ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
     	int tilesInSetOwned = 0;
     	for (Tile tile : playerOwnedTileSet) {
-    		//System.out.println("Tile: " + tile + " is also owned");
-			if (tile.getOwner() == this.owner && this.sisterTag == tile.getSisterTag())
+			if ((tile.getOwner() == this.owner) && (this.sisterTag.equalsIgnoreCase(tile.getSisterTag())))
 				tilesInSetOwned++;
 		}
     	System.out.println("Tiles in set owned: " + tilesInSetOwned);
