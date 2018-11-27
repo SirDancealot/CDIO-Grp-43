@@ -63,24 +63,30 @@ public class ChanceCard {
         if (move) {
         	cardString += "moveing " + moveAmt + " tiles\n";
             p.move(moveAmt);
+            infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
+            infExch.addToCurrentTurnText(p + " now landed on the tile ");
             return BOARD.landOnTile(p);
         }
         if (money) {
         	cardString += "recieving " + moneyAmt + " money\n";
             if (!p.addMoney(moneyAmt)) {
             	System.out.println(cardString);
+            	infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
                 return false;
             }
         }
         if (moveTo) {
         	cardString += "moveing to tile " + moveToTag + "\n";
             movePlayerTo(p);
+            infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
+            infExch.addToCurrentTurnText(p + " now landed on the tile ");
             return BOARD.landOnTile(p);
         }
         if (payAll) {
         	cardString += "paying all players " + payAllAmt + " money\n";
            if (!payAllPlayers(p)) {
         	   System.out.println(cardString);
+        	   infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
                return false;
            }
         }

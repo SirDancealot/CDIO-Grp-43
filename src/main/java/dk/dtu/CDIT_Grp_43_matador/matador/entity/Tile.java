@@ -58,7 +58,7 @@ public abstract class Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     public boolean landOnTile(Player p) {
-    	infExch.addToCurrentTurnText(p + " rolled a " + Integer.toString(infExch.getCurrPlayerRolled())+ " landed on " + this.toString() + "\n");
+    	infExch.addToCurrentTurnText(this.toString() + "\n");
     	System.out.println("Landed on tile: " + this);
         return true;
     }
