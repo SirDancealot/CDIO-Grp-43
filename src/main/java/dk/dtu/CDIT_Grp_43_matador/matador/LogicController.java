@@ -63,13 +63,6 @@ public class LogicController {
         	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
-            infExch.addToCurrentTurnText("\n" + currPlayer + " ran out of money and the game has now ended\n");
-            Player winner = currPlayer;
-            for (Player player : players) {
-				if (player.getScore() > winner.getScore())
-					winner = player;
-			}
-            infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
             return ;
         }
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
@@ -89,4 +82,6 @@ public class LogicController {
     public boolean isEndOfGame() {
         return endOfGame;
     }
+    
+    
 }

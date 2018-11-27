@@ -33,6 +33,7 @@ public class GameController {
 	private static Lang lang;
 	private static LogicController logic = LogicController.getINSTANCE();
 	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
+	private static InformationExchanger infExch = InformationExchanger.getInstance();
 
 
 	public void init() throws IOException {
@@ -73,7 +74,6 @@ public class GameController {
 			if(logic.isEndOfGame()){
 				endGame();
 				System.out.println("Game end");
-
 			}
 			gui_controller.updateDisplay();
 		}
@@ -99,6 +99,14 @@ public class GameController {
 	 */
 	private void endGame() {
 		playing = false;
+		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
+        Player winner = infExch.getCurrPlayer();
+        for (Player player : players) {
+			if (player.getScore() > winner.getScore())
+				winner = player;
+		}
+        infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
+        
 	}
 
 	public void resetGame(){
