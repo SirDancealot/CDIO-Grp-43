@@ -14,7 +14,18 @@ public class Start extends Tile {
      */
     public Start(String tilename, String tileinfo, int tileIndex) {
         super (tilename, tileinfo, tileIndex);
+        String[] tileInfoTags = tileinfo.split(";");
+        for (String string : tileInfoTags) {
+        	String[] tagInfo = string.split(":");
+			switch (tagInfo[0].toLowerCase()) {
+			case "passedValue":
+				overStartBonus = Integer.valueOf(tagInfo[1]);
+				break;
 
+			default:
+				break;
+			}
+		}
     }
     /**
      * What happens when the player passes start. The player receives the overStartBonus
@@ -24,6 +35,7 @@ public class Start extends Tile {
      */
     @Override
     public boolean passedTile(Player p) {
+    	infExch.addToCurrentTurnText(p + " passed over the start tile and recieves " + overStartBonus + "\n");
         return p.addMoney(overStartBonus);
     }
 

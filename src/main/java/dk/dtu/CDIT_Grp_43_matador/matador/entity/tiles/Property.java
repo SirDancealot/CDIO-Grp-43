@@ -60,11 +60,13 @@ public class Property extends Tile {
     	//System.out.println(this.tileIndex);
         if (owner ==  null && buyable) {
         	super.landOnTile(p);
+        	infExch.addToCurrentTurnText(p + " bought the tile for " + tileValue);
             return buyTile(p);
         }
         if (owner != p) {
         	System.out.println("Payed");
         	super.landOnTile(p);
+        	infExch.addToCurrentTurnText(p + " landed on a tile owned by " + owner + " and payed them " + (tileSetOwned() ? 2 * tileValue : tileValue));
             return p.payMoney(owner, tileSetOwned() ? 2 * tileValue : tileValue);
         }
         return super.landOnTile(p);

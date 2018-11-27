@@ -1,5 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
+
 public abstract class Tile {
     protected int tileIndex;
     protected int tileValue;
@@ -7,6 +9,7 @@ public abstract class Tile {
     protected String tileName;
     protected String tileMessage;
     protected String type;
+    protected InformationExchanger infExch = InformationExchanger.getInstance();
 
     /**
      * Super constructor for all tile classes, should be called in all sub classes.
@@ -55,6 +58,7 @@ public abstract class Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     public boolean landOnTile(Player p) {
+    	infExch.addToCurrentTurnText(this.toString() + "\n");
     	System.out.println("Landed on tile: " + this);
         return true;
     }

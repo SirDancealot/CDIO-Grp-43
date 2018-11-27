@@ -33,8 +33,11 @@ public class Jail extends Tile {
 					break;
 				}
 			}
-        	if (!freeJail)
+        	if (!freeJail) {
+        		infExch.addToCurrentTurnText(p + " payed " + outOfJailPrice + " to get out of jail");
         		return p.withDrawMoney(outOfJailPrice);
+        	}
+        	infExch.addToCurrentTurnText(p + " had a get out of jail free card and exited the jail for free");
         }
         return true;
     }

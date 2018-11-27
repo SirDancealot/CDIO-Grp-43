@@ -26,6 +26,7 @@ public class Chance extends Tile {
      * @return returns true if everything goes right, ergo the current player hasn't lost.
      */
     public boolean landOnTile(Player p) {
+    	super.landOnTile(p);
         ChanceCard currCard = deck.nextCard();
         System.out.println(currCard);
         boolean succeded = currCard.useCard(p);
@@ -33,7 +34,6 @@ public class Chance extends Tile {
         	p.addKeepingCard(currCard);
         else
         	deck.returnCardToDeck(currCard);
-        super.landOnTile(p);
         return succeded;
     }
 
