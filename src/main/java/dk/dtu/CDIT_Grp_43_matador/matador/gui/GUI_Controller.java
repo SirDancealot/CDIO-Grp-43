@@ -64,7 +64,7 @@ public class GUI_Controller {
 
     // Update GUI
     public void updateDisplay(){
-        String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(infExch.getCurrPlayerIndex()+1)+" it´s your turn, please Roll dices", "Roll" );
+        String rolledString = getGui().getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
         setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
