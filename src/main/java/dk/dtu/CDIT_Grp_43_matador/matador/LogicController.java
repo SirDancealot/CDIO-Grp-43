@@ -57,8 +57,6 @@ public class LogicController {
 		}
         currPlayer.move(roll);
 
-
-        infExch.addToCurrentTurnText(currPlayer + " rolled a " + Integer.toString(roll)+ " landed on ");
         if(!board.landOnTile(currPlayer)){
         	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
