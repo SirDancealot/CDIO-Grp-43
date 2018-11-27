@@ -1,5 +1,8 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import java.util.ArrayList;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
@@ -21,7 +24,17 @@ public class Jail extends Tile {
     public boolean passedTile(Player p) {
         if (p.isInJail()) {
         	p.setInJail(false);
-            return p.withDrawMoney(outOfJailPrice);
+        	ArrayList<ChanceCard> playerKeepingCards = p.getKeepingCards();
+        	boolean freeJail = false;
+        	for (ChanceCard chanceCard : playerKeepingCards) {
+				if(chanceCard.isFreeJail()) {
+					freeJail = true;
+					chanceCard.returnToDeck();
+					break;
+				}
+			}
+        	if (!freeJail)
+        		return p.withDrawMoney(outOfJailPrice);
         }
         return true;
     }

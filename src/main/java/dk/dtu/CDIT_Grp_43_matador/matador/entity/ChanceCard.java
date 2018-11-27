@@ -1,10 +1,12 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public class ChanceCard {
     private static final GameBoard BOARD = GameBoard.getInstance();
+    private static final ChanceCardDeck cardDeck = ChanceCardDeck.getInstance();
     private static final InformationExchanger infExch = InformationExchanger.getInstance();
     private final String value;
     private boolean moveTo = false;
@@ -105,5 +107,17 @@ public class ChanceCard {
     }
     public String getCardDescription() {
         return value;
+    }
+    
+    public boolean isKeep() {
+		return keep;
+	}
+    
+    public void returnToDeck() {
+    	cardDeck.returnCardToDeck(this);
+    }
+    
+    public boolean isFreeJail() {
+    	return freeJail;
     }
 }

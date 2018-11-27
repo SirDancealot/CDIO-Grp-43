@@ -20,6 +20,7 @@ public class Player {
 	private int currPos = 0;
 	private boolean firstTurn = true;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
+	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
 
 	// Konto
     private Account playerAccount = new Account(20);
@@ -138,5 +139,13 @@ public class Player {
     
     public ArrayList<Tile> getOwnedTiles() {
 		return ownedTiles;
+	}
+    
+    public void addKeepingCard(ChanceCard card) {
+    	keepingCards.add(card);
+    }
+    
+    public ArrayList<ChanceCard> getKeepingCards() {
+		return keepingCards;
 	}
 }

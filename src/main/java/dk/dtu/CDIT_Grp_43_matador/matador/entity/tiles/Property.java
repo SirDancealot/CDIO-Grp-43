@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import java.util.ArrayList;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
@@ -81,7 +82,6 @@ public class Property extends Tile {
 			if ((tile.getOwner() == this.owner) && (this.sisterTag.equalsIgnoreCase(tile.getSisterTag())))
 				tilesInSetOwned++;
 		}
-    	System.out.println("Tiles in set owned: " + tilesInSetOwned);
     	return NUMOFTILESINSET == tilesInSetOwned;
 	}
 
@@ -107,5 +107,4 @@ public class Property extends Tile {
     public String getSisterTag() {
 		return sisterTag;
 	}
-
 }
