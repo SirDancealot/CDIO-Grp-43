@@ -90,6 +90,9 @@ public class ChanceCard {
                return false;
            }
         }
+        if (freeJail) {
+        	cardString += "keep this card to exit jail for free next time";
+        }
         infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
         System.out.println(cardString);
         return true;
