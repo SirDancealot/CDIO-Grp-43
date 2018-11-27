@@ -77,6 +77,14 @@ public class GameController {
 			}
 			gui_controller.updateDisplay();
 		}
+		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
+        Player winner = infExch.getCurrPlayer();
+        for (Player player : players) {
+			if (player.getScore() > winner.getScore())
+				winner = player;
+		}
+        infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
+        gui_controller.updateDisplay();
 	}
 
 	
@@ -99,14 +107,7 @@ public class GameController {
 	 */
 	private void endGame() {
 		playing = false;
-		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
-        Player winner = infExch.getCurrPlayer();
-        for (Player player : players) {
-			if (player.getScore() > winner.getScore())
-				winner = player;
-		}
-        infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
-        
+		
 	}
 
 	public void resetGame(){
