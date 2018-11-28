@@ -1,21 +1,13 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {
 	private String name;
-	private boolean isAI = false;
-	private static int aiNum = 1;
 	private boolean inJail = false;
 	private static GameBoard bord = GameBoard.getInstance();
-	private boolean hasWon = false;
-	private static Lang lang;
-	private Tile currTile;
 	private int roll;
 	private int currPos = 0;
 	private boolean firstTurn = true;
@@ -57,10 +49,6 @@ public class Player {
 		return move(targetPos);
 	}
 
-	public void setAI(boolean isAI) {
-		this.isAI = isAI;
-	}
-
 	@Override
 	public String toString() {
 		return name;
@@ -94,12 +82,6 @@ public class Player {
 	public boolean isInJail() {
 		return inJail;
 	}
-	public boolean isAI() {
-        return isAI;
-    }
-    public boolean hasWon() {
-        return hasWon;
-    }
 
     public String getName() {
         return name;
@@ -119,9 +101,6 @@ public class Player {
 		return firstTurn;
 	}
 
-    public static void setLang(Lang lang) {
-        Player.lang = lang;
-    }
     public void setName(String name) {
         this.name = name;
     }

@@ -91,7 +91,6 @@ public class GameController {
 	private void initLang(int langIndex) throws IOException {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
-		Player.setLang(lang);
 		DiceCup.setLang(lang);
 	}
 	
