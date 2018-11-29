@@ -38,8 +38,6 @@ public class GameController {
 
 	public void init() throws IOException {
 
-		//The Custom Stream Tokenizer is initialized
-		CustomStreamTokenizer.initTokenizer();
 
 		// Gui
 		gui_controller.setupGame(LANGS);
@@ -74,10 +72,10 @@ public class GameController {
 			if(logic.isEndOfGame()){
 				endGame();
 				System.out.println("Game end");
+				displayWinningMessage();
 			}
 			gui_controller.updateDisplay();
 		}
-		displayWinningMessage();
 	}
 
 	
@@ -102,14 +100,30 @@ public class GameController {
 	}
 
 	private void displayWinningMessage() {
+		infExch.setEndOfGame(true);
+		//infExch.setCurrentTurnText("");
 		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
         Player winner = infExch.getCurrPlayer();
         for (Player player : players) {
 			if (player.getScore() > winner.getScore())
 				winner = player;
+			else if (player.getScore() == winner.getScore()) {
+				int playerScore = player.getScore();
+				int winnerScore = winner.getScore();
+				
+				for (Tile tile : player.getOwnedTiles()) {
+					playerScore += tile.getTileValue();
+				}
+				for (Tile tile : winner.getOwnedTiles()) {
+					playerScore += tile.getTileValue();
+				}
+				
+				if (playerScore > winnerScore)
+					winner = player;
+			}
 		}
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
-        gui_controller.updateDisplay();
+        //gui_controller.updateDisplay();
 	}
 	
 	public void resetGame(){

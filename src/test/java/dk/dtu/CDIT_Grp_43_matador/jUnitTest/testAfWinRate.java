@@ -3,7 +3,6 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
@@ -48,7 +47,6 @@ public class testAfWinRate {
     public void init() throws IOException {
 
         //The Custom Stream Tokenizer is initialized
-        CustomStreamTokenizer.initTokenizer();
 
         int numPlayers = 4;
         String[] names = new String[]{"Player1","Player2","Player3","Player4"};

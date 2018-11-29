@@ -64,6 +64,7 @@ public class LogicController {
         	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
+            infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
             return ;
         }
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
