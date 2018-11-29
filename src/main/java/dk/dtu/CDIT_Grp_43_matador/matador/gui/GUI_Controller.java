@@ -1,16 +1,10 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import gui_codebehind.GUI_BoardController;
-import gui_codebehind.GUI_FieldFactory;
-import gui_codebehind.SwingComponentFactory;
 import gui_fields.*;
-import gui_main.GUI;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
@@ -24,7 +18,6 @@ public class GUI_Controller {
     private int langIndex = 0;
     private String[] names;
     private static GUI_Controller INSTANCE = new GUI_Controller();
-    private static Lang currLang;
     private static InformationExchanger infExch = InformationExchanger.getInstance();
     
     private GUI_Controller() {
@@ -67,7 +60,7 @@ public class GUI_Controller {
         String rolledString = getGui().getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
         setScore(getAllPlayer(), infExch.getPlayers());
-        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
+        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerRolled(), infExch.getCardMove());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
         displayCurrentTurn(infExch.getCurrentTurnText());
     }
@@ -99,13 +92,44 @@ public class GUI_Controller {
     }
 
     // Move current player
-    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPositionAfterRoll){
-
-        for(int i = 0; i < 24; i++){
+    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
+    	for (int i = 0; i < playerRoll; i++) {
+    		gui.getFields()[(playerPositionBeforeRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
+    		gui.getFields()[(playerPositionBeforeRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
+    		try {
+    			Thread.sleep(100);
+    		} catch (InterruptedException e) {
+    			e.printStackTrace();
+    		}
+		}
+    	if (cardMove != 0) {
+    		try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+    		infExch.setCardMove(0);
+    		for (int i = 0; i < cardMove; i++) {
+    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
+    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+    	}
+    	
+    	gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % 24].setCar(allPlayer[currentPlayer], false);
+    	gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
+    	
+    	
+    	/*
+    	for(int i = 0; i < 24; i++){
             gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
         }
         gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
-    }
+    */}
 
     // Set score
     public void setScore(GUI_Player[] guiPlayer, Player[] logicPlayers){
