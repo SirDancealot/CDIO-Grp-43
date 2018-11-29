@@ -20,7 +20,6 @@ public class testAfWinRate {
     double high = (games/4)*1.10;
     double low = (games/4)*0.90;
 
-    private static GameController game = GameController.getInstance();
     private static Player[] players;
     private static GameBoard bord = GameBoard.getInstance();
     private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
@@ -38,7 +37,7 @@ public class testAfWinRate {
     @Test
     public void testSpil() throws IOException{
         int[] wins = new int[4];
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < games; i++){
             rungame();
             wins[infExch.getCurrPlayerIndex()]++;
         }
