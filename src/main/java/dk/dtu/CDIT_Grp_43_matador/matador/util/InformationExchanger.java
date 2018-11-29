@@ -20,6 +20,7 @@ public class InformationExchanger {
 	private int cardMove = 0;
 	private boolean tileOwned = false;
 	private String currentTurnText;
+	private static boolean endOfGame = false;
 	
 	
 	private InformationExchanger() { }
@@ -49,6 +50,10 @@ public class InformationExchanger {
 	
 	public void setCurrPlayerIndex(int currPlayerIndex) {
 		this.currPlayerIndex = currPlayerIndex;
+	}
+	
+	public void setEndOfGame(boolean endOfGame) {
+		InformationExchanger.endOfGame = endOfGame;
 	}
 	
 	public int getCurrPlayerNewPos() {
@@ -109,5 +114,9 @@ public class InformationExchanger {
 	
 	public Player[] getPlayers() {
 		return players;
+	}
+	
+	public boolean isEndOfGame() {
+		return endOfGame;
 	}
 }

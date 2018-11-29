@@ -74,10 +74,10 @@ public class GameController {
 			if(logic.isEndOfGame()){
 				endGame();
 				System.out.println("Game end");
+				displayWinningMessage();
 			}
 			gui_controller.updateDisplay();
 		}
-		displayWinningMessage();
 	}
 
 	
@@ -102,6 +102,8 @@ public class GameController {
 	}
 
 	private void displayWinningMessage() {
+		infExch.setEndOfGame(true);
+		//infExch.setCurrentTurnText("");
 		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
         Player winner = infExch.getCurrPlayer();
         for (Player player : players) {
@@ -109,7 +111,7 @@ public class GameController {
 				winner = player;
 		}
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
-        gui_controller.updateDisplay();
+        //gui_controller.updateDisplay();
 	}
 	
 	public void resetGame(){
