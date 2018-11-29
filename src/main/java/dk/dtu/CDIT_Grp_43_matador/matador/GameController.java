@@ -107,6 +107,20 @@ public class GameController {
         for (Player player : players) {
 			if (player.getScore() > winner.getScore())
 				winner = player;
+			else if (player.getScore() == winner.getScore()) {
+				int playerScore = player.getScore();
+				int winnerScore = winner.getScore();
+				
+				for (Tile tile : player.getOwnedTiles()) {
+					playerScore += tile.getTileValue();
+				}
+				for (Tile tile : winner.getOwnedTiles()) {
+					playerScore += tile.getTileValue();
+				}
+				
+				if (playerScore > winnerScore)
+					winner = player;
+			}
 		}
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
         //gui_controller.updateDisplay();
