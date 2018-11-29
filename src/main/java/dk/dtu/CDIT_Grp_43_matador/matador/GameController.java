@@ -38,8 +38,6 @@ public class GameController {
 
 	public void init() throws IOException {
 
-		//The Custom Stream Tokenizer is initialized
-		CustomStreamTokenizer.initTokenizer();
 
 		// Gui
 		gui_controller.setupGame(LANGS);
