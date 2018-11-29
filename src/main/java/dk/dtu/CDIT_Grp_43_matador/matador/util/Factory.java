@@ -22,7 +22,7 @@ public class Factory {
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {
-            String tileName = lang.getTag("Tile"+(i+1));
+            String tileName = "test";
             String tileInfo = tileTags.get("Tile"+i);
             Tile tempTile;
             String tileType = tileInfo.split(";")[0].split(":")[1];
