@@ -17,6 +17,7 @@ public class InformationExchanger {
 	private int currPlayerNewPos = 0;
 	private int currPlayerIndex;
 	private int currPlayerRolled;
+	private int cardMove = 0;
 	private boolean tileOwned = false;
 	private String currentTurnText;
 	
@@ -55,12 +56,15 @@ public class InformationExchanger {
 	}
 	
 	public void setCurrPlayerNewPos(int currPlayerNewPos) {
-		this.currPlayerOldPos = this.currPlayerNewPos;
 		this.currPlayerNewPos = currPlayerNewPos;
 	}
 
 	public void setTileOwned(boolean tileOwned) {
 		this.tileOwned = tileOwned;
+	}
+	
+	public void setCardMove(int cardMove) {
+		this.cardMove = cardMove;
 	}
 
 	public boolean isTileOwned() {
@@ -93,6 +97,10 @@ public class InformationExchanger {
 	
 	public static InformationExchanger getInstance() {
 		return INSTANCE;
+	}
+	
+	public int getCardMove() {
+		return cardMove;
 	}
 	
 	public void setPlayers(Player[] players) {

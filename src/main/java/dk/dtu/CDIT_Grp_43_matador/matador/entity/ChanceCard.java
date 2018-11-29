@@ -65,6 +65,7 @@ public class ChanceCard {
             p.move(moveAmt);
             infExch.addToCurrentTurnText(p + " used a chance card with the effect: " + cardString);
             infExch.addToCurrentTurnText(p + " now landed on the tile ");
+            infExch.setCardMove(moveAmt);
             return BOARD.landOnTile(p);
         }
         if (money) {
