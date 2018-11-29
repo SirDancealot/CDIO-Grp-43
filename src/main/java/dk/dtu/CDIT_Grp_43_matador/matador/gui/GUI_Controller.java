@@ -150,7 +150,7 @@ public class GUI_Controller {
                 GUI_Ownable o = (GUI_Ownable)f;
                 o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
             }
-        }
+   }
    }
 
     // Getters and setters

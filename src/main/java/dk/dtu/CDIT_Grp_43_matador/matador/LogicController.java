@@ -30,6 +30,7 @@ public class LogicController {
         infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
+        endOfGame = false;
     }
 
     /**
