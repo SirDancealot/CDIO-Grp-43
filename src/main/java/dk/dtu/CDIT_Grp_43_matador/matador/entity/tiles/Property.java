@@ -1,11 +1,15 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import java.util.ArrayList;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Property extends Tile {
+	private static final int NUMOFTILESINSET = 2;
     private Player owner = null;
-    private Tile sisterTile;
+    private String sisterTag;
     public String type = "Property";
 
     /**
@@ -17,6 +21,18 @@ public class Property extends Tile {
     public Property (String tilename, String tileinfo, int tileIndex) {
         super(tilename, tileinfo, tileIndex);
         this.buyable = true;
+        String[] tileInfoTags = tileinfo.split(";");
+        for (String string : tileInfoTags) {
+        	String[] tagInfo = string.split(":");
+			switch (tagInfo[0].toLowerCase()) {
+			case "sister":
+				sisterTag = tagInfo[1];
+				break;
+
+			default:
+				break;
+			}
+		}
     }
 
     /**
@@ -27,6 +43,7 @@ public class Property extends Tile {
     public boolean buyTile (Player p) {
         if (p.withDrawMoney(tileValue)) {
             this.owner = p;
+            p.addOwnedTile(this);
             return true;
         }
         return false;
@@ -39,23 +56,36 @@ public class Property extends Tile {
      */
     @Override
     public boolean landOnTile(Player p) {
-    	System.out.println("In land on tile");
-    	System.out.println(this.tileIndex);
+    	//System.out.println("In land on tile");
+    	//System.out.println(this.tileIndex);
         if (owner ==  null && buyable) {
-        	System.out.println("Bought");
+        	super.landOnTile(p);
+        	infExch.addToCurrentTurnText(p + " bought the tile for " + tileValue);
             return buyTile(p);
         }
         if (owner != p) {
         	System.out.println("Payed");
-            return p.payMoney(owner, tileValue);
+        	super.landOnTile(p);
+        	infExch.addToCurrentTurnText(p + " landed on a tile owned by " + owner + " and payed them " + (tileSetOwned() ? 2 * tileValue : tileValue));
+            return p.payMoney(owner, tileSetOwned() ? 2 * tileValue : tileValue);
         }
-        return true;
+        return super.landOnTile(p);
     }
 
     @Override
     public boolean isOwned(){
         return owner != null;
     }
+    
+    private boolean tileSetOwned() {
+    	ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
+    	int tilesInSetOwned = 0;
+    	for (Tile tile : playerOwnedTileSet) {
+			if ((tile.getOwner() == this.owner) && (this.sisterTag.equalsIgnoreCase(tile.getSisterTag())))
+				tilesInSetOwned++;
+		}
+    	return NUMOFTILESINSET == tilesInSetOwned;
+	}
 
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
@@ -74,5 +104,9 @@ public class Property extends Tile {
     public boolean isBuyalbe () {
         return buyable;
     }
-
+    
+    @Override
+    public String getSisterTag() {
+		return sisterTag;
+	}
 }

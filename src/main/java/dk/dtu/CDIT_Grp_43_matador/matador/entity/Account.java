@@ -14,14 +14,14 @@ public class Account {
 
     public boolean addMoney(int money){
     	if (money < 0)
-    		return withdrawMoney(money);
+    		return withdrawMoney(-money);
         this.money += money;
         return true;
     }
 
     public boolean withdrawMoney (int money){
         if (money <= 0)
-            return addMoney(money);
+            return addMoney(-money);
     	this.money -= Math.abs(money);
     	if (this.money < 0) {
     		return false;

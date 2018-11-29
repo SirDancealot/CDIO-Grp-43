@@ -29,9 +29,11 @@ public class GameController {
 	private static Player[] players;
 	private static final String[] LANGS = LanguageController.getLangs();
 	private static GameBoard bord = GameBoard.getInstance();
+	private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
 	private static Lang lang;
 	private static LogicController logic = LogicController.getINSTANCE();
 	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
+	private static InformationExchanger infExch = InformationExchanger.getInstance();
 
 
 	public void init() throws IOException {
@@ -40,20 +42,22 @@ public class GameController {
 		CustomStreamTokenizer.initTokenizer();
 
 		// Gui
-
 		gui_controller.setupGame(LANGS);
-		gui_controller.addplayers(gui_controller.getNames(), 20);
-		gui_controller.displayPlayers(gui_controller.getAllPlayer());
 		int numPlayers = gui_controller.getNumberOfPlayers();
+		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;
+		gui_controller.addplayers(gui_controller.getNames(), startMoney);
+		gui_controller.displayPlayers(gui_controller.getAllPlayer());
 		int langIndex = gui_controller.getLangIndex();
 		String[] names = gui_controller.getNames();
 
 		initLang(langIndex);
 		bord.initBoard();
+		deck.init();
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
 			players[i] = new Player(names[i]);
+			players[i].setMoney(startMoney);
 		}
 
 		// Init logic
@@ -66,20 +70,16 @@ public class GameController {
 	 */
 	public void startGameLoop() throws IOException {
 		while (playing) {
-
+			logic.tick();
 			if(logic.isEndOfGame()){
-				playing = false;
+				endGame();
 				System.out.println("Game end");
-
 			}
-			update();
+			gui_controller.updateDisplay();
 		}
+		displayWinningMessage();
 	}
 
-	private void update() {
-		logic.tick();
-		gui_controller.updateDisplay();
-	}
 	
 	/**
 	 * The stop function that runs as the very last thing in the game 
@@ -91,7 +91,6 @@ public class GameController {
 	private void initLang(int langIndex) throws IOException {
 		LanguageController.initLang(langIndex);
 		lang = LanguageController.getCurrentLanguage();
-		Player.setLang(lang);
 		DiceCup.setLang(lang);
 	}
 	
@@ -102,6 +101,17 @@ public class GameController {
 		playing = false;
 	}
 
+	private void displayWinningMessage() {
+		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
+        Player winner = infExch.getCurrPlayer();
+        for (Player player : players) {
+			if (player.getScore() > winner.getScore())
+				winner = player;
+		}
+        infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
+        gui_controller.updateDisplay();
+	}
+	
 	public void resetGame(){
 		playing = true;
 		turns = 1;

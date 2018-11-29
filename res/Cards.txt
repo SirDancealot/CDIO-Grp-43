@@ -1,7 +1,7 @@
 Card1=moveTo:Start
 Card2=move:5
 Card3=money:-2
-Card4=moveTo:Promenade
+Card4=moveTo:The Beach promenade
 Card5=payAll:-1
 Card6=money:2
 Card7=keep;freeJail

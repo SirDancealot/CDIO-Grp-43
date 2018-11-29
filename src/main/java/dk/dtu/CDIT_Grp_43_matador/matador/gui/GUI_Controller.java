@@ -36,23 +36,6 @@ public class GUI_Controller {
 
     public void setupGame(String[] lang) throws IOException{
 
-        // Select language
-
-        String rolledString = getGui().getUserButtonPressed("Select language", lang );
-        LanguageController.setNewLang(rolledString);
-        currLang = LanguageController.getCurrentLanguage();
-//        switch (rolledString) {
-//            case "da":
-//                System.out.println("da");
-//                langIndex = 0;
-//                
-//                break;
-//            case "eng":
-//                langIndex = 1;
-//                System.out.println("eng");
-//                break;
-//        }
-
         // Number of players
         String number_of_players = getGui().getUserButtonPressed("Select the number of players",  "2", "3", "4" );
         switch (number_of_players) {
@@ -81,11 +64,12 @@ public class GUI_Controller {
 
     // Update GUI
     public void updateDisplay(){
-        String rolledString = getGui().getUserButtonPressed("Player "+Integer.toString(infExch.getCurrPlayerIndex()+1)+" it´s your turn, please Roll dices", "Roll" );
+        String rolledString = getGui().getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
-        setScore(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerScore());
+        setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
+        displayCurrentTurn(infExch.getCurrentTurnText());
     }
 
     // Created players
@@ -101,6 +85,11 @@ public class GUI_Controller {
             allPlayer[i] = player;
         }
     }
+
+    public void displayCurrentTurn(String currentTurn){
+        gui.showMessage(currentTurn);
+    }
+
 
     // Display all players
     public void displayPlayers(GUI_Player[] playersInGame){
@@ -119,8 +108,12 @@ public class GUI_Controller {
     }
 
     // Set score
-    public void setScore(GUI_Player[] allPlayer, int currentPlayer, int score){
-        allPlayer[currentPlayer].setBalance(score);
+    public void setScore(GUI_Player[] guiPlayer, Player[] logicPlayers){
+    	for (int i = 0; i < guiPlayer.length; i++) {
+			guiPlayer[i].setBalance(logicPlayers[i].getScore());
+		}
+    	
+        //allPlayer[currentPlayer].setBalance(score);
     }
 
     // displayOwner
