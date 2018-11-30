@@ -8,6 +8,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -34,16 +35,15 @@ public class testAfWinRate {
         }
     }
     @Test
-    public void testSpil() throws IOException{
+    public void testSpil() throws IOException {
         int[] wins = new int[4];
-        for(int i = 0; i < games; i++){
+        for (int i = 0; i < games; i++) {
             rungame();
             wins[infExch.getCurrPlayerIndex()]++;
         }
-        assertTrue(low<wins[0] && wins[0] < high, "player 1 wins: " + wins[0]+ "times. p2: " + wins[1] + " p3: " + wins[2] + " p4: " + wins[3]);
-        assertFalse(low<wins[0] && wins[0] < high, "player 1 wins: " + wins[0]+ "times. p2: " + wins[1] + " p3: " + wins[2] + " p4: " + wins[3]);
+        assertTrue(low < wins[0] && wins[0] < high);
+        System.out.println("Player1 wins:" + wins[0] + "times.\nPlayer2 wins:" + wins[1] + " times.\nPlayer3 wins:" + wins[2] + " times.\nPlayer4 wins:" + wins[3] + "times.");
     }
-
     public void init() throws IOException {
 
         //The Custom Stream Tokenizer is initialized

@@ -1,4 +1,4 @@
-/*package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +13,7 @@ public class ChanceCardDeckTests {
 
     @BeforeEach
     public void setUp() throws Exception {
-        sut = new ChanceCardDeck();
+        sut = ChanceCardDeck.getInstance();
 
         try {
             sut.init();
@@ -26,7 +26,7 @@ public class ChanceCardDeckTests {
     public void GetCardFromDeck() {
         ChanceCard actual = sut.nextCard();
 
-        assertNotNull(actual.getCardType());
+        assertNotNull(actual);
         assertNotNull(actual.getCardDescription());
     }
 
@@ -48,4 +48,4 @@ public class ChanceCardDeckTests {
 
         assertEquals(startSize, actual);
     }
-}*/
+}
