@@ -36,6 +36,8 @@
 # IntelliJ
 out/
 
+# Maven
+target/
 
 # Binaries
 *.7z
