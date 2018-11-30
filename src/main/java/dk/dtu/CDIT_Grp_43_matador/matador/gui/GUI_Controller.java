@@ -59,8 +59,8 @@ public class GUI_Controller {
     public void updateDisplay(){
     	getGui().getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
         getGui().setDie(infExch.getCurrPlayerRolled());
-        setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerRolled(), infExch.getCardMove());
+        setScore(getAllPlayer(), infExch.getPlayers());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
         displayCurrentTurn(infExch.getCurrentTurnText());
     }
