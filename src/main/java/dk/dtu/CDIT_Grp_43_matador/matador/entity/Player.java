@@ -66,8 +66,8 @@ public class Player {
 		return playerAccount.withdrawMoney(money);
 	}
 	public boolean payMoney (Player p, int money) {
-		if (this.withDrawMoney(money)) {
-			if (p.addMoney(money)) {
+		if (p.addMoney(money)) {
+			if (this.withDrawMoney(money)) {
 				return true;
 			}
 		} return false;
