@@ -2,84 +2,40 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 
 
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.RepeatedTest;
+
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
-import org.junit.jupiter.api.*;
+
 
 public class DiceUnitTest {
-	DiceCup dc = DiceCup.getInstance();
-	@Test
-	public void test() {
-		
-		final int totalRolls = 1000;
-		
-		int two = 0;
-		int three = 0;
-		int four = 0;
-		int five = 0;
-		int six = 0;
-		int seven = 0;
-		int eight = 0;
-		int nine = 0;
-		int ten = 0;
-		int eleven = 0;
-		int twelve = 0;
-		
-		int roll;
-		for (int i = 0; i < totalRolls; i++) {
-			
-			roll = dc.roll();
-				switch (roll) {
-                case 2:
-                    two++;
-                    break;
-                case 3:
-                    three++;
-                    break;
-                case 4:
-                    four++;
-                    break;
-                case 5:
-                    five++;
-                    break;
-                case 6:
-                    six++;
-                    break;
-                case 7:
-                    seven++;
-                    break;
-                case 8:
-                    eight++;
-                    break;
-                case 9:
-                    nine++;
-                    break;
-                case 10:
-                    ten++;
-                    break;
-                case 11:
-                    eleven++;
-                    break;
-                case 12:
-                	twelve++;
-                    break;
-				}		
-			}
-		
-		
-					
-				System.out.println("The dice rolled three: " + three + " times");
-				System.out.println("The dice rolled four: " + four + " times");
-				System.out.println("The dice rolled five: " + five + " times");
-				System.out.println("The dice rolled six: " + six + " times");
-				System.out.println("The dice rolled seven: " + seven + " times");
-				System.out.println("The dice rolled eight: " + eight + " times");
-				System.out.println("The dice rolled nine: " + nine + " times");
-				System.out.println("The dice rolled ten: " + ten + " times");
-				System.out.println("The dice rolled eleven: " + eleven + " times");
-				System.out.println("The dice rolled twelve: " + twelve + " times");
-				
-				
-	}
 
+
+    @RepeatedTest(100)
+    public void test() {
+        final DiceCup dc = DiceCup.getInstance();
+        final int totalRolls = 100000;
+        final double sixths = (double) totalRolls / 6.0;
+        final double lowRoll = sixths * 0.95;
+        final double highRoll = sixths * 1.05;
+
+        int[] totalEyes;
+        totalEyes = new int[6];
+
+        for (int i = 0; i < totalRolls; i++) {
+
+            totalEyes[dc.roll() - 1]++;
+        }
+
+        for (int i = 0; i < totalEyes.length; i++) {
+            System.out.println("The dice rolled " + (i + 2) + ": " + totalEyes[i] + " times");
+        }
+
+        assertTrue((lowRoll * 1) <= totalEyes[0] && totalEyes[0] <= (highRoll * 1), "Wrong output recieved with 2's output was " + totalEyes[0] + " but should had been between " + (lowRoll * 1) + " and " + (highRoll * 1));
+        assertTrue((lowRoll * 1) <= totalEyes[1] && totalEyes[1] <= (highRoll * 1), "Wrong output recieved with 3's output was " + totalEyes[1] + " but should had been between " + (lowRoll * 2) + " and " + (highRoll * 2));
+        assertTrue((lowRoll * 1) <= totalEyes[2] && totalEyes[2] <= (highRoll * 1), "Wrong output recieved with 4's output was " + totalEyes[2] + " but should had been between " + (lowRoll * 3) + " and " + (highRoll * 3));
+        assertTrue((lowRoll * 1) <= totalEyes[3] && totalEyes[3] <= (highRoll * 1), "Wrong output recieved with 5's output was " + totalEyes[3] + " but should had been between " + (lowRoll * 4) + " and " + (highRoll * 4));
+        assertTrue((lowRoll * 1) <= totalEyes[4] && totalEyes[4] <= (highRoll * 1), "Wrong output recieved with 6's output was " + totalEyes[4] + " but should had been between " + (lowRoll * 5) + " and " + (highRoll * 5));
+        assertTrue((lowRoll * 1) <= totalEyes[5] && totalEyes[5] <= (highRoll * 1), "Wrong output recieved with 7's output was " + totalEyes[5] + " but should had been between " + (lowRoll * 6) + " and " + (highRoll * 6));
+    }
 }
-
