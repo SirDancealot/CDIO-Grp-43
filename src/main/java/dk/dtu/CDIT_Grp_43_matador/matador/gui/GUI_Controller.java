@@ -119,9 +119,16 @@ public class GUI_Controller {
 				}
 			}
     	}
+    	if ((playerPositionBeforeRoll+playerRoll+cardMove) % 24 != playerPositionAfterRoll) {
+            try {
+                Thread.sleep(500);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % 24].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
+        }
     	
-    	gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % 24].setCar(allPlayer[currentPlayer], false);
-    	gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
     	
     	
     	/*
