@@ -58,4 +58,4 @@ public class Die {
 			return lang.getTag("Die:sizeOfSides") + size + lang.getTag("Die:faceValueOfDie") + faceValue;
 		}
 }
-	//anders til eksamen :)
+	//anders til eksamen :))
