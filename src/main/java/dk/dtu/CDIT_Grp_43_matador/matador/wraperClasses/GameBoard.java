@@ -12,14 +12,14 @@ public class GameBoard {
     private static final GameBoard INSTANCE = new GameBoard();
     private int boardSize;
     private Tile[] gameTiles;
-    private Factory factory = Factory.getInstance();
-    
-    private GameBoard(){    }
+	private Factory factory = Factory.getInstance();
 
-    public void initBoard() throws IOException {
-    	gameTiles = factory.createTiles();
-    	boardSize = gameTiles.length;
-    }
+	private GameBoard(){    }
+
+	public void initBoard() throws IOException {
+		gameTiles = factory.createTiles();
+		boardSize = gameTiles.length;
+	}
 
 	/**
 	 * Calls the funktion {@code passedTile} on the given tile
@@ -41,7 +41,6 @@ public class GameBoard {
 	}
 	
 	public boolean landOnTile(Player p) {
-		System.out.println("in boardLandOnTile");
 		System.out.println(p.getCurrPos());
 		return gameTiles[p.getCurrPos()].landOnTile(p); 
 	}
@@ -59,8 +58,8 @@ public class GameBoard {
 	}
 
 	public Tile getTileByName(String name) {
-		for ( Tile tile : gameTiles) {
-			if (tile.getTileName()==name)
+		for (Tile tile : gameTiles) {
+			if (tile.getTileName().equalsIgnoreCase(name))
 				return tile;
 		}
 		return null;

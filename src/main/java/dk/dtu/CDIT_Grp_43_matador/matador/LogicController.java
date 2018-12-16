@@ -30,6 +30,7 @@ public class LogicController {
         infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
+        endOfGame = false;
     }
 
     /**
@@ -37,6 +38,10 @@ public class LogicController {
      */
 
     public void tick(){
+
+        // Reset current turn text
+        infExch.setCurrentTurnText("");
+
         Player currPlayer = players[currPlayerIndex];
         infExch.setCurrPlayer(currPlayer);
         infExch.setCurrPlayerIndex(currPlayerIndex);
@@ -45,19 +50,31 @@ public class LogicController {
         int roll = diceCup.roll();
         infExch.setCurrPlayerRolled(roll);
         infExch.setCurrPlayerOldPos(currPlayer.getCurrPos());
+        for (int i = 0; i < roll; i++) {
+			if (currPlayer.isFirstTurn())
+				currPlayer.setFirstTurn(false);
+			else
+				board.passedTile(currPlayer, (currPlayer.getCurrPos() + i) % board.getBoardSize());
+		}
         currPlayer.move(roll);
-        infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
 
+
+        infExch.addToCurrentTurnText(currPlayer + " rolled a " + Integer.toString(roll)+ " landed on ");
         if(!board.landOnTile(currPlayer)){
+        	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
+            infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
             return ;
         }
+        infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
         infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
         infExch.setCurrPlayerScore(currPlayer.getScore());
 
-        if(++currPlayerIndex >= players.length)
+
+        if(++currPlayerIndex >= players.length){
             currPlayerIndex = 0;
+        }
     }
 
     public static LogicController getINSTANCE() {
@@ -67,4 +84,6 @@ public class LogicController {
     public boolean isEndOfGame() {
         return endOfGame;
     }
+    
+    
 }

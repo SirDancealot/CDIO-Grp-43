@@ -4,12 +4,10 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-import static dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer.*;
 
 public class Factory {
 	private static final Factory INSTANCE = new Factory();
@@ -22,7 +20,7 @@ public class Factory {
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {
-            String tileName = lang.getTag("Tile"+(i+1));
+            String tileName = "test";
             String tileInfo = tileTags.get("Tile"+i);
             Tile tempTile;
             String tileType = tileInfo.split(";")[0].split(":")[1];

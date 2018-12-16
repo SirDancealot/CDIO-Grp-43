@@ -17,12 +17,25 @@ public class InformationExchanger {
 	private int currPlayerNewPos = 0;
 	private int currPlayerIndex;
 	private int currPlayerRolled;
+	private int cardMove = 0;
 	private boolean tileOwned = false;
+	private String currentTurnText;
+	private static boolean endOfGame = false;
 	
 	
 	private InformationExchanger() { }
-	
-	
+
+	public void addToCurrentTurnText(String currentTurnText) {
+		this.currentTurnText += currentTurnText;
+	}
+
+	public String getCurrentTurnText() {
+		return currentTurnText;
+	}
+	public void setCurrentTurnText(String currentTurnText) {
+		this.currentTurnText = currentTurnText;
+	}
+
 	public Player getCurrPlayer() {
 		return currPlayer;
 	}
@@ -39,17 +52,24 @@ public class InformationExchanger {
 		this.currPlayerIndex = currPlayerIndex;
 	}
 	
+	public void setEndOfGame(boolean endOfGame) {
+		InformationExchanger.endOfGame = endOfGame;
+	}
+	
 	public int getCurrPlayerNewPos() {
 		return currPlayerNewPos;
 	}
 	
 	public void setCurrPlayerNewPos(int currPlayerNewPos) {
-		this.currPlayerOldPos = this.currPlayerNewPos;
 		this.currPlayerNewPos = currPlayerNewPos;
 	}
 
 	public void setTileOwned(boolean tileOwned) {
 		this.tileOwned = tileOwned;
+	}
+	
+	public void setCardMove(int cardMove) {
+		this.cardMove = cardMove;
 	}
 
 	public boolean isTileOwned() {
@@ -84,11 +104,19 @@ public class InformationExchanger {
 		return INSTANCE;
 	}
 	
+	public int getCardMove() {
+		return cardMove;
+	}
+	
 	public void setPlayers(Player[] players) {
 		this.players = players;
 	}
 	
 	public Player[] getPlayers() {
 		return players;
+	}
+	
+	public boolean isEndOfGame() {
+		return endOfGame;
 	}
 }

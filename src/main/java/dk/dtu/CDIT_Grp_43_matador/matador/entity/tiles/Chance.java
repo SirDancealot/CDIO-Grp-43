@@ -26,12 +26,15 @@ public class Chance extends Tile {
      * @return returns true if everything goes right, ergo the current player hasn't lost.
      */
     public boolean landOnTile(Player p) {
+    	super.landOnTile(p);
         ChanceCard currCard = deck.nextCard();
         System.out.println(currCard);
-        currCard.useCard(p);
-        deck.returnCardToDeck(currCard);
-        return true;
-
+        boolean succeded = currCard.useCard(p);
+        if (currCard.isKeep())
+        	p.addKeepingCard(currCard);
+        else
+        	deck.returnCardToDeck(currCard);
+        return succeded;
     }
 
 }

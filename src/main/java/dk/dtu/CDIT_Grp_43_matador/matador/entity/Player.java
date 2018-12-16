@@ -1,21 +1,18 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-import java.io.IOException;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.CustomStreamTokenizer;
+import java.util.ArrayList;
+
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {
 	private String name;
-	private boolean isAI = false;
-	private static int aiNum = 1;
 	private boolean inJail = false;
 	private static GameBoard bord = GameBoard.getInstance();
-	private boolean hasWon = false;
-	private static Lang lang;
-	private Tile currTile;
 	private int roll;
 	private int currPos = 0;
+	private boolean firstTurn = true;
+	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
+	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
 
 	// Konto
     private Account playerAccount = new Account(20);
@@ -43,9 +40,13 @@ public class Player {
 		}
 		return false;
 	}
-
-	public void setAI(boolean isAI) {
-		this.isAI = isAI;
+	
+	public boolean moveTo(String tileName) {
+		Tile targetTile = bord.getTileByName(tileName);
+		int targetPos = targetTile.getTileIndex() - currPos;
+		if (targetPos < 0)
+			targetPos += bord.getBoardSize();
+		return move(targetPos);
 	}
 
 	@Override
@@ -71,18 +72,16 @@ public class Player {
 			}
 		} return false;
 	}
+	
+	public void setMoney(int money) {
+		playerAccount.setMoney(money);
+	}
 
 // Getters and setters
 
 	public boolean isInJail() {
 		return inJail;
 	}
-	public boolean isAI() {
-        return isAI;
-    }
-    public boolean hasWon() {
-        return hasWon;
-    }
 
     public String getName() {
         return name;
@@ -97,14 +96,35 @@ public class Player {
     public int getCurrPos() {
         return currPos;
     }
+    
+    public boolean isFirstTurn() {
+		return firstTurn;
+	}
 
-    public static void setLang(Lang lang) {
-        Player.lang = lang;
-    }
     public void setName(String name) {
         this.name = name;
     }
     public void setInJail(boolean inJail) {
         this.inJail = inJail;
     }
+    
+    public void setFirstTurn(boolean firstTurn) {
+		this.firstTurn = firstTurn;
+	}
+    
+    public void addOwnedTile(Tile t) {
+    	ownedTiles.add(t);
+	}
+    
+    public ArrayList<Tile> getOwnedTiles() {
+		return ownedTiles;
+	}
+    
+    public void addKeepingCard(ChanceCard card) {
+    	keepingCards.add(card);
+    }
+    
+    public ArrayList<ChanceCard> getKeepingCards() {
+		return keepingCards;
+	}
 }

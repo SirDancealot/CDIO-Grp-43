@@ -14,7 +14,7 @@ public class Account {
 
     public boolean addMoney(int money){
     	if (money < 0)
-    		return withdrawMoney(money);
+    		return withdrawMoney(-money);
         this.money += money;
         return true;
     }
