@@ -1,11 +1,25 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.util;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.CardEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.ChangeMoneyEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.FreeJailEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerToEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.PayAllEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
 
@@ -54,35 +68,40 @@ public class Factory {
     }
 
     
-    public NewChanceCard[] createCards() throws IOException {
+    public Queue<NewChanceCard> createCards() throws IOException {
     	HashMap <String, String> cardTags = TextReader.fileToHashMap("./res/Cards.txt");
-    	NewChanceCard[] cards = new NewChanceCard[cardTags.size()];
-    	for (int i = 0; i < cards.length; i++) {
+    	ArrayList<NewChanceCard> tmpCards = new ArrayList<NewChanceCard>();
+    	for (int i = 0; i < cardTags.size(); i++) {
     		String cardInfo = cardTags.get("Card"+i);
-    		ArrayList<CardEffect> cardEffects = new ArrayList<CardEffect>();
     		String[] thisCardInfo = cardInfo.split(";");
-    		for (String string : thisCardInfo) {
-    			switch (string.split(":")[0]) {
+    		CardEffect[] cardEffects = new CardEffect[thisCardInfo.length];
+    		for (int j = 0; j < thisCardInfo.length; j++) {
+    			switch (thisCardInfo[j].split(":")[0]) {
 				case "moveTo":
-					cardEffects.add(new MovePlayerToEffect(string.split(":")[1]));
+					cardEffects[j] = new MovePlayerToEffect(thisCardInfo[j].split(":")[1]);
 					break;
 				case "move":
-					cardEffects.add(new MovePlayerEffect(Integer.valueOf(string.split(":")[1])));
+					cardEffects[j] = new MovePlayerEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
 					break;
 				case "money":
-					cardEffects.add(new ChangeMoneyEffect(Integer.valueOf(string.split(":")[1])));
+					cardEffects[j] = new ChangeMoneyEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
 					break;
 				case "payAll":
-					cardEffects.add(new PayAllEffect(Integer.valueOf(string.split(":")[1])));
+					cardEffects[j] = new PayAllEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
 					break;
 				case "freeJail":
-					cardEffects.add(new FreeJailEffect());
+					cardEffects[j] = new FreeJailEffect();
 					break;
 				default:
 					break;
-				}
+    			}
 			}
-    		cards[i] = new NewChanceCard(cardEffects);
+    		tmpCards.add(new NewChanceCard(cardEffects));
+		}
+    	Collections.shuffle(tmpCards);
+    	Queue<NewChanceCard> cards = new LinkedList<NewChanceCard>(); 
+    	for (NewChanceCard newChanceCard : tmpCards) {
+			cards.add(newChanceCard);
 		}
     	return cards;
     }

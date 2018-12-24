@@ -1,6 +1,8 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.Queue;
 
 public class ChanceCardDeck {
+	private Queue<NewChanceCard> newCards;
     private Queue<ChanceCard> cards;
     private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
 
@@ -19,6 +22,11 @@ public class ChanceCardDeck {
      * Sets up the deck of chance cards.
      */
     private ChanceCardDeck() { 
+    	try {
+			newCards = Factory.getInstance().createCards();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	cards = new LinkedList<ChanceCard>();
     }
 

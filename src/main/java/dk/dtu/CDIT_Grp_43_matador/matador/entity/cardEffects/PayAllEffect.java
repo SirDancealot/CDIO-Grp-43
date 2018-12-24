@@ -10,6 +10,6 @@ public class PayAllEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		return true;
+		return p.payAll(payAllAmt);
 	}
 }

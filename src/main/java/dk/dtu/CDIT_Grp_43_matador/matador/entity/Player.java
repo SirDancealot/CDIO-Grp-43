@@ -6,6 +6,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 
 public class Player {
+	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
 	private static GameBoard bord = GameBoard.getInstance();
@@ -65,12 +66,22 @@ public class Player {
 	public boolean withDrawMoney(int money) {
 		return playerAccount.withdrawMoney(money);
 	}
-	public boolean payMoney (Player p, int money) {
+	public boolean payMoney(Player p, int money) {
+		if (this == p)
+			return true;
 		if (this.withDrawMoney(money)) {
 			if (p.addMoney(money)) {
 				return true;
 			}
 		} return false;
+	}
+	
+	public boolean payAll(int money) {
+		for (Player player : players) {
+			if(!payMoney(player, money))
+				return false;
+		}
+		return true;
 	}
 	
 	public void setMoney(int money) {
@@ -126,5 +137,9 @@ public class Player {
     
     public ArrayList<ChanceCard> getKeepingCards() {
 		return keepingCards;
+	}
+    
+    public static void setPlayers(Player[] players) {
+		Player.players = players;
 	}
 }
