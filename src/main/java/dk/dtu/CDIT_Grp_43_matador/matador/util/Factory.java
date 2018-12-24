@@ -1,12 +1,13 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.util;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 
 public class Factory {
@@ -58,6 +59,41 @@ public class Factory {
         return tiles;
     }
 
+    public NewChanceCard[] createCards() throws IOException {
+    	HashMap <String, String> cardTags = TextReader.fileToHashMap("./res/Cards.txt");
+    	NewChanceCard[] cards = new NewChanceCard[cardTags.size()];
+    	for (int i = 0; i < cards.length; i++) {
+    		String cardInfo = cardTags.get("Card"+i);
+    		ArrayList<CardEffect> cardEffects = new ArrayList<CardEffect>();
+    		String[] thisCardInfo = cardInfo.split(";");
+    		for (String string : thisCardInfo) {
+    			switch (string.split(":")[0]) {
+				case "moveTo":
+					cardEffects.add(new MovePlayerToEffect(string.split(":")[1]));
+					break;
+				case "move":
+					cardEffects.add(new MovePlayerEffect(Integer.valueOf(string.split(":")[1])));
+					break;
+				case "money":
+					cardEffects.add(new ChangeMoneyEffect(Integer.valueOf(string.split(":")[1])));
+					break;
+				case "payAll":
+					cardEffects.add(new PayAllEffect(Integer.valueOf(string.split(":")[1])));
+					break;
+				case "freeJail":
+					cardEffects.add(new FreeJailEffect());
+					break;
+				default:
+					break;
+				}
+			}
+    		cards[i] = new NewChanceCard(cardEffects);
+		}
+    	
+    	
+    	return cards;
+    }
+    
     public static Factory getInstance() {
 		return INSTANCE;
 	}

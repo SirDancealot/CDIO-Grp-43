@@ -1,6 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import gui_fields.GUI_Brewery;
 import gui_fields.GUI_Chance;

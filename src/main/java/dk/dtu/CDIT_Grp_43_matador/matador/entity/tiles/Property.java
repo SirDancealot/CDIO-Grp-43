@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Property extends Tile {
 	private static final int NUMOFTILESINSET = 2;

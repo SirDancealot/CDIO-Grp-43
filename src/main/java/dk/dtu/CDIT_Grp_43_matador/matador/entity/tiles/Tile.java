@@ -1,5 +1,6 @@
-package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 
 public abstract class Tile {
