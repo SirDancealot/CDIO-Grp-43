@@ -8,13 +8,15 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 public class LogicController {
 
     private static LogicController INSTANCE = new LogicController();
-
+    private final int TURNLIMIT = 100;
+    
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
     private InformationExchanger infExch = InformationExchanger.getInstance();
     private LogicController(){}
     private boolean endOfGame = false;
+    private int turns = 0;
 
     // Turn base variables
 
@@ -74,6 +76,11 @@ public class LogicController {
 
         if(++currPlayerIndex >= players.length){
             currPlayerIndex = 0;
+            turns++;
+        }
+        if (turns > TURNLIMIT) {
+        	endOfGame = true;
+        	infExch.addToCurrentTurnText("\nThe game will now be ternimated due to too many turns having taken place without anyone loosing");
         }
     }
 
