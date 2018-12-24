@@ -13,15 +13,15 @@ public class Player {
 	private boolean firstTurn = true;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
-
-	// Konto
-    private Account playerAccount = new Account(20);
+    private Account playerAccount;
 
 	/**
 	 * @param name the name this player has.
+	 * @param startMoney how much money this player starts with.
 	 */
-    public Player(String name) {
+    public Player(String name, int startMoney) {
 		this.name = name;
+		playerAccount = new Account(startMoney);
 	}
 
 

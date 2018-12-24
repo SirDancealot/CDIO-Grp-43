@@ -54,8 +54,7 @@ public class GameController {
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
-			players[i] = new Player(names[i]);
-			players[i].setMoney(startMoney);
+			players[i] = new Player(names[i], startMoney);
 		}
 
 		// Init logic

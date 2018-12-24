@@ -56,7 +56,7 @@ public class testAfWinRate {
 
         players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            players[i] = new Player(names[i]);
+            players[i] = new Player(names[i], 20);
         }
         logic.init(players);
     }
