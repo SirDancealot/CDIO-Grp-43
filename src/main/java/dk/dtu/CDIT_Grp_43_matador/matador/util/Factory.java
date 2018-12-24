@@ -44,21 +44,16 @@ public class Factory {
                 case "GoToJail":
                     tempTile = new GoToJail(tileName,tileInfo, i);
                     break;
-
                 default:
                     tempTile = new FreeParking("","", -1);
                     break;
             }
             tiles[i] = tempTile;
-
-
         }
-
-
-
         return tiles;
     }
 
+    
     public NewChanceCard[] createCards() throws IOException {
     	HashMap <String, String> cardTags = TextReader.fileToHashMap("./res/Cards.txt");
     	NewChanceCard[] cards = new NewChanceCard[cardTags.size()];
@@ -89,10 +84,9 @@ public class Factory {
 			}
     		cards[i] = new NewChanceCard(cardEffects);
 		}
-    	
-    	
     	return cards;
     }
+    
     
     public static Factory getInstance() {
 		return INSTANCE;

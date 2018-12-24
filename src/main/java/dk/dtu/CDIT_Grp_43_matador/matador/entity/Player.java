@@ -37,9 +37,8 @@ public class Player {
 
 		if(currPos >= bord.getBoardSize()){
 			currPos-=bord.getBoardSize();
-			return true;
 		}
-		return false;
+		return bord.landOnTile(this);
 	}
 	
 	public boolean moveTo(String tileName) {

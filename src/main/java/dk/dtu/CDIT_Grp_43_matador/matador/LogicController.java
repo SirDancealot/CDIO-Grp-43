@@ -58,11 +58,9 @@ public class LogicController {
 			else
 				board.passedTile(currPlayer, (currPlayer.getCurrPos() + i) % board.getBoardSize());
 		}
-        currPlayer.move(roll);
 
-
-        infExch.addToCurrentTurnText(currPlayer + " rolled a " + Integer.toString(roll)+ " landed on ");
-        if(!board.landOnTile(currPlayer)){
+        infExch.addToCurrentTurnText(currPlayer + " rolled a " + roll + " landed on ");
+        if(!currPlayer.move(roll)){
         	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
