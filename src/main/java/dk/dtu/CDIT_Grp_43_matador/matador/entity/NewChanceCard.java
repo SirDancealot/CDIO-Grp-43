@@ -9,6 +9,9 @@ public class NewChanceCard {
 	public NewChanceCard(CardEffect[] cardEffects) {
 		this.cardEffects = cardEffects;
 		for (CardEffect cardEffect : cardEffects) {
+			if (cardEffect == null) {
+				break;
+			}
 			if (cardEffect.isKeepEffect())
 				keepCard = true;
 		}
