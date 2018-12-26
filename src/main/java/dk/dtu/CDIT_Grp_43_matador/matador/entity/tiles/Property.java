@@ -2,7 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import java.util.ArrayList;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Property extends Tile {

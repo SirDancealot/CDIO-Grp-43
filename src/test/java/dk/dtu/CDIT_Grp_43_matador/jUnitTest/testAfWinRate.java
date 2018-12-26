@@ -52,7 +52,6 @@ public class testAfWinRate {
         String[] names = new String[]{"Player1","Player2","Player3","Player4"};
 
         bord.initBoard();
-        deck.init();
 
         players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i++) {

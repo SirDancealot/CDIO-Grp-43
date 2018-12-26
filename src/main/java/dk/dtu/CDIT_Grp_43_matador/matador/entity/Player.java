@@ -14,7 +14,7 @@ public class Player {
 	private int currPos = 0;
 	private boolean firstTurn = true;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
-	private ArrayList<NewChanceCard> keepingCards = new ArrayList<NewChanceCard>();
+	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
 	private boolean nextJailFree = false;
 
@@ -133,11 +133,11 @@ public class Player {
 		return ownedTiles;
 	}
     
-    public void addKeepingCard(NewChanceCard card) {
+    public void addKeepingCard(ChanceCard card) {
     	keepingCards.add(card);
     }
     
-    public ArrayList<NewChanceCard> getKeepingCards() {
+    public ArrayList<ChanceCard> getKeepingCards() {
 		return keepingCards;
 	}
     

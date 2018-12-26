@@ -10,7 +10,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 
 public class ChanceCardDeckTests {
@@ -19,17 +19,11 @@ public class ChanceCardDeckTests {
     @BeforeEach
     public void setUp() throws Exception {
         sut = ChanceCardDeck.getInstance();
-
-        try {
-            sut.init();
-        } catch (IOException e) {
-            fail("Forventede ingen exception, måske mangler ressourcen");
-        }
     }
 
     @Test
     public void GetCardFromDeck() {
-        NewChanceCard actual = sut.nextCard();
+        ChanceCard actual = sut.nextCard();
 
         assertNotNull(actual);
     }
@@ -46,7 +40,7 @@ public class ChanceCardDeckTests {
     @Test
     public void ReturnCardToDeck() {
         int startSize = sut.size();
-        NewChanceCard expected = sut.nextCard();
+        ChanceCard expected = sut.nextCard();
         sut.returnCardToDeck(expected);
         int actual = sut.size();
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.CardEffect;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.ChangeMoneyEffect;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.FreeJailEffect;
@@ -68,9 +68,9 @@ public class Factory {
     }
 
     
-    public Queue<NewChanceCard> createCards() throws IOException {
+    public Queue<ChanceCard> createCards() throws IOException {
     	HashMap <String, String> cardTags = TextReader.fileToHashMap("./res/Cards.txt");
-    	ArrayList<NewChanceCard> tmpCards = new ArrayList<NewChanceCard>();
+    	ArrayList<ChanceCard> tmpCards = new ArrayList<ChanceCard>();
     	for (int i = 0; i < cardTags.size(); i++) {
     		String cardInfo = cardTags.get("Card"+i);
     		String[] thisCardInfo = cardInfo.split(";");
@@ -96,11 +96,11 @@ public class Factory {
 					break;
     			}
 			}
-    		tmpCards.add(new NewChanceCard(cardEffects));
+    		tmpCards.add(new ChanceCard(cardEffects));
 		}
     	Collections.shuffle(tmpCards);
-    	Queue<NewChanceCard> cards = new LinkedList<NewChanceCard>(); 
-    	for (NewChanceCard newChanceCard : tmpCards) {
+    	Queue<ChanceCard> cards = new LinkedList<ChanceCard>(); 
+    	for (ChanceCard newChanceCard : tmpCards) {
 			cards.add(newChanceCard);
 		}
     	return cards;
