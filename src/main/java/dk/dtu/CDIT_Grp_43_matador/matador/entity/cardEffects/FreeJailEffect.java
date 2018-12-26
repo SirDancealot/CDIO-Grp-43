@@ -18,4 +18,9 @@ public class FreeJailEffect extends CardEffect {
 	public String toString() {
 		return super.toString() + "FreeJailEffect";
 	}
+
+	@Override
+	public String printEffect(Player p) {
+		return "\t" + p + " can exit jail for free next time\n";
+	}
 }

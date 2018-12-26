@@ -18,4 +18,12 @@ public class MovePlayerEffect extends CardEffect {
 	public String toString() {
 		return super.toString() + "MovePlayerEffect";
 	}
+
+	@Override
+	public String printEffect(Player p) {
+		String forward = "\t" + p + " moves " + moveAmt + " forwards\n";
+		String backwards = "\t" + p + " moves " + (-moveAmt) + " backwards\n";
+		
+		return moveAmt > 0 ? forward : backwards;
+	}
 }

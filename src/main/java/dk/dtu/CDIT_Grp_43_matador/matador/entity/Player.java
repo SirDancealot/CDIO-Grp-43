@@ -3,9 +3,11 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public class Player {
+	private static InformationExchanger infExch = InformationExchanger.getInstance();
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
@@ -30,16 +32,17 @@ public class Player {
 
 	/**
 	 * Moves the player the assisgned number around the board and handles wraparound the board
-	 * @param moving How long the player has to move
+	 * @param moveing How long the player has to move
 	 * @return Returns true if players moved all the way around the board else returns false
 	 */
 
-	public boolean move(int moving){
-		currPos += moving;
+	public boolean move(int moveing){
+		currPos += moveing;
 
 		if(currPos >= bord.getBoardSize()){
 			currPos-=bord.getBoardSize();
 		}
+		infExch.addToCurrentTurnText(this + " rolled a " + moveing + " landed on " + bord.getGameTiles()[currPos].toString() + "\n");
 		return bord.landOnTile(this);
 	}
 	

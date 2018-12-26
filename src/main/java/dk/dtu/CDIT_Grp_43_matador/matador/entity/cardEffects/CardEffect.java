@@ -19,4 +19,6 @@ public abstract class CardEffect {
 	public String toString() {
 		return "This card effect is: ";
 	}
+	
+	public abstract String printEffect(Player p);
 }

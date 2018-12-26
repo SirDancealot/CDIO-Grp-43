@@ -19,4 +19,9 @@ public class MovePlayerToEffect extends CardEffect {
 	public String toString() {
 		return super.toString() + "MovePlayerToEffect";
 	}
+
+	@Override
+	public String printEffect(Player p) {
+		return "\t" + p + " moves to the tile: " + moveToTag + "\n";
+	}
 }
