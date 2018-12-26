@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.Queue;
 
 public class ChanceCardDeck {
-	private Queue<NewChanceCard> newCards;
-    private Queue<ChanceCard> cards;
+	private Queue<NewChanceCard> cards;
+    private Queue<ChanceCard> oldCards;
     private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
 
     /**
@@ -23,19 +23,19 @@ public class ChanceCardDeck {
      */
     private ChanceCardDeck() { 
     	try {
-			newCards = Factory.getInstance().createCards();
+			cards = Factory.getInstance().createCards();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	cards = new LinkedList<ChanceCard>();
+    	oldCards = new LinkedList<ChanceCard>();
     }
 
     /**
      * A method to get the next card in the deck.
      * @return The next card in the deck
      */
-    public ChanceCard nextCard() {
-        ChanceCard card = cards.poll();
+    public NewChanceCard nextCard() {
+        NewChanceCard card = cards.poll();
         return card;
     }
 
@@ -43,7 +43,7 @@ public class ChanceCardDeck {
      * Puts the card back in the deck, at the bottom.
      * @param card The card to return to the deck
      */
-    public void returnCardToDeck(ChanceCard card) {
+    public void returnCardToDeck(NewChanceCard card) {
         cards.add(card);
     }
 
@@ -59,7 +59,7 @@ public class ChanceCardDeck {
         }
         Collections.shuffle(tmpCards);
         for (ChanceCard chanceCard : tmpCards) {
-			cards.add(chanceCard);
+			oldCards.add(chanceCard);
 		}
     }
 

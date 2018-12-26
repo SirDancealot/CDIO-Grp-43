@@ -4,4 +4,4 @@ Card2=money:-2
 Card3=moveTo:The Beach promenade
 Card4=payAll:-1
 Card5=money:2
-Card6=keep;freeJail
+Card6=freeJail

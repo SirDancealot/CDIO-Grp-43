@@ -2,7 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import java.util.ArrayList;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.NewChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Jail extends Tile {
@@ -23,9 +23,9 @@ public class Jail extends Tile {
     public boolean passedTile(Player p) {
         if (p.isInJail()) {
         	p.setInJail(false);
-        	ArrayList<ChanceCard> playerKeepingCards = p.getKeepingCards();
+        	ArrayList<NewChanceCard> playerKeepingCards = p.getKeepingCards();
         	boolean freeJail = false;
-        	for (ChanceCard chanceCard : playerKeepingCards) {
+        	for (NewChanceCard chanceCard : playerKeepingCards) {
 				if(chanceCard.isFreeJail()) {
 					freeJail = true;
 					chanceCard.returnToDeck();

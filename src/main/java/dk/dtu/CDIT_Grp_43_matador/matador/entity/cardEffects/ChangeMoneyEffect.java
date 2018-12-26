@@ -14,4 +14,9 @@ public class ChangeMoneyEffect extends CardEffect {
 		p.addMoney(moneyChange);
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "changeMoneyEffect";
+	}
 }

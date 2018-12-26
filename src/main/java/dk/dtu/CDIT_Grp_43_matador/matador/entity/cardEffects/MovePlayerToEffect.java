@@ -14,4 +14,9 @@ public class MovePlayerToEffect extends CardEffect {
 		p.moveTo(moveToTag);
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "MovePlayerToEffect";
+	}
 }

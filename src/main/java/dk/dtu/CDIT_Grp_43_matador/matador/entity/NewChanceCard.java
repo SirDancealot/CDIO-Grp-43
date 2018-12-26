@@ -1,10 +1,14 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 
 public class NewChanceCard {
+	private static final ChanceCardDeck cardDeck = ChanceCardDeck.getInstance();
+	
 	private CardEffect[] cardEffects;
 	private boolean keepCard;
+	private boolean freeJail = false;
 	
 	public NewChanceCard(CardEffect[] cardEffects) {
 		this.cardEffects = cardEffects;
@@ -28,4 +32,16 @@ public class NewChanceCard {
 	public boolean isKeepCard() {
 		return keepCard;
 	}
+	
+	public boolean isFreeJail() {
+		return freeJail;
+	}
+	
+	public void setFreeJail(boolean freeJail) {
+		this.freeJail = freeJail;
+	}
+	
+	public void returnToDeck() {
+    	cardDeck.returnCardToDeck(this);
+    }
 }

@@ -121,12 +121,12 @@ public class ChanceCard {
         return value;
     }
     
-    public boolean isKeep() {
+    public boolean isKeepCard() {
 		return keep;
 	}
     
     public void returnToDeck() {
-    	cardDeck.returnCardToDeck(this);
+//    	cardDeck.returnCardToDeck(this);
     }
     
     public boolean isFreeJail() {

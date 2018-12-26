@@ -12,4 +12,9 @@ public class PayAllEffect extends CardEffect {
 	public boolean useEffect(Player p) {
 		return p.payAll(payAllAmt);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "PayAllEffect";
+	}
 }

@@ -3,7 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public class Player {
 	private static Player[] players;
@@ -14,8 +14,9 @@ public class Player {
 	private int currPos = 0;
 	private boolean firstTurn = true;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
-	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
+	private ArrayList<NewChanceCard> keepingCards = new ArrayList<NewChanceCard>();
     private Account playerAccount;
+	private boolean nextJailFree = false;
 
 	/**
 	 * @param name the name this player has.
@@ -115,6 +116,7 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
+    
     public void setInJail(boolean inJail) {
         this.inJail = inJail;
     }
@@ -131,13 +133,21 @@ public class Player {
 		return ownedTiles;
 	}
     
-    public void addKeepingCard(ChanceCard card) {
+    public void addKeepingCard(NewChanceCard card) {
     	keepingCards.add(card);
     }
     
-    public ArrayList<ChanceCard> getKeepingCards() {
+    public ArrayList<NewChanceCard> getKeepingCards() {
 		return keepingCards;
 	}
+    
+    public boolean hasFreeJail() {
+    	return nextJailFree;
+	}
+    
+    public void setFreeJail(boolean freeJail) {
+    	this.nextJailFree = freeJail;
+    }
     
     public static void setPlayers(Player[] players) {
 		Player.players = players;
