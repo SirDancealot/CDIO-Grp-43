@@ -10,8 +10,7 @@ public class MovePlayerEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		p.move(moveAmt);
-		return true;
+		return p.move(moveAmt);
 	}
 	
 	@Override

@@ -19,9 +19,9 @@ public class FreeParking extends Tile {
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
-    public boolean passedTile (Player p) {
+    /*public boolean passedTile (Player p) {
         return true;
-    }
+    }*/
     
     @Override
     public boolean landOnTile(Player p) {
