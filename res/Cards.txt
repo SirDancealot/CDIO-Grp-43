@@ -1,7 +1,32 @@
 Card0=moveTo:Start
-Card1=move:5
-Card2=money:-2
-Card3=moveTo:The Beach promenade
-Card4=payAll:-1
-Card5=money:2
-Card6=freeJail
+Card1=money:50
+Card2=money:-20
+Card3=money:200
+Card4=money:-20
+Card5=money:-20
+Card6=money:-10
+Card7=money:-100
+Card8=money:-100
+Card9=money:25
+Card10=money:-10
+Card11=money:100
+Card12=money:108
+Card13=money:50
+Card14=money:1
+Card15=money:20
+Card16=moveTo:Gronningen
+Card17=moveTo:Oresundsbaaden
+Card18=payAll:25
+Card19=move:-3
+Card20=move:-3
+Card21=freeJail
+Card22=freeJail
+Card23=moveTo:GoToJail
+Card24=moveTo:GoToJail
+
+/* Der er tre andre kort som ikke er implementeret
+1: kul og kokspriser, spilleren selv betaler 25kr pr hus og 125kr pr hotel
+2: ejendomsskatter, alle betaler, 50kr pr hus og 12kr pr hotel.
+3: Ryk brik frem til nærmeste rederi. hvis feltet er ejet, betal ejeren dobbelt, ellers
+på normal vis, kan du købe feltet eller sætte på aktion.
+*/
