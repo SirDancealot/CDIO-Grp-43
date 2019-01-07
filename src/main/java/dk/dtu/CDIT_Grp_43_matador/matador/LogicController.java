@@ -14,13 +14,14 @@ public class LogicController {
     private DiceCup diceCup;
     private GameBoard board;
     private InformationExchanger infExch = InformationExchanger.getInstance();
-    private LogicController(){}
     private boolean endOfGame = false;
     private int turns = 0;
 
     // Turn base variables
 
     private int currPlayerIndex = 0;
+
+    private LogicController(){}
 
     /**
      * Initializes the sigleton class {@code LogicController}
@@ -65,7 +66,7 @@ public class LogicController {
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
             infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
-            return ;
+            return;
         }
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
         infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));

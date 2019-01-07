@@ -11,8 +11,7 @@ public class MovePlayerToEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		p.moveTo(moveToTag);
-		return true;
+		return p.moveTo(moveToTag);
 	}
 	
 	@Override

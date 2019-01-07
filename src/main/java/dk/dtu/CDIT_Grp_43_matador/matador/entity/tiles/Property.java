@@ -91,9 +91,7 @@ public class Property extends Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     @Override
-    public boolean passedTile(Player p) {
-        return true;
-    }
+    public boolean passedTile(Player p) { return true; }
 
     public Player getOwner() {
         return owner;

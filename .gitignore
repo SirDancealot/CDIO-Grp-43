@@ -3,6 +3,7 @@
 .DS_Store
 .project
 .classpath
+*.idea*
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -53,3 +54,4 @@ target/
 *.ear
 *.sar
 *.class
+.idea/misc.xml

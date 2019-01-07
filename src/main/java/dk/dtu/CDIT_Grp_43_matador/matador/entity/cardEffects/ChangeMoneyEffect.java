@@ -11,8 +11,7 @@ public class ChangeMoneyEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		p.addMoney(moneyChange);
-		return true;
+		return p.addMoney(moneyChange);
 	}
 	
 	@Override
