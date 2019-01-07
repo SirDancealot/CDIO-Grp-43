@@ -20,7 +20,7 @@ public class testAfTile {
 
         Jail jailTile = new Jail("", "tag:Jail;name:Jail", 0);
         GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 0);
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int currMoney = p.getScore();
         jailTile.passedTile(p);
         assertEquals(currMoney,p.getScore());
@@ -42,7 +42,7 @@ public class testAfTile {
         }
 
         GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 0);
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         assertFalse(p.isInJail());
         GoToJailTile.landOnTile(p);
         assertTrue(p.isInJail());
@@ -50,7 +50,7 @@ public class testAfTile {
     @Test
     public void testAfFreeParking(){
         FreeParking parkingTile = new FreeParking("", "Tag:FreePark;name:FreeParking", 0);
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int pos = p.getCurrPos();int score = p.getScore();int TO = p.getOwnedTiles().size();
 
         parkingTile.landOnTile(p);
@@ -64,7 +64,7 @@ public class testAfTile {
     @Test
     public void testAfProperty(){
         Property propertyTile = new Property("", "tag:Property;Tilevalue:1;name:The Burger bar;sister:brown", 0);
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int score = p.getScore();
         int TO = p.getOwnedTiles().size();
         assertTrue(TO==0);
@@ -79,7 +79,7 @@ public class testAfTile {
     @Test
     public void testAfStart(){
         Start startTile = new Start("", "tag:Start;passedValue:3;name:Start", 0);
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int score = p.getScore();
 
         startTile.passedTile(p);

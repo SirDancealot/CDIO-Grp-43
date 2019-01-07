@@ -1,7 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class FreeParking extends Tile {
     public String type = "FreeParking";
@@ -20,9 +19,9 @@ public class FreeParking extends Tile {
      * @param p The current player.
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
-    public boolean passedTile (Player p) {
+    /*public boolean passedTile (Player p) {
         return true;
-    }
+    }*/
     
     @Override
     public boolean landOnTile(Player p) {

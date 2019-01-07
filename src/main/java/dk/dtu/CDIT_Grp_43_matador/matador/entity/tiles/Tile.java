@@ -1,5 +1,6 @@
-package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 
 public abstract class Tile {
@@ -58,7 +59,6 @@ public abstract class Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     public boolean landOnTile(Player p) {
-    	infExch.addToCurrentTurnText(this.toString() + "\n");
     	System.out.println("Landed on tile: " + this);
         return true;
     }

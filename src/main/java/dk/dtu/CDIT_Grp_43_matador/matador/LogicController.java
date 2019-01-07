@@ -8,17 +8,20 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 public class LogicController {
 
     private static LogicController INSTANCE = new LogicController();
-
+    private final int TURNLIMIT = 100;
+    
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
     private InformationExchanger infExch = InformationExchanger.getInstance();
-    private LogicController(){}
     private boolean endOfGame = false;
+    private int turns = 0;
 
     // Turn base variables
 
     private int currPlayerIndex = 0;
+
+    private LogicController(){}
 
     /**
      * Initializes the sigleton class {@code LogicController}
@@ -27,6 +30,7 @@ public class LogicController {
 
     public void init(Player[] players){
         this.players = players;
+        Player.setPlayers(players);
         infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
@@ -56,16 +60,13 @@ public class LogicController {
 			else
 				board.passedTile(currPlayer, (currPlayer.getCurrPos() + i) % board.getBoardSize());
 		}
-        currPlayer.move(roll);
-
-
-        infExch.addToCurrentTurnText(currPlayer + " rolled a " + Integer.toString(roll)+ " landed on ");
-        if(!board.landOnTile(currPlayer)){
+        
+        if(!currPlayer.move(roll)){
         	infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
             endOfGame = true;
             infExch.setCurrPlayerScore(currPlayer.getScore());
             infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
-            return ;
+            return;
         }
         infExch.setCurrPlayerNewPos(currPlayer.getCurrPos());
         infExch.setTileOwned(currPlayer == board.getTileOwner(currPlayer.getCurrPos()));
@@ -74,6 +75,11 @@ public class LogicController {
 
         if(++currPlayerIndex >= players.length){
             currPlayerIndex = 0;
+            turns++;
+        }
+        if (turns > TURNLIMIT) {
+        	endOfGame = true;
+        	infExch.addToCurrentTurnText("\nThe game will now be ternimated due to too many turns having taken place without anyone loosing");
         }
     }
 

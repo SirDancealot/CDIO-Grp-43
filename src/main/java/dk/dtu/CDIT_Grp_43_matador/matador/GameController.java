@@ -7,6 +7,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.gui.GUI_Controller;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
 
 //import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
@@ -50,12 +51,10 @@ public class GameController {
 
 		initLang(langIndex);
 		bord.initBoard();
-		deck.init();
 
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
-			players[i] = new Player(names[i]);
-			players[i].setMoney(startMoney);
+			players[i] = new Player(names[i], startMoney);
 		}
 
 		// Init logic

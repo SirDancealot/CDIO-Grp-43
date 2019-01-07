@@ -2,9 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import java.util.ArrayList;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 
 public class Property extends Tile {
 	private static final int NUMOFTILESINSET = 2;
@@ -93,9 +91,7 @@ public class Property extends Tile {
      * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
      */
     @Override
-    public boolean passedTile(Player p) {
-        return true;
-    }
+    public boolean passedTile(Player p) { return true; }
 
     public Player getOwner() {
         return owner;

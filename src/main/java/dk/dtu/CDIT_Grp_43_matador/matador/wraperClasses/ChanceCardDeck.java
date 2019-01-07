@@ -1,25 +1,24 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 public class ChanceCardDeck {
-    private Queue<ChanceCard> cards;
+	private Queue<ChanceCard> cards;
     private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
 
     /**
      * Sets up the deck of chance cards.
      */
     private ChanceCardDeck() { 
-    	cards = new LinkedList<ChanceCard>();
+    	try {
+			cards = Factory.getInstance().createCards();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -37,22 +36,6 @@ public class ChanceCardDeck {
      */
     public void returnCardToDeck(ChanceCard card) {
         cards.add(card);
-    }
-
-    /**
-     * Creates an ArrayList, so that the deck can be shuffled.
-     * @throws IOException When the file cannot be read.
-     */
-    public void init() throws IOException {
-        HashMap<String, String> chanceMap = TextReader.fileToHashMap("res/Cards.txt");
-        ArrayList<ChanceCard> tmpCards = new ArrayList<ChanceCard>();
-        for (Map.Entry<String, String> entry : chanceMap.entrySet()) {
-            tmpCards.add(new ChanceCard(entry.getValue()));
-        }
-        Collections.shuffle(tmpCards);
-        for (ChanceCard chanceCard : tmpCards) {
-			cards.add(chanceCard);
-		}
     }
 
     /**

@@ -1,12 +1,17 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.io.IOException;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
-import org.junit.jupiter.api.*;
-
-import java.io.IOException;
 
 public class ChanceCardDeckTests {
     private ChanceCardDeck sut;
@@ -14,12 +19,6 @@ public class ChanceCardDeckTests {
     @BeforeEach
     public void setUp() throws Exception {
         sut = ChanceCardDeck.getInstance();
-
-        try {
-            sut.init();
-        } catch (IOException e) {
-            fail("Forventede ingen exception, måske mangler ressourcen");
-        }
     }
 
     @Test
@@ -27,7 +26,6 @@ public class ChanceCardDeckTests {
         ChanceCard actual = sut.nextCard();
 
         assertNotNull(actual);
-        assertNotNull(actual.getCardDescription());
     }
 
     @Test

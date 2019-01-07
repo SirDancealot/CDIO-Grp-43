@@ -2,6 +2,7 @@
 /.settings/
 .DS_Store
 .project
+.classpath
 
 # User-specific stuff
 .idea/**/workspace.xml

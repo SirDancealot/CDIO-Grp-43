@@ -52,11 +52,10 @@ public class testAfWinRate {
         String[] names = new String[]{"Player1","Player2","Player3","Player4"};
 
         bord.initBoard();
-        deck.init();
 
         players = new Player[numPlayers];
         for (int i = 0; i < numPlayers; i++) {
-            players[i] = new Player(names[i]);
+            players[i] = new Player(names[i], 20);
         }
         logic.init(players);
     }

@@ -11,7 +11,7 @@ public class testAfScore {
     @Test
     public void scoreAdd(){
 
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int money = p.getScore();
         p.addMoney(30);
         assertTrue(money != p.getScore());
@@ -23,7 +23,7 @@ public class testAfScore {
     @Test
     public void scoreSubtract(){
 
-        Player p = new Player("testPlayer");
+        Player p = new Player("testPlayer", 20);
         int money = p.getScore();
         p.withDrawMoney(10);
         assertFalse(money == p.getScore());
@@ -35,8 +35,8 @@ public class testAfScore {
     @Test
     public void scorePay(){
 
-        Player p = new Player("testPlayer");
-        Player p1 = new Player("testPlayer1");
+        Player p = new Player("testPlayer", 20);
+        Player p1 = new Player("testPlayer1", 20);
         int money = p.getScore();
         int money1 = p1.getScore();
 

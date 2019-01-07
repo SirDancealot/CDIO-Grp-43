@@ -6,7 +6,7 @@ import java.util.HashMap;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class GameBoard {
     private static final GameBoard INSTANCE = new GameBoard();

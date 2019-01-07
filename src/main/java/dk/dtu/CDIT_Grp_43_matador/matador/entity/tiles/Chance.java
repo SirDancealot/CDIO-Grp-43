@@ -2,7 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 
 public class Chance extends Tile {
@@ -30,7 +29,7 @@ public class Chance extends Tile {
         ChanceCard currCard = deck.nextCard();
         System.out.println(currCard);
         boolean succeded = currCard.useCard(p);
-        if (currCard.isKeep())
+        if (currCard.isKeepCard())
         	p.addKeepingCard(currCard);
         else
         	deck.returnCardToDeck(currCard);
