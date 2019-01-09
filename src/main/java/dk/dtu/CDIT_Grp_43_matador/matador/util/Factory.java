@@ -26,10 +26,14 @@ import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
 
 public class Factory {
 	private static final Factory INSTANCE = new Factory();
+	private Tile[] tiles;
+	private Queue<ChanceCard> chanceCards;
 	
 	private Factory() { }
 	
     public Tile[] createTiles() throws IOException {
+	    if (this.tiles != null)
+	        return  this.tiles;
         HashMap <String, String> tileTags = TextReader.fileToHashMap("./res/Tiles.txt");
         Lang lang = LanguageController.getCurrentLanguage();
         Tile[] tiles = new Tile[tileTags.size()];
@@ -64,6 +68,7 @@ public class Factory {
             }
             tiles[i] = tempTile;
         }
+        this.tiles = tiles;
         return tiles;
     }
 
