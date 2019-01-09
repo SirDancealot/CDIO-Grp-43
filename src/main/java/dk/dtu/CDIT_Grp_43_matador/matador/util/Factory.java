@@ -9,16 +9,12 @@ import java.util.Queue;
 import gui_fields.*;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.CardEffect;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.ChangeMoneyEffect;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.FreeJailEffect;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerEffect;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerToEffect;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.PayAllEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
@@ -28,11 +24,16 @@ import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
 
 public class Factory {
 	private static final Factory INSTANCE = new Factory();
+	private Tile[] tiles;
+	private Queue<ChanceCard> chanceCards;
 	
 	private Factory() { }
 	
     public Tile[] createTiles() throws IOException {
-        HashMap <String, String> tileTags = TextReader.fileToHashMap("./res/Tiles.txt");
+	    if (this.tiles != null)
+	        return  this.tiles;
+        HashMap <String, String> tileTags = TextReader.getTiles();
+        HashMap <String, String> rentTags = TextReader.getRent();
         Lang lang = LanguageController.getCurrentLanguage();
         Tile[] tiles = new Tile[tileTags.size()];
 
@@ -60,12 +61,16 @@ public class Factory {
                 case "GoToJail":
                     tempTile = new GoToJail(tileName,tileInfo, i);
                     break;
+                case "Brewery":
+                    tempTile = new Brewery(tileName, tileInfo, i, rentTags.get("brew"));
+                    break;
                 default:
                     tempTile = new FreeParking("","", -1);
                     break;
             }
             tiles[i] = tempTile;
         }
+        this.tiles = tiles;
         return tiles;
     }
 
@@ -79,23 +84,26 @@ public class Factory {
     		CardEffect[] cardEffects = new CardEffect[thisCardInfo.length];
     		for (int j = 0; j < thisCardInfo.length; j++) {
     			switch (thisCardInfo[j].split(":")[0]) {
-				case "moveTo":
-					cardEffects[j] = new MovePlayerToEffect(thisCardInfo[j].split(":")[1]);
-					break;
-				case "move":
-					cardEffects[j] = new MovePlayerEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
-					break;
-				case "money":
-					cardEffects[j] = new ChangeMoneyEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
-					break;
-				case "payAll":
-					cardEffects[j] = new PayAllEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
-					break;
-				case "freeJail":
-					cardEffects[j] = new FreeJailEffect();
-					break;
-				default:
-					break;
+                    case "moveTo":
+                        cardEffects[j] = new MovePlayerToEffect(thisCardInfo[j].split(":")[1]);
+                        break;
+                    case "move":
+                        cardEffects[j] = new MovePlayerEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "money":
+                        cardEffects[j] = new ChangeMoneyEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "payAll":
+                        cardEffects[j] = new PayAllEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+					case "freeJail":
+					    cardEffects[j] = new FreeJailEffect();
+					    break;
+					case "matadorLegat":
+                        cardEffects[j] = new MatadorlegatEffect(Integer.valueOf(thisCardInfo[j].split(":")[2]),Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    default:
+                        break;
     			}
 			}
     		tmpCards.add(new ChanceCard(cardEffects));
