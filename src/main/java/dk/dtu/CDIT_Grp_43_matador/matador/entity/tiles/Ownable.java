@@ -8,7 +8,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Ownable extends Tile {
     private static final int NUMOFTILESINSET = 2;
-    private Player owner = null;
+    protected Player owner = null;
     private String sisterTag;
     public String type = "Property";
     private boolean mortgaged = false;
@@ -94,14 +94,14 @@ public class Ownable extends Tile {
         return owner != null;
     }
 
-    private boolean tileSetOwned() {
+    protected int tileSetOwned() {
         ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
         int tilesInSetOwned = 0;
         for (Tile tile : playerOwnedTileSet) {
             if ((tile.getOwner() == this.owner) && (this.sisterTag.equalsIgnoreCase(tile.getSisterTag())))
                 tilesInSetOwned++;
         }
-        return NUMOFTILESINSET == tilesInSetOwned;
+        return tilesInSetOwned;
     }
 
     /**

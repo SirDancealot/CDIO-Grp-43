@@ -12,6 +12,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
@@ -29,7 +30,8 @@ public class Factory {
     public Tile[] createTiles() throws IOException {
 	    if (this.tiles != null)
 	        return  this.tiles;
-        HashMap <String, String> tileTags = TextReader.fileToHashMap("./res/Tiles.txt");
+        HashMap <String, String> tileTags = TextReader.getTiles();
+        HashMap <String, String> rentTags = TextReader.getRent();
         Lang lang = LanguageController.getCurrentLanguage();
         Tile[] tiles = new Tile[tileTags.size()];
 
@@ -56,6 +58,9 @@ public class Factory {
                     break;
                 case "GoToJail":
                     tempTile = new GoToJail(tileName,tileInfo, i);
+                    break;
+                case "Brewery":
+                    tempTile = new Brewery(tileName, tileInfo, i, rentTags.get("brew"));
                     break;
                 default:
                     tempTile = new FreeParking("","", -1);
