@@ -41,6 +41,7 @@ public class GameController {
 
 
 		// Gui
+		gui_controller.init();
 		gui_controller.setupGame(LANGS);
 		int numPlayers = gui_controller.getNumberOfPlayers();
 		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;

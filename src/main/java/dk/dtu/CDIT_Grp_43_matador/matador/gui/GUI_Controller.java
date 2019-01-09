@@ -1,17 +1,18 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import gui_fields.*;
+import gui_main.*;
 
 import java.awt.*;
 import java.io.IOException;
 
 public class GUI_Controller {
 
-    private Modified_GUI gui;
-
+    private GUI gui;
 
     private GUI_Player[] allPlayer;
     private int numberOfPlayers = 0;
@@ -19,13 +20,24 @@ public class GUI_Controller {
     private String[] names;
     private static GUI_Controller INSTANCE = new GUI_Controller();
     private static InformationExchanger infExch = InformationExchanger.getInstance();
+
     
-    private GUI_Controller() {
-         gui = new Modified_GUI();
-    }
+    private GUI_Controller() {}
 
 
     // Start game
+
+    public void init(){
+        GUI_Field[] gui_fields = new GUI_Field[0];
+        try {
+            gui_fields = Factory.getInstance().createGuiFields();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gui = new GUI(gui_fields);
+    }
+
+
 
     public void setupGame(String[] lang) throws IOException{
 
@@ -171,11 +183,11 @@ public class GUI_Controller {
         this.allPlayer = allPlayer;
     }
 
-    public Modified_GUI getGui() {
+    public GUI getGui() {
         return gui;
     }
 
-    public void setGui(Modified_GUI gui) {
+    public void setGui(GUI gui) {
         this.gui = gui;
     }
 
