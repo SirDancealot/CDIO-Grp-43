@@ -32,17 +32,17 @@ public class Player {
 
 	/**
 	 * Moves the player the assisgned number around the board and handles wraparound the board
-	 * @param moveing How long the player has to move
+	 * @param moving How long the player has to move
 	 * @return Returns true if players moved all the way around the board else returns false
 	 */
 
-	public boolean move(int moveing){
-		currPos += moveing;
+	public boolean move(int moving){
+		currPos += moving;
 
 		if(currPos >= bord.getBoardSize()){
 			currPos-=bord.getBoardSize();
 		}
-		infExch.addToCurrentTurnText(this + " rolled a " + moveing + " landed on " + bord.getGameTiles()[currPos].toString() + "\n");
+		infExch.addToCurrentTurnText(this + " rolled a " + moving + " landed on " + bord.getGameTiles()[currPos].toString() + "\n");
 		return bord.landOnTile(this);
 	}
 	
@@ -86,6 +86,14 @@ public class Player {
 				return false;
 		}
 		return true;
+	}
+
+	// We need to add value of houses and hotels.
+	public int playerFortune() {
+		int ppf = 0;
+		for (Tile tile : ownedTiles)
+			ppf += tile.getTileValue();
+		return ppf + getScore();
 	}
 	
 	public void setMoney(int money) {
