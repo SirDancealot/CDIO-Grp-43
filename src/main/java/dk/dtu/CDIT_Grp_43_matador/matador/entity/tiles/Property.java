@@ -97,7 +97,7 @@ public class Property extends Tile {
         return owner;
     }
 
-    public boolean isBuyalbe () {
+    public boolean isBuyable () {
         return buyable;
     }
     

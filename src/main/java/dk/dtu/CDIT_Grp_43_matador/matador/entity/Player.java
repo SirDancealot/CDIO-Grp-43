@@ -87,6 +87,14 @@ public class Player {
 		}
 		return true;
 	}
+
+	// We need to add value of houses and hotels.
+	public int playerFortune() {
+		int ppf = 0;
+		for (Tile tile : ownedTiles)
+			ppf += tile.getTileValue();
+		return ppf + getScore();
+	}
 	
 	public void setMoney(int money) {
 		playerAccount.setMoney(money);
