@@ -2,8 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-
 public class Main {
 	/**
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
