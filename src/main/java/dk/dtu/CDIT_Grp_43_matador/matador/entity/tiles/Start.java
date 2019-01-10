@@ -4,7 +4,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Start extends Tile {
     private int overStartBonus = 2;
-    public String type = "Start";
 
     /**
      * The subclass Start represents the start Tile on the game board.

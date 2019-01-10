@@ -31,6 +31,8 @@ public abstract class Tile {
                 case "name":
                     this.tileName = split[1];
                     break;
+                    case "type":
+                        this.type = split[1];
                 default:
                     break;
             }
@@ -98,5 +100,8 @@ public abstract class Tile {
         return buyable;
     }
 
+    public String getType() {
+        return type;
+    }
 }
 
