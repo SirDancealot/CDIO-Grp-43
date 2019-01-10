@@ -89,6 +89,10 @@ public class Ownable extends Tile {
         this.pawned = pawned;
     }
 
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
     public Player getOwner() {
         return owner;
     }
