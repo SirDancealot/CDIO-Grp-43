@@ -4,7 +4,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import java.io.IOException;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.gui.GUI_Controller;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
@@ -25,31 +24,30 @@ public class GameController {
 	//Logical variables
 	private static int turns = 1;
 	private static boolean playing = true;
+	private String turnInfo;
 	
 	//Container variables
-	private static Player[] players;
-	private static final String[] LANGS = LanguageController.getLangs();
-	private static GameBoard bord = GameBoard.getInstance();
-	private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
-	private static Lang lang;
-	private static LogicController logic = LogicController.getINSTANCE();
-	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
-	private static InformationExchanger infExch = InformationExchanger.getInstance();
+	private Player[] players;
+	private GameBoard bord = GameBoard.getInstance();
+	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
+	private LogicController logic = LogicController.getINSTANCE();
+	private GUI_Controller gui = GUI_Controller.getINSTANCE();
+	private InformationExchanger infExch = InformationExchanger.getInstance();
 
 
 	public void init() throws IOException {
 
 
 		// Gui
-		gui_controller.setupGame(LANGS);
-		int numPlayers = gui_controller.getNumberOfPlayers();
+		gui.init();
+		gui.setupGame();
+		int numPlayers = gui.getNumberOfPlayers();
 		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;
-		gui_controller.addplayers(gui_controller.getNames(), startMoney);
-		gui_controller.displayPlayers(gui_controller.getAllPlayer());
-		int langIndex = gui_controller.getLangIndex();
-		String[] names = gui_controller.getNames();
+		String[] names = gui.getNames();
+		gui.addplayers(startMoney);
+		gui.displayPlayers();
 
-		initLang(langIndex);
+
 		bord.initBoard();
 
 		players = new Player[numPlayers];
@@ -73,7 +71,7 @@ public class GameController {
 				System.out.println("Game end");
 				displayWinningMessage();
 			}
-			gui_controller.updateDisplay();
+			gui.updateDisplay();
 		}
 	}
 
@@ -83,12 +81,6 @@ public class GameController {
 	 * in case any objects needs to be closed or anything similar.
 	 */
 	public void stop() {
-	}
-	
-	private void initLang(int langIndex) throws IOException {
-		LanguageController.initLang(langIndex);
-		lang = LanguageController.getCurrentLanguage();
-		DiceCup.setLang(lang);
 	}
 	
 	/**
@@ -122,13 +114,25 @@ public class GameController {
 			}
 		}
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
-        //gui_controller.updateDisplay();
+        //gui.updateDisplay();
 	}
 	
 	public void resetGame(){
 		playing = true;
 		turns = 1;
 	}
+
+	public String displayButtons(String msg, String... buttons) {
+		return gui.displayButtons(msg, buttons);
+	}
+
+	public void updateDisplay() {
+		gui.updateDisplay();
+	}
+
+	public void displayMessage(String msg) {
+	    gui.displayMessage(msg);
+    }
 
 	public boolean isPlaying() {
 		return playing;
@@ -142,13 +146,15 @@ public class GameController {
 		return players;
 	}
 
-	public Lang getLang() {
-		return lang;
-	}
-
 	public GameBoard getBord() {
 		return bord;
 	}
 
+    public void setTurnInfo(String turnInfo) {
+        this.turnInfo = turnInfo;
+    }
 
+    public String getTurnInfo() {
+        return turnInfo;
+    }
 }

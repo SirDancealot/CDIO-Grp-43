@@ -37,6 +37,7 @@ public class Player {
 	 */
 
 	public boolean move(int moving){
+		roll = moving;
 		currPos += moving;
 
 		if(currPos >= bord.getBoardSize()){

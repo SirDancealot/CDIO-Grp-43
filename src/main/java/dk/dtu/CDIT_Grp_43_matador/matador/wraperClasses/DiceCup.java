@@ -1,14 +1,12 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
 
 public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();
 	
 	private static Die d1 = new Die(6);
 	//private static Die d2 = new Die(6);
-	private static Lang lang;
 	
 	private DiceCup() { }
 
@@ -93,7 +91,4 @@ public class DiceCup {
 		return lang.getTag("DiceCup:d1") + d1.getFaceValue() + lang.getTag("DiceCup:d1") + d2.getFaceValue();
 	}
 	*/
-	public static void setLang(Lang lang) {
-		DiceCup.lang = lang;
-	}
 }
