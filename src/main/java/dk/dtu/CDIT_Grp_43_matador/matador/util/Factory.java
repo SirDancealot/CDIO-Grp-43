@@ -18,8 +18,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
 
 
 public class Factory {
@@ -34,7 +32,6 @@ public class Factory {
 	        return  this.tiles;
         HashMap <String, String> tileTags = TextReader.getTiles();
         HashMap <String, String> rentTags = TextReader.getRent();
-        Lang lang = LanguageController.getCurrentLanguage();
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {

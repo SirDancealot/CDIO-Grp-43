@@ -1,6 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
 
+import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
@@ -11,14 +12,16 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GUI_Controller {
+    private static GUI_Controller INSTANCE = new GUI_Controller();
+
 
     private GUI gui;
 
+    private GameController game = GameController.getInstance();
     private GUI_Player[] allPlayer;
     private int numberOfPlayers = 0;
-    private int langIndex = 0;
     private String[] names;
-    private static GUI_Controller INSTANCE = new GUI_Controller();
+
     private static InformationExchanger infExch = InformationExchanger.getInstance();
 
     
@@ -39,7 +42,7 @@ public class GUI_Controller {
 
 
 
-    public void setupGame(String[] lang) throws IOException{
+    public void setupGame() throws IOException{
 
         // Number of players
         String number_of_players = getGui().getUserButtonPressed("Select the number of players",  "2", "3", "4" );
@@ -69,12 +72,16 @@ public class GUI_Controller {
 
     // Update GUI
     public void updateDisplay(){
-    	getGui().getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
-        getGui().setDie(infExch.getCurrPlayerRolled());
+        game.getTurnInfo();
+
+    	/*
+        gui.getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
+        gui.setDie(infExch.getCurrPlayerRolled());
         setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerRolled(), infExch.getCardMove());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
         displayCurrentTurn(infExch.getCurrentTurnText());
+        */
     }
 
     // Created players
@@ -201,10 +208,6 @@ public class GUI_Controller {
 
     public String[] getNames() {
         return names;
-    }
-
-    public int getLangIndex() {
-        return langIndex;
     }
 }
 
