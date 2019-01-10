@@ -91,6 +91,10 @@ public class LogicController {
         return INSTANCE;
     }
 
+    public void displayMessage(String msg) {
+        game.displayMessage(msg);
+    }
+
     public boolean isEndOfGame() {
         return endOfGame;
     }
