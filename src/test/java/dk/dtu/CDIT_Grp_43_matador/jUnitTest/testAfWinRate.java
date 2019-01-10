@@ -1,16 +1,13 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.RepeatedTest;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
 
@@ -23,7 +20,7 @@ public class testAfWinRate {
     private static Player[] players;
     private static GameBoard bord = GameBoard.getInstance();
     private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
-    private static LogicController logic = LogicController.getINSTANCE();
+    private static Logic logic = Logic.getINSTANCE();
     private static InformationExchanger infExch = InformationExchanger.getInstance();
 
 
