@@ -55,6 +55,7 @@ public class Factory {
                     break;
                 case "Ship":
                     tempTile = new Ship(tileName, tileInfo, i, rentTags.get("Ship"));
+                    break;
                 default:
                     tempTile = new FreeParking("","", -1);
                     break;
