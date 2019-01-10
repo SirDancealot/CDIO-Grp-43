@@ -7,6 +7,19 @@ import java.util.HashMap;
 
 
 public class TextReader {
+	private static HashMap<String, String> rent;
+	private static HashMap<String, String> tiles;
+	private static HashMap<String, String> cards;
+
+	public void init() {
+		try {
+			rent = fileToHashMap("./res/Rent.txt");
+			tiles = fileToHashMap("./res/Tiles.txt");
+			cards = fileToHashMap("./res/Cards.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static HashMap<String, String> fileToHashMap(String path) throws IOException {
 		BufferedReader fileReader = new BufferedReader(new FileReader(path));
@@ -19,5 +32,17 @@ public class TextReader {
 		}
 		fileReader.close();
 		return fileMap;
+	}
+
+	public static HashMap<String, String> getCards() {
+		return cards;
+	}
+
+	public static HashMap<String, String> getRent() {
+		return rent;
+	}
+
+	public static HashMap<String, String> getTiles() {
+		return tiles;
 	}
 }

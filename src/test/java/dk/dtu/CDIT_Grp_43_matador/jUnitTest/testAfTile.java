@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -63,13 +64,13 @@ public class testAfTile {
     }
     @Test
     public void testAfProperty(){
-        Property propertyTile = new Property("", "tag:Property;Tilevalue:1;name:The Burger bar;sister:brown", 0);
+        Ownable ownableTile = new Ownable("", "tag:Property;Tilevalue:1;name:The Burger bar;sister:brown", 0);
         Player p = new Player("testPlayer", 20);
         int score = p.getScore();
         int TO = p.getOwnedTiles().size();
         assertTrue(TO==0);
 
-        propertyTile.landOnTile(p);
+        ownableTile.landOnTile(p);
 
         TO = p.getOwnedTiles().size();
         assertTrue(TO==1);
