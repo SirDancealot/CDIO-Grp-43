@@ -7,7 +7,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
 
 public class Brewery extends Ownable {
-    int[] dieMultiplier;
+    private int[] dieMultiplier;
 
     public Brewery(String tilename, String tileinfo, int tileIndex, String rentInfo) {
         super(tilename, tileinfo, tileIndex);
@@ -20,11 +20,18 @@ public class Brewery extends Ownable {
 
     }
 
+    /**
+     * Method for landing on brewery tile
+     * @param p The current player.
+     * @return true if player is the owner,
+     * else return player pays roll * dieMultiplier for amount of breweries owned
+     */
+
     @Override
     public boolean landOnTile(Player p) {
         if (p == owner)
             return true;
-        p.withDrawMoney(p.getRoll()*tileSetOwned());
+        return p.withDrawMoney(p.getRoll()*dieMultiplier[tilesInSetOwned()-1]);
     }
 }
 

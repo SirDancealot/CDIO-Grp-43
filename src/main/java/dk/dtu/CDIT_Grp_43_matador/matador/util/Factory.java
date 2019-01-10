@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Properties;
 import gui_fields.*;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
@@ -15,7 +17,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
@@ -38,8 +40,8 @@ public class Factory {
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {
-            String tileName = "test";
             String tileInfo = tileTags.get("Tile"+i);
+            String tileName = tileInfo.split(";")[tileInfo.split(";").length-1].split(":")[1];
             Tile tempTile;
             String tileType = tileInfo.split(";")[0].split(":")[1];
             switch (tileType) {
@@ -47,7 +49,7 @@ public class Factory {
                     tempTile = new Start(tileName, tileInfo, i);
                     break;
                 case "Property":
-                    tempTile = new Property(tileName,tileInfo, i);
+                    tempTile = new Properties(tileName,tileInfo, i, rentTags.get(tileName));
                     break;
                 case "Chance":
                     tempTile = new Chance(tileName, tileInfo, i);
