@@ -65,6 +65,11 @@ public abstract class Tile {
 
     // Getters
 
+
+    public boolean isBuyable() {
+        return buyable;
+    }
+
     public int getTileValue() {
         return tileValue;
     }

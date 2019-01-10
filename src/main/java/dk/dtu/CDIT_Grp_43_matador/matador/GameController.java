@@ -32,7 +32,7 @@ public class GameController {
 	private static GameBoard bord = GameBoard.getInstance();
 	private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
 	private static Lang lang;
-	private static LogicController logic = LogicController.getINSTANCE();
+	private static Logic logic = Logic.getINSTANCE();
 	private static GUI_Controller gui_controller = GUI_Controller.getINSTANCE();
 	private static InformationExchanger infExch = InformationExchanger.getInstance();
 
@@ -124,7 +124,11 @@ public class GameController {
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
         //gui_controller.updateDisplay();
 	}
-	
+
+	public String getChoice(String msg, String[] Buttons) {
+		return "lul";
+	}
+
 	public void resetGame(){
 		playing = true;
 		turns = 1;
