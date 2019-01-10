@@ -1,5 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
@@ -74,8 +75,28 @@ public class Bank {
                 logic.printMessage("Du har ikke råd til at betale leje og må pantsætte dine ejendomme.");
                 //Skulle man kunne klikke på husene på brættet?
                 // logic.getPlayerChoice("Vælg ejendom der skal pantsættes. Du skal pantsætte for mindst " + tile.value, (array af owned tiles));
-                
+
             }
         }
+    }
+
+
+
+    public void pawnBuildingIdeas(Player p, Tile tile) {
+    if (p.getScore() == 0 && tile.getOwner() != p) {
+        if(p.playerFortune() < tile.getTileValue()) {
+            logic.printMessage("Du kan ikke pantsætte nok ejendomme og er gået fallit");
+            p.removeFromGame();
+            housesInGame += p.housesOwned; // Hvor mange huse banken har.
+            p.getOwnedTiles() = 0; // De ejendomme/skøder som spilleren ejede kan nu genkøbes.
+        } else {
+            while (p.getScore() < tile.getTileValue()) {
+                logic.getPlayerChoice("Du har ikke råd til leje. Vælg ejendom der skal pantsættes ", array af p.getOwnedTiles());
+                p.removeHouse; //fjern ejendom fra spiller;
+                p.getScore() += house.value; //tilføj penge til spiller
+            }
+        }
+
+    }
     }
 }
