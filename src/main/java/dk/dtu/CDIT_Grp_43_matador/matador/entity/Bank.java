@@ -24,6 +24,12 @@ public class Bank {
     private final String[] options = {"Byd", "Stop med at byde"};
 
     public void auctions(Player[] players, Tile auctionTile) {
+        Ownable workingTile;
+        if (auctionTile instanceof Ownable)
+            workingTile = (Ownable)auctionTile;
+        else
+            return;
+
 
         for (Player player : players) {
             player.setInAuction(true);
@@ -33,7 +39,7 @@ public class Bank {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.displayMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
+        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
         String bidString = "";
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
@@ -57,7 +63,7 @@ public class Bank {
                 currentPlayerBidding = currentPlayerBidding % players.length;
             }
         }
-        auctionTile.setOwner(players[highestBidPlayer]);
+        workingTile.setOwner(players[highestBidPlayer]);
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
