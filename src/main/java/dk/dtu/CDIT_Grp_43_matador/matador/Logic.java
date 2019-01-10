@@ -1,17 +1,20 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+import
 
 public class Logic {
 
     private static Logic INSTANCE = new Logic();
     private final int TURNLIMIT = 100;
 
+    private Bank bank = Bank.getInstance();
     private GameController game = GameController.getInstance();
     private Player[] players;
     private DiceCup diceCup;
@@ -51,22 +54,28 @@ public class Logic {
 
             if (players[currPlayerIndex].isInJail()) {
                 if (players[currPlayerIndex].hasFreeJail()) {
-                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud", "Brug chance kort"};
+                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud", "Brug chance kort", "Pantsæt", "Køb", "Sælg hus(e)"};
                     String choice = getChoice("Hvordan vil du komme ud af fængsel?", choices);
                     jailMoves(choice);
                 } else {
-                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud"};
-                    String choice = getChoice("Hvordan vil du komme ud af fængsel?", choices);
+                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud", "Pantsæt", "Køb", "Sælg hus(e)"};
+                    String choice = getChoice("Du er i fængsel. Hvad vil du gøre nu?", choices);
                     jailMoves(choice);
                 }
 
             }
 
+            if (!players[currPlayerIndex].isInJail() && !rolled) {
+                String[] choices = {"Pantsæt", "Køb", "Sælg hus(e)", "Slå med terningerne"};
+                String choice = getChoice("Hvad vil du gøre nu?", choices);
+                notRolledMoves(choice);
+            }
+
         }
 
-        if(rolled)
+        if (rolled){
             players[currPlayerIndex].move(diceCup.getDiceIntValues());
-        else {
+        } else {
             diceCup.roll();
             rolled = true;
             players[currPlayerIndex].move(diceCup.getDiceIntValues());
@@ -74,11 +83,13 @@ public class Logic {
 
         while(rolled) {
             if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()) {
-                String[] rolledChoices = {"Køb","Sæt på auktion" ,"Sælg"};
+                String[] rolledChoices = {"Køb","Sæt på auktion" ,"Pantsæt", "Sælg hus(e)"};
                 String rolledChoice = getChoice("Hvad vil du nu?", rolledChoices);
                 rolledMoves(rolledChoice);
             }
         }
+
+
     }
     private void jailMoves (String choice) {
 
@@ -100,7 +111,39 @@ public class Logic {
                 players[currPlayerIndex].setInJail(false);
                 break;
 
+            case "Pantsæt":
+
+                break;
+
+            case "Køb":
+
+                break;
+
+            case "Sælg hus(e)":
+
+                break;
+
         }
+    }
+
+    private void notRolledMoves(String choice){
+
+        switch (choice){
+            case "Køb":
+
+                break;
+            case "Slå med terningerne":
+
+                break;
+            case "Sælg":
+
+                break;
+            case "Pantsæt":
+
+                break;
+        }
+
+
     }
 
     public void rolledMoves(String rolledChoice){
@@ -116,8 +159,12 @@ public class Logic {
                 break;
 
             case "Sælg":
-                   String sellChoice = getChoice("Hvad vil du sælge?", Spillers ejede huse);
-                   sell(sellChoice);
+
+                String Yeet;
+
+                break;
+            case "Sælg hus(e)":
+
                 break;
         }
 
@@ -126,9 +173,7 @@ public class Logic {
     public void sell(String sellChoice){
 
     }
-
-
-
+    
     public String getChoice (String msg, String[]buttons){
 
         return game.getChoice(msg, buttons);

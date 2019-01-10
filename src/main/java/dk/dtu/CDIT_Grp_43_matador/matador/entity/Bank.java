@@ -1,22 +1,22 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Bank {
 
-    private final Bank INSTANCE = new Bank();
+    private static final Bank INSTANCE = new Bank();
 
     private Bank() {}
 
-    public Bank getInstance() {
+    public static Bank getInstance() {
         return INSTANCE;
     }
 
-    private LogicController logic = LogicController.getINSTANCE();
+    private Logic logic = Logic.getINSTANCE();
 
     private int housesInGame;
     private int hotelsInGame;
