@@ -65,9 +65,7 @@ public abstract class Tile {
     }
 
     // Getters
-    public boolean isPawned(){return false;}
 
-    public void setPawned(boolean pawned){}
 
     public int getHouseLevel(){return 0;}
 

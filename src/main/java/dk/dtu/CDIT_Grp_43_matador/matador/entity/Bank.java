@@ -3,6 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Bank {
@@ -23,6 +24,7 @@ public class Bank {
     private final String[] options = {"Byd", "Stop med at byde"};
 
     public void auctions(Player[] players, Tile auctionTile) {
+
         for (Player player : players) {
             player.setInAuction(true);
         }
@@ -59,28 +61,44 @@ public class Bank {
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
-        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < tile.getHousePrice()) {
+        Property workingTile;
+        if (tile instanceof  Property)
+            workingTile = (Property)tile;
+        else
+            return false;
+
+        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice()) {
            return false;
         }
 
-        p.withDrawMoney(tile.getHousePrice());
-        tile.addHouse();
+        p.withDrawMoney(workingTile.getHousePrice());
+        workingTile.addHouseLevel();
 
         
     }
 
-    public boolean pawnTile(Player p, Ownable tile) {
+    public boolean pawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
         if (tile.getOwner() == p && tile.getHouseLevel() == 0 && tile.isBuyable()) {
-            tile.setPawned(true);
-            return p.addMoney(tile.getTileValue()/2);
+            workingTile.setPawned(true);
+            return p.addMoney(workingTile.getTileValue()/2);
         }
         return false;
     }
 
-    public boolean unPawnTile(Player p, Ownable tile) {
-        if (tile.getOwner() == p && tile.isPawned() && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
-            tile.setPawned(false);
-            return p.withDrawMoney((int)(tile.getTileValue()*0.6));
+    public boolean unPawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
+        if (workingTile.getOwner() == p && workingTile.isPawned() && p.getScore() >= (int)(workingTile.getTileValue()*0.6)) {
+            workingTile.setPawned(false);
+            return p.withDrawMoney((int)(workingTile.getTileValue()*0.6));
         }
         return false;
     }
