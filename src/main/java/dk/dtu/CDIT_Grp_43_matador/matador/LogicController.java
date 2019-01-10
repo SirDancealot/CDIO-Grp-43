@@ -94,6 +94,12 @@ public class LogicController {
     public boolean isEndOfGame() {
         return endOfGame;
     }
+
+    private void updateGui() {
+        game.setTurnInfo(turnInfo);
+        turnInfo = "";
+        game.updateDisplay();
+    }
     
     
 }

@@ -45,7 +45,7 @@ public class GUI_Controller {
     public void setupGame() throws IOException{
 
         // Number of players
-        String number_of_players = getGui().getUserButtonPressed("Select the number of players",  "2", "3", "4" );
+        String number_of_players = gui.getUserButtonPressed("Select the number of players",  "2", "3", "4" );
         switch (number_of_players) {
             case "2":
                 System.out.println("2 player");
@@ -85,7 +85,7 @@ public class GUI_Controller {
     }
 
     // Created players
-    public void addplayers(String[] names, int money) {
+    public void addplayers(int money) {
         Color[] primaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
         Color[] secondaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
         GUI_Car.Type[] carTypes = {GUI_Car.Type.CAR,GUI_Car.Type.TRACTOR, GUI_Car.Type.RACECAR, GUI_Car.Type.UFO };
@@ -104,9 +104,9 @@ public class GUI_Controller {
 
 
     // Display all players
-    public void displayPlayers(GUI_Player[] playersInGame){
-        for(int i = 0; i < playersInGame.length; i++){
-            gui.getFields()[0].setCar(playersInGame[i], true);
+    public void displayPlayers(){
+        for(int i = 0; i < allPlayer.length; i++){
+            gui.getFields()[0].setCar(allPlayer[i], true);
         }
     }
 
@@ -180,24 +180,6 @@ public class GUI_Controller {
    }
 
     // Getters and setters
-
-
-    public GUI_Player[] getAllPlayer() {
-        return allPlayer;
-    }
-
-    public void setAllPlayer(GUI_Player[] allPlayer, int roll) {
-        this.allPlayer = allPlayer;
-    }
-
-    public GUI getGui() {
-        return gui;
-    }
-
-    public void setGui(GUI gui) {
-        this.gui = gui;
-    }
-
     public static GUI_Controller getINSTANCE() {
         return INSTANCE;
     }

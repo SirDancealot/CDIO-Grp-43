@@ -43,9 +43,10 @@ public class GameController {
 		gui.setupGame();
 		int numPlayers = gui.getNumberOfPlayers();
 		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;
-		gui.addplayers(gui.getNames(), startMoney);
-		gui.displayPlayers(gui.getAllPlayer());
 		String[] names = gui.getNames();
+		gui.addplayers(startMoney);
+		gui.displayPlayers();
+
 
 		bord.initBoard();
 
@@ -140,6 +141,11 @@ public class GameController {
 	public GameBoard getBord() {
 		return bord;
 	}
+
+	public void updateDisplay() {
+
+	    gui.updateDisplay();
+    }
 
     public void setTurnInfo(String turnInfo) {
         this.turnInfo = turnInfo;
