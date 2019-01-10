@@ -127,17 +127,14 @@ public class Logic {
 
     }
 
-
+    public void displayMessage(String msg) {
+        game.displayMessage(msg);
+    }
 
     public String getChoice (String msg, String[]buttons){
 
         return game.getChoice(msg, buttons);
     }
-
-    public String guiMsg (String msg){
-        return game.guiMsg(msg);
-    }
-
 
     public static Logic getINSTANCE () {
         return INSTANCE;
