@@ -115,9 +115,11 @@ public class Player {
     public int getScore() {
         return playerAccount.getMoney();
     }
+
     public int getRoll() {
         return roll;
     }
+
     public int getCurrPos() {
         return currPos;
     }
