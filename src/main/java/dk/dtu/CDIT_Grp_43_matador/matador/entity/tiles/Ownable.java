@@ -13,6 +13,7 @@ public class Ownable extends Tile {
     public String type = "Property";
     private boolean mortgaged = false;
     protected int tilesInSet;
+    protected boolean pawned = false;
 
 
 
@@ -82,6 +83,14 @@ public class Ownable extends Tile {
      */
     @Override
     public boolean passedTile(Player p) { return true; }
+
+    @Override
+    public boolean isPawned() {return pawned; }
+
+    @Override
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
+    }
 
     public Player getOwner() {
         return owner;

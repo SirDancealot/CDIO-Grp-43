@@ -36,7 +36,7 @@ public class Factory {
                     tempTile = new Start(tileName, tileInfo, i);
                     break;
                 case "Property":
-                    tempTile = new Properties(tileName,tileInfo, i, rentTags.get(tileName));
+                    tempTile = new Property(tileName,tileInfo, i, rentTags.get(tileName));
                     break;
                 case "Chance":
                     tempTile = new Chance(tileName, tileInfo, i);

@@ -11,7 +11,6 @@ public class Brewery extends Ownable {
 
     public Brewery(String tilename, String tileinfo, int tileIndex, String rentInfo) {
         super(tilename, tileinfo, tileIndex);
-        TextReader.getRent();
         String[] rentInfoTags = rentInfo.split(";");
         dieMultiplier = new int[rentInfoTags.length];
         for (String infoTag: rentInfoTags) {

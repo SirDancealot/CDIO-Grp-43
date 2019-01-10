@@ -12,6 +12,7 @@ public abstract class Tile {
     protected String type;
     protected InformationExchanger infExch = InformationExchanger.getInstance();
 
+
     /**
      * Super constructor for all tile classes, should be called in all sub classes.
      * @param tileName the name on the current tile gathered from Tiles.txt file.
@@ -64,6 +65,11 @@ public abstract class Tile {
     }
 
     // Getters
+    public boolean isPawned(){return false;}
+
+    public void setPawned(boolean pawned){}
+
+    public int getHouseLevel(){return 0;}
 
     public int getTileValue() {
         return tileValue;
@@ -93,5 +99,6 @@ public abstract class Tile {
     public boolean isBuyable() {
         return buyable;
     }
+
 }
 

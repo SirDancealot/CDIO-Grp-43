@@ -78,7 +78,7 @@ public class Bank {
     }
 
     public boolean unPawnTile(Player p, Ownable tile) {
-        if (tile.getOwner() == p && tile.isPawned && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
+        if (tile.getOwner() == p && tile.isPawned() && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
             tile.setPawned(false);
             return p.withDrawMoney((int)(tile.getTileValue()*0.6));
         }
