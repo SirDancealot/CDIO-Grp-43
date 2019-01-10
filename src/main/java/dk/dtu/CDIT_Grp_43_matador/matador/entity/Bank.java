@@ -61,6 +61,7 @@ public class Bank {
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
+
         Property workingTile;
         if (tile instanceof  Property)
             workingTile = (Property)tile;

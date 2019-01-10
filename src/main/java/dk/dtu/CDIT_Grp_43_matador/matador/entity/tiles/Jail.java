@@ -7,7 +7,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Jail extends Tile {
     private int outOfJailPrice = 1;
-    public String type = "Jail";
 
     public Jail(String tilename, String tileinfo, int tileIndex){
         super(tilename, tileinfo, tileIndex);
