@@ -122,8 +122,16 @@ public class GameController {
 		turns = 1;
 	}
 
-	public void postTurnInfo(String turnInfo) {
-	    gui.displayCurrentTurn(turnInfo);
+	public String displayButtons(String msg, String... buttons) {
+		return gui.displayButtons(msg, buttons);
+	}
+
+	public void updateDisplay() {
+		gui.updateDisplay();
+	}
+
+	public void displayMessage(String msg) {
+	    gui.displayMessage(msg);
     }
 
 	public boolean isPlaying() {
@@ -141,11 +149,6 @@ public class GameController {
 	public GameBoard getBord() {
 		return bord;
 	}
-
-	public void updateDisplay() {
-
-	    gui.updateDisplay();
-    }
 
     public void setTurnInfo(String turnInfo) {
         this.turnInfo = turnInfo;

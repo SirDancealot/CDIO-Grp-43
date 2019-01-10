@@ -84,7 +84,7 @@ public class LogicController {
         	endOfGame = true;
         	infExch.addToCurrentTurnText("\nThe game will now be terminated due to too many turns having taken place without anyone loosing");
         }
-        game.postTurnInfo(turnInfo);
+        game.displayMessage(turnInfo);
     }
 
     public static LogicController getINSTANCE() {

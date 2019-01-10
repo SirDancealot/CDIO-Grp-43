@@ -30,36 +30,26 @@ public class GUI_Controller {
 
     // Start game
 
+	/**
+	 * Initializes the gui with all the tiles to display.
+	 */
     public void init(){
-        GUI_Field[] gui_fields = new GUI_Field[0];
+        GUI_Field[] gui_fields;
         try {
             gui_fields = Factory.getInstance().createGuiFields();
         } catch (IOException e) {
-            e.printStackTrace();
+	        gui_fields = new GUI_Field[0];
         }
         gui = new GUI(gui_fields);
     }
 
-
-
-    public void setupGame() throws IOException{
-
+	/**
+	 * Asks the user for how many will be playing and what their player names will be.
+	 * @throws IOException when an I/O error occurs.
+	 */
+	public void setupGame() throws IOException{
         // Number of players
-        String number_of_players = gui.getUserButtonPressed("Select the number of players",  "2", "3", "4" );
-        switch (number_of_players) {
-            case "2":
-                System.out.println("2 player");
-                numberOfPlayers = 2;
-                break;
-            case "3":
-                System.out.println("3 player");
-                numberOfPlayers = 3;
-                break;
-            case "4":
-                System.out.println("4 player");
-                numberOfPlayers = 4;
-                break;
-        }
+        numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Select the number of players",  "2", "3", "4" ));
 
         // Add player names
         names = new String[numberOfPlayers];
@@ -71,8 +61,12 @@ public class GUI_Controller {
 
 
     // Update GUI
+
+	/**
+	 * method to call when wanting to update the display with what happened last turn.
+	 */
     public void updateDisplay(){
-        game.getTurnInfo();
+        String turnInfo = game.getTurnInfo();
 
     	/*
         gui.getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
@@ -80,11 +74,16 @@ public class GUI_Controller {
         setScore(getAllPlayer(), infExch.getPlayers());
         movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerRolled(), infExch.getCardMove());
         displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
-        displayCurrentTurn(infExch.getCurrentTurnText());
+        displayMessage(infExch.getCurrentTurnText());
         */
     }
 
     // Created players
+
+	/**
+	 * initializes an array of gui payers to be displayed in the gui with a given amount of money to start with.
+	 * @param money the amount of money each player starts with.
+	 */
     public void addplayers(int money) {
         Color[] primaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
         Color[] secondaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
@@ -98,12 +97,20 @@ public class GUI_Controller {
         }
     }
 
-    public void displayCurrentTurn(String currentTurn){
-        gui.showMessage(currentTurn);
+	/**
+	 * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
+	 * @param msg a String containing what to display
+	 */
+	public void displayMessage(String msg){
+        gui.showMessage(msg);
     }
 
 
     // Display all players
+
+	/**
+	 * Displays all the gui players on the start tile.
+	 */
     public void displayPlayers(){
         for(int i = 0; i < allPlayer.length; i++){
             gui.getFields()[0].setCar(allPlayer[i], true);
@@ -111,7 +118,16 @@ public class GUI_Controller {
     }
 
     // Move current player
-    public void movePlayer(GUI_Player[] allPlayer, int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
+
+	/**
+	 * method to be called when updating the gui with a new position for a {@code Player}
+	 * @param currentPlayer the index of the current player in the range {@code 0 <= currentPlayer < Players.length}
+	 * @param playerPositionAfterRoll the index on the {@code GameBoard} of the {@code Player} after their turn is done.
+	 * @param playerPositionBeforeRoll the index on the {@code GameBoard} of the {@code Player} before their turn is done.
+	 * @param playerRoll the number the {@code Player} rolled with the dice.
+	 * @param cardMove the amount of tiles the {@code Player} moved due to drawing {@code ChanceCard}.
+	 */
+    public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
     	for (int i = 0; i < playerRoll; i++) {
     		gui.getFields()[(playerPositionBeforeRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
     		gui.getFields()[(playerPositionBeforeRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
@@ -158,9 +174,14 @@ public class GUI_Controller {
     */}
 
     // Set score
-    public void setScore(GUI_Player[] guiPlayer, Player[] logicPlayers){
-    	for (int i = 0; i < guiPlayer.length; i++) {
-			guiPlayer[i].setBalance(logicPlayers[i].getScore());
+
+	/**
+	 * Method to be called when having to update the gui with the current score of each {@code Player}
+	 * @param logicPlayers the array of {@code Player}s which are the ones used in the logic part of the game.
+	 */
+    public void setScore(Player[] logicPlayers){
+    	for (int i = 0; i < allPlayer.length; i++) {
+			allPlayer[i].setBalance(logicPlayers[i].getScore());
 		}
     	
         //allPlayer[currentPlayer].setBalance(score);
@@ -168,7 +189,7 @@ public class GUI_Controller {
 
     // displayOwner
 
-   public void displayOwner(GUI_Player[] allPlayer, int currentPlayer, int playerPosition, boolean owned){
+   public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
 
         if(owned){
             GUI_Field f = gui.getFields()[playerPosition];
@@ -176,7 +197,17 @@ public class GUI_Controller {
                 GUI_Ownable o = (GUI_Ownable)f;
                 o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
             }
+        }
    }
+
+	/**
+	 *
+	 * @param msg the message to display to the player with the buttons
+	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
+	 * @return returns the string that was written on the button that was pressed
+	 */
+   public String displayButtons(String msg, String... buttons) {
+        return gui.getUserButtonPressed(msg, buttons);
    }
 
     // Getters and setters
