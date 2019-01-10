@@ -3,14 +3,12 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 import java.util.ArrayList;
 
 import com.sun.jdi.IntegerValue;
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Ownable extends Tile {
     protected Player owner = null;
     private String sisterTag;
-    private boolean mortgaged = false;
     protected int tilesInSet;
     protected boolean pawned = false;
 

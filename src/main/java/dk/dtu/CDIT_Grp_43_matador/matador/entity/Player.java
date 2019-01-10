@@ -19,6 +19,7 @@ public class Player {
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
 	private boolean nextJailFree = false;
+	private boolean inAuction = false;
 
 	/**
 	 * @param name the name this player has.
@@ -114,9 +115,11 @@ public class Player {
     public int getScore() {
         return playerAccount.getMoney();
     }
+
     public int getRoll() {
         return roll;
     }
+
     public int getCurrPos() {
         return currPos;
     }
@@ -163,5 +166,13 @@ public class Player {
     
     public static void setPlayers(Player[] players) {
 		Player.players = players;
+	}
+
+	public boolean isInAuction() {
+		return inAuction;
+	}
+
+	public void setInAuction(boolean inAuction) {
+		this.inAuction = inAuction;
 	}
 }

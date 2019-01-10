@@ -12,15 +12,24 @@ public class Ship extends Ownable {
         super(tilename, tileinfo, tileIndex);
         String[] rentInfoTags = rentInfo.split(";");
         shipMultiplier = new int[rentInfoTags.length];
-        for (String infoTag: rentInfoTags) {
-            shipMultiplier[Integer.valueOf(infoTag.split(":")[0])-1] = Integer.valueOf(infoTag.split(":")[1]);
+        for (String infoTag : rentInfoTags) {
+            shipMultiplier[Integer.valueOf(infoTag.split(":")[0]) - 1] = Integer.valueOf(infoTag.split(":")[1]);
         }
     }
 
+    /**
+     * Method for landing on a ship tile
+     *
+     * @param p The current player.
+     * @return true if p has enough money to pay rent
+     */
+
     @Override
     public boolean landOnTile(Player p) {
-        if (p == owner)
-            return true;
-       return p.withDrawMoney(shipMultiplier[tilesInSetOwned()-1]);
+        if (pawned) {
+        } else {
+            if (p == owner)
+                return true;
+        } return p.withDrawMoney(shipMultiplier[tilesInSetOwned() - 1]);
     }
 }
