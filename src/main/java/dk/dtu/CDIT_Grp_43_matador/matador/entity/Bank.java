@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Bank {
@@ -30,7 +31,7 @@ public class Bank {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.printMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
+        logic.displayMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
         String bidString = "";
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
@@ -58,45 +59,29 @@ public class Bank {
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
-        if (tile.getOwner() == p) {
+        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < tile.getHousePrice()) {
            return false;
         }
+
         p.withDrawMoney(tile.getHousePrice());
         tile.addHouse();
 
+        
     }
 
-    public void pawnBuilding(Player p, Tile tile) {
-        if (p.getScore() == 0) {
-            if (tile.getOwner() != p && p.playerFortune() < tile.value) {
-                logic.printMessage("Du kan ikke pantsætte nok ejendomme og er gået fallit");
-                (remove the player from the game)
-            } else {
-                logic.printMessage("Du har ikke råd til at betale leje og må pantsætte dine ejendomme.");
-                //Skulle man kunne klikke på husene på brættet?
-                // logic.getPlayerChoice("Vælg ejendom der skal pantsættes. Du skal pantsætte for mindst " + tile.value, (array af owned tiles));
-
-            }
+    public boolean pawnTile(Player p, Ownable tile) {
+        if (tile.getOwner() == p && tile.getHouseLevel() == 0 && tile.isBuyable()) {
+            tile.setPawned(true);
+            return p.addMoney(tile.getTileValue()/2);
         }
+        return false;
     }
 
-
-
-    public void pawnBuildingIdeas(Player p, Tile tile) {
-    if (p.getScore() == 0 && tile.getOwner() != p) {
-        if(p.playerFortune() < tile.getTileValue()) {
-            logic.printMessage("Du kan ikke pantsætte nok ejendomme og er gået fallit");
-            p.removeFromGame();
-            housesInGame += p.housesOwned; // Hvor mange huse banken har.
-            p.getOwnedTiles() = 0; // De ejendomme/skøder som spilleren ejede kan nu genkøbes.
-        } else {
-            while (p.getScore() < tile.getTileValue()) {
-                logic.getPlayerChoice("Du har ikke råd til leje. Vælg ejendom der skal pantsættes ", array af p.getOwnedTiles());
-                p.removeHouse; //fjern ejendom fra spiller;
-                p.getScore() += house.value; //tilføj penge til spiller
-            }
+    public boolean unPawnTile(Player p, Ownable tile) {
+        if (tile.getOwner() == p && tile.isPawned && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
+            tile.setPawned(false);
+            return p.withDrawMoney((int)(tile.getTileValue()*0.6));
         }
-
-    }
+        return false;
     }
 }

@@ -89,5 +89,9 @@ public abstract class Tile {
 	public String getSisterTag() {
 		return null;
 	}
+
+    public boolean isBuyable() {
+        return buyable;
+    }
 }
 
