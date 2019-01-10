@@ -3,13 +3,13 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
-public class AuctionHouse {
+public class Bank {
 
-    private final AuctionHouse INSTANCE = new AuctionHouse();
+    private final Bank INSTANCE = new Bank();
 
-    private AuctionHouse() {}
+    private Bank() {}
 
-    public AuctionHouse getInstance() {
+    public Bank getInstance() {
         return INSTANCE;
     }
 
@@ -54,5 +54,28 @@ public class AuctionHouse {
             }
         }
         auctionTile.setOwner(players[highestBidPlayer]);
+    }
+
+    public boolean upgradeGround(Player p, Tile tile) {
+        if (tile.getOwner() == p) {
+           return false;
+        }
+        p.withDrawMoney(tile.getHousePrice());
+        tile.addHouse();
+
+    }
+
+    public void pawnBuilding(Player p, Tile tile) {
+        if (p.getScore() == 0) {
+            if (tile.getOwner() != p && p.playerFortune() < tile.value) {
+                logic.printMessage("Du kan ikke pantsætte nok ejendomme og er gået fallit");
+                (remove the player from the game)
+            } else {
+                logic.printMessage("Du har ikke råd til at betale leje og må pantsætte dine ejendomme.");
+                //Skulle man kunne klikke på husene på brættet?
+                // logic.getPlayerChoice("Vælg ejendom der skal pantsættes. Du skal pantsætte for mindst " + tile.value, (array af owned tiles));
+                
+            }
+        }
     }
 }
