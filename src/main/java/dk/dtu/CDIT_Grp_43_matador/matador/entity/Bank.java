@@ -1,15 +1,17 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
-public class AuctionHouse {
+public class Bank {
 
-    private final AuctionHouse INSTANCE = new AuctionHouse();
+    private final Bank INSTANCE = new Bank();
 
-    private AuctionHouse() {}
+    private Bank() {}
 
-    public AuctionHouse getInstance() {
+    public Bank getInstance() {
         return INSTANCE;
     }
 
@@ -29,7 +31,7 @@ public class AuctionHouse {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.printMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
+        logic.displayMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
         String bidString = "";
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
@@ -54,5 +56,32 @@ public class AuctionHouse {
             }
         }
         auctionTile.setOwner(players[highestBidPlayer]);
+    }
+
+    public boolean upgradeGround(Player p, Tile tile) {
+        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < tile.getHousePrice()) {
+           return false;
+        }
+
+        p.withDrawMoney(tile.getHousePrice());
+        tile.addHouse();
+
+        
+    }
+
+    public boolean pawnTile(Player p, Ownable tile) {
+        if (tile.getOwner() == p && tile.getHouseLevel() == 0 && tile.isBuyable()) {
+            tile.setPawned(true);
+            return p.addMoney(tile.getTileValue()/2);
+        }
+        return false;
+    }
+
+    public boolean unPawnTile(Player p, Ownable tile) {
+        if (tile.getOwner() == p && tile.isPawned && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
+            tile.setPawned(false);
+            return p.withDrawMoney((int)(tile.getTileValue()*0.6));
+        }
+        return false;
     }
 }

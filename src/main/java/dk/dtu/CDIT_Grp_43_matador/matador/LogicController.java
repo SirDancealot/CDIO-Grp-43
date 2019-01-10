@@ -16,6 +16,8 @@ public class LogicController {
     private InformationExchanger infExch = InformationExchanger.getInstance();
     private boolean endOfGame = false;
     private int turns = 0;
+    private String turnInfo;
+    private GameController game = GameController.getInstance();
 
     // Turn base variables
 
@@ -38,10 +40,11 @@ public class LogicController {
     }
 
     /**
-     * A funktion that updates the logic in the game and should be called every logic frame
+     * A function that updates the logic in the game and should be called every logic frame
      */
 
     public void tick(){
+        turnInfo = "";
 
         // Reset current turn text
         infExch.setCurrentTurnText("");
@@ -79,16 +82,27 @@ public class LogicController {
         }
         if (turns > TURNLIMIT) {
         	endOfGame = true;
-        	infExch.addToCurrentTurnText("\nThe game will now be ternimated due to too many turns having taken place without anyone loosing");
+        	infExch.addToCurrentTurnText("\nThe game will now be terminated due to too many turns having taken place without anyone loosing");
         }
+        game.displayMessage(turnInfo);
     }
 
     public static LogicController getINSTANCE() {
         return INSTANCE;
     }
 
+    public void displayMessage(String msg) {
+        game.displayMessage(msg);
+    }
+
     public boolean isEndOfGame() {
         return endOfGame;
+    }
+
+    private void updateGui() {
+        game.setTurnInfo(turnInfo);
+        turnInfo = "";
+        game.updateDisplay();
     }
     
     

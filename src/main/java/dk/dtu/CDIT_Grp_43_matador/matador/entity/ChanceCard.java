@@ -48,13 +48,14 @@ public class ChanceCard {
     	cardDeck.returnCardToDeck(this);
     }
 	
-	private void printCard(Player p) {
-		infExch.addToCurrentTurnText(p + " used a card with the effect");
+	private String printCard(Player p) {
+		String result = p + " used a card with the effect";
 		if (cardEffects.length > 1)
-			infExch.addToCurrentTurnText("s");
-		infExch.addToCurrentTurnText("\n");
-		for (CardEffect cardEffect : cardEffects) {
-			infExch.addToCurrentTurnText(cardEffect.printEffect(p));
-		}
+			result += "s";
+		result += "\n";
+		for (CardEffect cardEffect : cardEffects)
+			result += cardEffect.printEffect(p);
+
+		return result;
 	}
 }

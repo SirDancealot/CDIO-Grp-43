@@ -1,27 +1,15 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.util;
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Properties;
-import gui_fields.*;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.Lang;
-import dk.dtu.CDIT_Grp_43_matador.matador.language.LanguageController;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.*;
+import gui_fields.*;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.*;
+import java.util.Queue;
 
 
 public class Factory {
@@ -36,7 +24,6 @@ public class Factory {
 	        return  this.tiles;
         HashMap <String, String> tileTags = TextReader.getTiles();
         HashMap <String, String> rentTags = TextReader.getRent();
-        Lang lang = LanguageController.getCurrentLanguage();
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {
