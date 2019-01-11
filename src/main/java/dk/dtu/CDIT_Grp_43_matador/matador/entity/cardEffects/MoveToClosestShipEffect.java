@@ -4,15 +4,15 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class MoveToClosestShipEffect extends CardEffect {
+    private String moveToTag;
 
-    public MoveToClosestShipEffect() {
+    public MoveToClosestShipEffect(String moveToTag) {
+        this.moveToTag = moveToTag;
     }
 
     @Override
     public boolean useEffect(Player p) {
-        //TODO fix the acquiring of the matchingTiles
-        Tile[] matchingTiles = new Tile[0];
-
+        Tile[] matchingTiles = p.getTilesByTag(moveToTag);
 
         int shortestDistance = Integer.MAX_VALUE;
         int[] shipPosition = new int[matchingTiles.length];
@@ -34,11 +34,11 @@ public class MoveToClosestShipEffect extends CardEffect {
 
     @Override
     public String toString() {
-        return super.toString();
+        return super.toString() + "MoveToClosestShipEffect";
     }
 
     @Override
     public String printEffect(Player p) {
-        return null;
+        return "\t" + p + " moves to the tile: " + moveToTag + "\n";
     }
 }

@@ -30,8 +30,6 @@ public class Ownable extends Tile {
                     break;
                 case "setSize":
                     tilesInSet = Integer.valueOf(tagInfo[1]);
-
-
                 default:
                     break;
             }

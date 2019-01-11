@@ -6,6 +6,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tax;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.*;
@@ -55,6 +56,9 @@ public class Factory {
                 case "GoToJail":
                     tempTile = new GoToJail(tileName,tileInfo, i);
                     break;
+                case "Tax":
+                    tempTile = new Tax(tileName,tileInfo, i);
+                    break;
                 case "Brewery":
                     tempTile = new Brewery(tileName, tileInfo, i, rentTags.get("brew"));
                     break;
@@ -98,6 +102,9 @@ public class Factory {
 					    break;
 					case "matadorLegat":
                         cardEffects[j] = new MatadorlegatEffect(Integer.valueOf(thisCardInfo[j].split(":")[2]),Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "shipMove":
+                        cardEffects[j] = new MoveToClosestShipEffect(thisCardInfo[j].split(":")[1]);
                         break;
                     default:
                         break;
