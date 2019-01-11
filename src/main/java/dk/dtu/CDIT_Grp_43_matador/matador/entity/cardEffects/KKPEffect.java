@@ -11,7 +11,6 @@ public class KKPEffect extends CardEffect {
         this.houseFee = houseFee;
         this.hotelFee = hotelFee;
     }
-
     @Override
     public boolean useEffect(Player p) {
         int[] houseAndHotel = p.getHouseAndHotelsOwned();
