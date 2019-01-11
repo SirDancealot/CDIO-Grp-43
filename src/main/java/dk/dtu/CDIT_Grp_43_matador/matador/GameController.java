@@ -30,7 +30,7 @@ public class GameController {
 	private Player[] players;
 	private GameBoard bord = GameBoard.getInstance();
 	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
-	private LogicController logic = LogicController.getINSTANCE();
+	private Logic logic = Logic.getINSTANCE();
 	private GUI_Controller gui = GUI_Controller.getINSTANCE();
 	private InformationExchanger infExch = InformationExchanger.getInstance();
 
@@ -160,5 +160,9 @@ public class GameController {
 
     public String getTurnInfo() {
         return turnInfo;
+    }
+
+    public int getUserInt(String msg) {
+		return gui.getUserInt(msg);
     }
 }

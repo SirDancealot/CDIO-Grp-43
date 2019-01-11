@@ -67,15 +67,6 @@ public abstract class Tile {
     }
 
     // Getters
-
-
-    public boolean isBuyable() {
-        return buyable;
-    }
-
-
-    public int getHouseLevel(){return 0;}
-
     public int getTileValue() {
         return tileValue;
     }

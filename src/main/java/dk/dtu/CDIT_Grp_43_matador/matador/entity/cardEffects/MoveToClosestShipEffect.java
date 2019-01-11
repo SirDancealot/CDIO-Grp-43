@@ -10,10 +10,14 @@ public class MoveToClosestShipEffect extends CardEffect {
 
     @Override
     public boolean useEffect(Player p) {
+        //TODO fix the acquiring of the matchingTiles
+        Tile[] matchingTiles = new Tile[0];
+
+
         int shortestDistance = Integer.MAX_VALUE;
         int[] shipPosition = new int[matchingTiles.length];
         for (int i = 0; i < matchingTiles.length; i++) {
-            shipPosition[i] += matchingTiles.getTileIndex(i);
+            shipPosition[i] += matchingTiles[i].getTileIndex();
         }
         for (int i = 0; i < shipPosition.length; i++) {
             int distance = shipPosition[i] - p.getCurrPos();

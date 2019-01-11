@@ -41,11 +41,15 @@ public class Property extends Ownable {
 
     //public int housePrice(){}
 
-    @Override
     public int getHouseLevel() {
         return houseLevel;
     }
+
     public void addHouseLevel(){
         houseLevel++;
+    }
+
+    public int getHousePrice() {
+        return housePrice;
     }
 }

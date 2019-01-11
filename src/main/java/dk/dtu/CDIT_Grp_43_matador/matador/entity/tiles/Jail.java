@@ -39,4 +39,12 @@ public class Jail extends Tile {
         }
         return true;
     }
+
+    public boolean payToExit(Player p) {
+    	if (p.isInJail()) {
+		    p.setInJail(false);
+		    return p.withDrawMoney(outOfJailPrice);
+	    }
+		return true;
+    }
 }

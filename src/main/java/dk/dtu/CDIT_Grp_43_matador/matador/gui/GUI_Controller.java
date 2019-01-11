@@ -37,7 +37,10 @@ public class GUI_Controller {
         GUI_Field[] gui_fields;
         try {
             gui_fields = Factory.getInstance().createGuiFields();
+	        System.out.println("did it");
         } catch (IOException e) {
+	        e.printStackTrace();
+	        System.out.println("didn't do it");
 	        gui_fields = new GUI_Field[0];
         }
         gui = new GUI(gui_fields);
@@ -222,6 +225,15 @@ public class GUI_Controller {
     public String[] getNames() {
         return names;
     }
+
+    public String getUserInput(String msg) {
+   	    return gui.getUserString(msg);
+    }
+
+    public int getUserInt (String msg) {
+   	    return gui.getUserInteger(msg);
+    }
+
 }
 
 

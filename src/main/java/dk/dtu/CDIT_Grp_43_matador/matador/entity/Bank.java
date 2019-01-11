@@ -44,10 +44,10 @@ public class Bank {
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
-                String choice = logic.getPlayerChoice(bidString, options);
+                String choice = logic.getChoice(bidString, options);
                 bidString = "";
                 if (choice.equals("Byd")) {
-                    int bidAmount = logic.getPlayerInput();
+                    int bidAmount = logic.getUserInt("How much do you want to bid?");
                     if (bidAmount > highestBid) {
                         highestBid = bidAmount;
                         highestBidPlayer = currentPlayerBidding;
@@ -74,14 +74,14 @@ public class Bank {
         else
             return false;
 
-        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice()) {
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice()) {
            return false;
         }
-
-        p.withDrawMoney(workingTile.getHousePrice());
-        workingTile.addHouseLevel();
-
-        
+        if (p.withDrawMoney(workingTile.getHousePrice())) {
+            workingTile.addHouseLevel();
+            return true;
+        }
+        return false;
     }
 
     public boolean pawnTile(Player p, Tile tile) {
@@ -90,7 +90,10 @@ public class Bank {
             workingTile = (Ownable)tile;
         else
             return false;
-        if (tile.getOwner() == p && tile.getHouseLevel() == 0 && tile.isBuyable()) {
+        if (workingTile instanceof Property)
+            if (((Property)workingTile).getHouseLevel() != 0)
+                return false;
+        if (tile.getOwner() == p && tile.isBuyable()) {
             workingTile.setPawned(true);
             return p.addMoney(workingTile.getTileValue()/2);
         }

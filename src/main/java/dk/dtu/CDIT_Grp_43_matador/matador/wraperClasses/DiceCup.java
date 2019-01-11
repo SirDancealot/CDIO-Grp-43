@@ -7,7 +7,6 @@ public class DiceCup {
 	
 	private static Die d1 = new Die(6);
 	private static Die d2 = new Die(6);
-	private static Lang lang;
 	private static int sameInARow = 0;
 	
 	private DiceCup() { }
@@ -100,10 +99,6 @@ public class DiceCup {
 	 */
 
 	public String getDiceStringValues() {
-		return lang.getTag("DiceCup:d1") + d1.getFaceValue() + lang.getTag("DiceCup:d1") + d2.getFaceValue();
-	}
-
-	public static void setLang(Lang lang) {
-		DiceCup.lang = lang;
+		return "Die 1 shows a: " + d1.getFaceValue() + " and die 2 shows a: " + d2.getFaceValue();
 	}
 }

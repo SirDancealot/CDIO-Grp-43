@@ -3,11 +3,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
-import
 
 public class Logic {
 
@@ -19,7 +16,6 @@ public class Logic {
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
-    private InformationExchanger infExch = InformationExchanger.getInstance();
     private boolean endOfGame = false;
     boolean rolled = false;
     private int turns = 0;
@@ -38,7 +34,6 @@ public class Logic {
     public void init(Player[] players){
         this.players = players;
         Player.setPlayers(players);
-        infExch.setPlayers(players);
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
         endOfGame = false;
@@ -103,7 +98,7 @@ public class Logic {
                 }
 
             case "Betal for at komme ud":
-                (Jail) (board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
+                ((Jail)(board.getTileByName("Jail"))).payToExit(players[currPlayerIndex]);
                 break;
 
             case "Brug chance kort":
@@ -151,7 +146,6 @@ public class Logic {
         switch (rolledChoice) {
             case "Køb":
                 players[currPlayerIndex].withDrawMoney(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue());
-                boa
                 break;
 
             case "Sæt på auktion":
@@ -179,8 +173,12 @@ public class Logic {
         return game.getChoice(msg, buttons);
     }
 
-    public String guiMsg (String msg){
-        return game.guiMsg(msg);
+    public void displayMessage (String msg){
+        game.displayMessage(msg);
+    }
+
+    public int getUserInt (String msg) {
+        return game.getUserInt(msg);
     }
 
 

@@ -2,6 +2,11 @@ package dk.dtu.CDIT_Grp_43_matador.matador.util;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.*;
 import gui_fields.*;
@@ -112,7 +117,7 @@ public class Factory {
     
     public GUI_Field[] createGuiFields() throws IOException {
 
-        HashMap <String, String> tileInfo = TextReader.fileToHashMap("./res/AllTiles.txt");
+        HashMap <String, String> tileInfo = TextReader.fileToHashMap("./res/Tiles.txt");
         HashMap <String, String> rentInfo = TextReader.fileToHashMap("./res/Rent.txt");
 
         GUI_Field[] gui_fields = new GUI_Field[tileInfo.size()];
