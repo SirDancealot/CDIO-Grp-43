@@ -99,6 +99,9 @@ public class Factory {
 					case "matadorLegat":
                         cardEffects[j] = new MatadorlegatEffect(Integer.valueOf(thisCardInfo[j].split(":")[2]),Integer.valueOf(thisCardInfo[j].split(":")[1]));
                         break;
+                    case "shipMove":
+                        cardEffects[j] = new MoveToClosestShipEffect(thisCardInfo[j].split(":")[1]);
+                        break;
                     default:
                         break;
     			}
