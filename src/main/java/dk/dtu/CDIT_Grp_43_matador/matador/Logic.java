@@ -74,8 +74,8 @@ public class Logic {
             String choice = getChoice("Hvad vil du nu?", options);
             afterRoll(choice);
         }
-        Spiller skal kickes;
-        Spillet skal slutte;
+        //Spiller skal kickes;
+        //Spillet skal slutte;
     }
 
     private void beforeRoll(String choice ) {
@@ -205,5 +205,7 @@ public class Logic {
         return endOfGame;
     }
 
-
+    public Tile[] getTileBySet(String setTag) {
+        return board.getTileBySet(setTag);
+    }
 }

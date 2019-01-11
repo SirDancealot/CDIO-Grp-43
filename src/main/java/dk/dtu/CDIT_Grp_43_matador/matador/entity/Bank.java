@@ -74,12 +74,12 @@ public class Bank {
         else
             return false;
 
-        for (Tile otherTile : logic.getTileSet(workingTile.getSisterTag())) {
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
             if (workingTile.getHouseLevel() > ((Property)otherTile).getHouseLevel()) {
                 return false;
             }
         }
-        
+
         if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice() || !workingTile.tileSetowned())
            return false;
 
@@ -103,7 +103,7 @@ public class Bank {
         else
             return false;
 
-        for (Tile otherTile : logic.getTileSet(workingTile.getSisterTag())) {
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
             if (workingTile.getHouseLevel() < ((Property)otherTile).getHouseLevel()) {
                 return false;
             }
