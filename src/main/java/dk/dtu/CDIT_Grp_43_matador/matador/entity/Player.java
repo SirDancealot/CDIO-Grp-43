@@ -20,6 +20,7 @@ public class Player {
     private Account playerAccount;
 	private boolean nextJailFree = false;
 	private boolean inAuction = false;
+	private boolean payDouble = false;
 
 	/**
 	 * @param name the name this player has.
@@ -174,5 +175,13 @@ public class Player {
 
 	public void setInAuction(boolean inAuction) {
 		this.inAuction = inAuction;
+	}
+
+	public void setPayDouble(boolean payDouble) {
+		this.payDouble = payDouble;
+	}
+
+	public boolean isPayDouble() {
+		return payDouble;
 	}
 }

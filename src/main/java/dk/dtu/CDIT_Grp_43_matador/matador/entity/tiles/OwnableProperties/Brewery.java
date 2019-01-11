@@ -26,11 +26,14 @@ public class Brewery extends Ownable {
 
     @Override
     public boolean landOnTile(Player p) {
+        boolean payDouble = p.isPayDouble();
+        p.setPayDouble(false);
+
         if(pawned) {}
         else{
             if (p == owner)
                 return true;
-        }return p.withDrawMoney(p.getRoll()*dieMultiplier[tilesInSetOwned()-1]);
+        }return p.withDrawMoney(p.getRoll()*dieMultiplier[tilesInSetOwned()-1] * (payDouble ? 2 : 1));
     }
 }
 
