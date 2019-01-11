@@ -17,8 +17,8 @@ public class Bank {
 
     private LogicController logic = LogicController.getINSTANCE();
 
-    private int housesInGame;
-    private int hotelsInGame;
+    private int housesInGame = 32;
+    private int hotelsInGame = 12;
 
     private final String[] options = {"Byd", "Stop med at byde"};
 
@@ -62,11 +62,19 @@ public class Bank {
         if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < tile.getHousePrice()) {
            return false;
         }
-
-        p.withDrawMoney(tile.getHousePrice());
-        tile.addHouse();
-
-        
+        if (tile.getHouseLevel < 4 && housesInGame > 0) {
+            housesInGame--;
+            tile.addHouse();
+            p.withDrawMoney(tile.getHousePrice());
+            return true;
+        } else if (hotelsInGame > 0) {
+            housesInGame += 4;
+            hotelsInGame--;
+            tile.addHouse();
+            p.withDrawMoney(tile.getHousePrice());
+            return true;
+        }
+        return false;
     }
 
     public boolean pawnTile(Player p, Ownable tile) {
