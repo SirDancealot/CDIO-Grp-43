@@ -46,7 +46,7 @@ public class GameController {
 		String[] names = gui.getNames();
 		gui.addplayers(startMoney);
 		gui.displayPlayers();
-
+		TextReader.init();
 
 		bord.initBoard();
 
@@ -117,8 +117,8 @@ public class GameController {
         //gui.updateDisplay();
 	}
 
-	public String getChoice(String msg, String[] Buttons) {
-		return "lul";
+	public String getChoice(String msg, String... buttons) {
+		return gui.displayButtons(msg, buttons);
 	}
 
 	public void resetGame(){
