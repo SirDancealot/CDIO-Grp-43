@@ -33,7 +33,7 @@ public class Start extends Tile {
      */
     @Override
     public boolean passedTile(Player p) {
-    	infExch.addToCurrentTurnText(p + " passed over the start tile and recieves " + overStartBonus + "\n");
+    	//infExch.addToCurrentTurnText(p + " passed over the start tile and recieves " + overStartBonus + "\n");
         return p.addMoney(overStartBonus);
     }
 
