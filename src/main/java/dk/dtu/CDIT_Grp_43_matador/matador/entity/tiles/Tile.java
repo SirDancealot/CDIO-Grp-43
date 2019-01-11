@@ -1,5 +1,6 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 
@@ -10,7 +11,7 @@ public abstract class Tile {
     protected String tileName;
     protected String tileMessage;
     protected String type;
-    protected InformationExchanger infExch = InformationExchanger.getInstance();
+    protected Logic logic = Logic.getINSTANCE();
 
 
     /**
