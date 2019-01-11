@@ -184,4 +184,8 @@ public class Player {
 	public boolean isPayDouble() {
 		return payDouble;
 	}
+
+	public Tile[] getTilesByTag(String tag) {
+		return bord.searchForTileType(tag);
+	}
 }
