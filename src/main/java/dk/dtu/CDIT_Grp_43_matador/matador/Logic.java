@@ -2,7 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
@@ -189,5 +189,8 @@ public class Logic {
         return endOfGame;
     }
 
+    public Tile[] getTileSet(String setTag) {
+        return board.getTileBySet(setTag);
+    }
 
 }

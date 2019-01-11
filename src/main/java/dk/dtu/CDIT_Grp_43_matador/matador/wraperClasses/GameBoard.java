@@ -3,6 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 import java.io.IOException;
 import java.util.HashMap;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
@@ -81,5 +82,23 @@ public class GameBoard {
 				return tile;
 		}
 		return null;
+	}
+
+	public Tile[] getTileBySet(String setTag) {
+		Tile[] tileSet = new Tile[0];
+		for (Tile tile : gameTiles) {
+			if (tile.getSisterTag().equals(setTag)) {
+				tileSet = new Tile[((Ownable)tile).getTilesInSet()];
+				break;
+			}
+		}
+		int tilesFound = 0;
+		for (Tile tile : gameTiles) {
+			if (tile.getSisterTag().equals(setTag)) {
+				tileSet[tilesFound] = tile;
+				tilesFound++;
+			}
+		}
+		return tileSet;
 	}
 }

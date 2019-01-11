@@ -65,7 +65,7 @@ public class Ownable extends Tile {
         return tilesInSetOwned;
     }
 
-    protected boolean tileSetowned(){
+    public boolean tileSetowned(){
         return tilesInSetOwned() == tilesInSet;
     }
 
@@ -93,6 +93,10 @@ public class Ownable extends Tile {
 
     public boolean isBuyable () {
         return buyable;
+    }
+
+    public int getTilesInSet() {
+        return tilesInSet;
     }
 
     @Override
