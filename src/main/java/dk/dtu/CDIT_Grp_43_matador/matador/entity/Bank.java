@@ -74,7 +74,13 @@ public class Bank {
         else
             return false;
 
-        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice())
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() > ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
+        }
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice() || !workingTile.tileSetowned())
            return false;
 
         if (p.withDrawMoney(workingTile.getHousePrice())) {
@@ -96,6 +102,12 @@ public class Bank {
             workingTile = (Property)tile;
         else
             return false;
+
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() < ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
+        }
 
         if (workingTile.getOwner() != p || workingTile.getHouseLevel() <= 0)
             return false;
