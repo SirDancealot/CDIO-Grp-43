@@ -15,7 +15,15 @@ public class Property extends Ownable {
         String[] rentInfoTags = rentInfo.split(";");
         propertyRents = new int[rentInfoTags.length];
         for (String infoTag : rentInfoTags) {
-            propertyRents[Integer.valueOf(infoTag.split(":")[0]) - 1] = Integer.valueOf(infoTag.split(":")[1]);
+            propertyRents[Integer.valueOf(infoTag.split(":")[0])] = Integer.valueOf(infoTag.split(":")[1]);
+        }
+        String[] tileInfo = tileinfo.split(";");
+        for (String string: tileInfo) {
+            String[] split = string.split(":");
+            switch (split[0]) {
+                case "housePrice":
+                    this.housePrice = Integer.valueOf(split[1]);
+            }
         }
     }
 
@@ -28,18 +36,18 @@ public class Property extends Ownable {
 
     @Override
     public boolean landOnTile(Player p) {
+        boolean payDouble = p.isPayDouble();
+        p.setPayDouble(false);
+
         if (pawned) {
         } else {
             if (p == owner)
                 return true;
             if (houseLevel == 0 && tileSetowned()) {
-                return p.withDrawMoney(2 * propertyRents[0]);
+                return p.withDrawMoney(2 * propertyRents[0] * (payDouble ? 2 : 1));
             }
-        }return p.withDrawMoney(propertyRents[houseLevel]);
+        }return p.withDrawMoney(propertyRents[houseLevel] * (payDouble ? 2 : 1));
     }
-
-
-    //public int housePrice(){}
 
     public int getHouseLevel() {
         return houseLevel;

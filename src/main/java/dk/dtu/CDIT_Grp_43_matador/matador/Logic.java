@@ -168,8 +168,7 @@ public class Logic {
 
     }
     
-    public String getChoice (String msg, String[]buttons){
-
+    public String getChoice (String msg, String... buttons){
         return game.getChoice(msg, buttons);
     }
 
