@@ -93,12 +93,13 @@ public class testAfTile {
     }
     @Test
     public void testAfStart(){
-        Start startTile = new Start("", "tag:Start;passedValue:3;name:Start", 0);
+        Start startTile = new Start("", "tag:Start;passedValue:200;name:Start", 0);
         Player p = new Player("testPlayer", 20);
         int score = p.getScore();
 
         startTile.passedTile(p);
 
         assertFalse(score==p.getScore());
+        System.out.println(p.getScore());
     }
 }
