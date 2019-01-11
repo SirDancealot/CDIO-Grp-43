@@ -106,6 +106,8 @@ public class Factory {
                     case "shipMove":
                         cardEffects[j] = new MoveToClosestShipEffect(thisCardInfo[j].split(":")[1]);
                         break;
+                    case "kkp":
+                        cardEffects[j] = new KKPEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]),Integer.valueOf(thisCardInfo[j].split(":")[2]));
                     default:
                         break;
     			}

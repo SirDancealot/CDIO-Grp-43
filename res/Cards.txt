@@ -23,11 +23,10 @@ Card21=freeJail
 Card22=freeJail
 Card23=moveTo:GoToJail
 Card24=moveTo:GoToJail
-Card25=kkp:kul og kokspriser, spilleren selv betaler 25kr pr hus og 125kr pr hotel
+Card25=kkp:25:125
 Card26=ejendomsskat:ejendomsskatter, alle betaler, 50kr pr hus og 125kr pr hotel.
 Card27=shipMove:Ship
-Ryk brik frem til nærmeste rederi. hvis feltet er ejet, betal ejeren dobbelt, ellers på normal vis, kan du købe feltet eller sætte på aktion.
 Card28=MatadorLegat:750:2000
 Card29=moveTo:Raadhuspladsen
 Card30=moveTo:GoToJail
-Card31=rederiflyt:Ryk brik frem til nærmeste rederi. hvis feltet er ejet, betal ejeren dobbelt, ellers på normal vis, kan du købe feltet eller sætte på aktion.
+Card31=shipMove:Ship
