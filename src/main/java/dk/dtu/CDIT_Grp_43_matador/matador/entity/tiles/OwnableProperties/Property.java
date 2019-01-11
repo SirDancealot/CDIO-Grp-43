@@ -59,7 +59,5 @@ public class Property extends Ownable {
 
     public void removeHouseLevel() {houseLevel--;}
 
-    public int getHousePrice() {
-        return housePrice;
-    }
+    public int getHousePrice() { return housePrice;}
 }
