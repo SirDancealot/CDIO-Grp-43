@@ -7,7 +7,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Jail extends Tile {
     private int outOfJailPrice = 1;
-    public String type = "Jail";
 
     public Jail(String tilename, String tileinfo, int tileIndex){
         super(tilename, tileinfo, tileIndex);
@@ -39,5 +38,13 @@ public class Jail extends Tile {
         	infExch.addToCurrentTurnText(p + " had a get out of jail free card and exited the jail for free\n");
         }
         return true;
+    }
+
+    public boolean payToExit(Player p) {
+    	if (p.isInJail()) {
+		    p.setInJail(false);
+		    return p.withDrawMoney(outOfJailPrice);
+	    }
+		return true;
     }
 }

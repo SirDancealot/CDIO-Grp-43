@@ -1,28 +1,36 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Bank {
 
-    private final Bank INSTANCE = new Bank();
+    private static final Bank INSTANCE = new Bank();
 
     private Bank() {}
 
-    public Bank getInstance() {
+    public static Bank getInstance() {
         return INSTANCE;
     }
 
-    private LogicController logic = LogicController.getINSTANCE();
+    private Logic logic = Logic.getINSTANCE();
 
-    private int housesInGame = 32;
-    private int hotelsInGame = 12;
+    private int housesInGame;
+    private int hotelsInGame;
 
     private final String[] options = {"Byd", "Stop med at byde"};
 
     public void auctions(Player[] players, Tile auctionTile) {
+        Ownable workingTile;
+        if (auctionTile instanceof Ownable)
+            workingTile = (Ownable)auctionTile;
+        else
+            return;
+
+
         for (Player player : players) {
             player.setInAuction(true);
         }
@@ -31,15 +39,15 @@ public class Bank {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.displayMessage("Auktion om " + auctionTile.getTileName() + " er gået i gang");
+        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
         String bidString = "";
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
-                String choice = logic.getPlayerChoice(bidString, options);
+                String choice = logic.getChoice(bidString, options);
                 bidString = "";
                 if (choice.equals("Byd")) {
-                    int bidAmount = logic.getPlayerInput();
+                    int bidAmount = logic.getUserInt("How much do you want to bid?");
                     if (bidAmount > highestBid) {
                         highestBid = bidAmount;
                         highestBidPlayer = currentPlayerBidding;
@@ -55,40 +63,52 @@ public class Bank {
                 currentPlayerBidding = currentPlayerBidding % players.length;
             }
         }
-        auctionTile.setOwner(players[highestBidPlayer]);
+        workingTile.setOwner(players[highestBidPlayer]);
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
-        if (tile.getOwner() != p || tile.getHouseLevel() == 5 || p.getScore() < tile.getHousePrice()) {
+
+        Property workingTile;
+        if (tile instanceof  Property)
+            workingTile = (Property)tile;
+        else
+            return false;
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice()) {
            return false;
         }
-        if (tile.getHouseLevel < 4 && housesInGame > 0) {
-            housesInGame--;
-            tile.addHouse();
-            p.withDrawMoney(tile.getHousePrice());
-            return true;
-        } else if (hotelsInGame > 0) {
-            housesInGame += 4;
-            hotelsInGame--;
-            tile.addHouse();
-            p.withDrawMoney(tile.getHousePrice());
+        if (p.withDrawMoney(workingTile.getHousePrice())) {
+            workingTile.addHouseLevel();
             return true;
         }
         return false;
     }
 
-    public boolean pawnTile(Player p, Ownable tile) {
-        if (tile.getOwner() == p && tile.getHouseLevel() == 0 && tile.isBuyable()) {
-            tile.setPawned(true);
-            return p.addMoney(tile.getTileValue()/2);
+    public boolean pawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
+        if (workingTile instanceof Property)
+            if (((Property)workingTile).getHouseLevel() != 0)
+                return false;
+        if (tile.getOwner() == p && tile.isBuyable()) {
+            workingTile.setPawned(true);
+            return p.addMoney(workingTile.getTileValue()/2);
         }
         return false;
     }
 
-    public boolean unPawnTile(Player p, Ownable tile) {
-        if (tile.getOwner() == p && tile.isPawned && p.getScore() >= (int)(tile.getTileValue()*0.6)) {
-            tile.setPawned(false);
-            return p.withDrawMoney((int)(tile.getTileValue()*0.6));
+    public boolean unPawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
+        if (workingTile.getOwner() == p && workingTile.isPawned() && p.getScore() >= (int)(workingTile.getTileValue()*0.6)) {
+            workingTile.setPawned(false);
+            return p.withDrawMoney((int)(workingTile.getTileValue()*0.6));
         }
         return false;
     }

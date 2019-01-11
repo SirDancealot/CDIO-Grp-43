@@ -2,16 +2,13 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import java.util.ArrayList;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.LogicController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class Ownable extends Tile {
-    private static final int NUMOFTILESINSET = 2;
     protected Player owner = null;
     private String sisterTag;
-    public String type = "Property";
-    private boolean mortgaged = false;
+    protected int tilesInSet;
+    protected boolean pawned = false;
 
 
 
@@ -31,6 +28,9 @@ public class Ownable extends Tile {
                 case "sister":
                     sisterTag = tagInfo[1];
                     break;
+                case "setSize":
+                    tilesInSet = Integer.valueOf(tagInfo[1]);
+
 
                 default:
                     break;
@@ -52,49 +52,12 @@ public class Ownable extends Tile {
         return false;
     }
 
-    public boolean mortgageTile(Player p) {
-        if (mortgaged = false) {
-            mortgaged = true;
-            return p.addMoney(tileValue / 2);
-        }
-        return false;
-    }
-
-    public boolean unmortgageTile(Player p){
-        if(mortgaged = true) {
-            mortgaged = false;
-            return p.withDrawMoney((tileValue/2)+(tileValue / 10));
-        }
-        return true;
-    }
-
-    /**
-     * Used when a player lands on a tile, and decides whether the player needs to pay rent, or buy the property.
-     * @param p The current player.
-     * @return True if everything goes well, and false if the player is out of money ergo lost.
-     */
-    @Override
-    public boolean landOnTile(Player p) {
-        if (owner ==  null && buyable) {
-            super.landOnTile(p);
-            infExch.addToCurrentTurnText(p + " bought the tile for " + tileValue);
-            return buyTile(p);
-        }
-        if (owner != p) {
-            System.out.println("Payed");
-            super.landOnTile(p);
-            infExch.addToCurrentTurnText(p + " landed on a tile owned by " + owner + " and payed them " + (tileSetOwned() ? 2 * tileValue : tileValue));
-            return p.payMoney(owner, tileSetOwned() ? 2 * tileValue : tileValue);
-        }
-        return super.landOnTile(p);
-    }
-
     @Override
     public boolean isOwned(){
         return owner != null;
     }
 
-    protected int tileSetOwned() {
+    protected int tilesInSetOwned() {
         ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
         int tilesInSetOwned = 0;
         for (Tile tile : playerOwnedTileSet) {
@@ -104,6 +67,10 @@ public class Ownable extends Tile {
         return tilesInSetOwned;
     }
 
+    protected boolean tileSetowned(){
+        return tilesInSetOwned() == tilesInSet;
+    }
+
     /**
      * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
      * @param p The current player.
@@ -111,6 +78,16 @@ public class Ownable extends Tile {
      */
     @Override
     public boolean passedTile(Player p) { return true; }
+
+    public boolean isPawned() {return pawned; }
+
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
 
     public Player getOwner() {
         return owner;

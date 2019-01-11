@@ -5,7 +5,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 
 public class Chance extends Tile {
-    public String type = "Chance";
     private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
 
 

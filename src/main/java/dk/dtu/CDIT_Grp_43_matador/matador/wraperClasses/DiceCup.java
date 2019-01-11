@@ -6,7 +6,8 @@ public class DiceCup {
 	private static final DiceCup INSTANCE = new DiceCup();
 	
 	private static Die d1 = new Die(6);
-	//private static Die d2 = new Die(6);
+	private static Die d2 = new Die(6);
+	private static int sameInARow = 0;
 	
 	private DiceCup() { }
 
@@ -26,9 +27,15 @@ public class DiceCup {
      */
     public void changeCustomDice(int[] d1sides, int[] d2sides ){
 	    d1 = new Die(d1sides);
-	    //d2 = new Die(d2sides);
+	    d2 = new Die(d2sides);
     }
-	
+
+    public boolean ThreeSame(){
+		if(sameInARow == 3)
+			return true;
+		return false;
+	}
+
     /**
      * @return Returns the singleton instance og DiceCup
      */
@@ -41,33 +48,38 @@ public class DiceCup {
 	 * @return Returns the sum of the two rolls
 	 */
 	public int roll() {
-		return d1.roll();
+		int diceSum = d1.roll() + d2.roll();
+		if (isSame())
+			sameInARow++;
+		else
+			sameInARow = 0;
+		return d1.roll() + d2.roll();
 	}
 	
 	/**
 	 * @return Returns the sum of the current rolls on the two dice without re-rolling them
 	 */
 	public int getDiceIntValues() {
-		return d1.getFaceValue();
+		return d1.getFaceValue() + d2.getFaceValue();
 	}
 	
 	/**
 	 * @return Returns whether the value shown on the two dice are the same
 	 */
-	/*
-	public static boolean isSame() {
+
+	public boolean isSame() {
 		return d1.getFaceValue() == d2.getFaceValue();
 	}
-	*/
+
 	/**
 	 * @param num the number to test whether both die equals
 	 * @return Returns whether the value on the two dice and the same and have the specified {@code num} shown on them
 	 */
-	/*
-	public static boolean isSameAndNum(int num) {
+
+	public boolean isSameAndNum(int num) {
 		return isSame() && d1.getFaceValue() == num;
 	}
-	*/
+
 	/**
 	 * @return Returns the current value of the first {@code Die}
 	 */
@@ -78,17 +90,15 @@ public class DiceCup {
 	/**
 	 * @return Returns the current value of the second {@code Die}
 	 */
-	/*
-	public static int getD2Val() {
+
+	public int getD2Val() {
 		return d2.getFaceValue();
 	}
-	*/
 	/**
 	 * @return Returns a string representing the value of the two dice
 	 */
-	/*
-	public static String getDiceStringValues() {
-		return lang.getTag("DiceCup:d1") + d1.getFaceValue() + lang.getTag("DiceCup:d1") + d2.getFaceValue();
+
+	public String getDiceStringValues() {
+		return "Die 1 shows a: " + d1.getFaceValue() + " and die 2 shows a: " + d2.getFaceValue();
 	}
-	*/
 }

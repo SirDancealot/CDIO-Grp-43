@@ -2,6 +2,11 @@ package dk.dtu.CDIT_Grp_43_matador.matador.util;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.*;
 import gui_fields.*;
@@ -27,8 +32,8 @@ public class Factory {
         Tile[] tiles = new Tile[tileTags.size()];
 
         for (int i = 0; i < tiles.length; i++) {
-            String tileName = "test";
             String tileInfo = tileTags.get("Tile"+i);
+            String tileName = tileInfo.split(";")[tileInfo.split(";").length-1].split(":")[1];
             Tile tempTile;
             String tileType = tileInfo.split(";")[0].split(":")[1];
             switch (tileType) {
@@ -36,7 +41,7 @@ public class Factory {
                     tempTile = new Start(tileName, tileInfo, i);
                     break;
                 case "Property":
-                    tempTile = new Property(tileName,tileInfo, i);
+                    tempTile = new Property(tileName,tileInfo, i, rentTags.get(tileName));
                     break;
                 case "Chance":
                     tempTile = new Chance(tileName, tileInfo, i);
@@ -52,6 +57,9 @@ public class Factory {
                     break;
                 case "Brewery":
                     tempTile = new Brewery(tileName, tileInfo, i, rentTags.get("brew"));
+                    break;
+                case "Ship":
+                    tempTile = new Ship(tileName, tileInfo, i, rentTags.get("Ship"));
                     break;
                 default:
                     tempTile = new FreeParking("","", -1);
@@ -109,7 +117,7 @@ public class Factory {
     
     public GUI_Field[] createGuiFields() throws IOException {
 
-        HashMap <String, String> tileInfo = TextReader.fileToHashMap("./res/AllTiles.txt");
+        HashMap <String, String> tileInfo = TextReader.fileToHashMap("./res/Tiles.txt");
         HashMap <String, String> rentInfo = TextReader.fileToHashMap("./res/Rent.txt");
 
         GUI_Field[] gui_fields = new GUI_Field[tileInfo.size()];
@@ -136,7 +144,7 @@ public class Factory {
                     gui_fields[i] = new GUI_Street();
                     gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
-                    String currentProperty = rentInfo.get(thisTileInfo[3].split(":")[1]);
+                    String currentProperty = rentInfo.get(thisTileInfo[5].split(":")[1]);
                     gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
                     gui_fields[i].setBackGroundColor(makeColor(thisTileInfo[2].split(":")[1]));
                     gui_fields[i].setForeGroundColor(Color.black);

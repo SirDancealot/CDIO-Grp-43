@@ -25,12 +25,12 @@ public class GameController {
 	private static int turns = 1;
 	private static boolean playing = true;
 	private String turnInfo;
-	
+
 	//Container variables
 	private Player[] players;
 	private GameBoard bord = GameBoard.getInstance();
 	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
-	private LogicController logic = LogicController.getINSTANCE();
+	private Logic logic = Logic.getINSTANCE();
 	private GUI_Controller gui = GUI_Controller.getINSTANCE();
 	private InformationExchanger infExch = InformationExchanger.getInstance();
 
@@ -82,7 +82,7 @@ public class GameController {
 	 */
 	public void stop() {
 	}
-	
+
 	/**
 	 * The function that is run when a player has won the game and the game loop needs to stop.
 	 */
@@ -116,7 +116,11 @@ public class GameController {
         infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
         //gui.updateDisplay();
 	}
-	
+
+	public String getChoice(String msg, String[] Buttons) {
+		return "lul";
+	}
+
 	public void resetGame(){
 		playing = true;
 		turns = 1;
@@ -156,5 +160,9 @@ public class GameController {
 
     public String getTurnInfo() {
         return turnInfo;
+    }
+
+    public int getUserInt(String msg) {
+		return gui.getUserInt(msg);
     }
 }

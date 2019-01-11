@@ -30,6 +30,24 @@ public class GameBoard {
     	gameTiles[pos].passedTile(p);
 	}
 
+	public Tile[] searchForTileType(String type) {
+		int tilesOfType = 0;
+		for(Tile tile : gameTiles) {
+			if(tile.getType().equalsIgnoreCase(type)) {
+				tilesOfType++;
+			}
+		}
+		Tile[] matchingTiles = new Tile[tilesOfType];
+		int matchingIndex = 0;
+		for (int i = 0; i < gameTiles.length; i++) {
+			if(gameTiles[i].getType() == type) {
+				matchingTiles[i] = gameTiles[i];
+				matchingIndex++;
+			}
+		}
+		return matchingTiles;
+	}
+
     // Getters
 
     public Tile[] getGameTiles() {
