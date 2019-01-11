@@ -17,6 +17,14 @@ public class Property extends Ownable {
         for (String infoTag : rentInfoTags) {
             propertyRents[Integer.valueOf(infoTag.split(":")[0])] = Integer.valueOf(infoTag.split(":")[1]);
         }
+        String[] tileInfo = tileinfo.split(";");
+        for (String string: tileInfo) {
+            String[] split = string.split(":");
+            switch (split[0]) {
+                case "housePrice":
+                    this.housePrice = Integer.valueOf(split[1]);
+            }
+        }
     }
 
     /**
@@ -40,9 +48,6 @@ public class Property extends Ownable {
             }
         }return p.withDrawMoney(propertyRents[houseLevel] * (payDouble ? 2 : 1));
     }
-
-
-    //public int housePrice(){}
 
     public int getHouseLevel() {
         return houseLevel;

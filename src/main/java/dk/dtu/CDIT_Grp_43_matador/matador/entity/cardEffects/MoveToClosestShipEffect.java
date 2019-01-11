@@ -27,6 +27,7 @@ public class MoveToClosestShipEffect extends CardEffect {
                 shortestDistance = distance;
             }
         }
+        p.setPayDouble(true);
         p.move(shortestDistance);
         return false;
     }
