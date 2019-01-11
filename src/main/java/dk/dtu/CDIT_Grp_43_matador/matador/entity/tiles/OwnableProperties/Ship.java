@@ -28,6 +28,8 @@ public class Ship extends Ownable {
     public boolean landOnTile(Player p) {
         boolean payDouble = p.isPayDouble();
         p.setPayDouble(false);
+        if (owner == null)
+            return true;
 
         if (pawned) {
         } else {

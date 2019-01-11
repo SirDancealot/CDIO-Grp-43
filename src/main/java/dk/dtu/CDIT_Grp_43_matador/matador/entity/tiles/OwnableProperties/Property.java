@@ -36,11 +36,10 @@ public class Property extends Ownable {
 
     @Override
     public boolean landOnTile(Player p) {
-        //TODO Tag hensyn til at tile ikke er ejet
-        if (owner == null)
-            return true;
         boolean payDouble = p.isPayDouble();
         p.setPayDouble(false);
+        if (owner == null)
+            return true;
 
         if (pawned) {
         } else {
