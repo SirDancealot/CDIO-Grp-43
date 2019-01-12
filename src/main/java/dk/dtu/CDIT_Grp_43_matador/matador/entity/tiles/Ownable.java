@@ -24,7 +24,7 @@ public class Ownable extends Tile {
         String[] tileInfoTags = tileinfo.split(";");
         for (String string : tileInfoTags) {
             String[] tagInfo = string.split(":");
-            switch (tagInfo[0].toLowerCase()) {
+            switch (tagInfo[0]) {
                 case "sister":
                     sisterTag = tagInfo[1];
                     break;

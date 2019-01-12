@@ -76,19 +76,25 @@ public class testAfTile {
     }
     @Test
     public void testAfProperty(){
-        Property propertyTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
-        Player p = new Player("testPlayer", 10000);
-        int score = p.getScore();
-        int TO = p.getOwnedTiles().size();
+        Property raadhusTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
+        Property frederiksbergTile = new Property("Frederiksberggade", "type:Property;Tilevalue:350;sister:brown;setSize:2;housePrice:200", 37, "0:35;1:175;2:500;3:1100;4:1300;5:1500");
+
+        Player p1 = new Player("testPlayer", 10000);
+        Player p2 = new Player("testPlayer", 10000);
+        int score = p1.getScore();
+        int TO = p1.getOwnedTiles().size();
         assertTrue(TO==0);
 
-        propertyTile.landOnTile(p);
-        propertyTile.buyTile(p);
+        raadhusTile.buyTile(p1);
+        frederiksbergTile.buyTile(p1);
 
-        TO = p.getOwnedTiles().size();
-        assertTrue(TO==1);
-        assertFalse(score==p.getScore());
-        System.out.println(p.getScore());
+        raadhusTile.landOnTile(p2);
+
+        TO = p1.getOwnedTiles().size();
+        System.out.println(p1.getOwnedTiles().size());
+        assertTrue(TO==2);
+        assertFalse(score==p1.getScore());
+        System.out.println(p2.getScore());
 
     }
     @Test
