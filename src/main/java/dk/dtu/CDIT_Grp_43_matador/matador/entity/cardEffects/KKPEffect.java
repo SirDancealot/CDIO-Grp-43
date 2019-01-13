@@ -26,7 +26,7 @@ public class KKPEffect extends CardEffect {
     }
 
     @Override
-    public String printEffect(Player p) {
+    public String print(Player p) {
         String noHousesAndHotels = "\t" + p + " since you have no houses or hotels, you pay nothing";
         String eitherOr = "\t" + p + " since you have either a hotel or houses, you pay" + houseNHotelPrice;
         return houseNHotelPrice == 0 ? noHousesAndHotels : eitherOr;

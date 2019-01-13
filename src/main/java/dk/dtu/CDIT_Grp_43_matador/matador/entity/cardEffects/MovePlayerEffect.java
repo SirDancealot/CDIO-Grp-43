@@ -19,7 +19,7 @@ public class MovePlayerEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
+	public String print(Player p) {
 		String forward = "\t" + p + " moves " + moveAmt + " forwards\n";
 		String backwards = "\t" + p + " moves " + (-moveAmt) + " backwards\n";
 		

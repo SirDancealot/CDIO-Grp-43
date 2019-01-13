@@ -27,5 +27,17 @@ public class GoToJail extends Tile {
         return true;
     }
 
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " skal gå direkte i fængsel og modtagger ikke penge når de passere start";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+
 
 }

@@ -6,6 +6,7 @@ public class Tax extends Tile {
     private int taxFlat;
     private int taxPercent = 0;
     private final String[] options = {"Betal 10% af formue", "Betal 200 kr"};
+    private int lastPayed = 0;
 
     public Tax(String tileName, String tileinfo, int tileIndex) {
         super(tileName, tileinfo, tileIndex);
@@ -26,8 +27,20 @@ public class Tax extends Tile {
         if(taxPercent != 0){
             String choice = logic.getChoice("Betal skat", options);
             if (choice.equals("Betal 10% af formue"))
+                lastPayed = ((int)((taxPercent/100.0)*p.playerFortune()));
                 return p.withDrawMoney((int)((taxPercent/100.0)*p.playerFortune()));
             }
+        lastPayed = taxFlat;
         return p.withDrawMoney(taxFlat);
         }
+
+    @Override
+    public String printLandOn(Player p) {
+        return p + " landede på et betal skat fælt og betalte " + lastPayed;
     }
+
+    @Override
+    public String printPassed(Player p) {
+        return "";
+    }
+}

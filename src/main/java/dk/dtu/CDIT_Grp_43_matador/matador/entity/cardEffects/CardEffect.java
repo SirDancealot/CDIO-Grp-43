@@ -20,5 +20,5 @@ public abstract class CardEffect {
 		return "This card effect is: ";
 	}
 	
-	public abstract String printEffect(Player p);
+	public abstract String print(Player p);
 }

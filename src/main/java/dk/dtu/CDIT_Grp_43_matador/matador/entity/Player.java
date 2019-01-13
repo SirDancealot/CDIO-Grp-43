@@ -15,7 +15,7 @@ public class Player {
 	private static GameBoard bord = GameBoard.getInstance();
 	private int roll;
 	private int currPos = 0;
-	private boolean firstTurn = true;
+	private boolean startMoneyElegible = false;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
@@ -145,8 +145,8 @@ public class Player {
         return currPos;
     }
     
-    public boolean isFirstTurn() {
-		return firstTurn;
+    public boolean isStartMoneyElegible() {
+		return startMoneyElegible;
 	}
 
     public void setName(String name) {
@@ -157,8 +157,8 @@ public class Player {
         this.inJail = inJail;
     }
     
-    public void setFirstTurn(boolean firstTurn) {
-		this.firstTurn = firstTurn;
+    public void setStartMoneyElegible(boolean startMoneyElegible) {
+		this.startMoneyElegible = startMoneyElegible;
 	}
     
     public void addOwnedTile(Tile t) {

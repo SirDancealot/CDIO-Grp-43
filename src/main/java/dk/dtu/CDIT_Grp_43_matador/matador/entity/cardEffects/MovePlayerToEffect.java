@@ -20,7 +20,7 @@ public class MovePlayerToEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
+	public String print(Player p) {
 		return "\t" + p + " moves to the tile: " + moveToTag + "\n";
 	}
 }

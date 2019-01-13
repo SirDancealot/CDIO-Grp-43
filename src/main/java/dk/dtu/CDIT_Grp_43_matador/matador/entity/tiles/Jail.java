@@ -40,7 +40,23 @@ public class Jail extends Tile {
         return true;
     }
 
-    public boolean payToExit(Player p) {
+	@Override
+	public String printLandOn(Player p) {
+    	String result;
+		if (p.isInJail())
+			result =  p + " er sat i fængsel";
+		else
+			result = p + " er på besøg i fængslet";
+		return result;
+	}
+
+	@Override
+	public String printPassed(Player p) {
+		String result = "";
+		return result;
+	}
+
+	public boolean payToExit(Player p) {
     	if (p.isInJail()) {
 		    p.setInJail(false);
 		    return p.withDrawMoney(outOfJailPrice);

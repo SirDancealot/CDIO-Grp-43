@@ -35,4 +35,16 @@ public class Chance extends Tile {
         return succeded;
     }
 
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på prøv lykken og trak et chancekort";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+
 }

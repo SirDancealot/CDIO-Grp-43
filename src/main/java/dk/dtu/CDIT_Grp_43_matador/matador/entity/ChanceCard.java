@@ -54,7 +54,7 @@ public class ChanceCard {
 			result += "s";
 		result += "\n";
 		for (CardEffect cardEffect : cardEffects)
-			result += cardEffect.printEffect(p);
+			result += cardEffect.print(p);
 
 		return result;
 	}

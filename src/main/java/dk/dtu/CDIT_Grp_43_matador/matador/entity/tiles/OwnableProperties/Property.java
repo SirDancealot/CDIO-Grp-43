@@ -38,17 +38,15 @@ public class Property extends Ownable {
     public boolean landOnTile(Player p) {
         boolean payDouble = p.isPayDouble();
         p.setPayDouble(false);
-        if (owner == null)
+        if (owner == null || pawned || p == owner)
             return true;
 
-        if (pawned) {
-        } else {
-            if (p == owner)
-                return true;
-            if (houseLevel == 0 && tileSetowned()) {
-                return p.withDrawMoney(2 * propertyRents[0] * (payDouble ? 2 : 1));
-            }
-        }return p.withDrawMoney(propertyRents[houseLevel] * (payDouble ? 2 : 1));
+        if (houseLevel == 0 && tileSetowned()) {
+            lastPrice = 2 * propertyRents[0] * (payDouble ? 2 : 1);
+            return p.withDrawMoney(lastPrice);
+        }
+        lastPrice = propertyRents[houseLevel] * (payDouble ? 2 : 1);
+        return p.withDrawMoney(lastPrice);
     }
 
     public int getHouseLevel() {

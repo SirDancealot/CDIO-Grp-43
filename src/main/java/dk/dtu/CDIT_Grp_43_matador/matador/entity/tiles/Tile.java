@@ -100,5 +100,9 @@ public abstract class Tile {
     public String getType() {
         return type;
     }
+
+    public abstract String printLandOn(Player p);
+
+    public abstract String printPassed(Player p);
 }
 
