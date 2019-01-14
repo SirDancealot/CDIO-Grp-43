@@ -127,11 +127,11 @@ public class Factory {
             String[] thisTileInfo = tileInfo.get("Tile"+i).split(";");
 
             String type = thisTileInfo[0];
-            System.out.println(type);
+            //System.out.println(type);
 
             switch (type) {
                 case "type:Start":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Start();
                     gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
                     gui_fields[i].setSubText("");
@@ -140,7 +140,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.WHITE);
                     break;
                 case "type:Property":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Street();
                     gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
@@ -150,7 +150,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.black);
                     break;
                 case "type:Chance":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Chance();
                     gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
                     gui_fields[i].setSubText("");
@@ -160,7 +160,7 @@ public class Factory {
                     break;
                 case "type:Tax":
                     if(thisTileInfo.length == 4){
-                        System.out.println(i);
+                        //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
                         gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
                         gui_fields[i].setSubText("");
@@ -169,7 +169,7 @@ public class Factory {
                         gui_fields[i].setForeGroundColor(Color.black);
                         break;
                     }else{
-                        System.out.println(i);
+                        //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
                         gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
                         gui_fields[i].setSubText("");
@@ -180,7 +180,7 @@ public class Factory {
                     }
 
                 case "type:Ship":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Shipping();
                     gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
                     gui_fields[i].setSubText("Price "+thisTileInfo[1].split(":")[1]+" kr");
@@ -190,7 +190,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.black);
                     break;
                 case "type:Jail":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Jail();
                     gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
                     gui_fields[i].setSubText("");
@@ -199,7 +199,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.WHITE);
                     break;
                 case "type:Brewery":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Brewery();
                     gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
@@ -209,7 +209,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.WHITE);
                     break;
                 case "type:GoToJail":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Jail();
                     gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
                     gui_fields[i].setSubText("");
@@ -218,7 +218,7 @@ public class Factory {
                     gui_fields[i].setForeGroundColor(Color.WHITE);
                     break;
                 case "type:FreePark":
-                    System.out.println(i);
+                    //System.out.println(i);
                     gui_fields[i] = new GUI_Refuge();
                     gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
                     gui_fields[i].setSubText("");

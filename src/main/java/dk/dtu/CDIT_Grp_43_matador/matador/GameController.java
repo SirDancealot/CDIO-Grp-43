@@ -42,14 +42,12 @@ public class GameController {
 		gui.init();
 		gui.setupGame();
 		int numPlayers = gui.getNumberOfPlayers();
-		int startMoney = (numPlayers == 2) ? 20 : (numPlayers == 3) ? 19 : 18;
+		int startMoney = 1500;
 		String[] names = gui.getNames();
 		gui.addplayers(startMoney);
 		gui.displayPlayers();
 
-
 		bord.initBoard();
-
 		players = new Player[numPlayers];
 		for (int i = 0; i < numPlayers; i++) {
 			players[i] = new Player(names[i], startMoney);

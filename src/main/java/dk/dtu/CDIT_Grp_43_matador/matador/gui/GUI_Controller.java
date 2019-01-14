@@ -1,28 +1,21 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
 
+
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import gui_fields.*;
 import gui_main.*;
-
 import java.awt.*;
 import java.io.IOException;
 
 public class GUI_Controller {
     private static GUI_Controller INSTANCE = new GUI_Controller();
-
-
     private GUI gui;
-
     private GameController game = GameController.getInstance();
     private GUI_Player[] allPlayer;
     private int numberOfPlayers = 0;
     private String[] names;
-
-    private static InformationExchanger infExch = InformationExchanger.getInstance();
 
     
     private GUI_Controller() {}
@@ -44,6 +37,7 @@ public class GUI_Controller {
 	        gui_fields = new GUI_Field[0];
         }
         gui = new GUI(gui_fields);
+        setChanceCard("Prøv lykken");
     }
 
 	/**
@@ -52,66 +46,80 @@ public class GUI_Controller {
 	 */
 	public void setupGame() throws IOException{
         // Number of players
-        numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Select the number of players",  "2", "3", "4" ));
+        numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Vælg antal spillere",   "3", "4", "5", "6" ));
+        System.out.println(numberOfPlayers);
 
         // Add player names
         names = new String[numberOfPlayers];
-        for(int i = 1; i <= names.length; i++){
-            names[i-1] = gui.getUserString("Add Player "+Integer.toString(i));
+        for(int i = 0; i < names.length; i++){
+
+            names[i] = gui.getUserString("Tilføj spiller "+Integer.toString(i+1)+"´s navn");
+
+            if(names[i].isEmpty()){
+                names[i] = "Spiller "+Integer.toString(i+1);
+            }
         }
     }
 
 
-
-    // Update GUI
-
-	/**
-	 * method to call when wanting to update the display with what happened last turn.
-	 */
-    public void updateDisplay(){
-        String turnInfo = game.getTurnInfo();
-
-    	/*
-        gui.getUserButtonPressed(infExch.getCurrPlayer() + " it's your turn, please roll the die", "Roll" );
-        gui.setDie(infExch.getCurrPlayerRolled());
-        setScore(getAllPlayer(), infExch.getPlayers());
-        movePlayer(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.getCurrPlayerOldPos(), infExch.getCurrPlayerRolled(), infExch.getCardMove());
-        displayOwner(getAllPlayer(), infExch.getCurrPlayerIndex(), infExch.getCurrPlayerNewPos(), infExch.isTileOwned());
-        displayMessage(infExch.getCurrentTurnText());
-        */
-    }
-
     // Created players
 
-	/**
-	 * initializes an array of gui payers to be displayed in the gui with a given amount of money to start with.
-	 * @param money the amount of money each player starts with.
-	 */
+    /**
+     * initializes an array of gui payers to be displayed in the gui with a given amount of money to start with.
+     * @param money the amount of money each player starts with.
+     */
     public void addplayers(int money) {
-        Color[] primaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
-        Color[] secondaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA};
-        GUI_Car.Type[] carTypes = {GUI_Car.Type.CAR,GUI_Car.Type.TRACTOR, GUI_Car.Type.RACECAR, GUI_Car.Type.UFO };
+        Color[] primaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA, Color.pink, Color.yellow};
+        Color[] secondaryColor = {Color.red, Color.green, Color.MAGENTA, Color.pink, Color.yellow, Color.blue,};
+        GUI_Car.Type carTypes = GUI_Car.Type.CAR;
         allPlayer = new GUI_Player[names.length];
         for(int i = 0; i < names.length; i++){
-            GUI_Car car = new GUI_Car(primaryColor[i], secondaryColor[i], carTypes[i], GUI_Car.Pattern.FILL);
+            GUI_Car car = new GUI_Car(primaryColor[i], secondaryColor[i], carTypes, GUI_Car.Pattern.FILL);
             GUI_Player player = new GUI_Player(names[i], money, car);
             gui.addPlayer(player);
             allPlayer[i] = player;
         }
     }
 
+
+    // Update GUI
 	/**
-	 * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
-	 * @param msg a String containing what to display
+	 * method to call when wanting to update the display with what happened last turn.
 	 */
-	public void displayMessage(String msg){
-        gui.showMessage(msg);
+    public void updateDisplay(){
+        //String turnInfo = game.getTurnInfo();
+
+        String turnInfo = "nummerOfPlayers:4;currPlayer:0;currPlayerRolled:true,1,2,3; playerScore:1200,1300,1400,1600;playerMoved:true; currentPlayerOldPosion:0; currentPlayerNewPosition:3; isTileOwned:false; cardMove:0; hasHotel:true";
+        String turnMessage = "Ja tak";
+        String[] information = turnInfo.split(";");
+
+        // Set die
+        if(information[2].split(":")[1].split(",")[0].equals("true")){
+            System.out.println("Player rolled");
+            gui.setDice(Integer.parseInt(information[2].split(":")[1].split(",")[1]),Integer.parseInt(information[2].split(":")[1].split(",")[2]) );
+        }
+
+        // Set score
+        setScore(information[3].split(":")[1].split(","));
+
+        // movePlayer
+        movePlayer(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), Integer.parseInt(information[5].split(":")[1]), Integer.parseInt(information[2].split(":")[1].split(",")[3]),Integer.parseInt(information[8].split(":")[1]));
+
+        // Display Owner
+        displayOwner(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]));
+
+        // Set house
+        setHouse(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]), 4);
+
+        // Set hotel
+        setHotel(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]),tjekForBoolean(information[9].split(":")[1]) );
+
+        // Display gameMessage
+        displayMessage(turnMessage);
     }
 
 
-    // Display all players
-
-	/**
+    /**
 	 * Displays all the gui players on the start tile.
 	 */
     public void displayPlayers(){
@@ -119,6 +127,16 @@ public class GUI_Controller {
             gui.getFields()[0].setCar(allPlayer[i], true);
         }
     }
+
+
+    /**
+     * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
+     * @param msg a String containing what to display
+     */
+    public void displayMessage(String msg){
+        gui.showMessage(msg);
+    }
+
 
     // Move current player
 
@@ -146,7 +164,7 @@ public class GUI_Controller {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-    		infExch.setCardMove(0);
+
     		for (int i = 0; i < cardMove; i++) {
     			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
     			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
@@ -166,25 +184,12 @@ public class GUI_Controller {
             gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % 24].setCar(allPlayer[currentPlayer], false);
             gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
-    	
-    	
-    	
-    	/*
-    	for(int i = 0; i < 24; i++){
-            gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
-        }
-        gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
-    */}
+    	}
 
     // Set score
-
-	/**
-	 * Method to be called when having to update the gui with the current score of each {@code Player}
-	 * @param logicPlayers the array of {@code Player}s which are the ones used in the logic part of the game.
-	 */
-    public void setScore(Player[] logicPlayers){
+    public void setScore(String[] playerScores){
     	for (int i = 0; i < allPlayer.length; i++) {
-			allPlayer[i].setBalance(logicPlayers[i].getScore());
+			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
 		}
     	
         //allPlayer[currentPlayer].setBalance(score);
@@ -193,8 +198,7 @@ public class GUI_Controller {
     // displayOwner
 
    public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
-
-        if(owned){
+        if(!owned){
             GUI_Field f = gui.getFields()[playerPosition];
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
@@ -202,6 +206,66 @@ public class GUI_Controller {
             }
         }
    }
+
+
+   // SetChanceCard
+
+    public void setChanceCard(String chanceString){
+        gui.setChanceCard(chanceString);
+    }
+
+    // DisplayChanceCard
+
+    public void displayChanceCard(){
+        gui.displayChanceCard();
+    }
+
+    public void setShit(){
+
+    }
+
+    // Set house
+
+    public void setHouse(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses){
+        if(!owned){
+            GUI_Field f = gui.getFields()[playerPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                if(o instanceof GUI_Street){
+                    GUI_Street s = (GUI_Street)o;
+                    s.setHouses(numberOfHouses);
+                }
+            }
+        }
+    }
+
+    // set Hotel
+
+    public void setHotel(int currentPlayer, int playerPosition, boolean owned, boolean hasHotel){
+        if(!owned){
+            GUI_Field f = gui.getFields()[playerPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                if(o instanceof GUI_Street){
+                    GUI_Street s = (GUI_Street)o;
+                    s.setHotel(true);
+                }
+            }
+        }
+    }
+
+    // String to boolean
+
+    public Boolean tjekForBoolean(String state){
+        if(state.equals("true")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+
 
 	/**
 	 *
@@ -232,6 +296,14 @@ public class GUI_Controller {
 
     public int getUserInt (String msg) {
    	    return gui.getUserInteger(msg);
+    }
+
+    public GUI_Player[] getAllPlayer() {
+        return allPlayer;
+    }
+
+    public void setAllPlayer(GUI_Player[] allPlayer) {
+        this.allPlayer = allPlayer;
     }
 
 }
