@@ -3,7 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class Start extends Tile {
-    private int overStartBonus = 2;
+    private int overStartBonus;
     private boolean wasStartElegible = false;
 
     /**
@@ -16,11 +16,10 @@ public class Start extends Tile {
         String[] tileInfoTags = tileinfo.split(";");
         for (String string : tileInfoTags) {
         	String[] tagInfo = string.split(":");
-			switch (tagInfo[0].toLowerCase()) {
+			switch (tagInfo[0]) {
 			case "passedValue":
 				overStartBonus = Integer.valueOf(tagInfo[1]);
 				break;
-
 			default:
 				break;
 			}

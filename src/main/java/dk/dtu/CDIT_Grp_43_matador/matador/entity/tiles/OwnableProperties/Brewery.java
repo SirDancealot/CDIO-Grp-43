@@ -13,7 +13,7 @@ public class Brewery extends Ownable {
         String[] rentInfoTags = rentInfo.split(";");
         dieMultiplier = new int[rentInfoTags.length];
         for (String infoTag: rentInfoTags) {
-            dieMultiplier[Integer.valueOf(infoTag.split(":")[0])-1] = Integer.valueOf(infoTag.split(":")[1]);
+            dieMultiplier[Integer.valueOf(infoTag.split(":")[0])] = Integer.valueOf(infoTag.split(":")[1]);
         }
 
     }
