@@ -154,7 +154,7 @@ public class Factory {
                     gui_fields[i].setTitle(thisTileInfo[5].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
                     String currentProperty = rentInfo.get(thisTileInfo[5].split(":")[1]);
-                    gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
+                    //gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
                     gui_fields[i].setBackGroundColor(makeColor(thisTileInfo[2].split(":")[1]));
                     gui_fields[i].setForeGroundColor(Color.black);
                     break;
