@@ -11,7 +11,6 @@ public abstract class Tile {
     protected String tileName;
     protected String tileMessage;
     protected String type;
-    protected Logic logic = Logic.getINSTANCE();
 
 
     /**

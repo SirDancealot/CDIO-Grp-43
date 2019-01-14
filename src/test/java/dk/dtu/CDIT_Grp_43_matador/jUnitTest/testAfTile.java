@@ -1,6 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
@@ -136,18 +137,32 @@ public class testAfTile {
 
     @Test
     public void testAfBrewery() {
+
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
+        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Carlsberg", 28, "1:4;2:10");
         Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
-        breweryTile.buyTile(p1);
 
+        breweryTile.buyTile(p1);
         breweryTile.landOnTile(p);
 
         System.out.println(p1.getScore());
         System.out.println(p.getScore());
 
-        assertTrue((1500-150) == p1.getScore());
-        assertTrue(1500-(4*2) == p.getScore());
+        assertTrue((1500-150+24) == p1.getScore()+24);
+        assertTrue((1500-24) == p.getScore()-24);
+
+        p1.setMoney(1500);
+        p.setMoney(1500);
+
+        breweryTile1.buyTile(p1);
+        breweryTile.landOnTile(p);
+
+        System.out.println(p1.getScore()+60);
+        System.out.println(p.getScore()-60);
+
+        assertTrue((1500-150+60) == p1.getScore()+60);
+        assertTrue((1500-60) == p.getScore()-60);
 
     }
 }
