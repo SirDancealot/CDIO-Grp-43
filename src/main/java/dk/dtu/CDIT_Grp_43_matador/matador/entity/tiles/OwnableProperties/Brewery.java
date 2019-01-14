@@ -30,8 +30,8 @@ public class Brewery extends Ownable {
         p.setPayDouble(false);
         if (owner == null || pawned || p == owner)
             return true;
-        lastPrice = p.getRoll() * dieMultiplier[tilesInSetOwned()-1] * (payDouble ? 2 : 1);
-        return p.withDrawMoney(lastPrice);
+        lastPrice = logic.getRoll() * dieMultiplier[tilesInSetOwned()-1] * (payDouble ? 2 : 1);
+        return p.payMoney(owner, lastPrice);
     }
 }
 
