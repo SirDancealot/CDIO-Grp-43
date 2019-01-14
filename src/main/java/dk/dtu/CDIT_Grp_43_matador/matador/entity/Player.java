@@ -46,8 +46,7 @@ public class Player {
 		if(currPos >= bord.getBoardSize()){
 			currPos-=bord.getBoardSize();
 		}
-		infExch.addToCurrentTurnText(this + " rolled a " + moving + " landed on " + bord.getGameTiles()[currPos].toString() + "\n");
-		return bord.landOnTile(this);
+		return true;//bord.landOnTile(this);
 	}
 	
 	public boolean moveTo(String tileName) {

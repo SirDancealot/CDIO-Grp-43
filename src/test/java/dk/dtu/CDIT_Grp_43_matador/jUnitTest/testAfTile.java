@@ -138,19 +138,26 @@ public class testAfTile {
     @Test
     public void testAfBrewery() {
 
+        int roll = 12;
+        int x4Price = roll * 4;
+        int x10Price = roll * 10;
+
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
         Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Carlsberg", 28, "1:4;2:10");
         Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
 
+        p.move(roll);
+
         breweryTile.buyTile(p1);
         breweryTile.landOnTile(p);
+
 
         System.out.println(p1.getScore());
         System.out.println(p.getScore());
 
-        assertTrue((1500-150+24) == p1.getScore()+24);
-        assertTrue((1500-24) == p.getScore()-24);
+        assertTrue((1500-150+x4Price) == p1.getScore());
+        assertTrue((1500-x4Price) == p.getScore());
 
         p1.setMoney(1500);
         p.setMoney(1500);
@@ -161,8 +168,8 @@ public class testAfTile {
         System.out.println(p1.getScore()+60);
         System.out.println(p.getScore()-60);
 
-        assertTrue((1500-150+60) == p1.getScore()+60);
-        assertTrue((1500-60) == p.getScore()-60);
+        assertTrue((1500-150+x10Price) == p1.getScore());
+        assertTrue((1500-x10Price) == p.getScore());
 
     }
 }
