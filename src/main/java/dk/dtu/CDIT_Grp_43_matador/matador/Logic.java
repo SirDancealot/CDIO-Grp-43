@@ -19,8 +19,12 @@ public class Logic {
     private GameBoard board;
     private boolean endOfGame = false;
     private boolean rolled = false;
+    private boolean checkForDeadPlayers;
     private int turns = 0;
     private int currPlayerIndex = 0;
+    private int[] deadPlayers = new int[players.length];
+
+
 
 
     // Turn base variables
@@ -38,6 +42,10 @@ public class Logic {
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
         endOfGame = false;
+
+        for(int i = 0; i < deadPlayers.length; i++){
+            deadPlayers[i] = 0;
+        }
     }
 
     /**
@@ -128,10 +136,12 @@ public class Logic {
                             pawnableNames[i] = tile.getTileName();
                             i++;
 
-                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned())
+                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
                             pawnableNames[i] = tile.getTileName();
+                            i++;
+                        }
                         String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
-
+                        bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
                 }
 
                 break;
@@ -143,13 +153,39 @@ public class Logic {
         switch (choice){
             case "Sælg hus(e)":
 
-
-
                 break;
             case "Køb hus(e)":
 
                 break;
             case "Pantsæt":
+
+                int pawnable = 0;
+                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+                    if(tile instanceof Property)
+                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
+                            pawnable++;
+                        else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                            pawnable++;
+                }
+                String[] pawnableNames = new String[pawnable];
+
+                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+
+                    int i = 0;
+
+                    if(tile instanceof Property)
+
+                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
+                            pawnableNames[i] = tile.getTileName();
+                            i++;
+
+                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
+                            pawnableNames[i] = tile.getTileName();
+                            i++;
+                        }
+                    String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
+                    bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
+                }
 
                 break;
             case "Køb":
@@ -159,13 +195,41 @@ public class Logic {
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
                 break;
             case "Slut tur":
-                rolled = false;
+
+                if(players[currPlayerIndex].getScore() < 0){
+                    deadPlayers[currPlayerIndex] = 1;
+                }
+
+                int deadPlayerCount = 0;
+
+                for (int i = 0; i < deadPlayers.length; i++){
+
+                    if(deadPlayers[i] == 1){
+                        deadPlayerCount++;
+                    }
+                    
+                    if(deadPlayerCount == players.length-1){
+                        // endgame funktion
+                    }
+                }
+
                 currPlayerIndex = ++currPlayerIndex % players.length;
+                checkForDeadPlayers = false;
+                while (!checkForDeadPlayers){
+                    if(deadPlayers[currPlayerIndex] != 0){
+                        currPlayerIndex = ++currPlayerIndex % players.length;
+                    }else{
+                        checkForDeadPlayers = true;
+                    }
+                }
+                turns++;
+                rolled = false;
                 break;
         }
-
-
     }
+
+
+
 
 
     public String[] expandArray(String[] startArray ,String... expandArray){
