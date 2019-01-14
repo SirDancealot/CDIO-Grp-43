@@ -22,7 +22,7 @@ public class Logic {
     private boolean checkForDeadPlayers;
     private int turns = 0;
     private int currPlayerIndex = 0;
-    private int[] deadPlayers = new int[players.length];
+    private int[] deadPlayers;
 
 
 
@@ -42,6 +42,8 @@ public class Logic {
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
         endOfGame = false;
+
+        deadPlayers = new int[players.length];
 
         for(int i = 0; i < deadPlayers.length; i++){
             deadPlayers[i] = 0;
@@ -120,7 +122,7 @@ public class Logic {
 
                     int i = 0;
 
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0)){
+                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
 
                         downgradeableNames[i] = tile.getTileName();
                         i++;
@@ -130,7 +132,7 @@ public class Logic {
                 String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
                 bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
                 break;
-                
+
             case "Køb hus(e)":
 
                 int upgradeableProperties = 0;
@@ -255,7 +257,7 @@ public class Logic {
 
                     int i = 0;
 
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0)){
+                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
 
                         downgradeableNames[i] = tile.getTileName();
                         i++;
@@ -358,10 +360,10 @@ public class Logic {
 
                         }
 
-                    String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
-                    bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
-                }
 
+                }
+                String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
+                bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
                 break;
 
             case "Køb":
