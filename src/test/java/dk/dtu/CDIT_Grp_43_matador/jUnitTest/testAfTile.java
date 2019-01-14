@@ -106,6 +106,8 @@ public class testAfTile {
         Start startTile = new Start("", "type:Start;passedValue:200;name:Start", 0);
         Player p = new Player("testPlayer", 1500);
         int score = p.getScore();
+        p.setStartMoneyElegible(true);
+
 
         startTile.passedTile(p);
 
