@@ -18,8 +18,8 @@ public class Bank {
 
     private Logic logic = Logic.getINSTANCE();
 
-    private int housesInGame;
-    private int hotelsInGame;
+    private int housesInGame = 32;
+    private int hotelsInGame = 12;
 
     private final String[] options = {"Byd", "Stop med at byde"};
 
@@ -47,7 +47,7 @@ public class Bank {
                 String choice = logic.getChoice(bidString, options);
                 bidString = "";
                 if (choice.equals("Byd")) {
-                    int bidAmount = logic.getUserInt("How much do you want to bid?");
+                    int bidAmount = logic.getUserInt("Hvor meget vil du byde?");
                     if (bidAmount > highestBid) {
                         highestBid = bidAmount;
                         highestBidPlayer = currentPlayerBidding;
@@ -74,14 +74,58 @@ public class Bank {
         else
             return false;
 
-        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice()) {
-           return false;
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() > ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
         }
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice() || !workingTile.tileSetowned())
+           return false;
+
         if (p.withDrawMoney(workingTile.getHousePrice())) {
             workingTile.addHouseLevel();
+            if (workingTile.getHouseLevel() < 4) {
+                housesInGame--;
+            } else {
+                hotelsInGame--;
+                housesInGame += 4;
+            }
             return true;
         }
         return false;
+    }
+
+    public boolean downgradeGround (Player p, Tile tile) {
+        Property workingTile;
+        if (tile instanceof Property)
+            workingTile = (Property)tile;
+        else
+            return false;
+
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() < ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
+        }
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() <= 0)
+            return false;
+
+        if (p.addMoney(workingTile.getHousePrice()/2)) {
+            workingTile.removeHouseLevel();
+            if (workingTile.getHouseLevel() == 5) {
+                if (housesInGame >= 4) {
+                    hotelsInGame++;
+                    housesInGame -= 4;
+                } else {
+                    return false;
+                }
+            } else {
+                housesInGame++;
+            }
+        }
+        return true;
     }
 
     public boolean pawnTile(Player p, Tile tile) {

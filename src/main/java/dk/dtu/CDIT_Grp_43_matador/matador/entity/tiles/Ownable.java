@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
-public class Ownable extends Tile {
+public abstract class Ownable extends Tile {
     protected Player owner = null;
+    protected boolean ownedLastTurn = false;
+    protected int lastPrice = 0;
     private String sisterTag;
     protected int tilesInSet;
     protected boolean pawned = false;
@@ -24,14 +26,12 @@ public class Ownable extends Tile {
         String[] tileInfoTags = tileinfo.split(";");
         for (String string : tileInfoTags) {
             String[] tagInfo = string.split(":");
-            switch (tagInfo[0].toLowerCase()) {
+            switch (tagInfo[0]) {
                 case "sister":
                     sisterTag = tagInfo[1];
                     break;
                 case "setSize":
                     tilesInSet = Integer.valueOf(tagInfo[1]);
-
-
                 default:
                     break;
             }
@@ -67,7 +67,7 @@ public class Ownable extends Tile {
         return tilesInSetOwned;
     }
 
-    protected boolean tileSetowned(){
+    public boolean tileSetowned(){
         return tilesInSetOwned() == tilesInSet;
     }
 
@@ -79,7 +79,7 @@ public class Ownable extends Tile {
     @Override
     public boolean passedTile(Player p) { return true; }
 
-    public boolean isPawned() {return pawned; }
+    public boolean isPawned() { return pawned; }
 
     public void setPawned(boolean pawned) {
         this.pawned = pawned;
@@ -97,8 +97,39 @@ public class Ownable extends Tile {
         return buyable;
     }
 
+    public int getTilesInSet() {
+        return tilesInSet;
+    }
+
     @Override
     public String getSisterTag() {
         return sisterTag;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på " + tileName;
+        if (owner == null) {
+            result += " men der var ingen der købte " + tileName;
+        } else if (owner == p && !ownedLastTurn) {
+            ownedLastTurn = true;
+            result += " og købte " + tileName;
+        } else if (owner == p) {
+            result += " og ejede allerede feltet, så der skete intet";
+        } else if (owner != p && !ownedLastTurn) {
+            ownedLastTurn = true;
+            result += " og feltet røt på auktion og blev købt af " + owner;
+        } else if (owner != p) {
+            result += " som er ejet af " + owner + " og betalte dem " + lastPrice;
+        }
+
+
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
     }
 }

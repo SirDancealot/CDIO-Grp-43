@@ -21,10 +21,22 @@ public class GoToJail extends Tile {
     @Override
     public boolean landOnTile(Player p) {
     	super.landOnTile(p);
-    	infExch.addToCurrentTurnText(p + " was sent to jail");
+    	//infExch.addToCurrentTurnText(p + " was sent to jail");
         p.setInJail(true);
         p.moveTo("jail");
         return true;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " skal gå direkte i fængsel og modtagger ikke penge når de passere start";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
     }
 
 

@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.util.ArrayList;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
@@ -14,12 +15,13 @@ public class Player {
 	private static GameBoard bord = GameBoard.getInstance();
 	private int roll;
 	private int currPos = 0;
-	private boolean firstTurn = true;
+	private boolean startMoneyElegible = false;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
 	private boolean nextJailFree = false;
 	private boolean inAuction = false;
+	private boolean payDouble = false;
 
 	/**
 	 * @param name the name this player has.
@@ -97,6 +99,25 @@ public class Player {
 			ppf += tile.getTileValue();
 		return ppf + getScore();
 	}
+
+	/**
+	 * A method to get how many houses and hotels the player owns
+	 * @return a integer array of length 2 with index 0 being how many houses they own, and index 1 being hou many hotels they own
+	 */
+	public int[] getHouseAndHotelsOwned() {
+		int[] houseAndHotels = new int[2];
+
+		for (Tile tile : ownedTiles) {
+			if (tile instanceof Property) {
+				int houseLevel = ((Property)tile).getHouseLevel();
+				if (houseLevel == 5)
+					houseAndHotels[1]++;
+				else
+					houseAndHotels[0] += houseLevel;
+			}
+		}
+		return houseAndHotels;
+	}
 	
 	public void setMoney(int money) {
 		playerAccount.setMoney(money);
@@ -124,8 +145,8 @@ public class Player {
         return currPos;
     }
     
-    public boolean isFirstTurn() {
-		return firstTurn;
+    public boolean isStartMoneyElegible() {
+		return startMoneyElegible;
 	}
 
     public void setName(String name) {
@@ -136,8 +157,8 @@ public class Player {
         this.inJail = inJail;
     }
     
-    public void setFirstTurn(boolean firstTurn) {
-		this.firstTurn = firstTurn;
+    public void setStartMoneyElegible(boolean startMoneyElegible) {
+		this.startMoneyElegible = startMoneyElegible;
 	}
     
     public void addOwnedTile(Tile t) {
@@ -174,5 +195,17 @@ public class Player {
 
 	public void setInAuction(boolean inAuction) {
 		this.inAuction = inAuction;
+	}
+
+	public void setPayDouble(boolean payDouble) {
+		this.payDouble = payDouble;
+	}
+
+	public boolean isPayDouble() {
+		return payDouble;
+	}
+
+	public Tile[] getTilesByTag(String tag) {
+		return bord.searchForTileType(tag);
 	}
 }

@@ -25,9 +25,9 @@ public class MatadorlegatEffect extends CardEffect {
         return super.toString() + "MatadorlegatEffect";
     }
 
-    public String printEffect(Player p) {
-        String accepted = "\t" + p + "You recieve" +  recieveAmount + " kr, because your balance we're under" + maxValue + " kr";
-        String notAccepted = "\t" + p + "Your balance is higher than" + maxValue + " kr and therefore receive nothing";
+    public String print(Player p) {
+        String accepted = "\t" + p + " You recieve" +  recieveAmount + " kr, because your balance we're under" + maxValue + " kr";
+        String notAccepted = "\t" + p + " Your balance is higher than" + maxValue + " kr and therefore receive nothing";
 
         return p.playerFortune() <= maxValue ? accepted : notAccepted;
     }

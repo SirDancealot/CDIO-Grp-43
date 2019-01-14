@@ -11,7 +11,7 @@ public class TextReader {
 	private static HashMap<String, String> tiles;
 	private static HashMap<String, String> cards;
 
-	public void init() {
+	public static void init() {
 		try {
 			rent = fileToHashMap("./res/Rent.txt");
 			tiles = fileToHashMap("./res/Tiles.txt");

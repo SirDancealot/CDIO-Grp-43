@@ -19,7 +19,7 @@ public class PayAllEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
+	public String print(Player p) {
 		String pay = "\t" + p + " pays " + payAllAmt + " to all players\n";
 		String recieve = "\t" + p + " recieves " + (-payAllAmt) + " from all players\n";
 		

@@ -26,4 +26,16 @@ public class FreeParking extends Tile {
     public boolean landOnTile(Player p) {
     	return super.landOnTile(p);
     }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på grastis parkering, der skete ingenting";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
 }

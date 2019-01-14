@@ -32,15 +32,31 @@ public class Jail extends Tile {
 				}
 			}
         	if (!freeJail) {
-        		infExch.addToCurrentTurnText(p + " payed " + outOfJailPrice + " to get out of jail\n");
+        		//infExch.addToCurrentTurnText(p + " payed " + outOfJailPrice + " to get out of jail\n");
         		return p.withDrawMoney(outOfJailPrice);
         	}
-        	infExch.addToCurrentTurnText(p + " had a get out of jail free card and exited the jail for free\n");
+        	//infExch.addToCurrentTurnText(p + " had a get out of jail free card and exited the jail for free\n");
         }
         return true;
     }
 
-    public boolean payToExit(Player p) {
+	@Override
+	public String printLandOn(Player p) {
+    	String result;
+		if (p.isInJail())
+			result =  p + " er sat i fængsel";
+		else
+			result = p + " er på besøg i fængslet";
+		return result;
+	}
+
+	@Override
+	public String printPassed(Player p) {
+		String result = "";
+		return result;
+	}
+
+	public boolean payToExit(Player p) {
     	if (p.isInJail()) {
 		    p.setInJail(false);
 		    return p.withDrawMoney(outOfJailPrice);

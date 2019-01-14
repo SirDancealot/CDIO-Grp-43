@@ -2,7 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
@@ -17,7 +18,7 @@ public class Logic {
     private DiceCup diceCup;
     private GameBoard board;
     private boolean endOfGame = false;
-    boolean rolled = false;
+    private boolean rolled = false;
     private int turns = 0;
     private int currPlayerIndex = 0;
 
@@ -46,130 +47,144 @@ public class Logic {
     public void tick() {
 
         while (!rolled) {
+            String[] options = {"Sælg hus(e)" ,"Køb hus(e)", "Pantsæt", "Rul",};
 
             if (players[currPlayerIndex].isInJail()) {
-                if (players[currPlayerIndex].hasFreeJail()) {
-                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud", "Brug chance kort", "Pantsæt", "Køb", "Sælg hus(e)"};
-                    String choice = getChoice("Hvordan vil du komme ud af fængsel?", choices);
-                    jailMoves(choice);
-                } else {
-                    String[] choices = {"Prøv at slå 2 ens", "Betal for at komme ud", "Pantsæt", "Køb", "Sælg hus(e)"};
-                    String choice = getChoice("Du er i fængsel. Hvad vil du gøre nu?", choices);
-                    jailMoves(choice);
-                }
+
+                String[] choice = expandArray(options, "Betal for at komme ud");
+
+                if (players[currPlayerIndex].hasFreeJail())
+                    expandArray(options, "Brug chance kort");
 
             }
 
-            if (!players[currPlayerIndex].isInJail() && !rolled) {
-                String[] choices = {"Pantsæt", "Køb", "Sælg hus(e)", "Slå med terningerne"};
-                String choice = getChoice("Hvad vil du gøre nu?", choices);
-                notRolledMoves(choice);
+            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
+
+            beforeRoll(choice);
+
+        }
+
+        while (rolled) {
+
+            String[] options = {"Sælg hus(e)", "Køb hus(e)", "Pantsæt", "Slut tur"};
+
+            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
+                expandArray(options, "Køb", "Sæt på auktion");
             }
-
+            String choice = getChoice("Hvad vil du nu?", options);
+            afterRoll(choice);
         }
-
-        if (rolled){
-            players[currPlayerIndex].move(diceCup.getDiceIntValues());
-        } else {
-            diceCup.roll();
-            rolled = true;
-            players[currPlayerIndex].move(diceCup.getDiceIntValues());
-        }
-
-        while(rolled) {
-            if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()) {
-                String[] rolledChoices = {"Køb","Sæt på auktion" ,"Pantsæt", "Sælg hus(e)"};
-                String rolledChoice = getChoice("Hvad vil du nu?", rolledChoices);
-                rolledMoves(rolledChoice);
-            }
-        }
-
-
+        //Spiller skal kickes;
+        //Spillet skal slutte;
     }
-    private void jailMoves (String choice) {
+
+    private void beforeRoll(String choice ) {
 
         switch (choice) {
-            case "Prøv at slå 2 ens":
+            case "Rul":
                 diceCup.roll();
                 if (diceCup.isSame()) {
                     players[currPlayerIndex].setInJail(false);
-                    rolled = true;
-                    break;
                 }
+                rolled = true;
+                break;
 
             case "Betal for at komme ud":
-                ((Jail)(board.getTileByName("Jail"))).payToExit(players[currPlayerIndex]);
+                ((Jail) (board.getTileByName("Jail"))).payToExit(players[currPlayerIndex]);
                 break;
 
             case "Brug chance kort":
                 players[currPlayerIndex].setFreeJail(false);
                 players[currPlayerIndex].setInJail(false);
                 break;
+            case "Sælg hus(e)":
+
+                players[currPlayerIndex].getOwnedTiles();
+
+                break;
+            case "Køb hus(e)":
+
+                break;
 
             case "Pantsæt":
 
+                int pawnable = 0;
+                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+                    if(tile instanceof Property)
+                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
+                            pawnable++;
+                    else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                        pawnable++;
+                }
+                String[] pawnableNames = new String[pawnable];
+
+                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+
+                    int i = 0;
+
+                    if(tile instanceof Property)
+
+                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
+                            pawnableNames[i] = tile.getTileName();
+                            i++;
+
+                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned())
+                            pawnableNames[i] = tile.getTileName();
+                        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
+
+                }
+
                 break;
-
-            case "Køb":
-
-                break;
-
-            case "Sælg hus(e)":
-
-                break;
-
         }
     }
 
-    private void notRolledMoves(String choice){
+    private void afterRoll(String choice){
 
         switch (choice){
-            case "Køb":
+            case "Sælg hus(e)":
+
+
 
                 break;
-            case "Slå med terningerne":
-
-                break;
-            case "Sælg":
+            case "Køb hus(e)":
 
                 break;
             case "Pantsæt":
 
+                break;
+            case "Køb":
+                ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
+                break;
+            case "Sæt på auktion":
+                bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
+                break;
+            case "Slut tur":
+                rolled = false;
+                currPlayerIndex = ++currPlayerIndex % players.length;
                 break;
         }
 
 
     }
 
-    public void rolledMoves(String rolledChoice){
 
-        switch (rolledChoice) {
-            case "Køb":
-                players[currPlayerIndex].withDrawMoney(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue());
-                break;
+    public String[] expandArray(String[] startArray ,String... expandArray){
+        String[] allOptions = new String[startArray.length + expandArray.length];
 
-            case "Sæt på auktion":
-
-                break;
-
-            case "Sælg":
-
-                String Yeet;
-
-                break;
-            case "Sælg hus(e)":
-
-                break;
+        for(int i = 0; i < startArray.length;i++ ){
+            allOptions[i] = startArray[i] ;
         }
-
+        for(int i = 0; i < expandArray.length;i++ ){
+            allOptions[startArray.length + i] = expandArray[i] ;
+        }
+        return allOptions;
     }
 
     public void sell(String sellChoice){
 
     }
     
-    public String getChoice (String msg, String[]buttons){
-
+    public String getChoice (String msg, String... buttons){
         return game.getChoice(msg, buttons);
     }
 
@@ -190,5 +205,7 @@ public class Logic {
         return endOfGame;
     }
 
-
+    public Tile[] getTileBySet(String setTag) {
+        return board.getTileBySet(setTag);
+    }
 }
