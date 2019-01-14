@@ -442,6 +442,12 @@ public class Logic {
         return endOfGame;
     }
 
+    public Player getWinner() {
+        if (endOfGame)
+            return players[currPlayerIndex];
+        return null;
+    }
+
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
     }

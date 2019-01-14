@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public class Player {
-	private static InformationExchanger infExch = InformationExchanger.getInstance();
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;

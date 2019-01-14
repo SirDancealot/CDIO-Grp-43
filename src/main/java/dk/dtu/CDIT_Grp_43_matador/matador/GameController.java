@@ -32,7 +32,6 @@ public class GameController {
 	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
 	private Logic logic = Logic.getINSTANCE();
 	private GUI_Controller gui = GUI_Controller.getINSTANCE();
-	private InformationExchanger infExch = InformationExchanger.getInstance();
 
 
 	public void init() throws IOException {
@@ -91,10 +90,7 @@ public class GameController {
 	}
 
 	private void displayWinningMessage() {
-		infExch.setEndOfGame(true);
-		//infExch.setCurrentTurnText("");
-		infExch.addToCurrentTurnText("\n" + infExch.getCurrPlayer() + " ran out of money and the game has now ended\n");
-        Player winner = infExch.getCurrPlayer();
+        Player winner = logic.getWinner();
         for (Player player : players) {
 			if (player.getScore() > winner.getScore())
 				winner = player;
@@ -113,7 +109,6 @@ public class GameController {
 					winner = player;
 			}
 		}
-        infExch.addToCurrentTurnText("The winner of the game was " + winner + " with a score of " + winner.getScore());
         //gui.updateDisplay();
 	}
 
