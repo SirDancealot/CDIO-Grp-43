@@ -72,7 +72,7 @@ public class Logic {
 
         while (rolled) {
 
-            String[] options = {"Sælg hus(e)", "Køb hus(e)", "Pantsæt", "Slut tur"};
+            String[] options = {"Sælg hus(e)", "Køb hus(e)", "Pantsæt", "Ophæv pantsætning", "Slut tur"};
 
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
                 expandArray(options, "Køb", "Sæt på auktion");
@@ -80,8 +80,6 @@ public class Logic {
             String choice = getChoice("Hvad vil du nu?", options);
             afterRoll(choice);
         }
-        //Spiller skal kickes;
-        //Spillet skal slutte;
     }
 
     private void beforeRoll(String choice ) {
@@ -143,6 +141,11 @@ public class Logic {
                 }
 
                 break;
+
+                case "Ophæv pantsætning":
+
+
+
         }
     }
 
@@ -158,6 +161,7 @@ public class Logic {
             case "Pantsæt":
 
                 int pawnable = 0;
+
                 for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
                     if(tile instanceof Property)
                         if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
@@ -243,7 +247,6 @@ public class Logic {
     }
 
     public void sell(String sellChoice){
-
     }
     
     public String getChoice (String msg, String... buttons){
@@ -269,5 +272,8 @@ public class Logic {
 
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
+    }
+    public int getDiceSum(){
+        return diceCup.getDiceIntValues();
     }
 }
