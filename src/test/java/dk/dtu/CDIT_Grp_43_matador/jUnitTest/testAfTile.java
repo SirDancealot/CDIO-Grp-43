@@ -4,6 +4,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testAfTile {
-    @BeforeEach
+    /*@BeforeEach
     public void initBoaard() {
         GameBoard board = GameBoard.getInstance();
         try{
@@ -21,7 +22,7 @@ public class testAfTile {
         }
 
     }
-
+*/
     @Test
     public void testAfJail(){
         GameBoard bord = GameBoard.getInstance();
@@ -94,18 +95,39 @@ public class testAfTile {
         System.out.println(p1.getOwnedTiles().size());
         assertTrue(TO==2);
         assertFalse(score==p1.getScore());
+        assertTrue(10000-750+100 == p1.getScore());
+        assertTrue(9900 == p2.getScore());
         System.out.println(p2.getScore());
+        System.out.println(p1.getScore());
 
     }
     @Test
     public void testAfStart(){
-        Start startTile = new Start("", "tag:Start;passedValue:200;name:Start", 0);
-        Player p = new Player("testPlayer", 20);
+        Start startTile = new Start("", "type:Start;passedValue:200;name:Start", 0);
+        Player p = new Player("testPlayer", 1500);
         int score = p.getScore();
 
         startTile.passedTile(p);
 
-        assertFalse(score==p.getScore());
         System.out.println(p.getScore());
+        assertFalse(score==p.getScore());
+
+    }
+
+    @Test
+    public void testAfShip(){
+        Player p = new Player("testPlayer",1500);
+        Player p1 = new Player("testPlayer1", 1500);
+        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"0:50;1:200;2:600;3:1400;4:1700;5:2000" );
+
+        shipTile.buyTile(p1);
+
+        shipTile.landOnTile(p);
+
+        System.out.println(p1.getScore());
+        System.out.println(p.getScore());
+
+        assertTrue(1500-200+50 == p1.getScore());
+        assertTrue(1500-50 == p.getScore());
     }
 }
