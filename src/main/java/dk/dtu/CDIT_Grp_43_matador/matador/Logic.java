@@ -22,7 +22,7 @@ public class Logic {
     private boolean checkForDeadPlayers;
     private int turns = 0;
     private int currPlayerIndex = 0;
-    private int[] deadPlayers = new int[players.length];
+    private int[] deadPlayers;
 
 
 
@@ -42,6 +42,8 @@ public class Logic {
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
         endOfGame = false;
+
+        deadPlayers = new int[players.length];
 
         for(int i = 0; i < deadPlayers.length; i++){
             deadPlayers[i] = 0;
