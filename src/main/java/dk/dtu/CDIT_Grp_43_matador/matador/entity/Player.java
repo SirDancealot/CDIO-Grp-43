@@ -15,7 +15,7 @@ public class Player {
 	private static GameBoard bord = GameBoard.getInstance();
 	private int roll;
 	private int currPos = 0;
-	private boolean startMoneyElegible = false;
+	private boolean startMoneyElegible = true;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
