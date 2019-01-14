@@ -2,7 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +20,6 @@ public class testAfWinRate {
     private static GameBoard bord = GameBoard.getInstance();
     private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
     private static Logic logic = Logic.getINSTANCE();
-    private static InformationExchanger infExch = InformationExchanger.getInstance();
 
 
     public void rungame() throws IOException {
@@ -36,7 +34,6 @@ public class testAfWinRate {
         int[] wins = new int[4];
         for (int i = 0; i < games; i++) {
             rungame();
-            wins[infExch.getCurrPlayerIndex()]++;
         }
         assertTrue(low < wins[0] && wins[0] < high);
         System.out.println("Player1 wins:" + wins[0] + "times.\nPlayer2 wins:" + wins[1] + " times.\nPlayer3 wins:" + wins[2] + " times.\nPlayer4 wins:" + wins[3] + "times.");
