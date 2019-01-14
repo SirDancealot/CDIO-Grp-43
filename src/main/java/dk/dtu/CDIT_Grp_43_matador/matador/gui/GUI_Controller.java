@@ -90,39 +90,52 @@ public class GUI_Controller {
     public void updateDisplay(){
         //String turnInfo = game.getTurnInfo();
 
-        String turnInfo = "nummerOfPlayers:4;currPlayer:0;currPlayerRolled:true,1,2,3; playerScore:1200,1300,1400,1600;playerMoved:true; currentPlayerOldPosion:0; currentPlayerNewPosition:3; isTileOwned:false; cardMove:0; hasHotel:true";
-        String turnMessage = "Ja tak";
-        String[] information = turnInfo.split(";");
+        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert";
+        String[] info = turnInfo.split(";");
 
-        // Set die
-        if(information[2].split(":")[1].split(",")[0].equals("true")){
-            System.out.println("Player rolled");
-            gui.setDice(Integer.parseInt(information[2].split(":")[1].split(",")[1]),Integer.parseInt(information[2].split(":")[1].split(",")[2]) );
+        for (int i = 0; i < info.length; i++) {
+            String[] thisInfo = info[i].split(":");
+            String doshit = thisInfo[0];
+            System.out.println("Turns "+i);
+                switch (doshit) {
+                    case "updateScore":
+                        String[] score = thisInfo[1].split(",");
+                        setScore(score);
+                        System.out.println("Score uddated");
+                        break;
+                    case "displayDies":
+                        String[] dies = thisInfo[1].split(",");
+                        gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
+                        System.out.println("Dies displayed");
+                        break;
+                    case "movePlayer":
+                        String[] movePlayer = thisInfo[1].split(",");
+                        movePlayer(Integer.parseInt(movePlayer[0]),Integer.parseInt(movePlayer[1]),Integer.parseInt(movePlayer[2]),Integer.parseInt(movePlayer[3]),Integer.parseInt(movePlayer[4]));
+                        System.out.println("Player moved");
+                        break;
+                    case "displayOwner":
+                        String[] displayOwner = thisInfo[1].split(",");
+                        displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), tjekForBoolean(displayOwner[2]));
+                        System.out.println("Displayed owner");
+                        break;
+                    case "setHouse":
+                        String[] setHouse = thisInfo[1].split(",");
+                        setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]),tjekForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
+                        System.out.println("House set");
+                        break;
+                    case "setHotel":
+                        String[] setHotel = thisInfo[1].split(",");
+                        setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]),tjekForBoolean(setHotel[2]),tjekForBoolean(setHotel[3]));
+                        System.out.println("Hotel set");
+                        break;
+                    case "turnMessage":
+                        String message = thisInfo[1];
+                        displayMessage(message);
+                        System.out.println("Turn message displayed");
+                        break;
+                }
         }
-
-        // Set score
-        setScore(information[3].split(":")[1].split(","));
-
-        // movePlayer
-        movePlayer(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), Integer.parseInt(information[5].split(":")[1]), Integer.parseInt(information[2].split(":")[1].split(",")[3]),Integer.parseInt(information[8].split(":")[1]));
-
-        // Display Owner
-        displayOwner(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]));
-
-        // Set house
-        setHouse(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]), 4);
-
-        // Set hotel
-        setHotel(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]),tjekForBoolean(information[9].split(":")[1]) );
-
-        // Display gameMessage
-        displayMessage(turnMessage);
     }
-
-
-    //
-
-
 
 
     /**
