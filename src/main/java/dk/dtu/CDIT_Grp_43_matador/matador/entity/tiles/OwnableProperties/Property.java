@@ -43,10 +43,10 @@ public class Property extends Ownable {
 
         if (houseLevel == 0 && tileSetowned()) {
             lastPrice = 2 * propertyRents[0] * (payDouble ? 2 : 1);
-            return p.withDrawMoney(lastPrice);
+            return p.payMoney(owner, lastPrice);
         }
         lastPrice = propertyRents[houseLevel] * (payDouble ? 2 : 1);
-        return p.withDrawMoney(lastPrice);
+        return p.payMoney(owner, lastPrice);
     }
 
     public int getHouseLevel() {

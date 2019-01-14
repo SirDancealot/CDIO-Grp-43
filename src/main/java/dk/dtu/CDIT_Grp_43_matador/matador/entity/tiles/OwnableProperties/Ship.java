@@ -13,7 +13,7 @@ public class Ship extends Ownable {
         String[] rentInfoTags = rentInfo.split(";");
         shipMultiplier = new int[rentInfoTags.length];
         for (String infoTag : rentInfoTags) {
-            shipMultiplier[Integer.valueOf(infoTag.split(":")[0]) - 1] = Integer.valueOf(infoTag.split(":")[1]);
+            shipMultiplier[Integer.valueOf(infoTag.split(":")[0])] = Integer.valueOf(infoTag.split(":")[1]);
         }
     }
 
@@ -32,6 +32,6 @@ public class Ship extends Ownable {
             return true;
 
         lastPrice = shipMultiplier[tilesInSetOwned() - 1] * (payDouble ? 2 : 1);
-        return p.withDrawMoney(lastPrice);
+        return p.payMoney(owner, lastPrice);
     }
 }
