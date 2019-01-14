@@ -8,6 +8,7 @@ import gui_fields.*;
 import gui_main.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GUI_Controller {
     private static GUI_Controller INSTANCE = new GUI_Controller();
@@ -119,6 +120,11 @@ public class GUI_Controller {
     }
 
 
+    //
+
+
+
+
     /**
 	 * Displays all the gui players on the start tile.
 	 */
@@ -220,8 +226,16 @@ public class GUI_Controller {
         gui.displayChanceCard();
     }
 
-    public void setShit(){
+    // Mortgage Properties
 
+    public void doShit(){
+        int[] propertiesOwned = {1,2,4};
+        String[] properties = new String[propertiesOwned.length];
+
+        for(int i = 0; i < propertiesOwned.length; i++){
+            properties[i] = gui.getFields()[propertiesOwned[i]].getTitle();
+        }
+        String mortgagePropertie = gui.getUserSelection("Pantsætte ejendom", properties );
     }
 
     // Set house

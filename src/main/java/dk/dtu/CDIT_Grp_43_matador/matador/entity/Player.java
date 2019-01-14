@@ -138,7 +138,7 @@ public class Player {
     }
 
     public int getRoll() {
-        return roll;
+		return roll;
     }
 
     public int getCurrPos() {
