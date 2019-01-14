@@ -55,11 +55,9 @@ public class Logic {
 
                 if (players[currPlayerIndex].hasFreeJail())
                     expandArray(options, "Brug chance kort");
-
             }
 
             String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
-
             beforeRoll(choice);
 
         }

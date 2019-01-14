@@ -15,6 +15,7 @@ class GuiTest {
         int startMoney = 1500;
         gui.addplayers(startMoney);
         gui.displayPlayers();
-        gui.updateDisplay(); 
+        gui.updateDisplay();
+        gui.doShit();
     }
 }
