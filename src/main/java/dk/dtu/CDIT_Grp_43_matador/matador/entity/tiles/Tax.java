@@ -19,8 +19,12 @@ public class Tax extends Tile {
             switch (split[0]) {
                 case "money":
                     this.taxFlat = Integer.valueOf(split[1]);
+                    break;
                 case "percent":
                     this.taxPercent = Integer.valueOf(split[1]);
+                    break;
+                default:
+                    break;
             }
         }
     }
