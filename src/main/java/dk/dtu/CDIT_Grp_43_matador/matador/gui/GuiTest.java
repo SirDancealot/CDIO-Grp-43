@@ -1,7 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.gui.GUI_Controller;
-
 import java.io.IOException;
 
 class GuiTest {
@@ -16,6 +14,6 @@ class GuiTest {
         gui.addplayers(startMoney);
         gui.displayPlayers();
         gui.updateDisplay();
-        gui.displayButtonsTest("Hey", "hey1");
+        gui.displayButtons("Hey", "hey1");
     }
 }

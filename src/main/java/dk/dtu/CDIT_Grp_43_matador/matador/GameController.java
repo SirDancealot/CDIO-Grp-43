@@ -112,7 +112,7 @@ public class GameController {
 	}
 
 	public String getChoice(String msg, String... buttons) {
-		String choice = gui.displayButtonsTest(msg, buttons);
+		String choice = gui.displayButtons(msg, buttons);
 		System.out.println("working in gamecontroller");
 		return choice;
 	}

@@ -8,7 +8,6 @@ import gui_fields.*;
 import gui_main.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class GUI_Controller {
     private static GUI_Controller INSTANCE = new GUI_Controller();
@@ -115,17 +114,17 @@ public class GUI_Controller {
                         break;
                     case "displayOwner":
                         String[] displayOwner = thisInfo[1].split(",");
-                        displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), tjekForBoolean(displayOwner[2]));
+                        displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
                         System.out.println("Displayed owner");
                         break;
                     case "setHouse":
                         String[] setHouse = thisInfo[1].split(",");
-                        setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]),tjekForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
+                        setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]), checkForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
                         System.out.println("House set");
                         break;
                     case "setHotel":
                         String[] setHotel = thisInfo[1].split(",");
-                        setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]),tjekForBoolean(setHotel[2]),tjekForBoolean(setHotel[3]));
+                        setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]), checkForBoolean(setHotel[2]), checkForBoolean(setHotel[3]));
                         System.out.println("Hotel set");
                         break;
                     case "turnMessage":
@@ -287,7 +286,7 @@ public class GUI_Controller {
 
     // String to boolean
 
-    public Boolean tjekForBoolean(String state){
+    public Boolean checkForBoolean(String state){
         if(state.equals("true")){
             return true;
         }else{
@@ -304,7 +303,7 @@ public class GUI_Controller {
 	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
 	 * @return returns the string that was written on the button that was pressed
 	 */
-   public String displayButtonsTest(String msg, String... buttons) {
+   public String displayButtons(String msg, String... buttons) {
        String choice = gui.getUserButtonPressed(msg, buttons);
        System.out.println("Working");
        return choice;
