@@ -25,10 +25,6 @@ public class Logic {
     private int[] deadPlayers;
 
 
-
-
-    // Turn base variables
-
     private Logic(){}
 
     /**
@@ -57,7 +53,7 @@ public class Logic {
     public void tick() {
 
         while (!rolled) {
-            String[] options = {"Sælg hus(e)" ,"Køb hus(e)", "Pantsæt", "Rul",};
+            String[] options = {"Rul",};
 
             if (players[currPlayerIndex].isInJail()) {
 
@@ -67,6 +63,19 @@ public class Logic {
                     expandArray(options, "Brug chance kort");
             }
 
+            if(canBuyHouse() == true){
+                expandArray(options, "Køb hus(e)");
+            }
+            if(canSellHouse() == true){
+                expandArray(options, "Sælg hus(e)");
+        }
+            if(canPawn() == true){
+                expandArray(options, "Pantsæt");
+            }
+            if(canUnPawn() == true){
+                expandArray(options, "Ophæv pantsætning");
+            }
+
             String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
             beforeRoll(choice);
 
@@ -74,11 +83,21 @@ public class Logic {
 
         while (rolled) {
 
-            String[] options = {"Sælg hus(e)", "Køb hus(e)", "Pantsæt", "Ophæv pantsætning", "Slut tur"};
+            String[] options = {"Slut tur"};
 
-            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
-                expandArray(options, "Køb", "Sæt på auktion");
+            if(canBuyHouse() == true){
+                expandArray(options, "Køb hus(e)");
             }
+            if(canSellHouse() == true){
+                expandArray(options, "Sælg hus(e)");
+            }
+            if(canPawn() == true){
+                expandArray(options, "Pantsæt");
+            }
+            if(canUnPawn() == true){
+                expandArray(options, "Ophæv pantsætning");
+            }
+
             String choice = getChoice("Hvad vil du nu?", options);
             afterRoll(choice);
         }
@@ -103,135 +122,22 @@ public class Logic {
                 players[currPlayerIndex].setFreeJail(false);
                 players[currPlayerIndex].setInJail(false);
                 break;
+
             case "Sælg hus(e)":
-
-                int downgradeableProperties = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
-
-                        downgradeableProperties++;
-
-                    }
-                }
-
-                String[] downgradeableNames = new String[downgradeableProperties];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    int i = 0;
-
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
-
-                        downgradeableNames[i] = tile.getTileName();
-                        i++;
-
-                    }
-                }
-                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
-                bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
+                sellHouse();
                 break;
 
             case "Køb hus(e)":
-
-                int upgradeableProperties = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    if( tile instanceof Property && ((Property) tile).tileSetowned()) {
-
-                        upgradeableProperties++;
-
-                    }
-                }
-
-                String[] upgradeableNames = new String[upgradeableProperties];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    int i = 0;
-
-                    if( tile instanceof Property && ((Property) tile).tileSetowned()){
-
-                        upgradeableNames[i] = tile.getTileName();
-                        i++;
-
-                    }
-                }
-
-                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
-                bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
-
+                buyHouse();
                 break;
 
             case "Pantsæt":
-
-                int pawnable = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-                    if(tile instanceof Property)
-                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
-                            pawnable++;
-                    else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
-                        pawnable++;
-                }
-                String[] pawnableNames = new String[pawnable];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-                    int i = 0;
-
-                    if(tile instanceof Property)
-
-                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
-                            pawnableNames[i] = tile.getTileName();
-                            i++;
-
-                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
-                            pawnableNames[i] = tile.getTileName();
-                            i++;
-                        }
-                        String chosenPawn = getChoice("Hvilket grund vil du pantsætte?", pawnableNames);
-                        bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
-                }
-
+                pawn();
                 break;
 
-                case "Ophæv pantsætning":
-
-                    int unPawnable = 0;
-
-                    for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-                        if(tile instanceof Property)
-                            if (((Property) tile).isPawned())
-                                unPawnable++;
-                            else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
-                                unPawnable++;
-                    }
-                    String[] unPawnableNames = new String[unPawnable];
-
-                    for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-                        int i = 0;
-
-                        if(tile instanceof Property)
-
-                            if (((Property) tile).isPawned()) {
-                                unPawnableNames[i] = tile.getTileName();
-                                i++;
-
-                            }
-
-
-                        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
-                        bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
-                    }
-
-                    break;
-
-
-
+            case "Ophæv pantsætning":
+                unPawn();
+                break;
         }
     }
 
@@ -239,131 +145,19 @@ public class Logic {
 
         switch (choice){
             case "Sælg hus(e)":
-
-                int downgradeableProperties = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
-
-                        downgradeableProperties++;
-
-                    }
-                }
-
-                String[] downgradeableNames = new String[downgradeableProperties];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    int i = 0;
-
-                    if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
-
-                        downgradeableNames[i] = tile.getTileName();
-                        i++;
-
-                    }
-                }
-                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
-                bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
+                sellHouse();
                 break;
 
             case "Køb hus(e)":
-
-                int upgradeableProperties = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    if( tile instanceof Property && ((Property) tile).tileSetowned()) {
-
-                        upgradeableProperties++;
-
-                    }
-                }
-
-                String[] upgradeableNames = new String[upgradeableProperties];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-                    int i = 0;
-
-                    if( tile instanceof Property && ((Property) tile).tileSetowned()){
-
-                        upgradeableNames[i] = tile.getTileName();
-                        i++;
-
-                    }
-                }
-
-                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
-                bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
-
+                buyHouse();
                 break;
 
             case "Pantsæt":
-
-                int pawnable = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-                    if(tile instanceof Property)
-                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
-                            pawnable++;
-                        else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
-                            pawnable++;
-                }
-                String[] pawnableNames = new String[pawnable];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-                    int i = 0;
-
-                    if(tile instanceof Property)
-
-                        if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
-                            pawnableNames[i] = tile.getTileName();
-                            i++;
-
-                        } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
-                            pawnableNames[i] = tile.getTileName();
-                            i++;
-                        }
-
-                }
-
-                String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
-                bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
-
+                pawn();
                 break;
 
             case "Ophæv pantsætning":
-
-                int unPawnable = 0;
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-                    if(tile instanceof Property)
-                        if (((Property) tile).isPawned())
-                            unPawnable++;
-                        else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
-                            unPawnable++;
-                }
-                String[] unPawnableNames = new String[unPawnable];
-
-                for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-                    int i = 0;
-
-                    if(tile instanceof Property)
-
-                        if (((Property) tile).isPawned()) {
-                            unPawnableNames[i] = tile.getTileName();
-                            i++;
-
-                        }
-
-
-                }
-                String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
-                bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
+                unPawn();
                 break;
 
             case "Køb":
@@ -373,35 +167,7 @@ public class Logic {
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
                 break;
             case "Slut tur":
-
-                if(players[currPlayerIndex].getScore() < 0){
-                    deadPlayers[currPlayerIndex] = 1;
-                }
-
-                int deadPlayerCount = 0;
-
-                for (int i = 0; i < deadPlayers.length; i++){
-
-                    if(deadPlayers[i] == 1){
-                        deadPlayerCount++;
-                    }
-                    
-                    if(deadPlayerCount == players.length-1){
-                        endOfGame = true;
-                    }
-                }
-
-                currPlayerIndex = ++currPlayerIndex % players.length;
-                checkForDeadPlayers = false;
-                while (!checkForDeadPlayers){
-                    if(deadPlayers[currPlayerIndex] != 0){
-                        currPlayerIndex = ++currPlayerIndex % players.length;
-                    }else{
-                        checkForDeadPlayers = true;
-                    }
-                }
-                turns++;
-                rolled = false;
+                endTurn();
                 break;
         }
     }
@@ -418,34 +184,221 @@ public class Logic {
         return allOptions;
     }
 
-    public void sell(String sellChoice){
+    private void buyHouse(){
+        int upgradeableProperties = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+                upgradeableProperties++;
+            }
+        }
+
+        String[] upgradeableNames = new String[upgradeableProperties];
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            int i = 0;
+            if( tile instanceof Property && ((Property) tile).tileSetowned()){
+                upgradeableNames[i] = tile.getTileName();
+                i++;
+            }
+        }
+        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
+        bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
     }
-    
-    public String getChoice (String msg, String... buttons){
-        return game.getChoice(msg, buttons);
+
+    private boolean canBuyHouse(){
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void sellHouse(){
+
+        int downgradeableProperties = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
+                downgradeableProperties++;
+            }
+        }
+
+        String[] downgradeableNames = new String[downgradeableProperties];
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+
+            int i = 0;
+
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
+                downgradeableNames[i] = tile.getTileName();
+                i++;
+            }
+        }
+        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
+        bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
+    }
+
+    private boolean canSellHouse(){
+
+        int i = 0;
+
+        int downgradeableProperties = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
+                i++;
+            }
+        }
+        if(i>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void pawn(){
+
+        int pawnable = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Property)
+                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
+                    pawnable++;
+                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                    pawnable++;
+        }
+        String[] pawnableNames = new String[pawnable];
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+
+            int i = 0;
+
+            if(tile instanceof Property)
+
+                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
+                    pawnableNames[i] = tile.getTileName();
+                    i++;
+                } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
+                    pawnableNames[i] = tile.getTileName();
+                    i++;
+                }
+        }
+
+        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
+        bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
+    }
+
+    private boolean canPawn(){
+        int pawnable = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Property)
+                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
+                    return true;
+                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                    return true;
+        }
+        return false;
+    }
+
+    private void unPawn(){
+        int unPawnable = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Property)
+                if (((Property) tile).isPawned())
+                    unPawnable++;
+                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                    unPawnable++;
+        }
+        String[] unPawnableNames = new String[unPawnable];
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+
+            int i = 0;
+
+            if(tile instanceof Property)
+
+                if (((Property) tile).isPawned()) {
+                    unPawnableNames[i] = tile.getTileName();
+                    i++;
+
+                }
+
+
+        }
+        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
+        bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
+    }
+
+    private boolean canUnPawn(){
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Property)
+                if (((Property) tile).isPawned())
+                    return true;
+                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                    return true;
+        }
+        return false;
+    }
+
+    private void endTurn(){
+        if(players[currPlayerIndex].getScore() < 0){
+            deadPlayers[currPlayerIndex] = 1;
+        }
+
+        int deadPlayerCount = 0;
+
+        for (int i = 0; i < deadPlayers.length; i++){
+
+            if(deadPlayers[i] == 1){
+                deadPlayerCount++;
+            }
+
+            if(deadPlayerCount == players.length-1){
+                endOfGame = true;
+            }
+        }
+
+        currPlayerIndex = ++currPlayerIndex % players.length;
+        checkForDeadPlayers = false;
+        while (!checkForDeadPlayers){
+            if(deadPlayers[currPlayerIndex] != 0){
+                currPlayerIndex = ++currPlayerIndex % players.length;
+            }else{
+                checkForDeadPlayers = true;
+            }
+        }
+        turns++;
+        rolled = false;
+
+        if(turns > TURNLIMIT){
+            endOfGame = true;
+        }
     }
 
     public void displayMessage (String msg){
         game.displayMessage(msg);
     }
 
+    public String getChoice (String msg, String... buttons){
+        return game.getChoice(msg, buttons);
+    }
+
     public int getUserInt (String msg) {
         return game.getUserInt(msg);
     }
-
-
     public static Logic getINSTANCE () {
         return INSTANCE;
     }
-
     public boolean isEndOfGame () {
         return endOfGame;
     }
-
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
-    }
-    public int getDiceSum(){
-        return diceCup.getDiceIntValues();
     }
 }
