@@ -85,7 +85,7 @@ public class Logic {
             }
 
             updateGui(turnInfo);
-            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", false, options);
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vul du nu?" : "Hvad vil du nu?"), false, options);
             beforeRoll(choice);
 
         }
