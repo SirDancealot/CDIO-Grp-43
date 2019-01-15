@@ -92,43 +92,35 @@ public class GUI_Controller {
                     case "updateScore":
                         String[] score = thisInfo[1].split(",");
                         setScore(score);
-                        System.out.println("Score uddated");
                         break;
                     case "displayDies":
                         String[] dies = thisInfo[1].split(",");
                         gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
-                        System.out.println("Dies displayed");
                         break;
                     case "movePlayer":
                         String[] movePlayer = thisInfo[1].split(",");
                         movePlayer(Integer.parseInt(movePlayer[0]),Integer.parseInt(movePlayer[1]),Integer.parseInt(movePlayer[2]),Integer.parseInt(movePlayer[3]),Integer.parseInt(movePlayer[4]));
-                        System.out.println("Player moved");
                         break;
                     case "displayOwner":
                         String[] displayOwner = thisInfo[1].split(",");
                         displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
-                        System.out.println("Displayed owner");
                         break;
                     case "setHouse":
                         String[] setHouse = thisInfo[1].split(",");
                         setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]), checkForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
-                        System.out.println("House set");
                         break;
                     case "setHotel":
                         String[] setHotel = thisInfo[1].split(",");
                         setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]), checkForBoolean(setHotel[2]), checkForBoolean(setHotel[3]));
-                        System.out.println("Hotel set");
                         break;
                     case "turnMessage":
                         String message = thisInfo[1];
                         displayMessage(message);
-                        System.out.println("Turn message displayed");
                         break;
                     case "chanceCardMessage":
                         String chanceCardMessage = thisInfo[1];
                         setChanceCard(chanceCardMessage);
                         displayChanceCard();
-                        System.out.println("chanceCardMessage displayed");
                         break;
                 }
         }

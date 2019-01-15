@@ -84,7 +84,7 @@ public class Logic {
                 options = expandArray(options, "Ophæv pantsætning");
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
-                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
+                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
                     options = expandArray(options, "Køb");
             }
 
@@ -433,7 +433,6 @@ public class Logic {
                     turnString += "displayDies:"+dies+";";
                     break;
                 case "movePlayer":
-                    //movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove)
                     String move = "";
                     move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
                     turnString += "movePlayer:"+move+";";
