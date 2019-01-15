@@ -18,11 +18,9 @@ public class Tax extends Tile {
             String[] split = string.split(":");
             switch (split[0]) {
                 case "money":
-                    System.out.println("setting flat tax");
                     this.taxFlat = Integer.valueOf(split[1]);
                     break;
                 case "percent":
-                    System.out.println("setting percent tax");
                     this.taxPercent = Integer.valueOf(split[1]);
                     break;
                 default:
@@ -32,25 +30,20 @@ public class Tax extends Tile {
     }
 
         @Override
-        public boolean landOnTile (Player p) {
-            if (taxPercent != 0) {
-                String choice = logic.getChoice("Betal skat", options);
-                if (choice.equals("Betal 10% af formue")) {
-                    lastPayed = ((int) ((taxPercent / 100.0) * p.playerFortune()));
-                    return p.withDrawMoney((int) ((taxPercent / 100.0) * p.playerFortune()));
-                }
+        public boolean landOnTile (Player p){
+        if(taxPercent != 0){
+            String choice = logic.getChoice("Betal skat", false, options);
+            if (choice.equals("Betal 10% af formue"))
+                lastPayed = ((int)((taxPercent/100.0)*p.playerFortune()));
+                return p.withDrawMoney((int)((taxPercent/100.0)*p.playerFortune()));
             }
-            lastPayed = taxFlat;
-            return p.withDrawMoney(taxFlat);
+        lastPayed = taxFlat;
+        return p.withDrawMoney(taxFlat);
         }
 
     @Override
     public String printLandOn(Player p) {
         return p + " landede på et betal skat fælt og betalte " + lastPayed;
-    }
-
-    public int getLastPayed() {
-        return lastPayed;
     }
 
     @Override

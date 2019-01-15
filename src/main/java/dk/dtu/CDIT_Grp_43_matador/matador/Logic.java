@@ -24,6 +24,9 @@ public class Logic {
     private int currPlayerIndex = 0;
     private int[] deadPlayers;
 
+    // Gui display string
+    private String turnInfo;
+
 
     // Turn base variables
 
@@ -48,9 +51,7 @@ public class Logic {
             deadPlayers[i] = 0;
         }
 
-        // Gui display string
-        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
-
+        turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
     }
 
     /**
@@ -69,8 +70,8 @@ public class Logic {
                 if (players[currPlayerIndex].hasFreeJail())
                     expandArray(options, "Brug chance kort");
             }
-
-            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
+            updateGui(turnInfo);
+            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", false, options);
             beforeRoll(choice);
 
         }
@@ -82,7 +83,8 @@ public class Logic {
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
                 expandArray(options, "Køb", "Sæt på auktion");
             }
-            String choice = getChoice("Hvad vil du nu?", options);
+            updateGui(turnInfo);
+            String choice = getChoice("Hvad vil du nu?", false, options);
             afterRoll(choice);
         }
     }
@@ -132,7 +134,7 @@ public class Logic {
 
                     }
                 }
-                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
+                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
                 bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
                 break;
 
@@ -162,8 +164,8 @@ public class Logic {
 
                     }
                 }
-
-                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
+                updateGui(turnInfo);
+                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
                 bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
 
                 break;
@@ -195,7 +197,7 @@ public class Logic {
                             pawnableNames[i] = tile.getTileName();
                             i++;
                         }
-                        String chosenPawn = getChoice("Hvilket grund vil du pantsætte?", pawnableNames);
+                        String chosenPawn = getChoice("Hvilket grund vil du pantsætte?", false, pawnableNames);
                         bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
                 }
 
@@ -226,8 +228,8 @@ public class Logic {
 
                             }
 
-
-                        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
+                        updateGui(turnInfo);
+                        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", false, unPawnableNames);
                         bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
                     }
 
@@ -267,7 +269,8 @@ public class Logic {
 
                     }
                 }
-                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
+                updateGui(turnInfo);
+                String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
                 bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
                 break;
 
@@ -297,8 +300,8 @@ public class Logic {
 
                     }
                 }
-
-                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
+                updateGui(turnInfo);
+                String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
                 bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
 
                 break;
@@ -332,8 +335,8 @@ public class Logic {
                         }
 
                 }
-
-                String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
+                updateGui(turnInfo);
+                String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", false, pawnableNames);
                 bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
 
                 break;
@@ -365,7 +368,8 @@ public class Logic {
 
 
                 }
-                String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
+                updateGui(turnInfo);
+                String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", false, unPawnableNames);
                 bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
                 break;
 
@@ -424,9 +428,8 @@ public class Logic {
     public void sell(String sellChoice){
     }
     
-    public String getChoice (String msg, String... buttons){
-        String choice = game.getChoice(msg, buttons);
-        System.out.println("working in logic");
+    public String getChoice (String msg, Boolean list, String... buttons){
+        String choice = game.getChoice(msg, list, buttons);
         return choice;
     }
 
@@ -438,6 +441,10 @@ public class Logic {
         return game.getUserInt(msg);
     }
 
+    public void updateGui(String turnString){
+        game.updateDisplay(turnString);
+        turnString = "";
+    }
 
     public static Logic getINSTANCE () {
         return INSTANCE;
