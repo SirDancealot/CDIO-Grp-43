@@ -41,8 +41,8 @@ public class GameBoard {
 		Tile[] matchingTiles = new Tile[tilesOfType];
 		int matchingIndex = 0;
 		for (int i = 0; i < gameTiles.length; i++) {
-			if(gameTiles[i].getType() == type) {
-				matchingTiles[i] = gameTiles[i];
+			if(gameTiles[i].getType().equalsIgnoreCase(type)) {
+				matchingTiles[matchingIndex] = gameTiles[i];
 				matchingIndex++;
 			}
 		}
