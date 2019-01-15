@@ -431,7 +431,6 @@ public class Logic {
                     turnInfo+="displayDies:"+dies+";";
                     break;
                 case "movePlayer":
-                    //movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove)
                     String move = "";
                     move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
                     turnInfo+="displayDies:"+move+";";
