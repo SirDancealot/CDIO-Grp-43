@@ -30,10 +30,8 @@ public class GUI_Controller {
         GUI_Field[] gui_fields;
         try {
             gui_fields = Factory.getInstance().createGuiFields();
-	        System.out.println("did it");
         } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("didn't do it");
 	        gui_fields = new GUI_Field[0];
         }
         gui = new GUI(gui_fields);
@@ -47,7 +45,6 @@ public class GUI_Controller {
 	public void setupGame() throws IOException{
         // Number of players
         numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Vælg antal spillere",   "3", "4", "5", "6" ));
-        System.out.println(numberOfPlayers);
 
         // Add player names
         names = new String[numberOfPlayers];
