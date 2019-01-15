@@ -191,6 +191,8 @@ public class Logic {
 
             case "Køb":
                 ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
+                turnStringGenerator("displayOwner");
+                updateGui();
                 break;
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
@@ -447,6 +449,10 @@ public class Logic {
                 case "chanceCardMessage":
                     break;
                 case "mortgage":
+                    break;
+                case "displayOwner":
+                    String Owner = currPlayerIndex+","+ players[currPlayerIndex].getCurrPos()+",";
+                    turnString += "displayOwner:"+Owner+"false"+";";
                     break;
             }
         }
