@@ -137,6 +137,7 @@ public class Logic {
                     rolled = true;
                 }
                 rolled = true;
+                board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 break;
 
             case "Betal for at komme ud":
