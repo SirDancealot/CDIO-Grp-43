@@ -25,7 +25,7 @@ public class Logic {
     private int[] deadPlayers;
 
     // Gui display string
-    private String turnInfo;
+    private String turnString = "";
 
 
     // Turn base variables
@@ -52,8 +52,6 @@ public class Logic {
         }
 
         //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
-
-        turnInfo = "";
     }
 
     /**
@@ -85,15 +83,17 @@ public class Logic {
             if(canUnPawn()){
                 expandArray(options, "Ophæv pantsætning");
             }
-            if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable()){
-                expandArray(options, "Køb");
+            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
+                    expandArray(options, "Køb");
             }
 
             turnStringGenerator("updateScore");
-            updateGui(turnInfo);
+            updateGui();
             String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vul du nu?" : "Hvad vil du nu?"), false, options);
             beforeRoll(choice);
-
+            turnStringGenerator("movePlayer", "displayDies");
+            updateGui();
         }
 
         while (rolled) {
@@ -112,11 +112,12 @@ public class Logic {
             if(canUnPawn()){
                 expandArray(options, "Ophæv pantsætning");
             }
-            if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable()){
-                expandArray(options, "Køb");
+            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
+                    expandArray(options, "Køb");
             }
-            turnStringGenerator("updateScore","displayDies","movePlayer");
-            updateGui(turnInfo);
+            turnStringGenerator("updateScore");
+            updateGui();
             String choice = getChoice("Hvad vil du nu?", false, options);
             afterRoll(choice);
         }
@@ -424,18 +425,18 @@ public class Logic {
                             score +=",";
                         }
                     }
-                    turnInfo+="updateScore:"+score+";";
+                    turnString += "updateScore:"+score+";";
                     break;
                 case "displayDies":
                     String dies = "";
                     dies+=diceCup.getD1Val()+","+diceCup.getD2Val();
-                    turnInfo+="displayDies:"+dies+";";
+                    turnString += "displayDies:"+dies+";";
                     break;
                 case "movePlayer":
                     //movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove)
                     String move = "";
                     move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
-                    turnInfo+="displayDies:"+move+";";
+                    turnString += "movePlayer:"+move+";";
                     break;
                 case "setHouse":
                     //(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses)
@@ -464,7 +465,7 @@ public class Logic {
         return game.getUserInt(msg);
     }
 
-    public void updateGui(String turnString){
+    public void updateGui(){
         game.updateDisplay(turnString);
         turnString = "";
     }
