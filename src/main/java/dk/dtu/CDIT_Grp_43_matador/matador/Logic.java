@@ -13,7 +13,7 @@ public class Logic {
     private final int TURNLIMIT = 100;
 
     private Bank bank = Bank.getInstance();
-    private GameController game = GameController.getInstance();
+    private GameController game;
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
@@ -24,6 +24,11 @@ public class Logic {
     private int currPlayerIndex = 0;
     private int[] deadPlayers;
 
+    // Gui display string
+    private String turnInfo;
+
+
+    // Turn base variables
 
     private Logic(){}
 
@@ -38,12 +43,15 @@ public class Logic {
         diceCup = DiceCup.getInstance();
         board = GameBoard.getInstance();
         endOfGame = false;
+        game = GameController.getInstance();
 
         deadPlayers = new int[players.length];
 
         for(int i = 0; i < deadPlayers.length; i++){
             deadPlayers[i] = 0;
         }
+
+        turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
     }
 
     /**
@@ -77,6 +85,8 @@ public class Logic {
             }
 
             String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
+            updateGui(turnInfo);
+            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", false, options);
             beforeRoll(choice);
 
         }
@@ -97,6 +107,8 @@ public class Logic {
             if(canUnPawn() == true){
                 expandArray(options, "Ophæv pantsætning");
             }
+            updateGui(turnInfo);
+            String choice = getChoice("Hvad vil du nu?", false, options);
 
             String choice = getChoice("Hvad vil du nu?", options);
             afterRoll(choice);
@@ -392,12 +404,25 @@ public class Logic {
     public int getUserInt (String msg) {
         return game.getUserInt(msg);
     }
+
+    public void updateGui(String turnString){
+        game.updateDisplay(turnString);
+        turnString = "";
+    }
+
     public static Logic getINSTANCE () {
         return INSTANCE;
     }
     public boolean isEndOfGame () {
         return endOfGame;
     }
+
+    public Player getWinner() {
+        if (endOfGame)
+            return players[currPlayerIndex];
+        return null;
+    }
+
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
     }

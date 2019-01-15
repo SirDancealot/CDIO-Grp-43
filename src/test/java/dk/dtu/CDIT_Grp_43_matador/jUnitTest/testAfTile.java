@@ -11,6 +11,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testAfTile {
@@ -122,35 +124,55 @@ public class testAfTile {
     public void testAfShip(){
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
-        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"0:50;1:200;2:600;3:1400;4:1700;5:2000" );
+        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"1:25;2:50;3:100;4:200" );
+        Ship shipTile1 = new Ship("","type:Ship;Tilevalue:200;sister:ship;setSize:4;name:D.F.D.S.", 15, "1:25;2:50;3:100;4:200");
 
         shipTile.buyTile(p1);
-
         shipTile.landOnTile(p);
 
         System.out.println(p1.getScore());
         System.out.println(p.getScore());
 
-        assertTrue(1500-200+50 == p1.getScore());
-        assertTrue(1500-50 == p.getScore());
+        assertTrue(1500-200+25 == p1.getScore());
+        assertTrue(1500-25 == p.getScore());
+
+        shipTile1.buyTile(p1);
+        shipTile1.landOnTile(p);
+
+        assertTrue((1500-200+25-200+50) == p1.getScore());
+        assertTrue((1500-25-50) == p.getScore());
+
+        System.out.println(p1.getScore());
+        System.out.println(p.getScore());
+
+        shipTile.landOnTile(p1);
+
+        assertTrue((1500-200+25-200+50) == p1.getScore());
     }
 
     @Test
     public void testAfBrewery() {
+
+        int roll = 12;
+        int x4Price = roll * 4;
+        int x10Price = roll * 10;
 
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
         Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Carlsberg", 28, "1:4;2:10");
         Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
 
+        p.move(roll);
+
         breweryTile.buyTile(p1);
         breweryTile.landOnTile(p);
+
 
         System.out.println(p1.getScore());
         System.out.println(p.getScore());
 
-        assertTrue((1500-150+24) == p1.getScore()+24);
-        assertTrue((1500-24) == p.getScore()-24);
+        assertTrue((1500-150+x4Price) == p1.getScore());
+        assertTrue((1500-x4Price) == p.getScore());
 
         p1.setMoney(1500);
         p.setMoney(1500);
@@ -161,8 +183,33 @@ public class testAfTile {
         System.out.println(p1.getScore()+60);
         System.out.println(p.getScore()-60);
 
-        assertTrue((1500-150+60) == p1.getScore()+60);
-        assertTrue((1500-60) == p.getScore()-60);
+        assertTrue((1500-150+x10Price) == p1.getScore());
+        assertTrue((1500-x10Price) == p.getScore());
+
+        breweryTile.landOnTile(p1);
+
+        assertTrue((1500-150+x10Price) == p1.getScore());
+
+    }
+    @Test
+    public void testAfTaxPercentValgPercent() {
+
+        try {
+            GameController.getInstance().init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player p = new Player("testPlayer",3000);
+        Tax taxTile = new Tax("","Tile4=type:Tax;money:200;percent:10;name:Tax Percent",4);
+
+        System.out.println(p.getScore());
+
+        taxTile.landOnTile(p);
+
+        assertEquals(2700,p.getScore());
+
+        System.out.println(p.getScore());
 
     }
 }

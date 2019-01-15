@@ -8,7 +8,6 @@ import gui_fields.*;
 import gui_main.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class GUI_Controller {
     private static GUI_Controller INSTANCE = new GUI_Controller();
@@ -21,7 +20,6 @@ public class GUI_Controller {
     
     private GUI_Controller() {}
 
-
     // Start game
 
 	/**
@@ -31,10 +29,8 @@ public class GUI_Controller {
         GUI_Field[] gui_fields;
         try {
             gui_fields = Factory.getInstance().createGuiFields();
-	        System.out.println("did it");
         } catch (IOException e) {
 	        e.printStackTrace();
-	        System.out.println("didn't do it");
 	        gui_fields = new GUI_Field[0];
         }
         gui = new GUI(gui_fields);
@@ -48,14 +44,11 @@ public class GUI_Controller {
 	public void setupGame() throws IOException{
         // Number of players
         numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Vælg antal spillere",   "3", "4", "5", "6" ));
-        System.out.println(numberOfPlayers);
 
         // Add player names
         names = new String[numberOfPlayers];
         for(int i = 0; i < names.length; i++){
-
             names[i] = gui.getUserString("Tilføj spiller "+Integer.toString(i+1)+"´s navn");
-
             if(names[i].isEmpty()){
                 names[i] = "Spiller "+Integer.toString(i+1);
             }
@@ -81,49 +74,67 @@ public class GUI_Controller {
             allPlayer[i] = player;
         }
     }
+    // Remove later
+    //String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
 
 
     // Update GUI
 	/**
 	 * method to call when wanting to update the display with what happened last turn.
 	 */
-    public void updateDisplay(){
-        //String turnInfo = game.getTurnInfo();
+    public void updateDisplay(String turnInfo){
+        String[] info = turnInfo.split(";");
 
-        String turnInfo = "nummerOfPlayers:4;currPlayer:0;currPlayerRolled:true,1,2,3; playerScore:1200,1300,1400,1600;playerMoved:true; currentPlayerOldPosion:0; currentPlayerNewPosition:3; isTileOwned:false; cardMove:0; hasHotel:true";
-        String turnMessage = "Ja tak";
-        String[] information = turnInfo.split(";");
-
-        // Set die
-        if(information[2].split(":")[1].split(",")[0].equals("true")){
-            System.out.println("Player rolled");
-            gui.setDice(Integer.parseInt(information[2].split(":")[1].split(",")[1]),Integer.parseInt(information[2].split(":")[1].split(",")[2]) );
+        for (int i = 0; i < info.length; i++) {
+            String[] thisInfo = info[i].split(":");
+            String step = thisInfo[0];
+                switch (step) {
+                    case "updateScore":
+                        String[] score = thisInfo[1].split(",");
+                        setScore(score);
+                        System.out.println("Score uddated");
+                        break;
+                    case "displayDies":
+                        String[] dies = thisInfo[1].split(",");
+                        gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
+                        System.out.println("Dies displayed");
+                        break;
+                    case "movePlayer":
+                        String[] movePlayer = thisInfo[1].split(",");
+                        movePlayer(Integer.parseInt(movePlayer[0]),Integer.parseInt(movePlayer[1]),Integer.parseInt(movePlayer[2]),Integer.parseInt(movePlayer[3]),Integer.parseInt(movePlayer[4]));
+                        System.out.println("Player moved");
+                        break;
+                    case "displayOwner":
+                        String[] displayOwner = thisInfo[1].split(",");
+                        displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
+                        System.out.println("Displayed owner");
+                        break;
+                    case "setHouse":
+                        String[] setHouse = thisInfo[1].split(",");
+                        setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]), checkForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
+                        System.out.println("House set");
+                        break;
+                    case "setHotel":
+                        String[] setHotel = thisInfo[1].split(",");
+                        setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]), checkForBoolean(setHotel[2]), checkForBoolean(setHotel[3]));
+                        System.out.println("Hotel set");
+                        break;
+                    case "turnMessage":
+                        String message = thisInfo[1];
+                        displayMessage(message);
+                        System.out.println("Turn message displayed");
+                        break;
+                    case "chanceCardMessage":
+                        String chanceCardMessage = thisInfo[1];
+                        setChanceCard(chanceCardMessage);
+                        displayChanceCard();
+                        System.out.println("chanceCardMessage displayed");
+                        break;
+                }
         }
-
-        // Set score
-        setScore(information[3].split(":")[1].split(","));
-
-        // movePlayer
-        movePlayer(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), Integer.parseInt(information[5].split(":")[1]), Integer.parseInt(information[2].split(":")[1].split(",")[3]),Integer.parseInt(information[8].split(":")[1]));
-
-        // Display Owner
-        displayOwner(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]));
-
-        // Set house
-        setHouse(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]), 4);
-
-        // Set hotel
-        setHotel(Integer.parseInt(information[1].split(":")[1]), Integer.parseInt(information[6].split(":")[1]), tjekForBoolean(information[7].split(":")[1]),tjekForBoolean(information[9].split(":")[1]) );
-
-        // Display gameMessage
-        displayMessage(turnMessage);
     }
 
-
-    //
-
-
-
+    // Functionality
 
     /**
 	 * Displays all the gui players on the start tile.
@@ -133,7 +144,6 @@ public class GUI_Controller {
             gui.getFields()[0].setCar(allPlayer[i], true);
         }
     }
-
 
     /**
      * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
@@ -192,16 +202,15 @@ public class GUI_Controller {
         }
     	}
 
+
     // Set score
     public void setScore(String[] playerScores){
     	for (int i = 0; i < allPlayer.length; i++) {
 			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
 		}
-    	
-        //allPlayer[currentPlayer].setBalance(score);
     }
 
-    // displayOwner
+    // DisplayOwner
 
    public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
         if(!owned){
@@ -226,17 +235,6 @@ public class GUI_Controller {
         gui.displayChanceCard();
     }
 
-    // Mortgage Properties
-
-    public void doShit(){
-        int[] propertiesOwned = {1,2,4};
-        String[] properties = new String[propertiesOwned.length];
-
-        for(int i = 0; i < propertiesOwned.length; i++){
-            properties[i] = gui.getFields()[propertiesOwned[i]].getTitle();
-        }
-        String mortgagePropertie = gui.getUserSelection("Pantsætte ejendom", properties );
-    }
 
     // Set house
 
@@ -270,7 +268,7 @@ public class GUI_Controller {
 
     // String to boolean
 
-    public Boolean tjekForBoolean(String state){
+    public Boolean checkForBoolean(String state){
         if(state.equals("true")){
             return true;
         }else{
@@ -278,17 +276,21 @@ public class GUI_Controller {
         }
     }
 
-
-
-
 	/**
 	 *
 	 * @param msg the message to display to the player with the buttons
 	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
 	 * @return returns the string that was written on the button that was pressed
 	 */
-   public String displayButtons(String msg, String... buttons) {
-        return gui.getUserButtonPressed(msg, buttons);
+   public String displayButtons(String msg, boolean list, String... buttons) {
+
+       String choice;
+       if(list){
+           choice = gui.getUserSelection(msg, buttons);
+       }else{
+           choice = gui.getUserButtonPressed(msg, buttons);
+       }
+       return choice;
    }
 
     // Getters and setters

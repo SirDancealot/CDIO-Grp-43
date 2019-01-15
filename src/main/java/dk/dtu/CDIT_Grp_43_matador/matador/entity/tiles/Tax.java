@@ -19,8 +19,12 @@ public class Tax extends Tile {
             switch (split[0]) {
                 case "money":
                     this.taxFlat = Integer.valueOf(split[1]);
+                    break;
                 case "percent":
                     this.taxPercent = Integer.valueOf(split[1]);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -28,7 +32,7 @@ public class Tax extends Tile {
         @Override
         public boolean landOnTile (Player p){
         if(taxPercent != 0){
-            String choice = logic.getChoice("Betal skat", options);
+            String choice = logic.getChoice("Betal skat", false, options);
             if (choice.equals("Betal 10% af formue"))
                 lastPayed = ((int)((taxPercent/100.0)*p.playerFortune()));
                 return p.withDrawMoney((int)((taxPercent/100.0)*p.playerFortune()));

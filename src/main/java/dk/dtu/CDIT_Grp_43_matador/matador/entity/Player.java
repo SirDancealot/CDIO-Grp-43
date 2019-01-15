@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.InformationExchanger;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public class Player {
-	private static InformationExchanger infExch = InformationExchanger.getInstance();
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
-	private static GameBoard bord = GameBoard.getInstance();
+	private static GameBoard bord;
 	private int roll;
 	private int currPos = 0;
 	private boolean startMoneyElegible = false;
@@ -28,6 +26,7 @@ public class Player {
 	 * @param startMoney how much money this player starts with.
 	 */
     public Player(String name, int startMoney) {
+		bord = GameBoard.getInstance();
 		this.name = name;
 		playerAccount = new Account(startMoney);
 	}
@@ -46,8 +45,7 @@ public class Player {
 		if(currPos >= bord.getBoardSize()){
 			currPos-=bord.getBoardSize();
 		}
-		infExch.addToCurrentTurnText(this + " rolled a " + moving + " landed on " + bord.getGameTiles()[currPos].toString() + "\n");
-		return bord.landOnTile(this);
+		return true;//bord.landOnTile(this);
 	}
 	
 	public boolean moveTo(String tileName) {

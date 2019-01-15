@@ -17,7 +17,7 @@ public class MoveToClosestShipEffect extends CardEffect {
         int shortestDistance = Integer.MAX_VALUE;
         int[] shipPosition = new int[matchingTiles.length];
         for (int i = 0; i < matchingTiles.length; i++) {
-            shipPosition[i] += matchingTiles[i].getTileIndex();
+            shipPosition[i] = matchingTiles[i].getTileIndex();
         }
         for (int i = 0; i < shipPosition.length; i++) {
             int distance = shipPosition[i] - p.getCurrPos();

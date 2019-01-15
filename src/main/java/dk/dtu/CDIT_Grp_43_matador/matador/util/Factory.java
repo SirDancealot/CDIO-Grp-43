@@ -154,7 +154,7 @@ public class Factory {
                     gui_fields[i].setTitle(thisTileInfo[5].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
                     String currentProperty = rentInfo.get(thisTileInfo[5].split(":")[1]);
-                    gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
+                    //gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
                     gui_fields[i].setBackGroundColor(makeColor(thisTileInfo[2].split(":")[1]));
                     gui_fields[i].setForeGroundColor(Color.black);
                     break;
@@ -210,7 +210,7 @@ public class Factory {
                 case "type:Brewery":
                     //System.out.println(i);
                     gui_fields[i] = new GUI_Brewery();
-                    gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
+                    gui_fields[i].setTitle(thisTileInfo[4].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
                     String currentBrewery = rentInfo.get("brew");
                     gui_fields[i].setDescription("Hvis et bryggeri ejes, betales "+currentBrewery.split(";")[0].split(":")[1]+" gange saa meget som øjene viser"+ "<br><br>" +"Hvis begge bryggerier ejes, betales "+currentBrewery.split(";")[1].split(":")[1]+" gange saa meget som øjene viser");
