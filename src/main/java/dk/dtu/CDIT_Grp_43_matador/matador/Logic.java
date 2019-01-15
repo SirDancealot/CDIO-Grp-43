@@ -114,7 +114,7 @@ public class Logic {
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
-                    options = expandArray(options, "Køb");
+                    options = expandArray(options, "Køb", "Sæt på auktion");
             }
             turnStringGenerator("updateScore");
             updateGui();
