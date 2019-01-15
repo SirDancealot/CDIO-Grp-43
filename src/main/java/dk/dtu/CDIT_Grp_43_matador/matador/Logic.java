@@ -68,24 +68,24 @@ public class Logic {
                 String[] choice = expandArray(options, "Betal for at komme ud");
 
                 if (players[currPlayerIndex].hasFreeJail())
-                    expandArray(options, "Brug chance kort");
+                    options = expandArray(options, "Brug chance kort");
             }
 
             if(canBuyHouse()){
-                expandArray(options, "Køb hus(e)");
+                options = expandArray(options, "Køb hus(e)");
             }
             if(canSellHouse()){
-                expandArray(options, "Sælg hus(e)");
+                options = expandArray(options, "Sælg hus(e)");
         }
             if(canPawn()){
-                expandArray(options, "Pantsæt");
+                options = expandArray(options, "Pantsæt");
             }
             if(canUnPawn()){
-                expandArray(options, "Ophæv pantsætning");
+                options = expandArray(options, "Ophæv pantsætning");
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
-                    expandArray(options, "Køb");
+                    options = expandArray(options, "Køb");
             }
 
             turnStringGenerator("updateScore");
@@ -101,20 +101,20 @@ public class Logic {
             String[] options = {"Slut tur"};
 
             if(canBuyHouse()){
-                expandArray(options, "Køb hus(e)");
+                options = expandArray(options, "Køb hus(e)");
             }
             if(canSellHouse()){
-                expandArray(options, "Sælg hus(e)");
+                options = expandArray(options, "Sælg hus(e)");
             }
             if(canPawn()){
-                expandArray(options, "Pantsæt");
+                options = expandArray(options, "Pantsæt");
             }
             if(canUnPawn()){
-                expandArray(options, "Ophæv pantsætning");
+                options = expandArray(options, "Ophæv pantsætning");
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
-                    expandArray(options, "Køb");
+                    options = expandArray(options, "Køb");
             }
             turnStringGenerator("updateScore");
             updateGui();
