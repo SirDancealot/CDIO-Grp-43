@@ -13,10 +13,13 @@ public class Player {
 	private static GameBoard bord;
 	private int roll;
 	private int currPos = 0;
+	private int oldPos = 0;
+	private int cardMove = 0;
 	private boolean startMoneyElegible = false;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
+	private boolean nextJailFree = false;
 	private boolean inAuction = false;
 	private boolean payDouble = false;
 
@@ -39,11 +42,19 @@ public class Player {
 
 	public boolean move(int moving){
 		roll = moving;
+		oldPos = currPos;
 		currPos += moving;
 		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
 		return true;
 	}
-	
+
+	public boolean moveByCard(int moving){
+		cardMove = moving;
+		currPos += moving;
+		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
+		return true;
+	}
+
 	public boolean moveTo(String tileName) {
 		Tile targetTile = bord.getTileByName(tileName);
 		int targetPos = targetTile.getTileIndex() - currPos;
@@ -112,6 +123,16 @@ public class Player {
 		}
 		return houseAndHotels;
 	}
+
+	public void returnFreeJail() {
+		for (ChanceCard card : keepingCards) {
+			if (card.isFreeJail()) {
+				keepingCards.remove(card);
+				card.returnToDeck();
+				return;
+			}
+		}
+	}
 	
 	public void setMoney(int money) {
 		playerAccount.setMoney(money);
@@ -172,11 +193,12 @@ public class Player {
 	}
     
     public boolean hasFreeJail() {
-	    for ( ChanceCard card : keepingCards ) {
-		    if (card.isFreeJail())
-			    return true;
-	    } return false;
+    	return nextJailFree;
 	}
+    
+    public void setFreeJail(boolean freeJail) {
+    	this.nextJailFree = freeJail;
+    }
     
     public static void setPlayers(Player[] players) {
 		Player.players = players;
@@ -202,13 +224,15 @@ public class Player {
 		return bord.searchForTileType(tag);
 	}
 
-	public void returnFreeJail() {
-		for (ChanceCard card : keepingCards) {
-			if (card.isFreeJail()) {
-				keepingCards.remove(card);
-				card.returnToDeck();
-				return;
-			}
-		}
+	public int getOldPos() {
+		return oldPos;
+	}
+
+	public int getCardMove() {
+		return cardMove;
+	}
+
+	public void setCardMove(int cardMove) {
+		this.cardMove = cardMove;
 	}
 }

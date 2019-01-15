@@ -31,8 +31,10 @@ public class DiceCup {
     }
 
     public boolean ThreeSame(){
-		if(sameInARow == 3)
+		if(sameInARow == 3) {
+			sameInARow = 0;
 			return true;
+		}
 		return false;
 	}
 

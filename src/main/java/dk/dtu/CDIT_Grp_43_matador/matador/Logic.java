@@ -51,7 +51,9 @@ public class Logic {
             deadPlayers[i] = 0;
         }
 
-        turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+        //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+
+        turnInfo = "";
     }
 
     /**
@@ -61,7 +63,7 @@ public class Logic {
     public void tick() {
 
         while (!rolled) {
-            String[] options = {"Rul",};
+            String[] options = {"Rul"};
 
             if (players[currPlayerIndex].isInJail()) {
 
@@ -87,8 +89,9 @@ public class Logic {
                 expandArray(options, "Køb");
             }
 
+            turnStringGenerator("updateScore");
             updateGui(turnInfo);
-            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", false, options);
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vul du nu?" : "Hvad vil du nu?"), false, options);
             beforeRoll(choice);
 
         }
@@ -112,7 +115,7 @@ public class Logic {
             if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable()){
                 expandArray(options, "Køb");
             }
-
+            turnStringGenerator("updateScore","displayDies","movePlayer");
             updateGui(turnInfo);
             String choice = getChoice("Hvad vil du nu?", false, options);
             afterRoll(choice);
@@ -137,6 +140,7 @@ public class Logic {
                     rolled = true;
                 }
                 rolled = true;
+                board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 break;
 
             case "Betal for at komme ud":
@@ -349,10 +353,7 @@ public class Logic {
                 if (((Property) tile).isPawned()) {
                     unPawnableNames[i] = tile.getTileName();
                     i++;
-
                 }
-
-
         }
         String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",false, unPawnableNames);
         bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
@@ -402,6 +403,52 @@ public class Logic {
 
         if(turns > TURNLIMIT){
             endOfGame = true;
+        }
+    }
+
+    // String creater
+
+    //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+
+    public void turnStringGenerator(String... options){
+
+        for(int i = 0; i < options.length; i++){
+
+            String option = options[i];
+            switch (option){
+                case "updateScore":
+                    String score = "";
+                    for(int j = 0; j < players.length; j++ ){
+                        score += players[j].getScore();
+                        if(j < players.length-1){
+                            score +=",";
+                        }
+                    }
+                    turnInfo+="updateScore:"+score+";";
+                    break;
+                case "displayDies":
+                    String dies = "";
+                    dies+=diceCup.getD1Val()+","+diceCup.getD2Val();
+                    turnInfo+="displayDies:"+dies+";";
+                    break;
+                case "movePlayer":
+                    //movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove)
+                    String move = "";
+                    move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
+                    turnInfo+="displayDies:"+move+";";
+                    break;
+                case "setHouse":
+                    //(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses)
+                    break;
+                case "setHotel":
+                    break;
+                case "turnMessage":
+                    break;
+                case "chanceCardMessage":
+                    break;
+                case "mortgage":
+                    break;
+            }
         }
     }
 

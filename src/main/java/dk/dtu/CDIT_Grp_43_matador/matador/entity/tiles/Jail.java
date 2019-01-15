@@ -41,7 +41,6 @@ public class Jail extends Tile {
     	if (p.isInJail() && p.hasFreeJail()) {
 			p.setInJail(false);
 			p.returnFreeJail();
-
 			return true;
 	    } return false;
     }
