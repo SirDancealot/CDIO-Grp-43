@@ -61,7 +61,7 @@ public class Logic {
     public void tick() {
 
         while (!rolled) {
-            String[] options = {"Rul",};
+            String[] options = {"Rul"};
 
             if (players[currPlayerIndex].isInJail()) {
 
