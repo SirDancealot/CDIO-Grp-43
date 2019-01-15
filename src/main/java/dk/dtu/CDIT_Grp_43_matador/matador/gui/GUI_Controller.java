@@ -90,7 +90,7 @@ public class GUI_Controller {
     public void updateDisplay(){
         //String turnInfo = game.getTurnInfo();
 
-        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert";
+        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
         String[] info = turnInfo.split(";");
 
         for (int i = 0; i < info.length; i++) {
@@ -132,6 +132,12 @@ public class GUI_Controller {
                         String message = thisInfo[1];
                         displayMessage(message);
                         System.out.println("Turn message displayed");
+                        break;
+                    case "chanceCardMessage":
+                        String chanceCardMessage = thisInfo[1];
+                        setChanceCard(chanceCardMessage);
+                        displayChanceCard();
+                        System.out.println("chanceCardMessage displayed");
                         break;
                 }
         }
@@ -210,8 +216,6 @@ public class GUI_Controller {
     	for (int i = 0; i < allPlayer.length; i++) {
 			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
 		}
-    	
-        //allPlayer[currentPlayer].setBalance(score);
     }
 
     // displayOwner
@@ -300,9 +304,14 @@ public class GUI_Controller {
 	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
 	 * @return returns the string that was written on the button that was pressed
 	 */
-   public String displayButtons(String msg, String... buttons) {
-        return gui.getUserButtonPressed(msg, buttons);
+   public String displayButtonsTest(String msg, String... buttons) {
+       String choice = gui.getUserButtonPressed(msg, buttons);
+       System.out.println("Working");
+       return choice;
    }
+
+
+
 
     // Getters and setters
     public static GUI_Controller getINSTANCE() {

@@ -16,5 +16,6 @@ class GuiTest {
         gui.addplayers(startMoney);
         gui.displayPlayers();
         gui.updateDisplay();
+        gui.displayButtonsTest("Hey", "hey1");
     }
 }
