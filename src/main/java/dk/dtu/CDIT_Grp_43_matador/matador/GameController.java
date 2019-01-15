@@ -70,7 +70,6 @@ public class GameController {
 				System.out.println("Game end");
 				displayWinningMessage();
 			}
-			gui.updateDisplay();
 		}
 	}
 
@@ -111,27 +110,19 @@ public class GameController {
         //gui.updateDisplay();
 	}
 
-	public String getChoice(String msg, String... buttons) {
-		String choice = gui.displayButtons(msg, buttons);
-		System.out.println("working in gamecontroller");
+	public String getChoice(String msg, Boolean list, String... buttons) {
+		String choice = gui.displayButtons(msg, list, buttons);
 		return choice;
 	}
 
-	public String testingGetChoice() {
-
-		String[] buttonsTest = {"1", "2"};
-		String choice = logic.getChoice("hey", buttonsTest);
-		System.out.println("working in gamecontroller");
-		return choice;
-	}
 
 	public void resetGame(){
 		playing = true;
 		turns = 1;
 	}
 
-	public void updateDisplay() {
-		gui.updateDisplay();
+	public void updateDisplay(String turnInfo) {
+		gui.updateDisplay(turnInfo);
 	}
 
 	public void displayMessage(String msg) {
@@ -153,14 +144,6 @@ public class GameController {
 	public GameBoard getBord() {
 		return bord;
 	}
-
-    public void setTurnInfo(String turnInfo) {
-        this.turnInfo = turnInfo;
-    }
-
-    public String getTurnInfo() {
-        return turnInfo;
-    }
 
     public int getUserInt(String msg) {
 		return gui.getUserInt(msg);
