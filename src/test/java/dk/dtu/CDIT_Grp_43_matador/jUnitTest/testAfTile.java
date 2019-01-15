@@ -206,7 +206,6 @@ public class testAfTile {
         System.out.println(p.getScore());
 
         taxTile.landOnTile(p);
-
         assertEquals(2700,p.getScore());
 
         System.out.println(p.getScore());
