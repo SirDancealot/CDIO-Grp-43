@@ -84,7 +84,7 @@ public class Logic {
                 options = expandArray(options, "Ophæv pantsætning");
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
-                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable())
+                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
                     options = expandArray(options, "Køb");
             }
 
