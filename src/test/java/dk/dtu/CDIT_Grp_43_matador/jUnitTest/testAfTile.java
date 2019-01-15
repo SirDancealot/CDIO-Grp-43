@@ -201,12 +201,11 @@ public class testAfTile {
         }
 
         Player p = new Player("testPlayer",3000);
-        Tax taxTile = new Tax("","type:Tax;money:200;percent:10;name:Tax Percent",4);
+        Tax taxTile = new Tax("","Tile4=type:Tax;money:200;percent:10;name:Tax Percent",4);
 
         System.out.println(p.getScore());
 
         taxTile.landOnTile(p);
-
         assertEquals(2700,p.getScore());
 
         System.out.println(p.getScore());

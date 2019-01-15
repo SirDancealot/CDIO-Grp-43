@@ -283,7 +283,9 @@ public class GUI_Controller {
 	 * @return returns the string that was written on the button that was pressed
 	 */
    public String displayButtons(String msg, boolean list, String... buttons) {
-
+    if(buttons.length == 0){
+        return null;
+    }
        String choice;
        if(list){
            choice = gui.getUserSelection(msg, buttons);

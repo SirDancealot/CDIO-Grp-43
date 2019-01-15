@@ -10,14 +10,13 @@ public class Player {
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
-	private static GameBoard bord = GameBoard.getInstance();
+	private static GameBoard bord;
 	private int roll;
 	private int currPos = 0;
 	private boolean startMoneyElegible = false;
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
-	private boolean nextJailFree = false;
 	private boolean inAuction = false;
 	private boolean payDouble = false;
 
@@ -26,6 +25,7 @@ public class Player {
 	 * @param startMoney how much money this player starts with.
 	 */
     public Player(String name, int startMoney) {
+		bord = GameBoard.getInstance();
 		this.name = name;
 		playerAccount = new Account(startMoney);
 	}
@@ -40,11 +40,8 @@ public class Player {
 	public boolean move(int moving){
 		roll = moving;
 		currPos += moving;
-
-		if(currPos >= bord.getBoardSize()){
-			currPos-=bord.getBoardSize();
-		}
-		return true;//bord.landOnTile(this);
+		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
+		return true;
 	}
 	
 	public boolean moveTo(String tileName) {
@@ -175,12 +172,11 @@ public class Player {
 	}
     
     public boolean hasFreeJail() {
-    	return nextJailFree;
+	    for ( ChanceCard card : keepingCards ) {
+		    if (card.isFreeJail())
+			    return true;
+	    } return false;
 	}
-    
-    public void setFreeJail(boolean freeJail) {
-    	this.nextJailFree = freeJail;
-    }
     
     public static void setPlayers(Player[] players) {
 		Player.players = players;
@@ -204,5 +200,15 @@ public class Player {
 
 	public Tile[] getTilesByTag(String tag) {
 		return bord.searchForTileType(tag);
+	}
+
+	public void returnFreeJail() {
+		for (ChanceCard card : keepingCards) {
+			if (card.isFreeJail()) {
+				keepingCards.remove(card);
+				card.returnToDeck();
+				return;
+			}
+		}
 	}
 }
