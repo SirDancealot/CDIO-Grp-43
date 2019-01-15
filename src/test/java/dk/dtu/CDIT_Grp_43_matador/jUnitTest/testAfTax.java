@@ -14,10 +14,6 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class testAfTax {
-    @BeforeEach
-    public void init() {
-
-    }
 
     @Test
     public void landOnTileTaxFlat() {
@@ -33,9 +29,8 @@ class testAfTax {
 
        assertTrue(1400 == p.getScore());
 
-
     }
-    
+
     @Test
     public void printLandOn() {
     }
