@@ -83,6 +83,7 @@ public class Logic {
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
                 expandArray(options, "Køb", "Sæt på auktion");
             }
+            turnStringGenerator("updateScore");
             updateGui(turnInfo);
             String choice = getChoice("Hvad vil du nu?", false, options);
             afterRoll(choice);
@@ -167,7 +168,6 @@ public class Logic {
                 updateGui(turnInfo);
                 String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
                 bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
-
                 break;
 
             case "Pantsæt":
@@ -431,6 +431,52 @@ public class Logic {
     public String getChoice (String msg, Boolean list, String... buttons){
         String choice = game.getChoice(msg, list, buttons);
         return choice;
+    }
+
+    // String creater
+
+    //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+
+    public void turnStringGenerator(String... options){
+
+        for(int i = 0; i < options.length; i++){
+
+            String option = options[i];
+            switch (option){
+                case "updateScore":
+                    String score = "";
+                    for(int j = 0; j < players.length; j++ ){
+                        score += players[j].getScore();
+                        if(j < players.length-1){
+                            score +=",";
+                        }
+                    }
+                    turnInfo+="updateScore:"+score+";";
+                    break;
+                case "displayDies":
+                    String dies = "";
+                    dies+=diceCup.getD1Val()+","+diceCup.getD2Val();
+                    turnInfo+="displayDies:"+dies+";";
+                    break;
+                case "movePlayer":
+                    //movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove)
+                    String move = "";
+                    move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
+                    turnInfo+="displayDies:"+move+";";
+                    break;
+                case "setHouse":
+                    //(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses)
+                    break;
+                case "setHotel":
+                    break;
+                case "turnMessage":
+                    break;
+                case "chanceCardMessage":
+                    break;
+                case "mortgage":
+                    break;
+            }
+        }
     }
 
     public void displayMessage (String msg){

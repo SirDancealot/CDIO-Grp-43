@@ -13,5 +13,9 @@ class GuiTest {
         int startMoney = 1500;
         gui.addplayers(startMoney);
         gui.displayPlayers();
+
+        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,1,0,1,0;displayOwner:0,8,false;setHouse:0,9,false,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+
+        gui.updateDisplay(turnInfo);
     }
 }
