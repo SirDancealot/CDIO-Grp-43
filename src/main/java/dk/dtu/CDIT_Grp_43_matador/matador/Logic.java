@@ -105,8 +105,7 @@ public class Logic {
                 break;
 
             case "Brug chance kort":
-                players[currPlayerIndex].setFreeJail(false);
-                players[currPlayerIndex].setInJail(false);
+                ((Jail) (board.getTileByName("Jail"))).cardToExit(players[currPlayerIndex]);
                 break;
             case "Sælg hus(e)":
 

@@ -17,7 +17,6 @@ public class Player {
 	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
-	private boolean nextJailFree = false;
 	private boolean inAuction = false;
 	private boolean payDouble = false;
 
@@ -173,12 +172,11 @@ public class Player {
 	}
     
     public boolean hasFreeJail() {
-    	return nextJailFree;
+	    for ( ChanceCard card : keepingCards ) {
+		    if (card.isFreeJail())
+			    return true;
+	    } return false;
 	}
-    
-    public void setFreeJail(boolean freeJail) {
-    	this.nextJailFree = freeJail;
-    }
     
     public static void setPlayers(Player[] players) {
 		Player.players = players;
@@ -202,5 +200,15 @@ public class Player {
 
 	public Tile[] getTilesByTag(String tag) {
 		return bord.searchForTileType(tag);
+	}
+
+	public void returnFreeJail() {
+		for (ChanceCard card : keepingCards) {
+			if (card.isFreeJail()) {
+				keepingCards.remove(card);
+				card.returnToDeck();
+				return;
+			}
+		}
 	}
 }
