@@ -44,7 +44,7 @@ public class Bank {
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
-                String choice = logic.getChoice(bidString, options);
+                String choice = logic.getChoice(bidString,false, options);
                 bidString = "";
                 if (choice.equals("Byd")) {
                     int bidAmount = logic.getUserInt("Hvor meget vil du byde?");

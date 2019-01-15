@@ -10,7 +10,7 @@ public class Player {
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
-	private static GameBoard bord = GameBoard.getInstance();
+	private static GameBoard bord;
 	private int roll;
 	private int currPos = 0;
 	private boolean startMoneyElegible = false;
@@ -26,6 +26,7 @@ public class Player {
 	 * @param startMoney how much money this player starts with.
 	 */
     public Player(String name, int startMoney) {
+		bord = GameBoard.getInstance();
 		this.name = name;
 		playerAccount = new Account(startMoney);
 	}

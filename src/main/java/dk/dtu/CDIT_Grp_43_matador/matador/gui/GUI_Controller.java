@@ -20,7 +20,6 @@ public class GUI_Controller {
     
     private GUI_Controller() {}
 
-
     // Start game
 
 	/**
@@ -49,9 +48,7 @@ public class GUI_Controller {
         // Add player names
         names = new String[numberOfPlayers];
         for(int i = 0; i < names.length; i++){
-
             names[i] = gui.getUserString("Tilføj spiller "+Integer.toString(i+1)+"´s navn");
-
             if(names[i].isEmpty()){
                 names[i] = "Spiller "+Integer.toString(i+1);
             }
@@ -77,23 +74,21 @@ public class GUI_Controller {
             allPlayer[i] = player;
         }
     }
+    // Remove later
+    //String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
 
 
     // Update GUI
 	/**
 	 * method to call when wanting to update the display with what happened last turn.
 	 */
-    public void updateDisplay(){
-        //String turnInfo = game.getTurnInfo();
-
-        String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
+    public void updateDisplay(String turnInfo){
         String[] info = turnInfo.split(";");
 
         for (int i = 0; i < info.length; i++) {
             String[] thisInfo = info[i].split(":");
-            String doshit = thisInfo[0];
-            System.out.println("Turns "+i);
-                switch (doshit) {
+            String step = thisInfo[0];
+                switch (step) {
                     case "updateScore":
                         String[] score = thisInfo[1].split(",");
                         setScore(score);
@@ -139,6 +134,7 @@ public class GUI_Controller {
         }
     }
 
+    // Functionality
 
     /**
 	 * Displays all the gui players on the start tile.
@@ -148,7 +144,6 @@ public class GUI_Controller {
             gui.getFields()[0].setCar(allPlayer[i], true);
         }
     }
-
 
     /**
      * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
@@ -207,6 +202,7 @@ public class GUI_Controller {
         }
     	}
 
+
     // Set score
     public void setScore(String[] playerScores){
     	for (int i = 0; i < allPlayer.length; i++) {
@@ -214,7 +210,7 @@ public class GUI_Controller {
 		}
     }
 
-    // displayOwner
+    // DisplayOwner
 
    public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
         if(!owned){
@@ -239,17 +235,6 @@ public class GUI_Controller {
         gui.displayChanceCard();
     }
 
-    // Mortgage Properties
-
-    public void doShit(){
-        int[] propertiesOwned = {1,2,4};
-        String[] properties = new String[propertiesOwned.length];
-
-        for(int i = 0; i < propertiesOwned.length; i++){
-            properties[i] = gui.getFields()[propertiesOwned[i]].getTitle();
-        }
-        String mortgagePropertie = gui.getUserSelection("Pantsætte ejendom", properties );
-    }
 
     // Set house
 
@@ -291,23 +276,22 @@ public class GUI_Controller {
         }
     }
 
-
-
-
 	/**
 	 *
 	 * @param msg the message to display to the player with the buttons
 	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
 	 * @return returns the string that was written on the button that was pressed
 	 */
-   public String displayButtons(String msg, String... buttons) {
-       String choice = gui.getUserButtonPressed(msg, buttons);
-       System.out.println("Working");
+   public String displayButtons(String msg, boolean list, String... buttons) {
+
+       String choice;
+       if(list){
+           choice = gui.getUserSelection(msg, buttons);
+       }else{
+           choice = gui.getUserButtonPressed(msg, buttons);
+       }
        return choice;
    }
-
-
-
 
     // Getters and setters
     public static GUI_Controller getINSTANCE() {
