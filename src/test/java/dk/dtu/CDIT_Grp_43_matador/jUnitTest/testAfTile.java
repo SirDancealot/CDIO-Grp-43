@@ -122,17 +122,30 @@ public class testAfTile {
     public void testAfShip(){
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
-        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"0:50;1:200;2:600;3:1400;4:1700;5:2000" );
+        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"1:25;2:50;3:100;4:200" );
+        Ship shipTile1 = new Ship("","type:Ship;Tilevalue:200;sister:ship;setSize:4;name:D.F.D.S.", 15, "1:25;2:50;3:100;4:200");
 
         shipTile.buyTile(p1);
-
         shipTile.landOnTile(p);
 
         System.out.println(p1.getScore());
         System.out.println(p.getScore());
 
-        assertTrue(1500-200+50 == p1.getScore());
-        assertTrue(1500-50 == p.getScore());
+        assertTrue(1500-200+25 == p1.getScore());
+        assertTrue(1500-25 == p.getScore());
+
+        shipTile1.buyTile(p1);
+        shipTile1.landOnTile(p);
+
+        assertTrue((1500-200+25-200+50) == p1.getScore());
+        assertTrue((1500-25-50) == p.getScore());
+
+        System.out.println(p1.getScore());
+        System.out.println(p.getScore());
+
+        shipTile.landOnTile(p1);
+
+        assertTrue((1500-200+25-200+50) == p1.getScore());
     }
 
     @Test
@@ -170,6 +183,10 @@ public class testAfTile {
 
         assertTrue((1500-150+x10Price) == p1.getScore());
         assertTrue((1500-x10Price) == p.getScore());
+
+        breweryTile.landOnTile(p1);
+
+        assertTrue((1500-150+x10Price) == p1.getScore());
 
     }
 }
