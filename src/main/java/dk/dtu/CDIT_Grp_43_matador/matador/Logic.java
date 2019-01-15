@@ -10,7 +10,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 public class Logic {
 
     private static Logic INSTANCE = new Logic();
-    private final int TURNLIMIT = 100;
+    private final int TURNLIMIT = 500;
 
     private Bank bank = Bank.getInstance();
     private GameController game;
@@ -71,17 +71,20 @@ public class Logic {
                     expandArray(options, "Brug chance kort");
             }
 
-            if(canBuyHouse() == true){
+            if(canBuyHouse()){
                 expandArray(options, "Køb hus(e)");
             }
-            if(canSellHouse() == true){
+            if(canSellHouse()){
                 expandArray(options, "Sælg hus(e)");
         }
-            if(canPawn() == true){
+            if(canPawn()){
                 expandArray(options, "Pantsæt");
             }
-            if(canUnPawn() == true){
+            if(canUnPawn()){
                 expandArray(options, "Ophæv pantsætning");
+            }
+            if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable()){
+                expandArray(options, "Køb");
             }
 
             updateGui(turnInfo);
@@ -94,18 +97,22 @@ public class Logic {
 
             String[] options = {"Slut tur"};
 
-            if(canBuyHouse() == true){
+            if(canBuyHouse()){
                 expandArray(options, "Køb hus(e)");
             }
-            if(canSellHouse() == true){
+            if(canSellHouse()){
                 expandArray(options, "Sælg hus(e)");
             }
-            if(canPawn() == true){
+            if(canPawn()){
                 expandArray(options, "Pantsæt");
             }
-            if(canUnPawn() == true){
+            if(canUnPawn()){
                 expandArray(options, "Ophæv pantsætning");
             }
+            if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).isBuyable()){
+                expandArray(options, "Køb");
+            }
+
             updateGui(turnInfo);
             String choice = getChoice("Hvad vil du nu?", false, options);
             afterRoll(choice);
@@ -117,8 +124,17 @@ public class Logic {
         switch (choice) {
             case "Rul":
                 diceCup.roll();
-                if (diceCup.isSame()) {
+                if(diceCup.ThreeSame()){
+                    players[currPlayerIndex].setInJail(true);
+                    players[currPlayerIndex].moveTo("jail");
+                    rolled = true;
+                } else if(diceCup.isSame()) {
                     players[currPlayerIndex].setInJail(false);
+                    players[currPlayerIndex].move(diceCup.getDiceIntValues());
+
+                } else if (!players[currPlayerIndex].isInJail()) {
+                    players[currPlayerIndex].move(diceCup.getDiceIntValues());
+                    rolled = true;
                 }
                 rolled = true;
                 break;
@@ -204,10 +220,10 @@ public class Logic {
         String[] upgradeableNames = new String[upgradeableProperties];
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            int i = 0;
+            int j = 0;
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
-                upgradeableNames[i] = tile.getTileName();
-                i++;
+                upgradeableNames[j] = tile.getTileName();
+                j++;
             }
         }
         String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
