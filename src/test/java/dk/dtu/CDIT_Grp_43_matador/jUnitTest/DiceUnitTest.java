@@ -1,16 +1,11 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.RepeatedTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 
-
 public class DiceUnitTest {
-
-
     @RepeatedTest(100)
     public void test() {
         final DiceCup dc = DiceCup.getInstance();

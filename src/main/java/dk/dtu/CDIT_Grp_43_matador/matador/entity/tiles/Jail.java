@@ -13,33 +13,6 @@ public class Jail extends Tile {
 
     }
 
-    /**
-     * Used when a player needs to pay to leave jail. Calling the withDrawMoney from the Player class
-     * @param p The current player.
-     * @return returns true if everything went as planned.
-     */
-    @Override
-    public boolean passedTile(Player p) {
-        if (p.isInJail()) {
-        	p.setInJail(false);
-        	ArrayList<ChanceCard> playerKeepingCards = p.getKeepingCards();
-        	boolean freeJail = false;
-        	for (ChanceCard chanceCard : playerKeepingCards) {
-				if(chanceCard.isFreeJail()) {
-					freeJail = true;
-					chanceCard.returnToDeck();
-					break;
-				}
-			}
-        	if (!freeJail) {
-        		//infExch.addToCurrentTurnText(p + " payed " + outOfJailPrice + " to get out of jail\n");
-        		return p.withDrawMoney(outOfJailPrice);
-        	}
-        	//infExch.addToCurrentTurnText(p + " had a get out of jail free card and exited the jail for free\n");
-        }
-        return true;
-    }
-
 	@Override
 	public String printLandOn(Player p) {
     	String result;
@@ -62,5 +35,14 @@ public class Jail extends Tile {
 		    return p.withDrawMoney(outOfJailPrice);
 	    }
 		return true;
+    }
+
+    public boolean cardToExit(Player p) {
+    	if (p.isInJail() && p.hasFreeJail()) {
+			p.setInJail(false);
+			p.returnFreeJail();
+
+			return true;
+	    } return false;
     }
 }
