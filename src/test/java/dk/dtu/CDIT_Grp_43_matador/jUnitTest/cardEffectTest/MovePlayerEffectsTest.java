@@ -2,6 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerToEffect;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -18,10 +20,11 @@ class MovePlayerEffectsTest {
             e.printStackTrace();
         }
         Player p = new Player("Heidi", 1500);
-        Player p1 = new Player("Hjalte", 1500);
-        p.move(-3);
+        MovePlayerEffect movePlayer = new MovePlayerEffect(-3);
+        movePlayer.useEffect(p);
         assertTrue(p.getCurrPos() == 37);
-        p.move(3);
+        MovePlayerEffect movePlayer1 = new MovePlayerEffect(3);
+        movePlayer1.useEffect(p);
         assertTrue(p.getCurrPos() == 0);
     }
 
@@ -32,12 +35,14 @@ class MovePlayerEffectsTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Player p = new Player("Heidi", 1500);
-        Player p1 = new Player("Malte", 1500);
-        p.moveTo("Roskildevej");
+        Player p = new Player("Malte", 1500);
+        MovePlayerToEffect movePlayerTo = new MovePlayerToEffect("Roskildevej");
+        movePlayerTo.useEffect(p);
         assertTrue(p.getCurrPos() == 6);
-        p.moveTo("Valby Langgade");
-        assertTrue(p.getCurrPos() == 8);
+        MovePlayerToEffect movePlayerTo1 = new MovePlayerToEffect("Valby Langgade");
+        movePlayerTo.useEffect(p);
 
+
+        assertTrue(p.getCurrPos() == 8);
     }
 }
