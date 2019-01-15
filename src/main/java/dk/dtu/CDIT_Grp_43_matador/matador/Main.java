@@ -13,7 +13,9 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		final GameController game = GameController.getInstance();
 		game.init();
-		game.startGameLoop();
+		System.out.println("hey");
+		game.testingGetChoice();
+		//game.startGameLoop();
 		game.stop();
 	}
 }

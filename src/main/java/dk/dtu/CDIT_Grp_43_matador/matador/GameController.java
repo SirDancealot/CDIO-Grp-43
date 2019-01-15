@@ -74,7 +74,6 @@ public class GameController {
 		}
 	}
 
-	
 	/**
 	 * The stop function that runs as the very last thing in the game 
 	 * in case any objects needs to be closed or anything similar.
@@ -113,16 +112,22 @@ public class GameController {
 	}
 
 	public String getChoice(String msg, String... buttons) {
-		return gui.displayButtons(msg, buttons);
+		String choice = gui.displayButtonsTest(msg, buttons);
+		System.out.println("working in gamecontroller");
+		return choice;
+	}
+
+	public String testingGetChoice() {
+
+		String[] buttonsTest = {"1", "2"};
+		String choice = logic.getChoice("hey", buttonsTest);
+		System.out.println("working in gamecontroller");
+		return choice;
 	}
 
 	public void resetGame(){
 		playing = true;
 		turns = 1;
-	}
-
-	public String displayButtons(String msg, String... buttons) {
-		return gui.displayButtons(msg, buttons);
 	}
 
 	public void updateDisplay() {
