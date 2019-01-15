@@ -123,6 +123,16 @@ public class Player {
 		}
 		return houseAndHotels;
 	}
+
+	public void returnFreeJail() {
+		for (ChanceCard card : keepingCards) {
+			if (card.isFreeJail()) {
+				keepingCards.remove(card);
+				card.returnToDeck();
+				return;
+			}
+		}
+	}
 	
 	public void setMoney(int money) {
 		playerAccount.setMoney(money);
