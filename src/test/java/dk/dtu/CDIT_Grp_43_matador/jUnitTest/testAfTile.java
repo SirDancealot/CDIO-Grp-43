@@ -11,6 +11,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testAfTile {
@@ -187,6 +189,28 @@ public class testAfTile {
         breweryTile.landOnTile(p1);
 
         assertTrue((1500-150+x10Price) == p1.getScore());
+
+    }
+    @Test
+    public void testAfTaxPercentValgPercent() {
+
+        try {
+            GameController.getInstance().init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player p = new Player("testPlayer",3000);
+        Tax taxTile = new Tax("","Tile4=type:Tax;money:200;percent:10;name:Tax Percent",4);
+
+        System.out.println(p.getScore());
+
+        taxTile.landOnTile(p);
+        System.out.println(taxTile.getLastPayed());
+
+        assertEquals(2700,p.getScore());
+
+        System.out.println(p.getScore());
 
     }
 }
