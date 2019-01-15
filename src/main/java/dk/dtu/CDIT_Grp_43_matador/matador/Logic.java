@@ -84,7 +84,6 @@ public class Logic {
                 expandArray(options, "Ophæv pantsætning");
             }
 
-            String choice = getChoice("Du er i fængsel. Hvad vil du nu?", options);
             updateGui(turnInfo);
             String choice = getChoice("Du er i fængsel. Hvad vil du nu?", false, options);
             beforeRoll(choice);
@@ -109,8 +108,6 @@ public class Logic {
             }
             updateGui(turnInfo);
             String choice = getChoice("Hvad vil du nu?", false, options);
-
-            String choice = getChoice("Hvad vil du nu?", options);
             afterRoll(choice);
         }
     }
@@ -214,7 +211,7 @@ public class Logic {
                 i++;
             }
         }
-        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", upgradeableNames);
+        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
         bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
     }
 
@@ -249,7 +246,7 @@ public class Logic {
                 i++;
             }
         }
-        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", downgradeableNames);
+        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
         bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
     }
 
@@ -299,7 +296,7 @@ public class Logic {
                 }
         }
 
-        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?", pawnableNames);
+        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",false, pawnableNames);
         bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
     }
 
@@ -342,7 +339,7 @@ public class Logic {
 
 
         }
-        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?", unPawnableNames);
+        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",false, unPawnableNames);
         bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
     }
 
@@ -397,8 +394,8 @@ public class Logic {
         game.displayMessage(msg);
     }
 
-    public String getChoice (String msg, String... buttons){
-        return game.getChoice(msg, buttons);
+    public String getChoice (String msg, Boolean list, String... buttons){
+        return game.getChoice(msg, list, buttons);
     }
 
     public int getUserInt (String msg) {
