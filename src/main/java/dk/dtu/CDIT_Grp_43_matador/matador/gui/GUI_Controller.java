@@ -166,8 +166,8 @@ public class GUI_Controller {
 	 */
     public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
     	for (int i = 0; i < playerRoll; i++) {
-    		gui.getFields()[(playerPositionBeforeRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
-    		gui.getFields()[(playerPositionBeforeRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
+    		gui.getFields()[(playerPositionBeforeRoll+i) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+    		gui.getFields()[(playerPositionBeforeRoll+i+1) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
     		try {
     			Thread.sleep(100);
     		} catch (InterruptedException e) {
@@ -175,15 +175,16 @@ public class GUI_Controller {
     		}
 		}
     	if (cardMove != 0) {
+    	    int cardDir = cardMove / Math.abs(cardMove);
     		try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-    		for (int i = 0; i < cardMove; i++) {
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i) % 24].setCar(allPlayer[currentPlayer], false);
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+i+1) % 24].setCar(allPlayer[currentPlayer], true);
+    		for (int i = 0; i < Math.abs(cardMove); i++) {
+    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)+(cardMove/Math.abs(cardMove))) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -191,13 +192,13 @@ public class GUI_Controller {
 				}
 			}
     	}
-    	if ((playerPositionBeforeRoll+playerRoll+cardMove) % 24 != playerPositionAfterRoll) {
+    	if ((playerPositionBeforeRoll+playerRoll+cardMove) % gui.getFields().length != playerPositionAfterRoll) {
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % 24].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
             gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
     	}
