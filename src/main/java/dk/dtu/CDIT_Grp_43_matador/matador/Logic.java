@@ -3,7 +3,9 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
@@ -12,7 +14,7 @@ public class Logic {
     private static Logic INSTANCE = new Logic();
     private final int TURNLIMIT = 500;
 
-    private Bank bank = Bank.getInstance();
+    private Bank bank;
     private GameController game;
     private Player[] players;
     private DiceCup diceCup;
@@ -45,7 +47,8 @@ public class Logic {
         board = GameBoard.getInstance();
         endOfGame = false;
         game = GameController.getInstance();
-
+        bank = Bank.getInstance();
+        bank.initBank();
         deadPlayers = new int[players.length];
 
         for(int i = 0; i < deadPlayers.length; i++){
@@ -109,7 +112,6 @@ public class Logic {
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
                     options = new String[] {"Køb", "Sæt på auktion"};
             }
-
             turnStringGenerator("updateScore");
             updateGui();
             String choice = getChoice(players[currPlayerIndex].getName()+" hvad vil du nu?", false, options);
@@ -225,12 +227,22 @@ public class Logic {
                 break;
 
             case "Køb":
-                ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
-                turnStringGenerator("displayOwner", "updateScore");
-                updateGui();
-                break;
+                if(players[currPlayerIndex].getScore() >= board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue()) {
+                    ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
+                    turnStringGenerator("displayOwner", "updateScore");
+                    updateGui();
+                    break;
+                } else {
+                  turnStringGenerator("resetMessage");
+                  addToTurnMessage("Du har ikke penge nok og må putte ejendommen på auktion");
+                  turnStringGenerator("turnMessage");
+                  updateGui();
+                  break;
+                }
+
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
+                System.out.println("Auktion compleat");
                 turnStringGenerator("updateScore");
                 updateGui();
                 break;
@@ -516,7 +528,13 @@ public class Logic {
     }
 
     public void displayMessage (String msg){
-        game.displayMessage(msg);
+        /*
+        turnStringGenerator("resetMessage");
+        addToTurnMessage(msg);
+        turnStringGenerator("turnMessage");
+        updateGui();
+        */
+        System.out.println("display in gui");
     }
 
     public String getChoice (String msg, Boolean list, String... buttons){
