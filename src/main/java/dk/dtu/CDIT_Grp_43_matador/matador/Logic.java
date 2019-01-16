@@ -140,6 +140,9 @@ public class Logic {
                 rolled = true;
 
                 for(int i = 0;i < diceCup.getDiceIntValues(); i++){
+                    if(i>=40){
+                        i = 0;
+                    }
                     board.getGameTiles()[players[currPlayerIndex].getCurrPos()+i].passedTile(players[currPlayerIndex]);
                 }
 
