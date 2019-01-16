@@ -41,6 +41,7 @@ public class Player {
 	 */
 
 	public boolean move(int moving){
+		cardMove = 0;
 		roll = moving;
 		oldPos = currPos;
 		currPos += moving;
