@@ -61,7 +61,9 @@ public class Player {
 		int targetPos = targetTile.getTileIndex() - currPos;
 		if (targetPos < 0)
 			targetPos += bord.getBoardSize();
-		return move(targetPos);
+		currPos += targetPos;
+		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
+		return true;
 	}
 
 	@Override
