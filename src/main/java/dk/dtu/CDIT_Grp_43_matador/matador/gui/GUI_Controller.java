@@ -63,8 +63,8 @@ public class GUI_Controller {
      * @param money the amount of money each player starts with.
      */
     public void addplayers(int money) {
-        Color[] primaryColor = {Color.blue, Color.red, Color.green, Color.MAGENTA, Color.pink, Color.yellow};
-        Color[] secondaryColor = {Color.red, Color.green, Color.MAGENTA, Color.pink, Color.yellow, Color.blue,};
+        Color[] primaryColor = {new Color(51,204,255), new Color(102,255,102), new Color(255,255,153), new Color(153,102,0), new Color(102,0,153), new Color(153,0,0)};
+        Color[] secondaryColor = {new Color(51,204,255), new Color(102,255,102), new Color(255,255,153), new Color(153,102,0), new Color(102,0,153), new Color(153,0,0)};
         GUI_Car.Type carTypes = GUI_Car.Type.CAR;
         allPlayer = new GUI_Player[names.length];
         for(int i = 0; i < names.length; i++){
@@ -116,6 +116,10 @@ public class GUI_Controller {
                     case "turnMessage":
                         String message = thisInfo[1];
                         displayMessage(message);
+                        break;
+                    case "mortgage":
+                        String[] mortgage = thisInfo[1].split(",");
+                        mortgageProperty(Integer.parseInt(mortgage[0]),Integer.parseInt(mortgage[1]), checkForBoolean(mortgage[2]));
                         break;
                     case "chanceCardMessage":
                         String chanceCardMessage = thisInfo[1];
@@ -214,6 +218,18 @@ public class GUI_Controller {
             }
         }
    }
+
+    // DisplayOwner
+
+    public void mortgageProperty(int currentPlayer, int playerPosition, boolean owned){
+        if(!owned){
+            GUI_Field f = gui.getFields()[playerPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), Color.DARK_GRAY);
+            }
+        }
+    }
 
 
    // SetChanceCard
