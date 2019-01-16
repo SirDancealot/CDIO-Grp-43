@@ -176,7 +176,7 @@ public class GUI_Controller {
 
     		for (int i = 0; i < Math.abs(cardMove); i++) {
     			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)+(cardMove/Math.abs(cardMove))) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
+    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+((i+1)*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -190,7 +190,9 @@ public class GUI_Controller {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            gui.getFields()[(playerPositionBeforeRoll+playerRoll+cardMove) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+            for (int i = 0; i < gui.getFields().length; i++) {
+                gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
+            }
             gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
     	}

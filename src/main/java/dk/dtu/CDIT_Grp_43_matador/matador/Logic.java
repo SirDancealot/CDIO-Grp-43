@@ -138,7 +138,7 @@ public class Logic {
                     rolled = true;
                 }
 
-                if(players[currPlayerIndex].getCurrPos()== 2 || players[currPlayerIndex].getCurrPos() == 7 || players[currPlayerIndex].getCurrPos() == 17 || players[currPlayerIndex].getCurrPos() == 22 || players[currPlayerIndex].getCurrPos() == 33 || players[currPlayerIndex].getCurrPos() == 36){
+                if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()=="Chance" || board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()=="Chance"){
                     turnStringGenerator("chanceCardMessage");
                     updateGui();
                 }
