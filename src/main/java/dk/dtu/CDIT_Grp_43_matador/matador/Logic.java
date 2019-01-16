@@ -66,7 +66,7 @@ public class Logic {
 
             if (players[currPlayerIndex].isInJail()) {
 
-                String[] choice = expandArray(options, "Betal for at komme ud");
+                options = expandArray(options, "Betal for at komme ud");
 
                 if (players[currPlayerIndex].hasFreeJail())
                     options = expandArray(options, "Brug chance kort");
@@ -83,10 +83,6 @@ public class Logic {
             }
             if(canUnPawn()){
                 options = expandArray(options, "Ophæv pantsætning");
-            }
-            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
-                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
-                    options = expandArray(options, "Køb");
             }
 
             String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
@@ -111,8 +107,9 @@ public class Logic {
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
-                    options = expandArray(options, "Køb", "Sæt på auktion");
+                    options = new String[] {"Køb", "Sæt på auktion"};
             }
+
             turnStringGenerator("updateScore");
             updateGui();
             String choice = getChoice(players[currPlayerIndex].getName()+" hvad vil du nu?", false, options);
@@ -144,6 +141,11 @@ public class Logic {
                 }
 
                 rolled = true;
+
+                for(int i = 0;i < diceCup.getDiceIntValues(); i++){
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()+i].passedTile(players[currPlayerIndex]);
+                }
+
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
@@ -326,9 +328,10 @@ public class Logic {
             if(tile instanceof Property)
                 if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
                     pawnable++;
-                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                else if (tile instanceof Ownable && !(tile instanceof Property))
                     pawnable++;
         }
+
         String[] pawnableNames = new String[pawnable];
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
@@ -354,14 +357,14 @@ public class Logic {
     }
 
     private boolean canPawn(){
-        int pawnable = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
             if(tile instanceof Property)
-                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
+                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()){
                     return true;
-                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+                } else if (tile instanceof Ownable && !(tile instanceof Property)) {
                     return true;
+            }
         }
         return false;
     }
@@ -376,6 +379,7 @@ public class Logic {
                 else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
                     unPawnable++;
         }
+
         String[] unPawnableNames = new String[unPawnable];
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
