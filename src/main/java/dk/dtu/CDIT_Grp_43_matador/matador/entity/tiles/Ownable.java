@@ -61,7 +61,7 @@ public abstract class Ownable extends Tile {
         ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
         int tilesInSetOwned = 0;
         for (Tile tile : playerOwnedTileSet) {
-            if ((tile.getOwner() == this.owner) && (this.sisterTag.equalsIgnoreCase(tile.getSisterTag())))
+            if ((tile.getOwner() == this.owner) && (sisterTag.equalsIgnoreCase(tile.getSisterTag())))
                 tilesInSetOwned++;
         }
         return tilesInSetOwned;
