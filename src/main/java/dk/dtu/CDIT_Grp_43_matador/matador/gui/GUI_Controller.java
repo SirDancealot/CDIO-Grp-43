@@ -105,13 +105,9 @@ public class GUI_Controller {
                         String[] displayOwner = thisInfo[1].split(",");
                         displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
                         break;
-                    case "setHouse":
+                    case "setHouseLevel":
                         String[] setHouse = thisInfo[1].split(",");
                         setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]), checkForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
-                        break;
-                    case "setHotel":
-                        String[] setHotel = thisInfo[1].split(",");
-                        setHotel(Integer.parseInt(setHotel[0]),Integer.parseInt(setHotel[1]), checkForBoolean(setHotel[2]), checkForBoolean(setHotel[3]));
                         break;
                     case "turnMessage":
                         String message = thisInfo[1];
@@ -219,14 +215,15 @@ public class GUI_Controller {
         }
    }
 
-    // DisplayOwner
+    // mortgageProperty
 
-    public void mortgageProperty(int currentPlayer, int playerPosition, boolean owned){
+    public void mortgageProperty(int currentPlayer, int fieldPosition, boolean owned){
         if(!owned){
-            GUI_Field f = gui.getFields()[playerPosition];
+            GUI_Field f = gui.getFields()[fieldPosition];
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
                 o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), Color.DARK_GRAY);
+                System.out.println("mortgage succes");
             }
         }
     }

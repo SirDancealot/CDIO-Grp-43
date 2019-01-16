@@ -26,7 +26,8 @@ public class Logic {
 
     // Gui display string
     private String turnString = "";
-
+    private String turnMessage = "";
+    private int currentMortgageProperty;
 
     // Turn base variables
 
@@ -88,12 +89,8 @@ public class Logic {
                     options = expandArray(options, "Køb");
             }
 
-            turnStringGenerator("updateScore");
-            updateGui();
-            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vul du nu?" : "Hvad vil du nu?"), false, options);
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
             beforeRoll(choice);
-            turnStringGenerator("movePlayer", "displayDies");
-            updateGui();
         }
 
         while (rolled) {
@@ -118,7 +115,7 @@ public class Logic {
             }
             turnStringGenerator("updateScore");
             updateGui();
-            String choice = getChoice("Hvad vil du nu?", false, options);
+            String choice = getChoice(players[currPlayerIndex].getName()+" hvad vil du nu?", false, options);
             afterRoll(choice);
         }
     }
@@ -140,12 +137,23 @@ public class Logic {
                     players[currPlayerIndex].move(diceCup.getDiceIntValues());
                     rolled = true;
                 }
+
+                if(players[currPlayerIndex].getCurrPos()== 2 || players[currPlayerIndex].getCurrPos() == 7 || players[currPlayerIndex].getCurrPos() == 17 || players[currPlayerIndex].getCurrPos() == 22 || players[currPlayerIndex].getCurrPos() == 33 || players[currPlayerIndex].getCurrPos() == 36){
+                    turnStringGenerator("chanceCardMessage");
+                    updateGui();
+                }
+
                 rolled = true;
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
+                turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
+                updateGui();
                 break;
 
             case "Betal for at komme ud":
                 ((Jail) (board.getTileByName("Jail"))).payToExit(players[currPlayerIndex]);
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
 
             case "Brug chance kort":
@@ -154,18 +162,26 @@ public class Logic {
 
             case "Sælg hus(e)":
                 sellHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
 
             case "Køb hus(e)":
                 buyHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
 
             case "Pantsæt":
                 pawn();
+                turnStringGenerator("updateScore","mortgage");
+                updateGui();
                 break;
 
             case "Ophæv pantsætning":
                 unPawn();
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
         }
     }
@@ -175,30 +191,42 @@ public class Logic {
         switch (choice){
             case "Sælg hus(e)":
                 sellHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
 
             case "Køb hus(e)":
                 buyHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
 
             case "Pantsæt":
                 pawn();
+                turnStringGenerator("updateScore","mortgage");
+                updateGui();
                 break;
 
             case "Ophæv pantsætning":
                 unPawn();
+                turnStringGenerator("updateScore","displayOwner");
+                updateGui();
                 break;
 
             case "Køb":
                 ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
-                turnStringGenerator("displayOwner");
+                turnStringGenerator("displayOwner", "updateScore");
                 updateGui();
                 break;
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
+                turnStringGenerator("updateScore");
+                updateGui();
                 break;
             case "Slut tur":
                 endTurn();
+                turnStringGenerator("updateScore","resetMessage");
+                updateGui();
                 break;
         }
     }
@@ -319,7 +347,10 @@ public class Logic {
         }
 
         String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",false, pawnableNames);
+        currentMortgageProperty = board.getTileByName(chosenPawn).getTileIndex();
         bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
+        turnStringGenerator( "mortgage");
+        updateGui();
     }
 
     private boolean canPawn(){
@@ -439,16 +470,25 @@ public class Logic {
                     move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
                     turnString += "movePlayer:"+move+";";
                     break;
-                case "setHouse":
+                case "setHouseLevel":
+                    String setHouseLevel = "";
                     //(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses)
-                    break;
-                case "setHotel":
+                    turnString += "setHouseLevel:"+setHouseLevel+";";
                     break;
                 case "turnMessage":
+                    turnString += "turnMessage:"+turnMessage+";";
+                    break;
+                case "resetMessage":
+                    turnMessage = "";
                     break;
                 case "chanceCardMessage":
+                    String chanceCardMessage = "Ryk til start";
+                    turnString += "chanceCardMessage:"+chanceCardMessage+";";
                     break;
                 case "mortgage":
+                    String mortgage = currPlayerIndex+","+ currentMortgageProperty+",";
+                    turnString += "mortgage:"+mortgage+"false"+";";
+                    System.out.println("mortgage");
                     break;
                 case "displayOwner":
                     String Owner = currPlayerIndex+","+ players[currPlayerIndex].getCurrPos()+",";
@@ -456,6 +496,10 @@ public class Logic {
                     break;
             }
         }
+    }
+
+    public void addToTurnMessage(String information ){
+        turnMessage += information;
     }
 
     public void displayMessage (String msg){
