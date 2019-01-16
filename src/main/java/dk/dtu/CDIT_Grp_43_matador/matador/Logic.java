@@ -3,7 +3,9 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
@@ -141,9 +143,7 @@ public class Logic {
 
                 rolled = true;
 
-                for(int i = 0;i < diceCup.getDiceIntValues(); i++){
-                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()+i].passedTile(players[currPlayerIndex]);
-                }
+
 
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
@@ -215,10 +215,19 @@ public class Logic {
                 break;
 
             case "Køb":
-                ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
-                turnStringGenerator("displayOwner", "updateScore");
-                updateGui();
-                break;
+                if(players[currPlayerIndex].getScore() >= board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue()) {
+                    ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
+                    turnStringGenerator("displayOwner", "updateScore");
+                    updateGui();
+                    break;
+                } else {
+                  turnStringGenerator("resetMessage");
+                  addToTurnMessage("Du har ikke penge nok og må putte ejendommen på auktion");
+                  turnStringGenerator("turnMessage");
+                  updateGui();
+                  break;
+                }
+
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
                 System.out.println("Auktion compleat");
