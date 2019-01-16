@@ -142,8 +142,14 @@ public class Logic {
 
                 rolled = true;
 
-                for(int i = 0;i < diceCup.getDiceIntValues(); i++){
-                    if(i>=40){
+                int movesLeft = diceCup.getDiceIntValues();
+
+                for(int i = 0 ; i < movesLeft ; i++){
+
+                    if(players[currPlayerIndex].getCurrPos()+i >= board.getBoardSize()){
+
+                        movesLeft = movesLeft-i;
+
                         i = 0;
                     }
                     board.getGameTiles()[players[currPlayerIndex].getCurrPos()+i].passedTile(players[currPlayerIndex]);
