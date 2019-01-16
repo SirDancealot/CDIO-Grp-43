@@ -10,12 +10,12 @@ public class DiceUnitTest {
     public void test() {
         final DiceCup dc = DiceCup.getInstance();
         final int totalRolls = 100000;
-        final double sixths = (double) totalRolls / 6.0;
+        final double sixths = (double) totalRolls / 12.0;
         final double lowRoll = sixths * 0.95;
         final double highRoll = sixths * 1.05;
 
         int[] totalEyes;
-        totalEyes = new int[6];
+        totalEyes = new int[12];
 
         for (int i = 0; i < totalRolls; i++) {
 

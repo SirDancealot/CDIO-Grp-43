@@ -18,11 +18,19 @@ class PayAllEffectTest {
         Player.setPlayers(players);
 
         PayAllEffect payAll = new PayAllEffect(25);
+
+        System.out.println("\n ---- Score før ----");
+        System.out.println(p.getScore() + ": " + p.getName());
+        System.out.println(p1.getScore() + ": " + p1.getName());
+        System.out.println(p2.getScore() + ": " + p2.getName());
+
         payAll.useEffect(p);
         payAll.useEffect(p1);
-        System.out.println(p.getScore());
-        System.out.println(p1.getScore());
-        System.out.println(p2.getScore());
+
+        System.out.println("\n ---- Score efter ----");
+        System.out.println(p.getScore() + ": " + p.getName());
+        System.out.println(p1.getScore() + ": " + p1.getName());
+        System.out.println(p2.getScore() + ": " + p2.getName());
 
         assertEquals(1475, p.getScore());
         assertEquals(1475, p1.getScore());
