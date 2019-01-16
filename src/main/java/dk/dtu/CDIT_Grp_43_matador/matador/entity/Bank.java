@@ -29,8 +29,6 @@ public class Bank {
             workingTile = (Ownable)auctionTile;
         else
             return;
-
-
         for (Player player : players) {
             player.setInAuction(true);
         }

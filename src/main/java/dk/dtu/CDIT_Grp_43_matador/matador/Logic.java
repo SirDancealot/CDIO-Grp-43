@@ -109,7 +109,6 @@ public class Logic {
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
                     options = new String[] {"Køb", "Sæt på auktion"};
             }
-
             turnStringGenerator("updateScore");
             updateGui();
             String choice = getChoice(players[currPlayerIndex].getName()+" hvad vil du nu?", false, options);
@@ -222,6 +221,7 @@ public class Logic {
                 break;
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
+                System.out.println("Auktion compleat");
                 turnStringGenerator("updateScore");
                 updateGui();
                 break;
