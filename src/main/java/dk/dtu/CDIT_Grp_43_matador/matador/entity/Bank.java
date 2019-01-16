@@ -39,8 +39,10 @@ public class Bank {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
+        logic.displayMessageFromBank("Auktion om " + workingTile.getTileName() + " er gået i gang");
         String bidString = "";
+
+
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
@@ -55,15 +57,19 @@ public class Bank {
                     } else {
                         bidString += "Du har budt for lavt. Byd mindst " + (highestBid + 1);
                     }
+                } else {
+                    players[currentPlayerBidding].setInAuction(false);
+                    playersBidding--;
+                    currentPlayerBidding++;
                 }
             }else {
-                players[currentPlayerBidding].setInAuction(false);
                 currentPlayerBidding++;
             }
-            currentPlayerBidding = currentPlayerBidding % playersBidding;
-            System.out.println(currentPlayerBidding);
+            currentPlayerBidding = currentPlayerBidding % players.length;
         }
         workingTile.setOwner(players[highestBidPlayer]);
+        players[highestBidPlayer].addMoney(-highestBid);
+        logic.setOwnerAfterAuktion(highestBidPlayer, workingTile);
     }
 
     public boolean upgradeGround(Player p, Tile tile) {

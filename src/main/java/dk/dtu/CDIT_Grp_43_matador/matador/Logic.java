@@ -6,6 +6,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
@@ -16,6 +17,7 @@ public class Logic {
 
     private Bank bank;
     private GameController game;
+    private ChanceCardDeck deck;
     private Player[] players;
     private DiceCup diceCup;
     private GameBoard board;
@@ -137,15 +139,13 @@ public class Logic {
                     rolled = true;
                 }
 
-                if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()=="Chance" || board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()=="Chance"){
+                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()).equals("Chance")){
                     turnStringGenerator("chanceCardMessage");
                     updateGui();
+                    System.out.println("on chanceCard");
                 }
 
                 rolled = true;
-
-
-
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
@@ -496,8 +496,11 @@ public class Logic {
                     turnMessage = "";
                     break;
                 case "chanceCardMessage":
-                    String chanceCardMessage = "Ryk til start";
+                    deck = ChanceCardDeck.getInstance();
+                    // String chanceCardMessage = deck.getCurrCard().printCard();
+                    String chanceCardMessage = "fuck mig"; 
                     turnString += "chanceCardMessage:"+chanceCardMessage+";";
+
                     break;
                 case "mortgage":
                     String mortgage = currPlayerIndex+","+ currentMortgageProperty+",";
@@ -516,15 +519,19 @@ public class Logic {
         turnMessage += information;
     }
 
-    public void displayMessage (String msg){
-        /*
+    public void displayMessageFromBank (String msg){
         turnStringGenerator("resetMessage");
         addToTurnMessage(msg);
         turnStringGenerator("turnMessage");
         updateGui();
-        */
-        System.out.println("display in gui");
     }
+
+    public void setOwnerAfterAuktion (int highestBidPlayer, Tile boughtTile){
+        String Owner = highestBidPlayer+","+ boughtTile.getTileIndex()+",";
+        turnString += "displayOwner:"+Owner+"false"+";";
+        updateGui();
+    }
+
 
     public String getChoice (String msg, Boolean list, String... buttons){
         return game.getChoice(msg, list, buttons);

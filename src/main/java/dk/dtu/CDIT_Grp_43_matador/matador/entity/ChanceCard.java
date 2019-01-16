@@ -22,7 +22,6 @@ public class ChanceCard {
 	}
 	
 	public boolean useCard(Player p) {
-		System.out.println(printCard(p));
 		//printCard(p);
 		for (CardEffect cardEffect : cardEffects) {
 			if (!cardEffect.useEffect(p))
@@ -47,14 +46,17 @@ public class ChanceCard {
     	cardDeck.returnCardToDeck(this);
     }
 	
-	private String printCard(Player p) {
-		String result = p + " used a card with the effect ";
+	public String printCard() {
+		/*
+		System.out.println("card string");
+		String result = p.getName() + " used a card with the effect ";
 		if (cardEffects.length > 1)
 			result += "s";
 		result += "\n";
 		for (CardEffect cardEffect : cardEffects)
 			result += cardEffect.print(p) + " which is " + cardEffect.getClass().getName();
-
 		return result;
+		*/
+		return "Card did something";
 	}
 }
