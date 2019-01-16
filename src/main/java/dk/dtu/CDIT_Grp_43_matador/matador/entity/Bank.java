@@ -9,15 +9,17 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 public class Bank {
 
     private static final Bank INSTANCE = new Bank();
-
+    private Logic logic;
     private Bank() {}
 
     public static Bank getInstance() {
         return INSTANCE;
     }
 
-    private Logic logic = Logic.getINSTANCE();
 
+    public void initBank(){
+       logic = Logic.getINSTANCE();
+    }
     private int housesInGame = 32;
     private int hotelsInGame = 12;
 
@@ -53,13 +55,13 @@ public class Bank {
                     } else {
                         bidString += "Du har budt for lavt. Byd mindst " + (highestBid + 1);
                     }
-
-                } else {
-                    playersBidding--;
-                    players[currentPlayerBidding].setInAuction(false);
                 }
-                currentPlayerBidding = currentPlayerBidding % players.length;
+            }else {
+                players[currentPlayerBidding].setInAuction(false);
+                currentPlayerBidding++;
             }
+            currentPlayerBidding = currentPlayerBidding % playersBidding;
+            System.out.println(currentPlayerBidding);
         }
         workingTile.setOwner(players[highestBidPlayer]);
     }

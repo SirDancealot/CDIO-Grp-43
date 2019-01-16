@@ -14,7 +14,7 @@ public class Logic {
     private static Logic INSTANCE = new Logic();
     private final int TURNLIMIT = 500;
 
-    private Bank bank = Bank.getInstance();
+    private Bank bank;
     private GameController game;
     private Player[] players;
     private DiceCup diceCup;
@@ -47,7 +47,8 @@ public class Logic {
         board = GameBoard.getInstance();
         endOfGame = false;
         game = GameController.getInstance();
-
+        bank = Bank.getInstance();
+        bank.initBank();
         deadPlayers = new int[players.length];
 
         for(int i = 0; i < deadPlayers.length; i++){
@@ -516,7 +517,13 @@ public class Logic {
     }
 
     public void displayMessage (String msg){
-        game.displayMessage(msg);
+        /*
+        turnStringGenerator("resetMessage");
+        addToTurnMessage(msg);
+        turnStringGenerator("turnMessage");
+        updateGui();
+        */
+        System.out.println("display in gui");
     }
 
     public String getChoice (String msg, Boolean list, String... buttons){
