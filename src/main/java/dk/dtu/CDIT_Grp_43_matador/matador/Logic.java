@@ -274,15 +274,14 @@ public class Logic {
         }
 
         String[] upgradeableNames = new String[upgradeableProperties];
+        int namesFound = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            int j = 0;
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
-                upgradeableNames[j] = tile.getTileName();
-                j++;
+                upgradeableNames[namesFound++] = tile.getTileName();
             }
         }
-        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", false, upgradeableNames);
+        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", true, upgradeableNames);
         bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
     }
 
