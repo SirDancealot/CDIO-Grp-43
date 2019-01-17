@@ -112,19 +112,22 @@ public class Logic {
         switch (choice) {
             case "Rul":
                 diceCup.roll();
-                for(int i = 0 ; i < diceCup.getDiceIntValues() ; i++){
-                    board.getGameTiles()[(players[currPlayerIndex].getCurrPos()+i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
+                    board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                }
+
+                if(players[currPlayerIndex].isInJail()){
+                    maxJailTime();
                 }
 
                 if(diceCup.ThreeSame()){
                     players[currPlayerIndex].setInJail(true);
-                    players[currPlayerIndex].moveTo("jail");
+                    players[currPlayerIndex].moveTo("Jail");
                     rolled = true;
-                } else if(diceCup.isSame()) {
+                } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
                     players[currPlayerIndex].setInJail(false);
                     players[currPlayerIndex].move(diceCup.getDiceIntValues());
-
-                } else if (!players[currPlayerIndex].isInJail()) {
+                } else if(!players[currPlayerIndex].isInJail()) {
                     players[currPlayerIndex].move(diceCup.getDiceIntValues());
                     rolled = true;
                 }
@@ -510,6 +513,20 @@ public class Logic {
         updateGui();
     }
 
+    public boolean maxJailTime(){
+
+        if (diceCup.isSame())
+            players[currPlayerIndex].setMaxJailRolls(0);
+         else
+             players[currPlayerIndex].setMaxJailRolls(+1);
+
+        if (players[currPlayerIndex].getMaxJailRolls() == 3){
+            players[currPlayerIndex].setInJail(false);
+            ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
+            players[currPlayerIndex].setMaxJailRolls(0);
+        }
+        return false;
+    }
 
     public String getChoice (String msg, Boolean list, String... buttons){
         return game.getChoice(msg, list, buttons);
@@ -540,4 +557,5 @@ public class Logic {
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
     }
+
 }

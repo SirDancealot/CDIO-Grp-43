@@ -24,6 +24,7 @@ public class Player {
 	private boolean stillInGame = true;
 	private boolean inAuction = false;
 	private boolean payDouble = false;
+	private int maxJailRolls = 0;
 
 	/**
 	 * @param name the name this player has.
@@ -237,9 +238,18 @@ public class Player {
 		return cardMove;
 	}
 
+    public int getMaxJailRolls(){
+        return maxJailRolls;
+    }
+
 	public void setCardMove(int cardMove) {
 		this.cardMove = cardMove;
 	}
+	public void setMaxJailRolls(int maxRoll){
+
+	    maxRoll = maxJailRolls;
+
+    }
 
 	public boolean isStillInGame() {
 		return stillInGame;
