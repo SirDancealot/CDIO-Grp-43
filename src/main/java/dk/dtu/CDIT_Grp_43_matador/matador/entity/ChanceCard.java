@@ -46,17 +46,10 @@ public class ChanceCard {
     	cardDeck.returnCardToDeck(this);
     }
 	
-	public String printCard() {
-		/*
-		System.out.println("card string");
-		String result = p.getName() + " used a card with the effect ";
-		if (cardEffects.length > 1)
-			result += "s";
-		result += "\n";
+	public String printCard(Player p) {
+		String result = "";
 		for (CardEffect cardEffect : cardEffects)
-			result += cardEffect.print(p) + " which is " + cardEffect.getClass().getName();
+			result += cardEffect.print(p);
 		return result;
-		*/
-		return "Card did something";
 	}
 }

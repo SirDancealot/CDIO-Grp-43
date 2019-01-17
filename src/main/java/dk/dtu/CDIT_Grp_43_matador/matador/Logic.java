@@ -34,6 +34,8 @@ public class Logic {
     private String turnMessage = "";
     private int currentMortgageProperty;
     private int currentOnMortgageProperty;
+    private int currentTileUpgrade;
+    private int currentTileLevel;
 
     // Turn base variables
 
@@ -132,11 +134,6 @@ public class Logic {
                     rolled = true;
                 }
 
-                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()).equals("Chance")){
-                    turnStringGenerator("chanceCardMessage");
-                    updateGui();
-                    System.out.println("on chanceCard");
-                }
 
                 if(diceCup.isSame()){
                     rolled = false;
@@ -148,6 +145,13 @@ public class Logic {
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
                 updateGui();
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+
+                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()).equals("Chance")){
+                    turnStringGenerator("chanceCardMessage");
+                    updateGui();
+                    System.out.println("on chanceCard");
+                }
+
                 break;
 
             case "Betal for at komme ud":
@@ -244,6 +248,10 @@ public class Logic {
         }
         String chosenUpgrade = getChoice("Hvor vil sætte et hus?", true, upgradeableNames);
         bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
+        currentTileUpgrade = board.getTileByName(chosenUpgrade).getTileIndex();
+        currentTileLevel = ((Property)board.getTileByName(chosenUpgrade)).getHouseLevel();
+        turnStringGenerator("setHouseLevel");
+        updateGui();
     }
 
     private boolean canBuyHouse(){
@@ -279,6 +287,10 @@ public class Logic {
         }
         String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
         bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
+        currentTileUpgrade = board.getTileByName(chosenDowngrade).getTileIndex();
+        currentTileLevel = ((Property)board.getTileByName(chosenDowngrade)).getHouseLevel();
+        turnStringGenerator("setHouseLevel");
+        updateGui();
     }
 
     private boolean canSellHouse(){
@@ -378,8 +390,6 @@ public class Logic {
         currentOnMortgageProperty = board.getTileByName(chosenUnPawn).getTileIndex();
         turnStringGenerator( "onMortgage");
         updateGui();
-
-
     }
 
     private boolean canUnPawn(){
@@ -430,8 +440,6 @@ public class Logic {
         }
     }
 
-    //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
-
     public void turnStringGenerator(String... options){
 
         for(int i = 0; i < options.length; i++){
@@ -459,8 +467,7 @@ public class Logic {
                     turnString += "movePlayer:"+move+";";
                     break;
                 case "setHouseLevel":
-                    String setHouseLevel = "";
-                    //(int currentPlayer, int tile, int numberOfHouses)
+                    String setHouseLevel = currPlayerIndex+","+currentTileUpgrade+","+currentTileLevel;
                     turnString += "setHouseLevel:"+setHouseLevel+";";
                     break;
                 case "turnMessage":
@@ -471,8 +478,7 @@ public class Logic {
                     break;
                 case "chanceCardMessage":
                     deck = ChanceCardDeck.getInstance();
-                    // String chanceCardMessage = deck.getCurrCard().printCard();
-                    String chanceCardMessage = "fuck mig";
+                    String chanceCardMessage = deck.getCurrCard().printCard(players[currPlayerIndex]);
                     turnString += "chanceCardMessage:"+chanceCardMessage+";";
                     break;
                 case "mortgage":
