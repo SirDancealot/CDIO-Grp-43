@@ -3,9 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
@@ -125,6 +123,7 @@ public class Logic {
                 }
 
                 if(diceCup.ThreeSame()){
+                    displayMessage("Slog 3 ens, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     turnStringGenerator("resetMessage");
@@ -242,7 +241,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned()) {
-                upgradeableProperties++;
+                boolean accaptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                        accaptableBuilding = false;
+                }
+                if (accaptableBuilding)
+                    upgradeableProperties++;
             }
         }
 
@@ -251,7 +256,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
-                upgradeableNames[namesFound++] = tile.getTileName();
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    upgradeableNames[namesFound++] = tile.getTileName();
             }
         }
         String chosenUpgrade = getChoice("Hvor vil sætte et hus?", true, upgradeableNames);
@@ -278,7 +289,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
-                downgradeableProperties++;
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableProperties++;
             }
         }
 
@@ -287,7 +304,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
-                downgradeableNames[i++] = tile.getTileName();
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableNames[i++] = tile.getTileName();
             }
         }
         String chosenDowngrade = getChoice("Hvor vil sætte et hus?", true, downgradeableNames);
@@ -530,7 +553,7 @@ public class Logic {
         turnMessage += information;
     }
 
-    public void displayMessageFromBank (String msg){
+    public void displayMessage(String msg){
         turnStringGenerator("resetMessage");
         addToTurnMessage(msg);
         turnStringGenerator("turnMessage");
