@@ -100,7 +100,7 @@ public class Player {
 		}
 		return true;
 	}
-	
+
 	public int playerFortune() {
 		int ppf = 0;
 		for (Tile tile : ownedTiles)
