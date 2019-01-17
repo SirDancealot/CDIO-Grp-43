@@ -40,9 +40,7 @@ class MovePlayerEffectsTest {
         movePlayerTo.useEffect(p);
         assertTrue(p.getCurrPos() == 6);
         MovePlayerToEffect movePlayerTo1 = new MovePlayerToEffect("Valby Langgade");
-        movePlayerTo.useEffect(p);
-
-
+        movePlayerTo1.useEffect(p);
         assertTrue(p.getCurrPos() == 8);
     }
 }

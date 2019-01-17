@@ -9,7 +9,7 @@ import java.util.Queue;
 public class ChanceCardDeck {
 	private Queue<ChanceCard> cards;
     private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
-
+    private ChanceCard currCard;
     /**
      * Sets up the deck of chance cards.
      */
@@ -27,6 +27,7 @@ public class ChanceCardDeck {
      */
     public ChanceCard nextCard() {
         ChanceCard card = cards.poll();
+        currCard = card;
         return card;
     }
 
@@ -49,4 +50,8 @@ public class ChanceCardDeck {
     public static ChanceCardDeck getInstance() {
 		return INSTANCE;
 	}
+
+    public ChanceCard getCurrCard() {
+        return currCard;
+    }
 }

@@ -9,15 +9,17 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 public class Bank {
 
     private static final Bank INSTANCE = new Bank();
-
+    private Logic logic;
     private Bank() {}
 
     public static Bank getInstance() {
         return INSTANCE;
     }
 
-    private Logic logic = Logic.getINSTANCE();
 
+    public void initBank(){
+       logic = Logic.getINSTANCE();
+    }
     private int housesInGame = 32;
     private int hotelsInGame = 12;
 
@@ -29,8 +31,6 @@ public class Bank {
             workingTile = (Ownable)auctionTile;
         else
             return;
-
-
         for (Player player : players) {
             player.setInAuction(true);
         }
@@ -39,8 +39,10 @@ public class Bank {
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
+        logic.displayMessageFromBank("Auktion om " + workingTile.getTileName() + " er gået i gang");
         String bidString = "";
+
+
         while (playersBidding > 1) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
@@ -55,15 +57,19 @@ public class Bank {
                     } else {
                         bidString += "Du har budt for lavt. Byd mindst " + (highestBid + 1);
                     }
-
                 } else {
-                    playersBidding--;
                     players[currentPlayerBidding].setInAuction(false);
+                    playersBidding--;
+                    currentPlayerBidding++;
                 }
-                currentPlayerBidding = currentPlayerBidding % players.length;
+            }else {
+                currentPlayerBidding++;
             }
+            currentPlayerBidding = currentPlayerBidding % players.length;
         }
         workingTile.setOwner(players[highestBidPlayer]);
+        players[highestBidPlayer].addMoney(-highestBid);
+        logic.setOwnerAfterAuktion(highestBidPlayer, workingTile);
     }
 
     public boolean upgradeGround(Player p, Tile tile) {
