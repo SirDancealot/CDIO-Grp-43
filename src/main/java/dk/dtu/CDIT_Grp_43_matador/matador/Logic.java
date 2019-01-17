@@ -149,7 +149,11 @@ public class Logic {
                     System.out.println("on chanceCard");
                 }
 
-                rolled = true;
+                if(diceCup.isSame()){
+                    rolled = false;
+                } else {
+                    rolled = true;
+                }
 
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
@@ -405,7 +409,7 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
             if(tile instanceof Ownable)
-                if (((Property) tile).isPawned()) {
+                if (((Ownable) tile).isPawned()) {
                     unPawnableNames[foundNames++] = tile.getTileName();
                 }
         }
