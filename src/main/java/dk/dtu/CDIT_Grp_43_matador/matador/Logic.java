@@ -24,6 +24,7 @@ public class Logic {
     private boolean endOfGame = false;
     private boolean rolled = false;
     private boolean checkForDeadPlayers;
+    boolean turnEnded;
     private int turns = 0;
     private int currPlayerIndex = 0;
     private int[] deadPlayers;
@@ -65,9 +66,13 @@ public class Logic {
      */
 
     public void tick() {
-
-        while (!rolled) {
-            String[] options = {"Rul"};
+        turnEnded = false;
+        while (!turnEnded) {
+            String[] options;
+            if (!rolled)
+                options = new String[] {"Rul"};
+            else
+                options = new String[] {"Slut tur"};
 
             if (players[currPlayerIndex].isInJail()) {
 
@@ -89,39 +94,19 @@ public class Logic {
             if(canUnPawn()){
                 options = expandArray(options, "Ophæv pantsætning");
             }
-
-            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
-            beforeRoll(choice);
-        }
-
-        while (rolled) {
-
-            String[] options = {"Slut tur"};
-
-            if(canBuyHouse()){
-                options = expandArray(options, "Køb hus(e)");
-            }
-            if(canSellHouse()){
-                options = expandArray(options, "Sælg hus(e)");
-            }
-            if(canPawn()){
-                options = expandArray(options, "Pantsæt");
-            }
-            if(canUnPawn()){
-                options = expandArray(options, "Ophæv pantsætning");
-            }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
                 if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
                     options = new String[] {"Køb", "Sæt på auktion"};
             }
+
             turnStringGenerator("updateScore");
             updateGui();
-            String choice = getChoice(players[currPlayerIndex].getName()+" hvad vil du nu?", false, options);
-            afterRoll(choice);
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
+            turnChoice(choice);
         }
     }
 
-    private void beforeRoll(String choice ) {
+    private void turnChoice(String choice ) {
 
         switch (choice) {
             case "Rul":
@@ -194,36 +179,6 @@ public class Logic {
                 turnStringGenerator("updateScore");
                 updateGui();
                 break;
-        }
-    }
-
-    private void afterRoll(String choice){
-
-        switch (choice){
-            case "Sælg hus(e)":
-                sellHouse();
-                turnStringGenerator("updateScore");
-                updateGui();
-                break;
-
-            case "Køb hus(e)":
-                buyHouse();
-                turnStringGenerator("updateScore");
-                updateGui();
-                break;
-
-            case "Pantsæt":
-                pawn();
-                turnStringGenerator("updateScore","mortgage");
-                updateGui();
-                break;
-
-            case "Ophæv pantsætning":
-                unPawn();
-                turnStringGenerator("updateScore","displayOwner");
-                updateGui();
-                break;
-
             case "Køb":
                 if(players[currPlayerIndex].getScore() >= board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue()) {
                     ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
@@ -231,13 +186,12 @@ public class Logic {
                     updateGui();
                     break;
                 } else {
-                  turnStringGenerator("resetMessage");
-                  addToTurnMessage("Du har ikke penge nok og må putte ejendommen på auktion");
-                  turnStringGenerator("turnMessage");
-                  updateGui();
-                  break;
+                    turnStringGenerator("resetMessage");
+                    addToTurnMessage("Du har ikke penge nok og må putte ejendommen på auktion");
+                    turnStringGenerator("turnMessage");
+                    updateGui();
+                    break;
                 }
-
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
                 System.out.println("Auktion compleat");
@@ -246,11 +200,14 @@ public class Logic {
                 break;
             case "Slut tur":
                 endTurn();
+                turnEnded = true;
                 turnStringGenerator("updateScore","resetMessage");
                 updateGui();
                 break;
+
         }
     }
+
 
     public String[] expandArray(String[] startArray ,String... expandArray){
         String[] allOptions = new String[startArray.length + expandArray.length];
