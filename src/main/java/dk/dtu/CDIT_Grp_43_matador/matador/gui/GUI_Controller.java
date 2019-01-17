@@ -320,8 +320,8 @@ public class GUI_Controller {
    	    return gui.getUserString(msg);
     }
 
-    public int getUserInt (String msg) {
-   	    return gui.getUserInteger(msg);
+    public int getUserInt (String msg, int min ,int max) {
+   	    return gui.getUserInteger(msg, min, max);
     }
 
     public GUI_Player[] getAllPlayer() {

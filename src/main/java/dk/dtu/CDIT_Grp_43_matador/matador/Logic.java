@@ -539,8 +539,8 @@ public class Logic {
         return game.getChoice(msg, list, buttons);
     }
 
-    public int getUserInt (String msg) {
-        return game.getUserInt(msg);
+    public int getUserInt (String msg,int min, int max) {
+        return game.getUserInt(msg, min, max);
     }
 
     public void updateGui(){
