@@ -3,6 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 import java.util.ArrayList;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 
 public abstract class Ownable extends Tile {
     protected Player owner = null;
@@ -69,6 +70,13 @@ public abstract class Ownable extends Tile {
 
     public boolean tileSetowned(){
         return tilesInSetOwned() == tilesInSet;
+    }
+
+    public int getTotalTileValue() {
+        int totalValue = tileValue / 2;
+        if (this instanceof Property)
+            totalValue += ((Property) this).getHouseLevel() * ((Property) this).getHousePrice() / 2;
+        return totalValue;
     }
 
     /**
