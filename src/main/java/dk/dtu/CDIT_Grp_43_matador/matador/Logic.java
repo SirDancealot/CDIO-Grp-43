@@ -235,7 +235,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned()) {
-                upgradeableProperties++;
+                boolean accaptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                        accaptableBuilding = false;
+                }
+                if (accaptableBuilding)
+                    upgradeableProperties++;
             }
         }
 
@@ -244,7 +250,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
-                upgradeableNames[namesFound++] = tile.getTileName();
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    upgradeableNames[namesFound++] = tile.getTileName();
             }
         }
         String chosenUpgrade = getChoice("Hvor vil sætte et hus?", true, upgradeableNames);
@@ -271,7 +283,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
-                downgradeableProperties++;
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableProperties++;
             }
         }
 
@@ -280,7 +298,13 @@ public class Logic {
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
-                downgradeableNames[i++] = tile.getTileName();
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableNames[i++] = tile.getTileName();
             }
         }
         String chosenDowngrade = getChoice("Hvor vil sætte et hus?", true, downgradeableNames);
