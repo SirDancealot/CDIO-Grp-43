@@ -48,9 +48,9 @@ public class GUI_Controller {
         // Add player names
         names = new String[numberOfPlayers];
         for(int i = 0; i < names.length; i++){
-            names[i] = gui.getUserString("Tilføj spiller "+Integer.toString(i+1)+"´s navn");
+            names[i] = gui.getUserString("Tilføj spiller " + (i+1) + "´s navn");
             if(names[i].isEmpty()){
-                names[i] = "Spiller "+Integer.toString(i+1);
+                names[i] = "Spiller " + (i+1);
             }
         }
     }
