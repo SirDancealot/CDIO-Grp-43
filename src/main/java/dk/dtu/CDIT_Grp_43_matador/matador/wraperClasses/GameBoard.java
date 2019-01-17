@@ -96,9 +96,11 @@ public class GameBoard {
 		}
 		int tilesFound = 0;
 		for (Tile tile : gameTiles) {
-			if (tile.getSisterTag().equals(setTag)) {
-				tileSet[tilesFound] = tile;
-				tilesFound++;
+			if (tile instanceof Ownable) {
+				if (tile.getSisterTag().equals(setTag)) {
+					tileSet[tilesFound] = tile;
+					tilesFound++;
+				}
 			}
 		}
 		return tileSet;
