@@ -524,7 +524,7 @@ public class Logic {
         if (diceCup.isSame())
             players[currPlayerIndex].setMaxJailRolls(0);
          else
-             players[currPlayerIndex].setMaxJailRolls(+1);
+             players[currPlayerIndex].addMaxJailRolls(1);
 
         if (players[currPlayerIndex].getMaxJailRolls() == 3){
             players[currPlayerIndex].setInJail(false);

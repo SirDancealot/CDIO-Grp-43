@@ -87,16 +87,20 @@ public class GameBoard {
 	public Tile[] getTileBySet(String setTag) {
 		Tile[] tileSet = new Tile[0];
 		for (Tile tile : gameTiles) {
-			if (tile.getSisterTag().equals(setTag)) {
-				tileSet = new Tile[((Ownable)tile).getTilesInSet()];
-				break;
+			if (tile instanceof Ownable) {
+				if (tile.getSisterTag().equals(setTag)) {
+					tileSet = new Tile[((Ownable)tile).getTilesInSet()];
+					break;
+				}
 			}
 		}
 		int tilesFound = 0;
 		for (Tile tile : gameTiles) {
-			if (tile.getSisterTag().equals(setTag)) {
-				tileSet[tilesFound] = tile;
-				tilesFound++;
+			if (tile instanceof Ownable) {
+				if (tile.getSisterTag().equals(setTag)) {
+					tileSet[tilesFound] = tile;
+					tilesFound++;
+				}
 			}
 		}
 		return tileSet;
