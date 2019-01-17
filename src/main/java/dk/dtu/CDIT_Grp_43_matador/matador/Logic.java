@@ -146,6 +146,13 @@ public class Logic {
                 }
 
                 rolled = true;
+
+                for(int i = 0 ; i < diceCup.getDiceIntValues() ; i++){
+
+                    board.getGameTiles()[(players[currPlayerIndex].getCurrPos()+i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+
+                }
+
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
@@ -454,8 +461,6 @@ public class Logic {
         }
     }
 
-    // String creater
-
     //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
 
     public void turnStringGenerator(String... options){
@@ -498,7 +503,7 @@ public class Logic {
                 case "chanceCardMessage":
                     deck = ChanceCardDeck.getInstance();
                     // String chanceCardMessage = deck.getCurrCard().printCard();
-                    String chanceCardMessage = "fuck mig"; 
+                    String chanceCardMessage = "fuck mig";
                     turnString += "chanceCardMessage:"+chanceCardMessage+";";
 
                     break;
