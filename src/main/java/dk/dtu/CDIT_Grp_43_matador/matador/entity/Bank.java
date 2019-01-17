@@ -43,7 +43,7 @@ public class Bank {
         String bidString = "";
 
 
-        while (playersBidding > 1) {
+        while (playersBidding > 1 || (playersBidding > 0 && highestBid == -1)) {
             if (players[currentPlayerBidding].isInAuction()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
                 String choice = logic.getChoice(bidString,false, options);
@@ -67,6 +67,8 @@ public class Bank {
             }
             currentPlayerBidding = currentPlayerBidding % players.length;
         }
+        if (highestBidPlayer < 0)
+            return;
         workingTile.setOwner(players[highestBidPlayer]);
         players[highestBidPlayer].addMoney(-highestBid);
         players[highestBidPlayer].addOwnedTile(workingTile);
