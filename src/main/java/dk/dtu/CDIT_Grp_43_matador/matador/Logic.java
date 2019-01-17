@@ -146,7 +146,7 @@ public class Logic {
                 updateGui();
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
 
-                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove()].getType()).equals("Chance")){
+                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[(players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove() + board.getBoardSize()) % board.getBoardSize()].getType()).equals("Chance")){
                     turnStringGenerator("chanceCardMessage");
                     updateGui();
                     System.out.println("on chanceCard");
@@ -232,6 +232,8 @@ public class Logic {
     private void buyHouse(){
         int upgradeableProperties = 0;
 
+
+
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned()) {
                 upgradeableProperties++;
@@ -275,14 +277,11 @@ public class Logic {
         }
 
         String[] downgradeableNames = new String[downgradeableProperties];
+        int i = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-
-            int i = 0;
-
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
-                downgradeableNames[i] = tile.getTileName();
-                i++;
+                downgradeableNames[i++] = tile.getTileName();
             }
         }
         String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
