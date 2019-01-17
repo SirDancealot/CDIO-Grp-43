@@ -245,11 +245,16 @@ public class Player {
 	public void setCardMove(int cardMove) {
 		this.cardMove = cardMove;
 	}
-	public void setMaxJailRolls(int maxRoll){
 
-	    maxRoll = maxJailRolls;
+	public void setMaxJailRolls(int maxJailRolls) {
+		this.maxJailRolls = maxJailRolls;
+	}
 
-    }
+	public void addMaxJailRolls(int maxRoll){
+
+		maxJailRolls += maxRoll;
+
+	}
 
 	public boolean isStillInGame() {
 		return stillInGame;
