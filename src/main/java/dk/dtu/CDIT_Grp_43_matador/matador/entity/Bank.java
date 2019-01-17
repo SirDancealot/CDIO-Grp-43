@@ -69,6 +69,7 @@ public class Bank {
         }
         workingTile.setOwner(players[highestBidPlayer]);
         players[highestBidPlayer].addMoney(-highestBid);
+        players[highestBidPlayer].addOwnedTile(workingTile);
         logic.setOwnerAfterAuktion(highestBidPlayer, workingTile);
     }
 

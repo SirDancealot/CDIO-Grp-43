@@ -126,6 +126,10 @@ public class Logic {
         switch (choice) {
             case "Rul":
                 diceCup.roll();
+                for(int i = 0 ; i < diceCup.getDiceIntValues() ; i++){
+                    board.getGameTiles()[(players[currPlayerIndex].getCurrPos()+i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                }
+
                 if(diceCup.ThreeSame()){
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("jail");
@@ -146,10 +150,11 @@ public class Logic {
                 }
 
                 rolled = true;
-                board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
                 turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
                 updateGui();
+                board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 break;
 
             case "Betal for at komme ud":
@@ -333,30 +338,32 @@ public class Logic {
     private void pawn(){
 
         int pawnable = 0;
-
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-            if(tile instanceof Property)
-                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned())
-                    pawnable++;
-                else if (tile instanceof Ownable && !(tile instanceof Property))
-                    pawnable++;
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).getHouseLevel() == 0)
+                            pawnable++;
+                    } else {
+                        pawnable++;
+                    }
+                }
+            }
         }
 
         String[] pawnableNames = new String[pawnable];
-
+        int foudNames = 0;
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-            int i = 0;
-
-            if(tile instanceof Property)
-
-                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()) {
-                    pawnableNames[i] = tile.getTileName();
-                    i++;
-                } else if (tile instanceof Ownable && !((Ownable)tile).isPawned()) {
-                    pawnableNames[i] = tile.getTileName();
-                    i++;
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).getHouseLevel() == 0)
+                            pawnableNames[foudNames++] = tile.getTileName();
+                    } else {
+                        pawnableNames[foudNames++] = tile.getTileName();
+                    }
                 }
+            }
         }
 
         String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",true, pawnableNames);
@@ -367,13 +374,16 @@ public class Logic {
     }
 
     private boolean canPawn(){
-
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-            if(tile instanceof Property)
-                if (((Property)tile).getHouseLevel()==0 && !((Property) tile).isPawned()){
-                    return true;
-                } else if (tile instanceof Ownable && !(tile instanceof Property)) {
-                    return true;
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).getHouseLevel() == 0)
+                            return true;
+                    } else {
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -383,24 +393,20 @@ public class Logic {
         int unPawnable = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-            if(tile instanceof Property)
-                if (((Property) tile).isPawned())
+            if (tile instanceof Ownable) {
+                if (((Ownable) tile).isPawned()) {
                     unPawnable++;
-                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
-                    unPawnable++;
+                }
+            }
         }
 
         String[] unPawnableNames = new String[unPawnable];
+        int foundNames = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-
-            int i = 0;
-
             if(tile instanceof Property)
-
                 if (((Property) tile).isPawned()) {
-                    unPawnableNames[i] = tile.getTileName();
-                    i++;
+                    unPawnableNames[foundNames++] = tile.getTileName();
                 }
         }
         String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",true, unPawnableNames);
@@ -410,10 +416,8 @@ public class Logic {
     private boolean canUnPawn(){
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-            if(tile instanceof Property)
-                if (((Property) tile).isPawned())
-                    return true;
-                else if (tile instanceof Ownable && ((Ownable)tile).isPawned())
+            if(tile instanceof Ownable)
+                if (((Ownable) tile).isPawned())
                     return true;
         }
         return false;
@@ -453,8 +457,6 @@ public class Logic {
             endOfGame = true;
         }
     }
-
-    // String creater
 
     //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
 
@@ -498,7 +500,7 @@ public class Logic {
                 case "chanceCardMessage":
                     deck = ChanceCardDeck.getInstance();
                     // String chanceCardMessage = deck.getCurrCard().printCard();
-                    String chanceCardMessage = "fuck mig"; 
+                    String chanceCardMessage = "fuck mig";
                     turnString += "chanceCardMessage:"+chanceCardMessage+";";
 
                     break;
