@@ -106,8 +106,8 @@ public class GUI_Controller {
                         displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
                         break;
                     case "setHouseLevel":
-                        String[] setHouse = thisInfo[1].split(",");
-                        setHouse(Integer.parseInt(setHouse[0]),Integer.parseInt(setHouse[1]), checkForBoolean(setHouse[2]),Integer.parseInt(setHouse[3]));
+                        String[] houseLevel = thisInfo[1].split(",");
+                        setTileLevel(Integer.parseInt(houseLevel[0]), Integer.parseInt(houseLevel[1]), Integer.parseInt(houseLevel[2]));
                         break;
                     case "turnMessage":
                         String message = thisInfo[1];
@@ -116,6 +116,10 @@ public class GUI_Controller {
                     case "mortgage":
                         String[] mortgage = thisInfo[1].split(",");
                         mortgageProperty(Integer.parseInt(mortgage[0]),Integer.parseInt(mortgage[1]), checkForBoolean(mortgage[2]));
+                        break;
+                    case "onMortgage":
+                        String[] onMortgage = thisInfo[1].split(",");
+                        displayOwner(Integer.parseInt(onMortgage[0]),Integer.parseInt(onMortgage[1]), checkForBoolean(onMortgage[2]));
                         break;
                     case "chanceCardMessage":
                         String chanceCardMessage = thisInfo[1];
@@ -257,11 +261,9 @@ public class GUI_Controller {
     }
 
 
-    // Set house
-
-    public void setHouse(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses){
-        if(!owned){
-            GUI_Field f = gui.getFields()[playerPosition];
+    public void setTileLevel(int currentPlayer, int tile, int numberOfHouses){
+        if(numberOfHouses < 5){
+            GUI_Field f = gui.getFields()[tile];
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
                 if(o instanceof GUI_Street){
@@ -269,14 +271,8 @@ public class GUI_Controller {
                     s.setHouses(numberOfHouses);
                 }
             }
-        }
-    }
-
-    // set Hotel
-
-    public void setHotel(int currentPlayer, int playerPosition, boolean owned, boolean hasHotel){
-        if(!owned){
-            GUI_Field f = gui.getFields()[playerPosition];
+        }else{
+            GUI_Field f = gui.getFields()[tile];
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
                 if(o instanceof GUI_Street){

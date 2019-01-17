@@ -33,6 +33,7 @@ public class Logic {
     private String turnString = "";
     private String turnMessage = "";
     private int currentMortgageProperty;
+    private int currentOnMortgageProperty;
 
     // Turn base variables
 
@@ -371,6 +372,11 @@ public class Logic {
         }
         String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",true, unPawnableNames);
         bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
+        currentOnMortgageProperty = board.getTileByName(chosenUnPawn).getTileIndex();
+        turnStringGenerator( "onMortgage");
+        updateGui();
+
+
     }
 
     private boolean canUnPawn(){
@@ -451,7 +457,7 @@ public class Logic {
                     break;
                 case "setHouseLevel":
                     String setHouseLevel = "";
-                    //(int currentPlayer, int playerPosition, boolean owned, int numberOfHouses)
+                    //(int currentPlayer, int tile, int numberOfHouses)
                     turnString += "setHouseLevel:"+setHouseLevel+";";
                     break;
                 case "turnMessage":
@@ -465,12 +471,15 @@ public class Logic {
                     // String chanceCardMessage = deck.getCurrCard().printCard();
                     String chanceCardMessage = "fuck mig";
                     turnString += "chanceCardMessage:"+chanceCardMessage+";";
-
                     break;
                 case "mortgage":
                     String mortgage = currPlayerIndex+","+ currentMortgageProperty+",";
                     turnString += "mortgage:"+mortgage+"false"+";";
-                    System.out.println("mortgage");
+                    break;
+                case "onMortgage":
+                    String onMortgage = currPlayerIndex+","+ currentOnMortgageProperty+",";
+                    turnString += "onMortgage:"+onMortgage+"false"+";";
+                    System.out.println("onMortgage");
                     break;
                 case "displayOwner":
                     String Owner = currPlayerIndex+","+ players[currPlayerIndex].getCurrPos()+",";
