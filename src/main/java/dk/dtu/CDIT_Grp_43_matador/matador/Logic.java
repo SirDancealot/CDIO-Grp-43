@@ -359,7 +359,7 @@ public class Logic {
                 }
         }
 
-        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",false, pawnableNames);
+        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",true, pawnableNames);
         currentMortgageProperty = board.getTileByName(chosenPawn).getTileIndex();
         bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
         turnStringGenerator( "mortgage");
@@ -403,7 +403,7 @@ public class Logic {
                     i++;
                 }
         }
-        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",false, unPawnableNames);
+        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",true, unPawnableNames);
         bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
     }
 
@@ -537,8 +537,8 @@ public class Logic {
         return game.getChoice(msg, list, buttons);
     }
 
-    public int getUserInt (String msg) {
-        return game.getUserInt(msg);
+    public int getUserInt (String msg,int min, int max) {
+        return game.getUserInt(msg, min, max);
     }
 
     public void updateGui(){

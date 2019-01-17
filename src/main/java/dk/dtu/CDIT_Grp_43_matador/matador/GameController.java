@@ -145,7 +145,7 @@ public class GameController {
 		return bord;
 	}
 
-    public int getUserInt(String msg) {
-		return gui.getUserInt(msg);
+    public int getUserInt(String msg,int min, int max) {
+		return gui.getUserInt(msg ,min, max);
     }
 }
