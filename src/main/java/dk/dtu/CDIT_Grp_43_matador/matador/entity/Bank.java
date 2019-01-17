@@ -44,7 +44,7 @@ public class Bank {
 
 
         while (playersBidding > 1 || (playersBidding > 0 && highestBid == -1)) {
-            if (players[currentPlayerBidding].isInAuction()) {
+            if (players[currentPlayerBidding].isInAuction() && players[currentPlayerBidding].isStillInGame()) {
                 bidString += "Hvad vil du " + players[currentPlayerBidding];
                 String choice = logic.getChoice(bidString,false, options);
                 bidString = "";

@@ -122,6 +122,10 @@ public class GUI_Controller {
                         setChanceCard(chanceCardMessage);
                         displayChanceCard();
                         break;
+                    case "removePlayerFromGame":
+                        String removePlayerFromGame = thisInfo[1];
+                        removePlayerFormGame(Integer.parseInt(removePlayerFromGame));
+                        break;
                 }
         }
     }
@@ -136,6 +140,15 @@ public class GUI_Controller {
             gui.getFields()[0].setCar(allPlayer[i], true);
         }
     }
+
+    // RemovePlayerFromGame
+
+    public void removePlayerFormGame(int romovePlayer){
+        for(int i = 0; i < gui.getFields().length; i++){
+            gui.getFields()[i].setCar(allPlayer[romovePlayer], false);
+        }
+    }
+
 
     /**
      * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)

@@ -20,6 +20,7 @@ public class Player {
 	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
     private Account playerAccount;
 	private boolean nextJailFree = false;
+	private boolean stillInGame = true;
 	private boolean inAuction = false;
 	private boolean payDouble = false;
 
@@ -237,5 +238,13 @@ public class Player {
 
 	public void setCardMove(int cardMove) {
 		this.cardMove = cardMove;
+	}
+
+	public boolean isStillInGame() {
+		return stillInGame;
+	}
+
+	public void setStillInGame(boolean stillInGame) {
+		this.stillInGame = stillInGame;
 	}
 }

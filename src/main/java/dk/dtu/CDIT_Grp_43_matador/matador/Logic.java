@@ -430,6 +430,9 @@ public class Logic {
     private void endTurn(){
         if(players[currPlayerIndex].getScore() < 0){
             deadPlayers[currPlayerIndex] = 1;
+            players[currPlayerIndex].setStillInGame(false);
+            turnStringGenerator("removePlayerFromGame");
+            updateGui();
         }
 
         int deadPlayerCount = 0;
@@ -516,6 +519,10 @@ public class Logic {
                 case "displayOwner":
                     String Owner = currPlayerIndex+","+ players[currPlayerIndex].getCurrPos()+",";
                     turnString += "displayOwner:"+Owner+"false"+";";
+                    break;
+                case "removePlayerFromGame":
+                    String removePlayerFromGame = Integer.toString(currPlayerIndex);
+                    turnString += "removePlayerFromGame:"+removePlayerFromGame+";";
                     break;
             }
         }
