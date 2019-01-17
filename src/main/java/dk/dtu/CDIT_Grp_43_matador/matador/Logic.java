@@ -10,6 +10,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
+import java.util.ArrayList;
+
 public class Logic {
 
     private static Logic INSTANCE = new Logic();
@@ -125,6 +127,10 @@ public class Logic {
                 if(diceCup.ThreeSame()){
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
+                    turnStringGenerator("resetMessage");
+                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 3 ens og blev sendt i fængsels");
+                    turnStringGenerator("turnMessage");
+                    updateGui();
                     rolled = true;
                 } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
                     players[currPlayerIndex].setInJail(false);
@@ -407,6 +413,9 @@ public class Logic {
             players[currPlayerIndex].setStillInGame(false);
             turnStringGenerator("removePlayerFromGame");
             updateGui();
+
+            // Handle a dead player
+            deadPlayer();
         }
 
         int deadPlayerCount = 0;
@@ -438,6 +447,22 @@ public class Logic {
             endOfGame = true;
         }
     }
+
+    public void deadPlayer(){
+            if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+
+                Player newPropertyOwner = board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner();
+                ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
+
+                for(int i = 0; i < deadPlayersTile.size(); i++){
+                    ((Ownable)deadPlayersTile.get(i)).setOwner(newPropertyOwner);
+                    newPropertyOwner.addOwnedTile(deadPlayersTile.get(i));
+                    setNewOwner(newPropertyOwner.getName(), (deadPlayersTile.get(i)));
+                }
+            }
+    }
+
+
 
     public void turnStringGenerator(String... options){
 
@@ -512,11 +537,19 @@ public class Logic {
         updateGui();
     }
 
-    public void setOwnerAfterAuktion (int highestBidPlayer, Tile boughtTile){
-        String Owner = highestBidPlayer+","+ boughtTile.getTileIndex()+",";
+    public void setOwnerAfterAuktion (int player, Tile boughtTile){
+        String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "displayOwner:"+Owner+"false"+";";
         updateGui();
     }
+
+    public void setNewOwner (String player, Tile boughtTile){
+        String Owner = player+","+ boughtTile.getTileIndex()+",";
+        turnString += "setNewOwner:"+Owner+"false"+";";
+        updateGui();
+    }
+
+
 
     public boolean maxJailTime(){
 
