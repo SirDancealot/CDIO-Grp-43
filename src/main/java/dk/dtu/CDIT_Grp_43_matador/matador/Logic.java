@@ -284,7 +284,7 @@ public class Logic {
                 downgradeableNames[i++] = tile.getTileName();
             }
         }
-        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", false, downgradeableNames);
+        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", true, downgradeableNames);
         bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
         currentTileUpgrade = board.getTileByName(chosenDowngrade).getTileIndex();
         currentTileLevel = ((Property)board.getTileByName(chosenDowngrade)).getHouseLevel();
