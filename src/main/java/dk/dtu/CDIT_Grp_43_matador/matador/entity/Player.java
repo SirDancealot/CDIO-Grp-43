@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.util.ArrayList;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
@@ -101,11 +102,11 @@ public class Player {
 		return true;
 	}
 
-	// We need to add value of houses and hotels.
 	public int playerFortune() {
 		int ppf = 0;
 		for (Tile tile : ownedTiles)
-			ppf += tile.getTileValue();
+			if (tile instanceof  Ownable)
+				ppf += ((Ownable)tile).getTotalTileValue();
 		return ppf + getScore();
 	}
 
