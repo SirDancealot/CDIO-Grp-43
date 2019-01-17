@@ -28,11 +28,9 @@ public class Start extends Tile {
 
     @Override
     public boolean landOnTile(Player p) {
-        System.out.println("landed on start");
         boolean status = false;
         wasStartElegible = p.isStartMoneyElegible();
         if (wasStartElegible)
-            System.out.println("and got money");
             status = p.addMoney(overStartBonus);
         p.setStartMoneyElegible(false);
         return super.landOnTile(p);
@@ -46,11 +44,9 @@ public class Start extends Tile {
      */
     @Override
     public boolean passedTile(Player p) {
-        System.out.println("passed start");
         boolean status = false;
         wasStartElegible = p.isStartMoneyElegible();
         if (wasStartElegible)
-            System.out.println("and got money");
             status = p.addMoney(overStartBonus);
         p.setStartMoneyElegible(true);
 
