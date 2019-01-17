@@ -3,9 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
@@ -123,6 +121,7 @@ public class Logic {
                 }
 
                 if(diceCup.ThreeSame()){
+                    displayMessage("Slog 3 ens, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     rolled = true;
@@ -505,7 +504,7 @@ public class Logic {
         turnMessage += information;
     }
 
-    public void displayMessageFromBank (String msg){
+    public void displayMessage(String msg){
         turnStringGenerator("resetMessage");
         addToTurnMessage(msg);
         turnStringGenerator("turnMessage");
