@@ -404,7 +404,7 @@ public class Logic {
         int foundNames = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
-            if(tile instanceof Property)
+            if(tile instanceof Ownable)
                 if (((Property) tile).isPawned()) {
                     unPawnableNames[foundNames++] = tile.getTileName();
                 }
