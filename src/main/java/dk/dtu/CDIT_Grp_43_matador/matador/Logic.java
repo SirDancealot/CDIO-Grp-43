@@ -482,6 +482,16 @@ public class Logic {
                     newPropertyOwner.addOwnedTile(deadPlayersTile.get(i));
                     setNewOwner(newPropertyOwner.getName(), (deadPlayersTile.get(i)));
                 }
+            }else{
+                int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
+                ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
+
+                for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
+                    bank.auctions(players, auktionTiles.get(i));
+                    System.out.println("Auktion compleat");
+                    turnStringGenerator("updateScore");
+                    updateGui();
+                }
             }
     }
 
