@@ -240,7 +240,7 @@ public class Logic {
 
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
                     if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
