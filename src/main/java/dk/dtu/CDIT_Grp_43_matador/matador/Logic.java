@@ -29,15 +29,13 @@ public class Logic {
     private int currPlayerIndex = 0;
     private int[] deadPlayers;
 
-    // Gui display string
+    // Turn base variables
     private String turnString = "";
     private String turnMessage = "";
     private int currentMortgageProperty;
     private int currentOnMortgageProperty;
     private int currentTileUpgrade;
     private int currentTileLevel;
-
-    // Turn base variables
 
     private Logic(){}
 
@@ -107,6 +105,10 @@ public class Logic {
         }
     }
 
+    /**
+     * Turnchoce displays the options the players have each turn
+     */
+
     private void turnChoice(String choice ) {
 
         switch (choice) {
@@ -140,14 +142,11 @@ public class Logic {
                     rolled = true;
                 }
 
-
                 if(diceCup.isSame()){
                     rolled = false;
                 } else {
                     rolled = true;
                 }
-
-
 
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName()+" ");
@@ -158,15 +157,13 @@ public class Logic {
                 }else {
                     turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
                     updateGui();
+                    turnStringGenerator("resetMessage");
                 }
 
                 if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[(players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove() + board.getBoardSize()) % board.getBoardSize()].getType()).equals("Chance")){
                     turnStringGenerator("chanceCardMessage");
                     updateGui();
-                    System.out.println("on chanceCard");
                 }
-
-
                 break;
 
             case "Betal for at komme ud":
@@ -232,22 +229,61 @@ public class Logic {
     }
 
 
-    public String[] expandArray(String[] startArray ,String... expandArray){
-        String[] allOptions = new String[startArray.length + expandArray.length];
+    /**
+     * Endturn funktion
+     */
 
-        for(int i = 0; i < startArray.length;i++ ){
-            allOptions[i] = startArray[i] ;
+
+    private void endTurn(){
+        if(players[currPlayerIndex].getScore() < 0){
+            deadPlayers[currPlayerIndex] = 1;
+            players[currPlayerIndex].setStillInGame(false);
+            turnStringGenerator("removePlayerFromGame");
+            updateGui();
+
+            // Handle a dead player
+            deadPlayer();
         }
-        for(int i = 0; i < expandArray.length;i++ ){
-            allOptions[startArray.length + i] = expandArray[i] ;
+
+        int deadPlayerCount = 0;
+
+        for (int i = 0; i < deadPlayers.length; i++){
+
+            if(deadPlayers[i] == 1){
+                deadPlayerCount++;
+            }
+
+            if(deadPlayerCount == players.length-1){
+                endOfGame = true;
+            }
         }
-        return allOptions;
+
+        currPlayerIndex = ++currPlayerIndex % players.length;
+        checkForDeadPlayers = false;
+        while (!checkForDeadPlayers){
+            if(deadPlayers[currPlayerIndex] != 0){
+                currPlayerIndex = ++currPlayerIndex % players.length;
+            }else{
+                checkForDeadPlayers = true;
+            }
+        }
+        turns++;
+        rolled = false;
+
+        if(turns > TURNLIMIT){
+            endOfGame = true;
+        }
     }
+
+
+
+
+    /**
+     * BuyHouse funktions
+     */
 
     private void buyHouse(){
         int upgradeableProperties = 0;
-
-
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
@@ -349,6 +385,12 @@ public class Logic {
         }
     }
 
+
+
+    /**
+     * Pawn funktions
+     */
+
     private void pawn(){
 
         int pawnable = 0;
@@ -440,46 +482,7 @@ public class Logic {
         return false;
     }
 
-    private void endTurn(){
-        if(players[currPlayerIndex].getScore() < 0){
-            deadPlayers[currPlayerIndex] = 1;
-            players[currPlayerIndex].setStillInGame(false);
-            turnStringGenerator("removePlayerFromGame");
-            updateGui();
-
-            // Handle a dead player
-            deadPlayer();
-        }
-
-        int deadPlayerCount = 0;
-
-        for (int i = 0; i < deadPlayers.length; i++){
-
-            if(deadPlayers[i] == 1){
-                deadPlayerCount++;
-            }
-
-            if(deadPlayerCount == players.length-1){
-                endOfGame = true;
-            }
-        }
-
-        currPlayerIndex = ++currPlayerIndex % players.length;
-        checkForDeadPlayers = false;
-        while (!checkForDeadPlayers){
-            if(deadPlayers[currPlayerIndex] != 0){
-                currPlayerIndex = ++currPlayerIndex % players.length;
-            }else{
-                checkForDeadPlayers = true;
-            }
-        }
-        turns++;
-        rolled = false;
-
-        if(turns > TURNLIMIT){
-            endOfGame = true;
-        }
-    }
+    // Controls what happens when a player dies
 
     public void deadPlayer(){
             if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
@@ -505,6 +508,47 @@ public class Logic {
             }
     }
 
+    // Array funktion
+
+    public String[] expandArray(String[] startArray ,String... expandArray){
+        String[] allOptions = new String[startArray.length + expandArray.length];
+
+        for(int i = 0; i < startArray.length;i++ ){
+            allOptions[i] = startArray[i] ;
+        }
+        for(int i = 0; i < expandArray.length;i++ ){
+            allOptions[startArray.length + i] = expandArray[i] ;
+        }
+        return allOptions;
+    }
+
+    // Max jail Time
+
+
+    public boolean maxJailTime(){
+
+        if (diceCup.isSame())
+            players[currPlayerIndex].setMaxJailRolls(0);
+        else
+            players[currPlayerIndex].addMaxJailRolls(1);
+
+        if (players[currPlayerIndex].getMaxJailRolls() == 3){
+            players[currPlayerIndex].setInJail(false);
+            ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
+            players[currPlayerIndex].setMaxJailRolls(0);
+        }
+        return false;
+    }
+
+
+    /**
+     * Gui funktions
+     */
+
+    public void updateGui(){
+        game.updateDisplay(turnString);
+        turnString = "";
+    }
 
 
     public void turnStringGenerator(String... options){
@@ -594,20 +638,8 @@ public class Logic {
 
 
 
-    public boolean maxJailTime(){
 
-        if (diceCup.isSame())
-            players[currPlayerIndex].setMaxJailRolls(0);
-         else
-             players[currPlayerIndex].addMaxJailRolls(1);
-
-        if (players[currPlayerIndex].getMaxJailRolls() == 3){
-            players[currPlayerIndex].setInJail(false);
-            ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
-            players[currPlayerIndex].setMaxJailRolls(0);
-        }
-        return false;
-    }
+    // Gets userInput from Gui
 
     public String getChoice (String msg, Boolean list, String... buttons){
         return game.getChoice(msg, list, buttons);
@@ -617,10 +649,7 @@ public class Logic {
         return game.getUserInt(msg, min, max);
     }
 
-    public void updateGui(){
-        game.updateDisplay(turnString);
-        turnString = "";
-    }
+    // Getters and setters
 
     public static Logic getINSTANCE () {
         return INSTANCE;
@@ -638,5 +667,4 @@ public class Logic {
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
     }
-
 }

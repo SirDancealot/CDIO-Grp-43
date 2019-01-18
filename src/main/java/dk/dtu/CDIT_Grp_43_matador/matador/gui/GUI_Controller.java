@@ -1,7 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-
-
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import gui_fields.*;
@@ -17,7 +15,6 @@ public class GUI_Controller {
     private int numberOfPlayers = 0;
     private String[] names;
 
-    
     private GUI_Controller() {}
 
     // Start game
@@ -36,6 +33,7 @@ public class GUI_Controller {
         gui = new GUI(gui_fields);
         setChanceCard("Prøv lykken");
     }
+
 
 	/**
 	 * Asks the user for how many will be playing and what their player names will be.
@@ -74,9 +72,6 @@ public class GUI_Controller {
             allPlayer[i] = player;
         }
     }
-    // Remove later
-    //String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
-
 
     // Update GUI
 	/**
@@ -158,6 +153,10 @@ public class GUI_Controller {
 
     // RemovePlayerFromGame
 
+    /**
+     * Removes player from gameboard when he dies
+     */
+
     public void removePlayerFormGame(int romovePlayer){
         for(int i = 0; i < gui.getFields().length; i++){
             gui.getFields()[i].setCar(allPlayer[romovePlayer], false);
@@ -226,14 +225,20 @@ public class GUI_Controller {
     	}
 
 
-    // Set score
+    /**
+     * Sets all players current score
+     */
+
     public void setScore(String[] playerScores){
     	for (int i = 0; i < allPlayer.length; i++) {
 			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
 		}
     }
 
-    // DisplayOwner
+
+    /**
+     * Displays the owner of a given Ownable Tile.
+     */
 
    public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
         if(!owned){
@@ -245,7 +250,10 @@ public class GUI_Controller {
         }
    }
 
-    // mortgageProperty
+    /**
+     * Displays an ownable Tile as pawned
+     */
+
 
     public void mortgageProperty(int currentPlayer, int fieldPosition, boolean owned){
         if(!owned){
@@ -253,24 +261,29 @@ public class GUI_Controller {
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
                 o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), Color.DARK_GRAY);
-                System.out.println("mortgage succes");
             }
         }
     }
 
-
-   // SetChanceCard
+    /**
+     * Sets the next chanceCard in the Gui
+     */
 
     public void setChanceCard(String chanceString){
         gui.setChanceCard(chanceString);
     }
 
-    // DisplayChanceCard
+    /**
+     * Displays the current set chanceCard in the Gui
+     */
 
     public void displayChanceCard(){
         gui.displayChanceCard();
     }
 
+    /**
+     * Displays the current TileLevel of a property as houses or a hotel.
+     */
 
     public void setTileLevel(int currentPlayer, int tile, int numberOfHouses){
         if(numberOfHouses < 5){
@@ -294,7 +307,9 @@ public class GUI_Controller {
         }
     }
 
-    // String to boolean
+    /**
+     * Converts a string with containing true or false to at boolean
+     */
 
     public Boolean checkForBoolean(String state){
         if(state.equals("true")){
@@ -323,7 +338,9 @@ public class GUI_Controller {
        return choice;
    }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
     public static GUI_Controller getINSTANCE() {
         return INSTANCE;
     }
@@ -351,7 +368,6 @@ public class GUI_Controller {
     public void setAllPlayer(GUI_Player[] allPlayer) {
         this.allPlayer = allPlayer;
     }
-
 }
 
 
