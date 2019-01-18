@@ -147,19 +147,25 @@ public class Logic {
                     rolled = true;
                 }
 
+
+
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
 
+                if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
+                    turnStringGenerator("updateScore","displayDies");
+                    updateGui();
+                }else {
                     turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
                     updateGui();
-
-
+                }
 
                 if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[(players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove() + board.getBoardSize()) % board.getBoardSize()].getType()).equals("Chance")){
                     turnStringGenerator("chanceCardMessage");
                     updateGui();
                     System.out.println("on chanceCard");
                 }
+
 
                 break;
 
