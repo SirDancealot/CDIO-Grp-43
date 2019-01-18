@@ -11,7 +11,7 @@ public class MovePlayerToEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		if(moveToTag == "Jail") {
+		if(moveToTag.equals("Jail")) {
 			p.setInJail(true);
 			return  p.moveTo(moveToTag);
 		}
