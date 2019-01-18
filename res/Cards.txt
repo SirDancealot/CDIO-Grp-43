@@ -28,5 +28,5 @@ Card26=kkp:50:125
 Card27=shipMove:Ship
 Card28=matadorLegat:750:2000
 Card29=moveTo:Rådhuspladsen
-Card30=moveTo:GoToJail
+Card30=moveTo:Jail
 Card31=shipMove:Ship
