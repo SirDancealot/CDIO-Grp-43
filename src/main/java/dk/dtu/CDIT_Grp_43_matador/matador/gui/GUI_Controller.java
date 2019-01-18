@@ -134,9 +134,9 @@ public class GUI_Controller {
                         String[] setNewOwner = thisInfo[1].split(",");
                         int playerIndex = 0;
                         for(int j = 0; j < allPlayer.length; j ++){
-                            if((allPlayer[i].getName()).equals(setNewOwner[0])){
+                            if((allPlayer[j].getName()).equals(setNewOwner[0])){
                                 playerIndex = j;
-                                System.out.println(allPlayer[i].getName());
+                                System.out.println(allPlayer[j].getName());
                             }
                         }
                         displayOwner(playerIndex,Integer.parseInt(setNewOwner[1]), checkForBoolean(setNewOwner[2]));
