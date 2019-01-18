@@ -210,7 +210,7 @@ public class Logic {
                 }
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
-                System.out.println("Auktion compleat");
+                System.out.println("Auktion complete");
                 turnStringGenerator("updateScore");
                 updateGui();
                 break;
@@ -246,7 +246,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore())
                         accaptableBuilding = false;
                 }
                 if (accaptableBuilding)
@@ -261,7 +261,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
                 boolean acceptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore())
                         acceptableBuilding = false;
                 }
                 if (acceptableBuilding)
