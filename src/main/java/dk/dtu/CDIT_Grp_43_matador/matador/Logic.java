@@ -114,9 +114,6 @@ public class Logic {
         switch (choice) {
             case "Rul":
                 diceCup.roll();
-                for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
-                    board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
-                }
 
                 if(players[currPlayerIndex].isInJail()){
                     maxJailTime();
@@ -133,8 +130,14 @@ public class Logic {
                     rolled = true;
                 } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
                     players[currPlayerIndex].setInJail(false);
+                    for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
+                        board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                    }
                     players[currPlayerIndex].move(diceCup.getDiceIntValues());
                 } else if(!players[currPlayerIndex].isInJail()) {
+                    for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
+                        board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                    }
                     players[currPlayerIndex].move(diceCup.getDiceIntValues());
                     rolled = true;
                 }
@@ -240,7 +243,7 @@ public class Logic {
 
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
                     if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel())
