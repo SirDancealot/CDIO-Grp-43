@@ -171,16 +171,15 @@ public class Factory {
                     if(thisTileInfo.length == 4){
                         //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
-                        gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
+                        gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]+"<br>"+"Betal 200 kr. el. 10%");
                         gui_fields[i].setSubText("");
                         gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr eller "+thisTileInfo[2].split(":")[1]+" procent af din net worth");
                         gui_fields[i].setBackGroundColor(Color.green);
                         gui_fields[i].setForeGroundColor(Color.black);
                         break;
                     }else{
-                        //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
-                        gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
+                        gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]+"<br>"+"Betal 100 kr.");
                         gui_fields[i].setSubText("");
                         gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr ");
                         gui_fields[i].setBackGroundColor(Color.green);

@@ -60,8 +60,6 @@ public class Logic {
         for(int i = 0; i < deadPlayers.length; i++){
             deadPlayers[i] = 0;
         }
-
-        //turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
     }
 
     /**
@@ -149,10 +147,13 @@ public class Logic {
                     rolled = true;
                 }
 
-                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
-                turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
-                updateGui();
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
+
+                    turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
+                    updateGui();
+
+
 
                 if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[(players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove() + board.getBoardSize()) % board.getBoardSize()].getType()).equals("Chance")){
                     turnStringGenerator("chanceCardMessage");
