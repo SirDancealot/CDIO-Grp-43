@@ -29,7 +29,7 @@ public class FreeParking extends Tile {
 
     @Override
     public String printLandOn(Player p) {
-        String result = p + " landede på grastis parkering, der skete ingenting";
+        String result = p + " landede på grastis parkering, der skete ingenting ";
         return result;
     }
 

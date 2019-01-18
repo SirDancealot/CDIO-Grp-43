@@ -207,7 +207,7 @@ public class Logic {
                 }
             case "Sæt på auktion":
                 bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
-                System.out.println("Auktion compleat");
+                System.out.println("Auktion complete");
                 turnStringGenerator("updateScore");
                 updateGui();
                 break;
