@@ -119,12 +119,13 @@ public class Logic {
                     maxJailTime();
 
                 if(diceCup.ThreeSame()){
-                    displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
+                    turnStringGenerator("displayDies");
+                    updateGui();
                     turnStringGenerator("resetMessage");
                     addToTurnMessage(players[currPlayerIndex].getName()+" slog 2 ens 3 gange i træk og blev sendt i fængsels");
-                    turnStringGenerator("turnMessage");
+                    turnStringGenerator("turnMessage", "teleportPlayer");
                     updateGui();
                     rolled = true;
                 } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
@@ -148,7 +149,9 @@ public class Logic {
                     turnStringGenerator("updateScore","displayDies");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "movePlayer", "displayDies");
+                    turnStringGenerator("displayDies");
+                    updateGui();
+                    turnStringGenerator("updateScore", "movePlayer");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
@@ -194,7 +197,9 @@ public class Logic {
                     turnStringGenerator("updateScore","turnMessage");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "teleportPlayer","turnMessage");
+                    turnStringGenerator("updateScore","turnMessage");
+                    if (players[currPlayerIndex].getRoll() == 0)
+                        turnStringGenerator("teleportPlayer");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
