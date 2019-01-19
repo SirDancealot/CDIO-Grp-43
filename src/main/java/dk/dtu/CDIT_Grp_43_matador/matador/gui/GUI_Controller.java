@@ -188,43 +188,15 @@ public class GUI_Controller {
 	 * @param cardMove the amount of tiles the {@code Player} moved due to drawing {@code ChanceCard}.
 	 */
     public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
-    	for (int i = 0; i < playerRoll; i++) {
-    		gui.getFields()[(playerPositionBeforeRoll+i) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-    		gui.getFields()[(playerPositionBeforeRoll+i+1) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
-    		try {
-    			Thread.sleep(100);
-    		} catch (InterruptedException e) {
-    			e.printStackTrace();
-    		}
-		}
-    	if (cardMove != 0) {
-    	    int cardDir = cardMove / Math.abs(cardMove);
-    		try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-    		for (int i = 0; i < Math.abs(cardMove); i++) {
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+((i+1)*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-    	}
-    	if ((playerPositionBeforeRoll+playerRoll+cardMove) % gui.getFields().length != playerPositionAfterRoll) {
+        int moveDir = playerRoll / Math.abs(playerRoll);
+        for (int i = 0; i < Math.abs(playerRoll); i++) {
+            gui.getFields()[(playerPositionBeforeRoll+i) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[(playerPositionBeforeRoll+i+1) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
             try {
-                Thread.sleep(500);
-            } catch (Exception e) {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            for (int i = 0; i < gui.getFields().length; i++) {
-                gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
-            }
-            gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
     }
 
