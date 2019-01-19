@@ -322,7 +322,7 @@ public class Logic {
     private boolean canBuyHouse(){
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() < 5) {
                 return true;
             }
         }
@@ -434,7 +434,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                return true;
+                        } else
                             return true;
                     } else {
                         return true;
