@@ -7,8 +7,8 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -42,18 +42,24 @@ public class testAfTile {
     }
     @Test
     public void testAfGoToJail(){
+        System.out.println("---- Test af GoToJail ----");
         GameBoard bord = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        TextReader.init();
         try {
             bord.initBoard();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 30);
-        Player p = new Player("testPlayer", 1500);
-        assertFalse(p.isInJail());
-        GoToJailTile.landOnTile(p);
-        assertTrue(p.isInJail());
+        Player[] p = {new Player("Knudbørge", 1500)};
+        logic.init(p);
+
+        Tile goToJailTile = bord.getGameTiles()[30];
+
+        assertFalse(p[0].isInJail());
+        goToJailTile.landOnTile(p[0]);
+        assertTrue(p[0].isInJail());
     }
     @Test
     public void testAfFreeParking(){
