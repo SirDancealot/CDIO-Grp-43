@@ -150,8 +150,10 @@ public class Logic {
 
                 Tile tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
-                if (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()])
+                while (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                    tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                     board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                }
 
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName()+" ");
 
