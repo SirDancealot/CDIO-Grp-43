@@ -121,11 +121,11 @@ public class Logic {
                 }
 
                 if(diceCup.ThreeSame()){
-                    displayMessage("Slog 3 ens, og blev smidt i fængsel");
+                    displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     turnStringGenerator("resetMessage");
-                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 3 ens og blev sendt i fængsels");
+                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 2 ens 3 gange i træk og blev sendt i fængsels");
                     turnStringGenerator("turnMessage");
                     updateGui();
                     rolled = true;
@@ -149,6 +149,7 @@ public class Logic {
                     rolled = true;
                 }
 
+                Tile tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
 
@@ -174,6 +175,10 @@ public class Logic {
                     }
                 }
 
+                if (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()])
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+
+                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName()+" ");
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
                     turnStringGenerator("updateScore","displayDies");
@@ -313,7 +318,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore())
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
                         accaptableBuilding = false;
                 }
                 if (accaptableBuilding)
@@ -328,7 +333,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
                 boolean acceptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore())
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
                         acceptableBuilding = false;
                 }
                 if (acceptableBuilding)
@@ -346,7 +351,7 @@ public class Logic {
     private boolean canBuyHouse(){
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() < 5) {
                 return true;
             }
         }
@@ -422,7 +427,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnable++;
+                        } else
                             pawnable++;
                     } else {
                         pawnable++;
@@ -437,7 +450,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnableNames[foudNames++] = tile.getTileName();
+                        } else
                             pawnableNames[foudNames++] = tile.getTileName();
                     } else {
                         pawnableNames[foudNames++] = tile.getTileName();
@@ -458,7 +479,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                return true;
+                        } else
                             return true;
                     } else {
                         return true;
