@@ -115,9 +115,8 @@ public class Logic {
             case "Rul":
                 diceCup.roll();
 
-                if(players[currPlayerIndex].isInJail()){
+                if(players[currPlayerIndex].isInJail())
                     maxJailTime();
-                }
 
                 if(diceCup.ThreeSame()){
                     displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
@@ -142,7 +141,8 @@ public class Logic {
                     rolled = true;
                 }
 
-                rolled = !diceCup.isSame();
+                if (diceCup.isSame() && !players[currPlayerIndex].isInJail())
+                    rolled = false;
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
                     turnStringGenerator("updateScore","displayDies");
