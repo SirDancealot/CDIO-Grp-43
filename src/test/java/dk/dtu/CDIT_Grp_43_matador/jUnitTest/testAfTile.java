@@ -16,17 +16,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class testAfTile {
-    /*@BeforeEach
-    public void initBoaard() {
-        GameBoard board = GameBoard.getInstance();
-        try{
-            GameController.getInstance().init();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
 
-    }
-*/
     @Test
     public void testAfJail(){
         GameBoard bord = GameBoard.getInstance();
@@ -59,8 +49,8 @@ public class testAfTile {
             e.printStackTrace();
         }
 
-        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 0);
-        Player p = new Player("testPlayer", 20);
+        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 30);
+        Player p = new Player("testPlayer", 1500);
         assertFalse(p.isInJail());
         GoToJailTile.landOnTile(p);
         assertTrue(p.isInJail());
@@ -70,10 +60,12 @@ public class testAfTile {
         FreeParking parkingTile = new FreeParking("", "Tag:FreePark;name:FreeParking", 0);
         Player p = new Player("testPlayer", 20);
         int pos = p.getCurrPos();int score = p.getScore();int TO = p.getOwnedTiles().size();
+        System.out.println("---- Før test position: "+ pos+" score: "+score+" tilesOwned: "+TO+" ----");
 
         parkingTile.landOnTile(p);
 
         int posA = p.getCurrPos();int scoreA = p.getScore();int TOA = p.getOwnedTiles().size();
+        System.out.println("---- Efter test position: "+ posA+" score: "+scoreA+" tilesOwned: "+TOA+" ----");
 
         assertEquals(pos,posA);
         assertEquals(score,scoreA);
@@ -84,8 +76,12 @@ public class testAfTile {
         Property raadhusTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
         Property frederiksbergTile = new Property("Frederiksberggade", "type:Property;Tilevalue:350;sister:brown;setSize:2;housePrice:200", 37, "0:35;1:175;2:500;3:1100;4:1300;5:1500");
 
-        Player p1 = new Player("testPlayer", 10000);
-        Player p2 = new Player("testPlayer", 10000);
+        Player p1 = new Player("testPlayer", 1500);
+        Player p2 = new Player("testPlayer", 1500);
+        System.out.println("---- testAfProperty ----");
+        System.out.println("---- p1 tiles owned før test:" + " " +p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score før test"+ " "+p1.getScore()+ " "+ "----");
+        System.out.println("---- p2 score før test "+ p2.getScore()+ " ----");
         int score = p1.getScore();
         int TO = p1.getOwnedTiles().size();
         assertTrue(TO==0);
@@ -93,17 +89,30 @@ public class testAfTile {
         raadhusTile.buyTile(p1);
         frederiksbergTile.buyTile(p1);
 
+        p1.setMoney(1500);
         raadhusTile.landOnTile(p2);
 
         TO = p1.getOwnedTiles().size();
-        System.out.println(p1.getOwnedTiles().size());
         assertTrue(TO==2);
         assertFalse(score==p1.getScore());
-        assertTrue(10000-750+100 == p1.getScore());
-        assertTrue(9900 == p2.getScore());
-        System.out.println(p2.getScore());
-        System.out.println(p1.getScore());
+        assertTrue(1500+100 == p1.getScore());
+        assertTrue(1400 == p2.getScore());
+        System.out.println("---- p1 tiles owned efter test " + p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score efter test "+ p1.getScore()+ " ----");
+        System.out.println("---- p2 score efter test "+ p2.getScore()+ "----");
 
+
+        raadhusTile.addHouseLevel();
+        raadhusTile.addHouseLevel();
+
+        raadhusTile.landOnTile(p2);
+        assertEquals(800, p2.getScore());
+
+        raadhusTile.landOnTile(p1);
+
+        raadhusTile.removeHouseLevel();
+        raadhusTile.landOnTile(p2);
+        assertEquals(600, p2.getScore());
     }
     @Test
     public void testAfStart(){
@@ -112,11 +121,20 @@ public class testAfTile {
         int score = p.getScore();
         p.setStartMoneyElegible(true);
 
-
+        System.out.println("---- testAfPassedStart ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
         startTile.passedTile(p);
 
-        System.out.println(p.getScore());
+        System.out.println("---- p score efter test " + p.getScore()+ " ----");
         assertFalse(score==p.getScore());
+
+        p.setMoney(1500);
+        System.out.println("---- testAfLandOnStart ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
+        startTile.landOnTile(p);
+        System.out.println("---- p score efter test " + p.getScore()+ " ----");
+
+        assertEquals(1700, p.getScore());
 
     }
 
@@ -127,31 +145,42 @@ public class testAfTile {
         Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"1:25;2:50;3:100;4:200" );
         Ship shipTile1 = new Ship("","type:Ship;Tilevalue:200;sister:ship;setSize:4;name:D.F.D.S.", 15, "1:25;2:50;3:100;4:200");
 
+        System.out.println("---- testAfShip ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
+        System.out.println("---- p1 score før test " + p1.getScore()+ " ----");
+
         shipTile.buyTile(p1);
+        p1.setMoney(1500);
         shipTile.landOnTile(p);
 
-        System.out.println(p1.getScore());
-        System.out.println(p.getScore());
+        System.out.println("---- p score efter test "+ p.getScore()+ " ----");
+        System.out.println("---- p1 score efter test "+ p1.getScore()+ " ----");
 
-        assertTrue(1500-200+25 == p1.getScore());
-        assertTrue(1500-25 == p.getScore());
+        assertEquals(1500+25, p1.getScore());
+        assertEquals(1500-25, p.getScore());
 
         shipTile1.buyTile(p1);
+        p1.setMoney(1500);
+        p.setMoney(1500);
         shipTile1.landOnTile(p);
 
-        assertTrue((1500-200+25-200+50) == p1.getScore());
-        assertTrue((1500-25-50) == p.getScore());
+        assertEquals((1500+50), p1.getScore());
+        assertEquals((1500-50), p.getScore());
 
-        System.out.println(p1.getScore());
-        System.out.println(p.getScore());
 
         shipTile.landOnTile(p1);
 
-        assertTrue((1500-200+25-200+50) == p1.getScore());
+        assertEquals((1500+50), p1.getScore());
     }
 
     @Test
     public void testAfBrewery() {
+        GameBoard board = GameBoard.getInstance();
+        try{
+            GameController.getInstance().init();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         int roll = 12;
         int x4Price = roll * 4;
@@ -159,36 +188,39 @@ public class testAfTile {
 
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
-        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Carlsberg", 28, "1:4;2:10");
-        Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
+        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Carlsberg", 28, "1:4;2:10");
+        Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
 
         p.move(roll);
 
+        System.out.println("---- testAfBrewery ----");
+        System.out.println("---- test med roll 12 ----");
+        System.out.println("---- p1 score før test "+p1.getScore()+" ----");
+        System.out.println("---- p score før test "+p.getScore()+" ----");
+
         breweryTile.buyTile(p1);
+        p1.setMoney(1500);
         breweryTile.landOnTile(p);
 
 
-        System.out.println(p1.getScore());
-        System.out.println(p.getScore());
-
-        assertTrue((1500-150+x4Price) == p1.getScore());
+        assertTrue((1500+x4Price) == p1.getScore());
         assertTrue((1500-x4Price) == p.getScore());
 
-        p1.setMoney(1500);
-        p.setMoney(1500);
+        System.out.println("---- p1 score efter test "+p1.getScore()+" ----");
+        System.out.println("---- p score efter test "+p.getScore()+ "----");
 
         breweryTile1.buyTile(p1);
+        p1.setMoney(1500);
+        p.setMoney(1500);
         breweryTile.landOnTile(p);
 
-        System.out.println(p1.getScore()+60);
-        System.out.println(p.getScore()-60);
+        assertEquals((1500+x10Price), p1.getScore());
+        assertEquals((1500-x10Price), p.getScore());
 
-        assertTrue((1500-150+x10Price) == p1.getScore());
-        assertTrue((1500-x10Price) == p.getScore());
-
+        p1.setMoney(1500);
         breweryTile.landOnTile(p1);
 
-        assertTrue((1500-150+x10Price) == p1.getScore());
+        assertEquals(1500, p1.getScore());
 
     }
     @Test
