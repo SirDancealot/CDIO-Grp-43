@@ -120,7 +120,7 @@ public class Logic {
                 }
 
                 if(diceCup.ThreeSame()){
-                    displayMessage("Slog 3 ens, og blev smidt i fængsel");
+                    displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     turnStringGenerator("resetMessage");
