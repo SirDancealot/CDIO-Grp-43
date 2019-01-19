@@ -324,10 +324,10 @@ public class Logic {
         int upgradeableProperties = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore())
                         accaptableBuilding = false;
                 }
                 if (accaptableBuilding)
@@ -342,7 +342,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
                 boolean acceptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore())
                         acceptableBuilding = false;
                 }
                 if (acceptableBuilding)
@@ -360,7 +360,7 @@ public class Logic {
     private boolean canBuyHouse(){
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() < 5) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() < 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore()) {
                 return true;
             }
         }
