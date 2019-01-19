@@ -92,6 +92,10 @@ public class GUI_Controller {
                         String[] dies = thisInfo[1].split(",");
                         gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
                         break;
+                    case "teleportPlayer":
+                        String[] teleportPlayer = thisInfo[1].split(",");
+                        teleportPlayer(Integer.parseInt(teleportPlayer[0]), Integer.parseInt(teleportPlayer[1]));
+                        break;
                     case "movePlayer":
                         String[] movePlayer = thisInfo[1].split(",");
                         movePlayer(Integer.parseInt(movePlayer[0]),Integer.parseInt(movePlayer[1]),Integer.parseInt(movePlayer[2]),Integer.parseInt(movePlayer[3]),Integer.parseInt(movePlayer[4]));
@@ -222,7 +226,19 @@ public class GUI_Controller {
             }
             gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
-    	}
+    }
+
+    private void teleportPlayer(int playerIndex, int finalPosition) {
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < gui.getFields().length; i++) {
+            gui.getFields()[i].setCar(allPlayer[playerIndex], false);
+        }
+        gui.getFields()[finalPosition].setCar(allPlayer[playerIndex], true);
+    }
 
 
     /**

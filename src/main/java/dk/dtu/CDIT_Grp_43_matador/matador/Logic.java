@@ -23,8 +23,7 @@ public class Logic {
     private GameBoard board;
     private boolean endOfGame = false;
     private boolean rolled = false;
-    private boolean checkForDeadPlayers;
-    boolean turnEnded;
+    private boolean turnEnded;
     private int turns = 0;
     private int currPlayerIndex = 0;
     private int[] deadPlayers;
@@ -94,7 +93,7 @@ public class Logic {
                 options = expandArray(options, "Ophæv pantsætning");
             }
             if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
-                if (((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).getOwner() == null)
+                if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner() == null)
                     options = new String[] {"Køb", "Sæt på auktion"};
             }
 
@@ -142,15 +141,23 @@ public class Logic {
                     rolled = true;
                 }
 
-                if(diceCup.isSame()){
-                    rolled = false;
-                } else {
-                    rolled = true;
+                rolled = !diceCup.isSame();
+
+                if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
+                    turnStringGenerator("updateScore","displayDies");
+                    updateGui();
+                }else {
+                    turnStringGenerator("updateScore", "movePlayer","displayDies");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
                 }
 
                 Tile tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 while (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                    turnStringGenerator("updateScore", "movePlayer");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
                     tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                     board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                 }
@@ -158,10 +165,10 @@ public class Logic {
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName()+" ");
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
-                    turnStringGenerator("updateScore","displayDies");
+                    turnStringGenerator("updateScore","turnMessage");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "movePlayer","displayDies","turnMessage");
+                    turnStringGenerator("updateScore", "teleportPlayer","turnMessage");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
@@ -265,7 +272,7 @@ public class Logic {
         }
 
         currPlayerIndex = ++currPlayerIndex % players.length;
-        checkForDeadPlayers = false;
+        boolean checkForDeadPlayers = false;
         while (!checkForDeadPlayers){
             if(deadPlayers[currPlayerIndex] != 0){
                 currPlayerIndex = ++currPlayerIndex % players.length;
@@ -601,6 +608,11 @@ public class Logic {
                     String dies = "";
                     dies+=diceCup.getD1Val()+","+diceCup.getD2Val();
                     turnString += "displayDies:"+dies+";";
+                    break;
+                case "teleportPlayer":
+                    String teleport = "";
+                    teleport += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos();
+                    turnString += "teleportPlayer" + teleport + ";";
                     break;
                 case "movePlayer":
                     String move = "";
