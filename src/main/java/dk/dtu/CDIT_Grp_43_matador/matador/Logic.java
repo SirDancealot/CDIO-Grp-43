@@ -151,6 +151,8 @@ public class Logic {
 
                 Tile tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                while (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                    tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
 
                 if(!board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isOwned() && board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
@@ -177,6 +179,7 @@ public class Logic {
 
                 if (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()])
                     board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                }
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
                     turnStringGenerator("updateScore","displayDies");
