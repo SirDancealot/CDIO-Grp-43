@@ -188,10 +188,14 @@ public class GUI_Controller {
 	 * @param cardMove the amount of tiles the {@code Player} moved due to drawing {@code ChanceCard}.
 	 */
     public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
-        int moveDir = playerRoll / Math.abs(playerRoll);
+        int moveDir;
+        if (playerRoll == 0)
+            moveDir = 1;
+        else
+            moveDir = playerRoll / Math.abs(playerRoll);
         for (int i = 0; i < Math.abs(playerRoll); i++) {
-            gui.getFields()[(playerPositionBeforeRoll+i) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-            gui.getFields()[(playerPositionBeforeRoll+i+1) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
+            gui.getFields()[((playerPositionBeforeRoll+(i * moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[((playerPositionBeforeRoll+((i+1)*moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {

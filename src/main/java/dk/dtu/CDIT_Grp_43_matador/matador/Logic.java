@@ -148,7 +148,7 @@ public class Logic {
                     turnStringGenerator("updateScore","displayDies");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "movePlayer","displayDies");
+                    turnStringGenerator("updateScore", "movePlayer", "displayDies");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
@@ -159,6 +159,7 @@ public class Logic {
                     turnStringGenerator("updateScore", "movePlayer");
                     updateGui();
                     turnStringGenerator("resetMessage");
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
                     tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
                 }
                 addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
@@ -634,11 +635,11 @@ public class Logic {
                 case "teleportPlayer":
                     String teleport = "";
                     teleport += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos();
-                    turnString += "teleportPlayer" + teleport + ";";
+                    turnString += "teleportPlayer:" + teleport + ";";
                     break;
                 case "movePlayer":
                     String move = "";
-                    move += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + "," + players[currPlayerIndex].getOldPos() + "," + diceCup.getDiceIntValues() + "," + players[currPlayerIndex].getCardMove();
+                    move += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + "," + players[currPlayerIndex].getOldPos() + "," + players[currPlayerIndex].getRoll() + "," + players[currPlayerIndex].getCardMove();
                     turnString += "movePlayer:" + move + ";";
                     break;
                 case "setHouseLevel":
