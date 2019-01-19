@@ -124,7 +124,7 @@ public class Logic {
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     turnStringGenerator("resetMessage");
-                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 3 ens og blev sendt i fængsels");
+                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 2 ens 3 gange i træk og blev sendt i fængsels");
                     turnStringGenerator("turnMessage");
                     updateGui();
                     rolled = true;
