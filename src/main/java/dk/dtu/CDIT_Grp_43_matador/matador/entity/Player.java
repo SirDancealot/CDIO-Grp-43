@@ -62,10 +62,8 @@ public class Player {
 	public boolean moveTo(String tileName) {
 		Tile targetTile = bord.getTileByName(tileName);
 		int targetPos = targetTile.getTileIndex() - currPos;
-		if (targetPos < 0)
-			targetPos += bord.getBoardSize();
-		currPos += targetPos;
-		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
+		move(targetPos);
+		move(0);
 		return true;
 	}
 
