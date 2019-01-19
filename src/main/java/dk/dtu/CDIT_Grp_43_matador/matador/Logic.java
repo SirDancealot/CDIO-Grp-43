@@ -171,10 +171,10 @@ public class Logic {
 
                     ArrayList<Tile> currentPlayersTiles = players[currPlayerIndex].getOwnedTiles();
 
-                    for(int i = 0; i < currentPlayersTiles.size(); i++ ){
-                            if(currentPlayersTiles.get(i) == board.getGameTiles()[players[currPlayerIndex].getCurrPos()]){
-                                currentLandedOnTileOwned = true;
-                            }
+                    for (Tile currentPlayersTile : currentPlayersTiles) {
+                        if (currentPlayersTile == board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                            currentLandedOnTileOwned = true;
+                        }
                     }
 
                     if(currentLandedOnTileOwned){
@@ -285,13 +285,13 @@ public class Logic {
 
         int deadPlayerCount = 0;
 
-        for (int i = 0; i < deadPlayers.length; i++){
+        for (int deadPlayer : deadPlayers) {
 
-            if(deadPlayers[i] == 1){
+            if (deadPlayer == 1) {
                 deadPlayerCount++;
             }
 
-            if(deadPlayerCount == players.length-1){
+            if (deadPlayerCount == players.length - 1) {
                 endOfGame = true;
             }
         }
@@ -324,10 +324,10 @@ public class Logic {
         int upgradeableProperties = 0;
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() != 5) {
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
                 boolean accaptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || ((Property) otherInSet).isPawned())
                         accaptableBuilding = false;
                 }
                 if (accaptableBuilding)
@@ -342,7 +342,7 @@ public class Logic {
             if( tile instanceof Property && ((Property) tile).tileSetowned()){
                 boolean acceptableBuilding = true;
                 for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
-                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5)
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || (((Property) otherInSet).isPawned()))
                         acceptableBuilding = false;
                 }
                 if (acceptableBuilding)
@@ -360,8 +360,14 @@ public class Logic {
     private boolean canBuyHouse(){
 
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
-            if( tile instanceof Property && ((Property) tile).tileSetowned() && ((Property) tile).getHouseLevel() < 5) {
-                return true;
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+                boolean accaptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || ((Property) otherInSet).isPawned())
+                        accaptableBuilding = false;
+                }
+                if (accaptableBuilding)
+                    return true;
             }
         }
         return false;
@@ -406,21 +412,14 @@ public class Logic {
     }
 
     private boolean canSellHouse(){
-
         int i = 0;
-
-        int downgradeableProperties = 0;
-
         for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
             if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
                 i++;
             }
         }
-        if(i>0){
-            return true;
-        } else {
-            return false;
-        }
+        return i>0;
+
     }
 
 
@@ -546,16 +545,16 @@ public class Logic {
 
     // Controls what happens when a player dies
 
-    public void deadPlayer(){
+    private void deadPlayer(){
             if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
 
                 Player newPropertyOwner = board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner();
                 ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
 
-                for(int i = 0; i < deadPlayersTile.size(); i++){
-                    ((Ownable)deadPlayersTile.get(i)).setOwner(newPropertyOwner);
-                    newPropertyOwner.addOwnedTile(deadPlayersTile.get(i));
-                    setNewOwner(newPropertyOwner.getName(), (deadPlayersTile.get(i)));
+                for (Tile aDeadPlayersTile : deadPlayersTile) {
+                    ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
+                    newPropertyOwner.addOwnedTile(aDeadPlayersTile);
+                    setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
                 }
             }else{
                 int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
@@ -572,7 +571,7 @@ public class Logic {
 
     // Array funktion
 
-    public String[] expandArray(String[] startArray ,String... expandArray){
+    private String[] expandArray(String[] startArray ,String... expandArray){
         String[] allOptions = new String[startArray.length + expandArray.length];
 
         for(int i = 0; i < startArray.length;i++ ){
@@ -587,7 +586,7 @@ public class Logic {
     // Max jail Time
 
 
-    public boolean maxJailTime(){
+    private void maxJailTime(){
 
         if (diceCup.isSame())
             players[currPlayerIndex].setMaxJailRolls(0);
@@ -599,7 +598,6 @@ public class Logic {
             ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
             players[currPlayerIndex].setMaxJailRolls(0);
         }
-        return false;
     }
 
 
@@ -607,32 +605,31 @@ public class Logic {
      * Gui funktions
      */
 
-    public void updateGui(){
+    private void updateGui(){
         game.updateDisplay(turnString);
         turnString = "";
     }
 
 
-    public void turnStringGenerator(String... options){
+    private void turnStringGenerator(String... options){
 
-        for(int i = 0; i < options.length; i++){
+        for (String option : options) {
 
-            String option = options[i];
-            switch (option){
+            switch (option) {
                 case "updateScore":
                     String score = "";
-                    for(int j = 0; j < players.length; j++ ){
+                    for (int j = 0; j < players.length; j++) {
                         score += players[j].getScore();
-                        if(j < players.length-1){
-                            score +=",";
+                        if (j < players.length - 1) {
+                            score += ",";
                         }
                     }
-                    turnString += "updateScore:"+score+";";
+                    turnString += "updateScore:" + score + ";";
                     break;
                 case "displayDies":
                     String dies = "";
-                    dies+=diceCup.getD1Val()+","+diceCup.getD2Val();
-                    turnString += "displayDies:"+dies+";";
+                    dies += diceCup.getD1Val() + "," + diceCup.getD2Val();
+                    turnString += "displayDies:" + dies + ";";
                     break;
                 case "teleportPlayer":
                     String teleport = "";
@@ -641,15 +638,15 @@ public class Logic {
                     break;
                 case "movePlayer":
                     String move = "";
-                    move+= currPlayerIndex+","+players[currPlayerIndex].getCurrPos()+","+players[currPlayerIndex].getOldPos()+","+diceCup.getDiceIntValues()+","+players[currPlayerIndex].getCardMove();
-                    turnString += "movePlayer:"+move+";";
+                    move += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + "," + players[currPlayerIndex].getOldPos() + "," + diceCup.getDiceIntValues() + "," + players[currPlayerIndex].getCardMove();
+                    turnString += "movePlayer:" + move + ";";
                     break;
                 case "setHouseLevel":
-                    String setHouseLevel = currPlayerIndex+","+currentTileUpgrade+","+currentTileLevel;
-                    turnString += "setHouseLevel:"+setHouseLevel+";";
+                    String setHouseLevel = currPlayerIndex + "," + currentTileUpgrade + "," + currentTileLevel;
+                    turnString += "setHouseLevel:" + setHouseLevel + ";";
                     break;
                 case "turnMessage":
-                    turnString += "turnMessage:"+turnMessage+";";
+                    turnString += "turnMessage:" + turnMessage + ";";
                     break;
                 case "resetMessage":
                     turnMessage = "";
@@ -657,30 +654,30 @@ public class Logic {
                 case "chanceCardMessage":
                     deck = ChanceCardDeck.getInstance();
                     String chanceCardMessage = deck.getCurrCard().printCard(players[currPlayerIndex]);
-                    turnString += "chanceCardMessage:"+chanceCardMessage+";";
+                    turnString += "chanceCardMessage:" + chanceCardMessage + ";";
                     break;
                 case "mortgage":
-                    String mortgage = currPlayerIndex+","+ currentMortgageProperty+",";
-                    turnString += "mortgage:"+mortgage+"false"+";";
+                    String mortgage = currPlayerIndex + "," + currentMortgageProperty + ",";
+                    turnString += "mortgage:" + mortgage + "false" + ";";
                     break;
                 case "onMortgage":
-                    String onMortgage = currPlayerIndex+","+ currentOnMortgageProperty+",";
-                    turnString += "onMortgage:"+onMortgage+"false"+";";
+                    String onMortgage = currPlayerIndex + "," + currentOnMortgageProperty + ",";
+                    turnString += "onMortgage:" + onMortgage + "false" + ";";
                     System.out.println("onMortgage");
                     break;
                 case "displayOwner":
-                    String Owner = currPlayerIndex+","+ players[currPlayerIndex].getCurrPos()+",";
-                    turnString += "displayOwner:"+Owner+"false"+";";
+                    String Owner = currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + ",";
+                    turnString += "displayOwner:" + Owner + "false" + ";";
                     break;
                 case "removePlayerFromGame":
                     String removePlayerFromGame = Integer.toString(currPlayerIndex);
-                    turnString += "removePlayerFromGame:"+removePlayerFromGame+";";
+                    turnString += "removePlayerFromGame:" + removePlayerFromGame + ";";
                     break;
             }
         }
     }
 
-    public void addToTurnMessage(String information ){
+    private void addToTurnMessage(String information){
         turnMessage += information;
     }
 
@@ -697,7 +694,7 @@ public class Logic {
         updateGui();
     }
 
-    public void setNewOwner (String player, Tile boughtTile){
+    private void setNewOwner(String player, Tile boughtTile){
         String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "setNewOwner:"+Owner+"false"+";";
         updateGui();
@@ -725,7 +722,7 @@ public class Logic {
         return endOfGame;
     }
 
-    public Player getWinner() {
+    Player getWinner() {
         if (endOfGame)
             return players[currPlayerIndex];
         return null;
