@@ -398,7 +398,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnable++;
+                        } else
                             pawnable++;
                     } else {
                         pawnable++;
@@ -413,7 +421,15 @@ public class Logic {
             if (tile instanceof Ownable) {
                 if (!(((Ownable) tile).isPawned())) {
                     if (tile instanceof Property) {
-                        if (((Property) tile).getHouseLevel() == 0)
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnableNames[foudNames++] = tile.getTileName();
+                        } else
                             pawnableNames[foudNames++] = tile.getTileName();
                     } else {
                         pawnableNames[foudNames++] = tile.getTileName();
