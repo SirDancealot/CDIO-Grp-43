@@ -35,6 +35,7 @@ public class Logic {
     private int currentOnMortgageProperty;
     private int currentTileUpgrade;
     private int currentTileLevel;
+    private boolean currentLandedOnTileOwned = false;
 
     private Logic(){}
 
@@ -99,7 +100,7 @@ public class Logic {
 
             turnStringGenerator("updateScore");
             updateGui();
-            String choice = getChoice((players[currPlayerIndex].isInJail() ? "Du er i fængsel hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? players[currPlayerIndex].getName()+"!! du er i fængsel, hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
             turnChoice(choice);
         }
     }
@@ -159,10 +160,33 @@ public class Logic {
                     updateGui();
                     turnStringGenerator("resetMessage");
                     tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
-                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
+
+                if(!board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isOwned() && board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
+                    addToTurnMessage(", feltet du er landet på er ikke ejet, du har nu mulighed for at købe ejendommen eller sætte det på auktion.");
                 }
 
-                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName()+" ");
+                if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isOwned()){
+
+                    ArrayList<Tile> currentPlayersTiles = players[currPlayerIndex].getOwnedTiles();
+
+                    for(int i = 0; i < currentPlayersTiles.size(); i++ ){
+                            if(currentPlayersTiles.get(i) == board.getGameTiles()[players[currPlayerIndex].getCurrPos()]){
+                                currentLandedOnTileOwned = true;
+                            }
+                    }
+
+                    if(currentLandedOnTileOwned){
+                        addToTurnMessage(", du ejer feltet og har nu givende muligheder ");
+                        currentLandedOnTileOwned = false;
+                    }else{
+                        addToTurnMessage(", feltet er ejet og du skal nu betal leje til "+ board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner());
+                    }
+                }
+
+                if (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()])
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                }
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
                     turnStringGenerator("updateScore","turnMessage");
