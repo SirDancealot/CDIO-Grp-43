@@ -86,6 +86,10 @@ public class testAfTile {
 
         Player p1 = new Player("testPlayer", 10000);
         Player p2 = new Player("testPlayer", 10000);
+        System.out.println("---- testAfProperty ----");
+        System.out.println("---- p1 tiles owned før test:" + " " +p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score før test"+ " "+p1.getScore()+ " "+ "----");
+        System.out.println("---- p2 score før test "+ p2.getScore()+ " ----");
         int score = p1.getScore();
         int TO = p1.getOwnedTiles().size();
         assertTrue(TO==0);
@@ -96,14 +100,13 @@ public class testAfTile {
         raadhusTile.landOnTile(p2);
 
         TO = p1.getOwnedTiles().size();
-        System.out.println(p1.getOwnedTiles().size());
         assertTrue(TO==2);
         assertFalse(score==p1.getScore());
         assertTrue(10000-750+100 == p1.getScore());
         assertTrue(9900 == p2.getScore());
-        System.out.println(p2.getScore());
-        System.out.println(p1.getScore());
-
+        System.out.println("---- p1 tiles owned efter test " + p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score efter test "+ p1.getScore()+ " ----");
+        System.out.println("---- p2 score efter test "+ p2.getScore()+ "----");
     }
     @Test
     public void testAfStart(){
@@ -112,10 +115,11 @@ public class testAfTile {
         int score = p.getScore();
         p.setStartMoneyElegible(true);
 
-
+        System.out.println("---- testAfStart ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
         startTile.passedTile(p);
 
-        System.out.println(p.getScore());
+        System.out.println("---- p score efter test " + p.getScore()+ " ----");
         assertFalse(score==p.getScore());
 
     }
@@ -127,11 +131,15 @@ public class testAfTile {
         Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"1:25;2:50;3:100;4:200" );
         Ship shipTile1 = new Ship("","type:Ship;Tilevalue:200;sister:ship;setSize:4;name:D.F.D.S.", 15, "1:25;2:50;3:100;4:200");
 
+        System.out.println("---- testAfShip ----");
+        System.out.println("---- p score før test" + p.getScore()+ " ----");
+        System.out.println("---- p1 score før test" + p1.getScore()+ " ----");
+
         shipTile.buyTile(p1);
         shipTile.landOnTile(p);
 
-        System.out.println(p1.getScore());
-        System.out.println(p.getScore());
+        System.out.println("---- p score efter test"+ p.getScore()+ " ----");
+        System.out.println("---- p1 score efter test"+ p1.getScore()+ " ----");
 
         assertTrue(1500-200+25 == p1.getScore());
         assertTrue(1500-25 == p.getScore());
@@ -142,8 +150,6 @@ public class testAfTile {
         assertTrue((1500-200+25-200+50) == p1.getScore());
         assertTrue((1500-25-50) == p.getScore());
 
-        System.out.println(p1.getScore());
-        System.out.println(p.getScore());
 
         shipTile.landOnTile(p1);
 
@@ -153,15 +159,21 @@ public class testAfTile {
     @Test
     public void testAfBrewery() {
 
+        GameBoard board = GameBoard.getInstance();
+        try {
+            board.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         int roll = 12;
         int x4Price = roll * 4;
         int x10Price = roll * 10;
 
         Player p = new Player("testPlayer",1500);
         Player p1 = new Player("testPlayer1", 1500);
-        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Carlsberg", 28, "1:4;2:10");
-        Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:pink;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
-
+        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Carlsberg", 28, "1:4;2:10");
+        Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
         p.move(roll);
 
         breweryTile.buyTile(p1);
