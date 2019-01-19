@@ -30,10 +30,15 @@ public class Bank {
             workingTile = (Ownable)auctionTile;
         else
             return;
+
+        int playersBidding = 0;
         for (Player player : players) {
-            player.setInAuction(true);
+            if (player.getScore() > 0) {
+                player.setInAuction(true);
+                playersBidding++;
+            } else
+                player.setInAuction(false);
         }
-        int playersBidding = players.length;
         int currentPlayerBidding = 0;
         int highestBid = -1;
         int highestBidPlayer = -1;

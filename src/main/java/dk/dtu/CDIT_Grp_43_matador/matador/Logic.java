@@ -552,27 +552,28 @@ public class Logic {
     // Controls what happens when a player dies
 
     private void deadPlayer(){
-            if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+        Tile deadTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
+        if(deadTile instanceof Ownable && deadTile.getOwner() != null){
 
-                Player newPropertyOwner = board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner();
-                ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
+            Player newPropertyOwner = deadTile.getOwner();
+            ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
 
-                for (Tile aDeadPlayersTile : deadPlayersTile) {
-                    ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
-                    newPropertyOwner.addOwnedTile(aDeadPlayersTile);
-                    setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
-                }
-            }else{
-                int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
-                ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
-
-                for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
-                    bank.auctions(players, auktionTiles.get(i));
-                    System.out.println("Auktion compleat");
-                    turnStringGenerator("updateScore");
-                    updateGui();
-                }
+            for (Tile aDeadPlayersTile : deadPlayersTile) {
+                ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
+                newPropertyOwner.addOwnedTile(aDeadPlayersTile);
+                setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
             }
+        }else{
+            int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
+            ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
+
+            for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
+                bank.auctions(players, auktionTiles.get(i));
+                System.out.println("Auktion compleat");
+                turnStringGenerator("updateScore");
+                updateGui();
+            }
+        }
     }
 
     // Array funktion
@@ -695,6 +696,7 @@ public class Logic {
     }
 
     public void setOwnerAfterAuktion (int player, Tile boughtTile){
+        ((Ownable)boughtTile).setPawned(false);
         String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "displayOwner:"+Owner+"false"+";";
         updateGui();
@@ -704,6 +706,11 @@ public class Logic {
         String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "setNewOwner:"+Owner+"false"+";";
         updateGui();
+        if (((Ownable)boughtTile).isPawned()) {
+            String mortgage = currPlayerIndex + "," + boughtTile.getTileIndex() + ",";
+            turnString += "mortgage:" + mortgage + "false" + ";";
+            updateGui();
+        }
     }
 
 

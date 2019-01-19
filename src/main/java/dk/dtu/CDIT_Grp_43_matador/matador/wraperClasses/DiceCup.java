@@ -55,14 +55,14 @@ public class DiceCup {
 			sameInARow++;
 		else
 			sameInARow = 0;
-		return d1.roll() + d2.roll();
+		return 3;//d1.roll() + d2.roll();
 	}
 	
 	/**
 	 * @return Returns the sum of the current rolls on the two dice without re-rolling them
 	 */
 	public int getDiceIntValues() {
-		return d1.getFaceValue() + d2.getFaceValue();
+		return 3;//d1.getFaceValue() + d2.getFaceValue();
 	}
 	
 	/**
