@@ -344,21 +344,10 @@ public class GUI_Controller {
         return names;
     }
 
-    public String getUserInput(String msg) {
-   	    return gui.getUserString(msg);
-    }
-
     public int getUserInt (String msg, int min ,int max) {
    	    return gui.getUserInteger(msg, min, max);
     }
 
-    public GUI_Player[] getAllPlayer() {
-        return allPlayer;
-    }
-
-    public void setAllPlayer(GUI_Player[] allPlayer) {
-        this.allPlayer = allPlayer;
-    }
 }
 
 

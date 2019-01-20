@@ -22,9 +22,7 @@ public class GameController {
 	}
 	
 	//Logical variables
-	private static int turns = 1;
 	private static boolean playing = true;
-	private String turnInfo;
 
 	//Container variables
 	private Player[] players;
@@ -58,15 +56,12 @@ public class GameController {
 	
 	/**
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
-	 * @throws IOException if an I/O error occurs.
 	 */
-	public void startGameLoop() throws IOException {
+	public void startGameLoop() {
 		while (playing) {
 			logic.tick();
 			if(logic.isEndOfGame()){
 				endGame();
-				System.out.println("Game end");
-				displayWinningMessage();
 			}
 		}
 	}
@@ -76,6 +71,9 @@ public class GameController {
 	 * in case any objects needs to be closed or anything similar.
 	 */
 	public void stop() {
+		System.out.println("Game end");
+		displayWinningMessage();
+		System.exit(0);
 	}
 
 	/**
@@ -90,22 +88,9 @@ public class GameController {
         for (Player player : players) {
 			if (player.getScore() > winner.getScore())
 				winner = player;
-			else if (player.getScore() == winner.getScore()) {
-				int playerScore = player.getScore();
-				int winnerScore = winner.getScore();
-				
-				for (Tile tile : player.getOwnedTiles()) {
-					playerScore += tile.getTileValue();
-				}
-				for (Tile tile : winner.getOwnedTiles()) {
-					playerScore += tile.getTileValue();
-				}
-				
-				if (playerScore > winnerScore)
-					winner = player;
-			}
 		}
-        //gui.updateDisplay();
+		String winMsg = "The winner of the game was " + winner + " with a score of " + winner.getScore() + " and a total fortune of " + winner.playerFortune() + "\n\nThe game will close after you press ok";
+        displayMessage(winMsg);
 	}
 
 	public String getChoice(String msg, Boolean list, String... buttons) {
@@ -113,31 +98,14 @@ public class GameController {
 		return choice;
 	}
 
-
-	public void resetGame(){
-		playing = true;
-		turns = 1;
+	private void displayMessage(String msg) {
+		gui.displayMessage(msg);
 	}
 
 	public void updateDisplay(String turnInfo) {
 		gui.updateDisplay(turnInfo);
 	}
 
-	public void displayMessage(String msg) {
-	    gui.displayMessage(msg);
-    }
-
-	public boolean isPlaying() {
-		return playing;
-	}
-
-	public int getTurn(){
-		return turns;
-	}
-
-	public Player[] getPlayers() {
-		return players;
-	}
 
 	public GameBoard getBord() {
 		return bord;

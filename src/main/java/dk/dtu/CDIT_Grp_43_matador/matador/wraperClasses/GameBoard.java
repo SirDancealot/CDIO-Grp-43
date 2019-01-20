@@ -24,15 +24,6 @@ public class GameBoard {
 		boardSize = gameTiles.length;
 	}
 
-	/**
-	 * Calls the funktion {@code passedTile} on the given tile
-	 * @param p The {@code Player} that passed the tile
-	 * @param pos The index of the tile that was passed
-	 */
-	public void passedTile(Player p, int pos){
-    	gameTiles[pos].passedTile(p);
-	}
-
 	public Tile[] searchForTileType(String type) {
 		int tilesOfType = 0;
 		for(Tile tile : gameTiles) {
@@ -59,19 +50,6 @@ public class GameBoard {
 
 	public static GameBoard getInstance() {
 		return INSTANCE;
-	}
-	
-	public boolean landOnTile(Player p) {
-		System.out.println(p.getCurrPos());
-		return gameTiles[p.getCurrPos()].landOnTile(p); 
-	}
-
-	public boolean isTileOwned(int tileIndex) {
-		return gameTiles[tileIndex].isOwned();
-	}
-
-	public Player getTileOwner(int tileIndex) {
-		return  gameTiles[tileIndex].getOwner();
 	}
 
 	public int getBoardSize() {

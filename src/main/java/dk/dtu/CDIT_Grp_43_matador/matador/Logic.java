@@ -116,9 +116,10 @@ public class Logic {
             case "Rul":
                 diceCup.roll();
 
-                if(players[currPlayerIndex].isInJail())
+                if(players[currPlayerIndex].isInJail()) {
                     maxJailTime();
-
+                    rolled = true;
+                }
                 if(diceCup.threeSame()){
                     displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);

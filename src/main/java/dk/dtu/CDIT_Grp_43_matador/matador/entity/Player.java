@@ -55,13 +55,6 @@ public class Player {
 		return true;
 	}
 
-	public boolean moveByCard(int moving){
-		cardMove = moving;
-		currPos += moving;
-		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
-		return true;
-	}
-
 	public boolean moveTo(String tileName) {
 		Tile targetTile = bord.getTileByName(tileName);
 		int targetPos = targetTile.getTileIndex() - currPos;
@@ -170,10 +163,6 @@ public class Player {
     public boolean isStartMoneyElegible() {
 		return startMoneyElegible;
 	}
-
-    public void setName(String name) {
-        this.name = name;
-    }
     
     public void setInJail(boolean inJail) {
         this.inJail = inJail;
@@ -194,10 +183,6 @@ public class Player {
     public void addKeepingCard(ChanceCard card) {
     	keepingCards.add(card);
     }
-    
-    public ArrayList<ChanceCard> getKeepingCards() {
-		return keepingCards;
-	}
     
     public boolean hasFreeJail() {
     	return nextJailFree;
@@ -242,10 +227,6 @@ public class Player {
     public int getMaxJailRolls(){
         return maxJailRolls;
     }
-
-	public void setCardMove(int cardMove) {
-		this.cardMove = cardMove;
-	}
 
 	public void setMaxJailRolls(int maxJailRolls) {
 		this.maxJailRolls = maxJailRolls;
