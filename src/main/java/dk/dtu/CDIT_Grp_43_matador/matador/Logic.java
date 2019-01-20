@@ -115,17 +115,18 @@ public class Logic {
             case "Rul":
                 diceCup.roll();
 
-                if(players[currPlayerIndex].isInJail()){
+                if(players[currPlayerIndex].isInJail())
                     maxJailTime();
-                }
 
-                if(diceCup.threeSame()){
+                if(diceCup.ThreeSame()){
                     displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
+                    turnStringGenerator("displayDies");
+                    updateGui();
                     turnStringGenerator("resetMessage");
                     addToTurnMessage(players[currPlayerIndex].getName()+" slog 2 ens 3 gange i træk og blev sendt i fængsels");
-                    turnStringGenerator("turnMessage");
+                    turnStringGenerator("turnMessage", "teleportPlayer");
                     updateGui();
                     rolled = true;
                 } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
@@ -142,13 +143,16 @@ public class Logic {
                     rolled = true;
                 }
 
-                rolled = !diceCup.isSame();
+                if (diceCup.isSame() && !players[currPlayerIndex].isInJail())
+                    rolled = false;
 
                 if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
                     turnStringGenerator("updateScore","displayDies");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "movePlayer", "displayDies");
+                    turnStringGenerator("displayDies");
+                    updateGui();
+                    turnStringGenerator("updateScore", "movePlayer");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
@@ -194,7 +198,9 @@ public class Logic {
                     turnStringGenerator("updateScore","turnMessage");
                     updateGui();
                 }else {
-                    turnStringGenerator("updateScore", "teleportPlayer","turnMessage");
+                    turnStringGenerator("updateScore","turnMessage");
+                    if (players[currPlayerIndex].getRoll() == 0)
+                        turnStringGenerator("teleportPlayer");
                     updateGui();
                     turnStringGenerator("resetMessage");
                 }
@@ -547,27 +553,28 @@ public class Logic {
     // Controls what happens when a player dies
 
     private void deadPlayer(){
-            if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+        Tile deadTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
+        if(deadTile instanceof Ownable && deadTile.getOwner() != null){
 
-                Player newPropertyOwner = board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner();
-                ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
+            Player newPropertyOwner = deadTile.getOwner();
+            ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
 
-                for (Tile aDeadPlayersTile : deadPlayersTile) {
-                    ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
-                    newPropertyOwner.addOwnedTile(aDeadPlayersTile);
-                    setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
-                }
-            }else{
-                int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
-                ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
-
-                for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
-                    bank.auctions(players, auktionTiles.get(i));
-                    System.out.println("Auktion compleat");
-                    turnStringGenerator("updateScore");
-                    updateGui();
-                }
+            for (Tile aDeadPlayersTile : deadPlayersTile) {
+                ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
+                newPropertyOwner.addOwnedTile(aDeadPlayersTile);
+                setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
             }
+        }else{
+            int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
+            ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
+
+            for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
+                bank.auctions(players, auktionTiles.get(i));
+                System.out.println("Auktion compleat");
+                turnStringGenerator("updateScore");
+                updateGui();
+            }
+        }
     }
 
     // Array funktion
@@ -690,6 +697,7 @@ public class Logic {
     }
 
     public void setOwnerAfterAuktion (int player, Tile boughtTile){
+        ((Ownable)boughtTile).setPawned(false);
         String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "displayOwner:"+Owner+"false"+";";
         updateGui();
@@ -699,6 +707,11 @@ public class Logic {
         String Owner = player+","+ boughtTile.getTileIndex()+",";
         turnString += "setNewOwner:"+Owner+"false"+";";
         updateGui();
+        if (((Ownable)boughtTile).isPawned()) {
+            String mortgage = currPlayerIndex + "," + boughtTile.getTileIndex() + ",";
+            turnString += "mortgage:" + mortgage + "false" + ";";
+            updateGui();
+        }
     }
 
 
@@ -716,7 +729,7 @@ public class Logic {
 
     // Getters and setters
 
-    public static Logic getInstance() {
+    public static Logic getINSTANCE () {
         return INSTANCE;
     }
     public boolean isEndOfGame () {

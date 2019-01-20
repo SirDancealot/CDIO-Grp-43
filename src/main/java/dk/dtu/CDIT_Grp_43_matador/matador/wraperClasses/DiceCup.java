@@ -18,7 +18,7 @@ public class DiceCup {
      */
 	public void changeRegularDice(int d1newSize, int d2newSize){
 	    d1 = new Die(d1newSize);
-		//d2 = new Die(d2newSize);
+		d2 = new Die(d2newSize);
     }
     /**
      * Changes the dice to have specific sides with specific values
