@@ -11,7 +11,6 @@ public class ChanceCard {
 	private boolean freeJail = false;
 	
 	public ChanceCard(CardEffect[] cardEffects) {
-		cardDeck = ChanceCardDeck.getInstance();
 		this.cardEffects = cardEffects;
 		for (CardEffect cardEffect : cardEffects) {
 			if (cardEffect == null) {
@@ -21,7 +20,11 @@ public class ChanceCard {
 				keepCard = true;
 		}
 	}
-	
+
+	public static void setDeck(ChanceCardDeck chanceCardDeck) {
+		cardDeck = chanceCardDeck;
+	}
+
 	public boolean useCard(Player p) {
 		for (CardEffect cardEffect : cardEffects) {
 			if (!cardEffect.useEffect(p))

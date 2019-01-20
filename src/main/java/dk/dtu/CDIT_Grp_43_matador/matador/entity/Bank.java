@@ -33,7 +33,7 @@ public class Bank {
 
         int playersBidding = 0;
         for (Player player : players) {
-            if (player.getScore() > 0) {
+            if (player.getScore() >= 0) {
                 player.setInAuction(true);
                 playersBidding++;
             } else

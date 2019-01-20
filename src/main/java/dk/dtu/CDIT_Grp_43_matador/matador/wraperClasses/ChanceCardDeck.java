@@ -19,6 +19,7 @@ public class ChanceCardDeck {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		ChanceCard.setDeck(this);
     }
 
     /**
