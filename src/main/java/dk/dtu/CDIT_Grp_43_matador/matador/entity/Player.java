@@ -90,11 +90,13 @@ public class Player {
 	}
 	
 	public boolean payAll(int money) {
+		boolean result = true;
 		for (Player player : players) {
-			if(!payMoney(player, money))
-				return false;
+			if (player.getScore() >= 0)
+				if(!payMoney(player, money))
+					result = false;
 		}
-		return true;
+		return result;
 	}
 
 	public int playerFortune() {
