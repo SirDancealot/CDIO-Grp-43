@@ -54,7 +54,6 @@ public class testAfTile {
         }
         assertTrue(!p[0].isInJail());*/
 
-
         Die die1 = new Die(1);
         Die die2 = new Die(1);
         for(int i = 0; i < 3; i++) {
@@ -64,6 +63,7 @@ public class testAfTile {
                 p[0].setInJail(true);
             }
         }
+        System.out.println(p[0]+" er i fængsel: "+ p[0].isInJail());
         assertTrue(p[0].isInJail());
     }
 
@@ -77,9 +77,11 @@ public class testAfTile {
         }
 
         GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 30);
-        Player p = new Player("testPlayer", 1500);
+        Player p = new Player("Find Holger", 1500);
         assertFalse(p.isInJail());
+        System.out.println(p+" er i fængsel: "+p.isInJail());
         GoToJailTile.landOnTile(p);
+        System.out.println(p+" er i fængsel: "+p.isInJail());
         assertTrue(p.isInJail());
     }
     @Test
