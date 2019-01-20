@@ -23,7 +23,7 @@ public class Factory {
 	private Tile[] tiles;
 	private Queue<ChanceCard> chanceCards;
 	
-	private Factory() { }
+	private Factory() { TextReader.init(); }
 	
     public Tile[] createTiles() throws IOException {
 	    if (this.tiles != null)
