@@ -1,6 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
@@ -118,7 +119,8 @@ public class Logic {
                 if(players[currPlayerIndex].isInJail())
                     maxJailTime();
 
-                if(diceCup.ThreeSame()){
+                if(diceCup.threeSame()){
+                    displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
                     turnStringGenerator("displayDies");
@@ -743,5 +745,9 @@ public class Logic {
 
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
+    }
+
+    public ChanceCard nextCard() {
+        return deck.nextCard();
     }
 }

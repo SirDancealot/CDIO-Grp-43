@@ -2,8 +2,10 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
 public abstract class Tile {
+    private GameBoard board = GameBoard.getInstance();
     protected int tileIndex;
     protected int tileValue;
     protected boolean buyable = false;
@@ -97,6 +99,10 @@ public abstract class Tile {
 
     public String getType() {
         return type;
+    }
+
+    protected String getChoice(String msg, boolean list, String... buttons) {
+        return board.getChoice(msg, list, buttons);
     }
 
     public abstract String printLandOn(Player p);

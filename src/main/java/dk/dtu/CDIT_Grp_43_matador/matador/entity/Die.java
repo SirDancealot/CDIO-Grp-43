@@ -39,6 +39,8 @@ public class Die {
 		}
 	}
 
+
+
 		public int getSize () {
 			return size;
 		}
@@ -54,6 +56,10 @@ public class Die {
 		@Override
 		public String toString () {
 			return "This die has " + size + " sides, and currently shows a " + faceValue;
+		}
+
+		public void setSize(int size) {
+			this.size = size;
 		}
 }
 	//anders til eksamen :))

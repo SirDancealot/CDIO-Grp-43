@@ -22,7 +22,6 @@ public class ChanceCard {
 	}
 	
 	public boolean useCard(Player p) {
-		//printCard(p);
 		for (CardEffect cardEffect : cardEffects) {
 			if (!cardEffect.useEffect(p))
 				return false;
@@ -36,10 +35,6 @@ public class ChanceCard {
 	
 	public boolean isFreeJail() {
 		return freeJail;
-	}
-	
-	public void setFreeJail(boolean freeJail) {
-		this.freeJail = freeJail;
 	}
 	
 	public void returnToDeck() {

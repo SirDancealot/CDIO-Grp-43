@@ -30,7 +30,7 @@ public class DiceCup {
 	    d2 = new Die(d2sides);
     }
 
-    public boolean ThreeSame(){
+    public boolean threeSame(){
 		if(sameInARow == 3) {
 			sameInARow = 0;
 			return true;
@@ -71,6 +71,10 @@ public class DiceCup {
 
 	public boolean isSame() {
 		return d1.getFaceValue() == d2.getFaceValue();
+	}
+
+	public boolean setSame() {
+		return true;
 	}
 
 	/**
