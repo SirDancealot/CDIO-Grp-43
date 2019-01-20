@@ -6,7 +6,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 
 public class DiceUnitTest {
-    @RepeatedTest(100)
+    @RepeatedTest(50)
     public void test() {
         final DiceCup dc = DiceCup.getInstance();
         final int totalRolls = 100000;
