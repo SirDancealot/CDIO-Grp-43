@@ -3,6 +3,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 import java.io.IOException;
 import java.util.HashMap;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 
@@ -11,6 +12,7 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class GameBoard {
     private static final GameBoard INSTANCE = new GameBoard();
+    private static final Logic logic = Logic.getINSTANCE();
     private int boardSize;
     private Tile[] gameTiles;
 	private Factory factory = Factory.getInstance();
@@ -104,5 +106,9 @@ public class GameBoard {
 			}
 		}
 		return tileSet;
+	}
+
+	public String getChoice(String msg, boolean list, String... buttons) {
+		return logic.getChoice(msg, list, buttons);
 	}
 }

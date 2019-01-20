@@ -2,6 +2,7 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
 import java.util.ArrayList;
 
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
@@ -12,6 +13,7 @@ public class Player {
 	private String name;
 	private boolean inJail = false;
 	private static GameBoard bord;
+	private static Logic logic;
 	private int roll;
 	private int currPos = 0;
 	private int oldPos = 0;
@@ -32,6 +34,7 @@ public class Player {
 	 */
     public Player(String name, int startMoney) {
 		bord = GameBoard.getInstance();
+		logic = Logic.getINSTANCE();
 		this.name = name;
 		playerAccount = new Account(startMoney);
 	}
@@ -263,5 +266,9 @@ public class Player {
 
 	public void setStillInGame(boolean stillInGame) {
 		this.stillInGame = stillInGame;
+	}
+
+	public ChanceCard nextCard() {
+		return logic.nextCard();
 	}
 }

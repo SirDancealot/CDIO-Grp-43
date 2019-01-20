@@ -1,6 +1,7 @@
 package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
@@ -744,5 +745,9 @@ public class Logic {
 
     public Tile[] getTileBySet(String setTag) {
         return board.getTileBySet(setTag);
+    }
+
+    public ChanceCard nextCard() {
+        return deck.nextCard();
     }
 }

@@ -45,7 +45,6 @@ public class GameController {
 		String[] names = gui.getNames();
 		gui.addplayers(startMoney);
 		gui.displayPlayers();
-		TextReader.init();
 
 		bord.initBoard();
 
