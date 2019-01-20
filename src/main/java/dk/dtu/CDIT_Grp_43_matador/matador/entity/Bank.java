@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
@@ -31,15 +30,20 @@ public class Bank {
             workingTile = (Ownable)auctionTile;
         else
             return;
+
+        int playersBidding = 0;
         for (Player player : players) {
-            player.setInAuction(true);
+            if (player.getScore() > 0) {
+                player.setInAuction(true);
+                playersBidding++;
+            } else
+                player.setInAuction(false);
         }
-        int playersBidding = players.length;
         int currentPlayerBidding = 0;
         int highestBid = -1;
         int highestBidPlayer = -1;
 
-        logic.displayMessageFromBank("Auktion om " + workingTile.getTileName() + " er gået i gang");
+        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
         String bidString = "";
 
 

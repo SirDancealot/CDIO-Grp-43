@@ -10,7 +10,7 @@ public class MovePlayerEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
-		return p.moveByCard(moveAmt);
+		return p.move(moveAmt);
 	}
 	
 	@Override
@@ -20,8 +20,8 @@ public class MovePlayerEffect extends CardEffect {
 
 	@Override
 	public String print(Player p) {
-		String forward = "\t" + p + " moves " + moveAmt + " forwards\n";
-		String backwards = "\t" + p + " moves " + (-moveAmt) + " backwards\n";
+		String forward = "\t" + p + " rykker " + moveAmt + " fremad\n";
+		String backwards = "\t" + p + " rykker " + (-moveAmt) + " bagud\n";
 		
 		return moveAmt > 0 ? forward : backwards;
 	}

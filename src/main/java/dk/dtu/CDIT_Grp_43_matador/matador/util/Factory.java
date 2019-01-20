@@ -154,7 +154,7 @@ public class Factory {
                     gui_fields[i].setTitle(thisTileInfo[5].split(":")[1]);
                     gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
                     String currentProperty = rentInfo.get(thisTileInfo[5].split(":")[1]);
-                    gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]);
+                    gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+" kr"+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+" kr"+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+" kr"+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+" kr"+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+" kr"+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]+" kr"+"<br><br>"+"Hvert hus koster "+thisTileInfo[4].split(":")[1]+" kr"+"<br>"+"Hvert hotel koster "+thisTileInfo[4].split(":")[1]+" kr + 4 huse");
                     gui_fields[i].setBackGroundColor(makeColor(thisTileInfo[2].split(":")[1]));
                     gui_fields[i].setForeGroundColor(Color.black);
                     break;
@@ -171,16 +171,15 @@ public class Factory {
                     if(thisTileInfo.length == 4){
                         //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
-                        gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]);
+                        gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]+"<br>"+"Betal 200 kr. el. 10%");
                         gui_fields[i].setSubText("");
                         gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr eller "+thisTileInfo[2].split(":")[1]+" procent af din net worth");
                         gui_fields[i].setBackGroundColor(Color.green);
                         gui_fields[i].setForeGroundColor(Color.black);
                         break;
                     }else{
-                        //System.out.println(i);
                         gui_fields[i] = new GUI_Tax();
-                        gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
+                        gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]+"<br>"+"Betal 100 kr.");
                         gui_fields[i].setSubText("");
                         gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr ");
                         gui_fields[i].setBackGroundColor(Color.green);

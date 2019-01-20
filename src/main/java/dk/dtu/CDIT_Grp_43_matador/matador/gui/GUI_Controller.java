@@ -1,7 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-
-
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import gui_fields.*;
@@ -17,7 +15,6 @@ public class GUI_Controller {
     private int numberOfPlayers = 0;
     private String[] names;
 
-    
     private GUI_Controller() {}
 
     // Start game
@@ -36,6 +33,7 @@ public class GUI_Controller {
         gui = new GUI(gui_fields);
         setChanceCard("Prøv lykken");
     }
+
 
 	/**
 	 * Asks the user for how many will be playing and what their player names will be.
@@ -74,9 +72,6 @@ public class GUI_Controller {
             allPlayer[i] = player;
         }
     }
-    // Remove later
-    //String turnInfo = "updateScore:1220,2300,100,4400;displayDies:1,2;movePlayer:0,3,0,3,0;displayOwner:0,3,false;setHouse:0,3,true,2;setHotel:0,3,false,true;turnMessage:Hey dette er lækkert;chanceCardMessage:Ryk til start";
-
 
     // Update GUI
 	/**
@@ -96,6 +91,10 @@ public class GUI_Controller {
                     case "displayDies":
                         String[] dies = thisInfo[1].split(",");
                         gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
+                        break;
+                    case "teleportPlayer":
+                        String[] teleportPlayer = thisInfo[1].split(",");
+                        teleportPlayer(Integer.parseInt(teleportPlayer[0]), Integer.parseInt(teleportPlayer[1]));
                         break;
                     case "movePlayer":
                         String[] movePlayer = thisInfo[1].split(",");
@@ -130,6 +129,17 @@ public class GUI_Controller {
                         String removePlayerFromGame = thisInfo[1];
                         removePlayerFormGame(Integer.parseInt(removePlayerFromGame));
                         break;
+                    case "setNewOwner":
+                        String[] setNewOwner = thisInfo[1].split(",");
+                        int playerIndex = 0;
+                        for(int j = 0; j < allPlayer.length; j ++){
+                            if((allPlayer[j].getName()).equals(setNewOwner[0])){
+                                playerIndex = j;
+                                System.out.println(allPlayer[j].getName());
+                            }
+                        }
+                        displayOwner(playerIndex,Integer.parseInt(setNewOwner[1]), checkForBoolean(setNewOwner[2]));
+                        break;
                 }
         }
     }
@@ -146,6 +156,10 @@ public class GUI_Controller {
     }
 
     // RemovePlayerFromGame
+
+    /**
+     * Removes player from gameboard when he dies
+     */
 
     public void removePlayerFormGame(int romovePlayer){
         for(int i = 0; i < gui.getFields().length; i++){
@@ -174,55 +188,49 @@ public class GUI_Controller {
 	 * @param cardMove the amount of tiles the {@code Player} moved due to drawing {@code ChanceCard}.
 	 */
     public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
-    	for (int i = 0; i < playerRoll; i++) {
-    		gui.getFields()[(playerPositionBeforeRoll+i) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-    		gui.getFields()[(playerPositionBeforeRoll+i+1) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
-    		try {
-    			Thread.sleep(100);
-    		} catch (InterruptedException e) {
-    			e.printStackTrace();
-    		}
-		}
-    	if (cardMove != 0) {
-    	    int cardDir = cardMove / Math.abs(cardMove);
-    		try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-    		for (int i = 0; i < Math.abs(cardMove); i++) {
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+(i*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
-    			gui.getFields()[(playerPositionBeforeRoll+playerRoll+((i+1)*cardDir)) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-    	}
-    	if ((playerPositionBeforeRoll+playerRoll+cardMove) % gui.getFields().length != playerPositionAfterRoll) {
+        int moveDir;
+        if (playerRoll == 0)
+            moveDir = 1;
+        else
+            moveDir = playerRoll / Math.abs(playerRoll);
+        for (int i = 0; i < Math.abs(playerRoll); i++) {
+            gui.getFields()[((playerPositionBeforeRoll+(i * moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[((playerPositionBeforeRoll+((i+1)*moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
             try {
-                Thread.sleep(500);
-            } catch (Exception e) {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            for (int i = 0; i < gui.getFields().length; i++) {
-                gui.getFields()[i].setCar(allPlayer[currentPlayer], false);
-            }
-            gui.getFields()[playerPositionAfterRoll].setCar(allPlayer[currentPlayer], true);
         }
-    	}
+    }
+
+    private void teleportPlayer(int playerIndex, int finalPosition) {
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < gui.getFields().length; i++) {
+            gui.getFields()[i].setCar(allPlayer[playerIndex], false);
+        }
+        gui.getFields()[finalPosition].setCar(allPlayer[playerIndex], true);
+    }
 
 
-    // Set score
+    /**
+     * Sets all players current score
+     */
+
     public void setScore(String[] playerScores){
     	for (int i = 0; i < allPlayer.length; i++) {
 			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
 		}
     }
 
-    // DisplayOwner
+
+    /**
+     * Displays the owner of a given Ownable Tile.
+     */
 
    public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
         if(!owned){
@@ -234,7 +242,10 @@ public class GUI_Controller {
         }
    }
 
-    // mortgageProperty
+    /**
+     * Displays an ownable Tile as pawned
+     */
+
 
     public void mortgageProperty(int currentPlayer, int fieldPosition, boolean owned){
         if(!owned){
@@ -242,24 +253,29 @@ public class GUI_Controller {
             if (f instanceof GUI_Ownable) {
                 GUI_Ownable o = (GUI_Ownable)f;
                 o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), Color.DARK_GRAY);
-                System.out.println("mortgage succes");
             }
         }
     }
 
-
-   // SetChanceCard
+    /**
+     * Sets the next chanceCard in the Gui
+     */
 
     public void setChanceCard(String chanceString){
         gui.setChanceCard(chanceString);
     }
 
-    // DisplayChanceCard
+    /**
+     * Displays the current set chanceCard in the Gui
+     */
 
     public void displayChanceCard(){
         gui.displayChanceCard();
     }
 
+    /**
+     * Displays the current TileLevel of a property as houses or a hotel.
+     */
 
     public void setTileLevel(int currentPlayer, int tile, int numberOfHouses){
         if(numberOfHouses < 5){
@@ -283,7 +299,9 @@ public class GUI_Controller {
         }
     }
 
-    // String to boolean
+    /**
+     * Converts a string with containing true or false to at boolean
+     */
 
     public Boolean checkForBoolean(String state){
         if(state.equals("true")){
@@ -312,7 +330,9 @@ public class GUI_Controller {
        return choice;
    }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     */
     public static GUI_Controller getINSTANCE() {
         return INSTANCE;
     }
@@ -340,7 +360,6 @@ public class GUI_Controller {
     public void setAllPlayer(GUI_Player[] allPlayer) {
         this.allPlayer = allPlayer;
     }
-
 }
 
 

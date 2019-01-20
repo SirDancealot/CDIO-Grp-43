@@ -18,7 +18,7 @@ public class DiceCup {
      */
 	public void changeRegularDice(int d1newSize, int d2newSize){
 	    d1 = new Die(d1newSize);
-		//d2 = new Die(d2newSize);
+		d2 = new Die(d2newSize);
     }
     /**
      * Changes the dice to have specific sides with specific values
@@ -30,7 +30,7 @@ public class DiceCup {
 	    d2 = new Die(d2sides);
     }
 
-    public boolean ThreeSame(){
+    public boolean threeSame(){
 		if(sameInARow == 3) {
 			sameInARow = 0;
 			return true;
@@ -71,6 +71,10 @@ public class DiceCup {
 
 	public boolean isSame() {
 		return d1.getFaceValue() == d2.getFaceValue();
+	}
+
+	public boolean setSame() {
+		return true;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class GoToJail extends Tile {
     	super.landOnTile(p);
     	//infExch.addToCurrentTurnText(p + " was sent to jail");
         p.setInJail(true);
-        p.moveTo("jail");
+        p.moveTo("Jail");
         return true;
     }
 
