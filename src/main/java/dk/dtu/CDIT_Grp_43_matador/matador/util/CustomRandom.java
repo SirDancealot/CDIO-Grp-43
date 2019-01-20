@@ -12,17 +12,5 @@ public class CustomRandom {
 	public static int randInt(int maxNum) {
 		return rand.nextInt(maxNum) + 1;
 	}
-	
-	/**
-	 * @param low the lowest roll the method will be able to roll.
-	 * @param high the maximum roll the method will be able to roll.
-	 * @return returns a random whole number between low and high, both inclusive
-	 */
-	public static int randIntRange(int low, int high) {
-		return rand.nextInt(high + 1 - low) + low;
-	}
-	
-	public static Random getRandIntance() {
-		return rand;
-	}
+
 }

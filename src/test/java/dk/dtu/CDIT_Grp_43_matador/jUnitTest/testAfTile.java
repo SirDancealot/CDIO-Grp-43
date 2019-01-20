@@ -23,7 +23,6 @@ public class testAfTile {
     @Test
     public void testAfJail(){
         System.out.println("---- Test af Jail ----");
-        Bank bank = Bank.getInstance();
         GameBoard board = GameBoard.getInstance();
         Logic logic = Logic.getINSTANCE();
         TextReader.init();
@@ -37,7 +36,6 @@ public class testAfTile {
         int moneyBefore = p[0].getScore();
         logic.init(p);
 
-        Tile Jail = board.getGameTiles()[10];
         assertFalse(p[0].isInJail());
         p[0].setInJail(true);
         assertTrue(p[0].isInJail());

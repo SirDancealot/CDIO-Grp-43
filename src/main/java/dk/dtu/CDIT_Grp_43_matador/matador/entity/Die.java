@@ -39,18 +39,8 @@ public class Die {
 		}
 	}
 
-
-
-		public int getSize () {
-			return size;
-		}
-
 		public int getFaceValue () {
 			return faceValue;
-		}
-
-		public void setFaceValue ( int faceValue){
-			this.faceValue = faceValue;
 		}
 
 		@Override
@@ -58,8 +48,4 @@ public class Die {
 			return "This die has " + size + " sides, and currently shows a " + faceValue;
 		}
 
-		public void setSize(int size) {
-			this.size = size;
-		}
 }
-	//anders til eksamen :))

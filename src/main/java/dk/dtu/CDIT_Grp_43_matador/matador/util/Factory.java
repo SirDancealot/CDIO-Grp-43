@@ -21,7 +21,6 @@ import java.util.Queue;
 public class Factory {
 	private static final Factory INSTANCE = new Factory();
 	private Tile[] tiles;
-	private Queue<ChanceCard> chanceCards;
 	
 	private Factory() { TextReader.init(); }
 	
