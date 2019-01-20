@@ -59,9 +59,8 @@ public class GameController {
 	
 	/**
 	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
-	 * @throws IOException if an I/O error occurs.
 	 */
-	public void startGameLoop() throws IOException {
+	public void startGameLoop() {
 		while (playing) {
 			logic.tick();
 			if(logic.isEndOfGame()){

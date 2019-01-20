@@ -54,6 +54,8 @@ public class Bank {
                 bidString = "";
                 if (choice.equals("Byd")) {
                     int bidAmount = logic.getUserInt("Hvor meget vil du byde?",0,(players[currentPlayerBidding].getScore()));
+                    if (bidAmount < 0)
+                        bidAmount = 0;
                     if (bidAmount > highestBid) {
                         highestBid = bidAmount;
                         highestBidPlayer = currentPlayerBidding;
