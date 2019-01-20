@@ -1,0 +1,4202 @@
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\Account.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+
+public class Account {
+    private int money;
+
+    public Account(int initialAmount) {
+        money = initialAmount;
+    }
+
+    @Override
+    public String toString() {
+        return Integer.toString(money);
+    }
+
+    public boolean addMoney(int money){
+    	if (money < 0)
+    		return withdrawMoney(-money);
+        this.money += money;
+        return true;
+    }
+
+    public boolean withdrawMoney (int money){
+        if (money <= 0)
+            return addMoney(-money);
+    	this.money -= Math.abs(money);
+    	if (this.money < 0) {
+    		return false;
+    	}
+    	return true;
+    }
+
+    // Getter and setters
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\Bank.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+
+public class Bank {
+
+    private static final Bank INSTANCE = new Bank();
+    private Logic logic;
+    private Bank() {}
+
+    public static Bank getInstance() {
+        return INSTANCE;
+    }
+
+
+    public void initBank(){
+       logic = Logic.getINSTANCE();
+    }
+    private int housesInGame = 32;
+    private int hotelsInGame = 12;
+
+    private final String[] options = {"Byd", "Stop med at byde"};
+
+    public void auctions(Player[] players, Tile auctionTile) {
+        Ownable workingTile;
+        if (auctionTile instanceof Ownable)
+            workingTile = (Ownable)auctionTile;
+        else
+            return;
+
+        int playersBidding = 0;
+        for (Player player : players) {
+            if (player.getScore() >= 0) {
+                player.setInAuction(true);
+                playersBidding++;
+            } else
+                player.setInAuction(false);
+        }
+        int currentPlayerBidding = 0;
+        int highestBid = -1;
+        int highestBidPlayer = -1;
+
+        logic.displayMessage("Auktion om " + workingTile.getTileName() + " er gået i gang");
+        String bidString = "";
+
+
+        while (playersBidding > 1 || (playersBidding > 0 && highestBid == -1)) {
+            if (players[currentPlayerBidding].isInAuction() && players[currentPlayerBidding].isStillInGame()) {
+                bidString += "Hvad vil du " + players[currentPlayerBidding];
+                String choice = logic.getChoice(bidString,false, options);
+                bidString = "";
+                if (choice.equals("Byd")) {
+                    int bidAmount = logic.getUserInt("Hvor meget vil du byde?",0,(players[currentPlayerBidding].getScore()));
+                    if (bidAmount < 0)
+                        bidAmount = 0;
+                    if (bidAmount > highestBid) {
+                        highestBid = bidAmount;
+                        highestBidPlayer = currentPlayerBidding;
+                        currentPlayerBidding++;
+                    } else {
+                        bidString += "Du har budt for lavt. Byd mindst " + (highestBid + 1);
+                    }
+                } else {
+                    players[currentPlayerBidding].setInAuction(false);
+                    playersBidding--;
+                    currentPlayerBidding++;
+                }
+            }else {
+                currentPlayerBidding++;
+            }
+            currentPlayerBidding = currentPlayerBidding % players.length;
+        }
+        if (highestBidPlayer < 0)
+            return;
+        workingTile.setOwner(players[highestBidPlayer]);
+        players[highestBidPlayer].addMoney(-highestBid);
+        players[highestBidPlayer].addOwnedTile(workingTile);
+        logic.setOwnerAfterAuktion(highestBidPlayer, workingTile);
+    }
+
+    public boolean upgradeGround(Player p, Tile tile) {
+
+        Property workingTile;
+        if (tile instanceof  Property)
+            workingTile = (Property)tile;
+        else
+            return false;
+
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() > ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
+        }
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() == 5 || p.getScore() < workingTile.getHousePrice() || !workingTile.tileSetowned())
+           return false;
+
+        if (p.withDrawMoney(workingTile.getHousePrice())) {
+            workingTile.addHouseLevel();
+            if (workingTile.getHouseLevel() < 4) {
+                housesInGame--;
+            } else {
+                hotelsInGame--;
+                housesInGame += 4;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean downgradeGround (Player p, Tile tile) {
+        Property workingTile;
+        if (tile instanceof Property)
+            workingTile = (Property)tile;
+        else
+            return false;
+
+        for (Tile otherTile : logic.getTileBySet(workingTile.getSisterTag())) {
+            if (workingTile.getHouseLevel() < ((Property)otherTile).getHouseLevel()) {
+                return false;
+            }
+        }
+
+        if (workingTile.getOwner() != p || workingTile.getHouseLevel() <= 0)
+            return false;
+
+        if (p.addMoney(workingTile.getHousePrice()/2)) {
+            workingTile.removeHouseLevel();
+            if (workingTile.getHouseLevel() == 5) {
+                if (housesInGame >= 4) {
+                    hotelsInGame++;
+                    housesInGame -= 4;
+                } else {
+                    return false;
+                }
+            } else {
+                housesInGame++;
+            }
+        }
+        return true;
+    }
+
+    public boolean pawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
+        if (workingTile instanceof Property)
+            if (((Property)workingTile).getHouseLevel() != 0)
+                return false;
+        if (tile.getOwner() == p && tile.isBuyable()) {
+            workingTile.setPawned(true);
+            return p.addMoney(workingTile.getTileValue()/2);
+        }
+        return false;
+    }
+
+    public boolean unPawnTile(Player p, Tile tile) {
+        Ownable workingTile;
+        if (tile instanceof Ownable)
+            workingTile = (Ownable)tile;
+        else
+            return false;
+        if (workingTile.getOwner() == p && workingTile.isPawned() && p.getScore() >= (int)(workingTile.getTileValue()*0.6)) {
+            workingTile.setPawned(false);
+            return p.withDrawMoney((int)(workingTile.getTileValue()*0.6));
+        }
+        return false;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\CardEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public abstract class CardEffect {
+	protected boolean keepEffect = false;
+	protected boolean freeJailEffect = false;
+	
+	public CardEffect() {
+	}
+	
+	public abstract boolean useEffect(Player p);
+	
+	public boolean isKeepEffect() {
+		return keepEffect;
+	}
+	
+	@Override
+	public String toString() {
+		return "This card effect is: ";
+	}
+	
+	public abstract String print(Player p);
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\ChangeMoneyEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class ChangeMoneyEffect extends CardEffect {
+	private int moneyChange;
+	
+	public ChangeMoneyEffect(int moneyChange) {
+		this.moneyChange = moneyChange;
+	}
+	
+	@Override
+	public boolean useEffect(Player p) {
+		return p.addMoney(moneyChange);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "changeMoneyEffect";
+	}
+
+	@Override
+	public String print(Player p) {
+		String recieveMoney = "\t" + p + " modtager " + moneyChange + "kr\n";
+		String payMoney = "\t" + p + " mister " + (-moneyChange) + "kr\n";
+		return (moneyChange > 0) ? recieveMoney : payMoney;
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\FreeJailEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class FreeJailEffect extends CardEffect {
+	public FreeJailEffect() {
+		keepEffect = true;
+		freeJailEffect = true;
+	}
+	
+	@Override
+	public boolean useEffect(Player p) {
+		p.setFreeJail(true);
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "FreeJailEffect";
+	}
+
+	@Override
+	public String print(Player p) {
+		return "\t" + p + "kan komme gratis ud af fængslet næste gang\n";
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\KKPEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class KKPEffect extends CardEffect {
+    private int houseFee;
+    private int hotelFee;
+    private int houseNHotelPrice;
+
+    public KKPEffect(int houseFee, int hotelFee) {
+        this.houseFee = houseFee;
+        this.hotelFee = hotelFee;
+    }
+    @Override
+    public boolean useEffect(Player p) {
+        int[] houseAndHotel = p.getHouseAndHotelsOwned();
+        int housePrice = houseAndHotel[0] * houseFee;
+        int hotelPrice = houseAndHotel[1] * hotelFee;
+        houseNHotelPrice = housePrice + hotelPrice;
+        return p.withDrawMoney(houseNHotelPrice);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "KKPEffect";
+    }
+
+    @Override
+    public String print(Player p) {
+        String noHousesAndHotels = "\t" + p + " siden du ikke har nogen huse eller hoteller, betaler du ingenting";
+        String eitherOr = "\t" + p + " siden du har enten huse eller hoteller, betaler du " + houseNHotelPrice + "kr";
+        return houseNHotelPrice == 0 ? noHousesAndHotels : eitherOr;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\MatadorlegatEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class MatadorlegatEffect extends CardEffect {
+    private int recieveAmount;
+    private int maxValue;
+
+    public MatadorlegatEffect(int recieveAmount, int maxValue) {
+        this.recieveAmount = recieveAmount;
+        this.maxValue = maxValue;
+    }
+
+
+    @Override
+    public boolean useEffect(Player p) {
+        if(p.playerFortune() <= maxValue) {
+            p.addMoney(recieveAmount);
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "MatadorlegatEffect";
+    }
+
+    public String print(Player p) {
+        String accepted = "\t" + p + " du modtager " +  recieveAmount + " kr, da din konto var under " + maxValue + " kr";
+        String notAccepted = "\t" + p + " din konto er højere end " + maxValue + " kr og derfor modtager du ingenting";
+
+        return p.playerFortune() <= maxValue ? accepted : notAccepted;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\MovePlayerEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class MovePlayerEffect extends CardEffect {
+	private int moveAmt;
+	public MovePlayerEffect(int moveAmt) {
+		this.moveAmt = moveAmt;
+	}
+	
+	@Override
+	public boolean useEffect(Player p) {
+		return p.move(moveAmt);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "MovePlayerEffect";
+	}
+
+	@Override
+	public String print(Player p) {
+		String forward = "\t" + p + " rykker " + moveAmt + " fremad\n";
+		String backwards = "\t" + p + " rykker " + (-moveAmt) + " bagud\n";
+		
+		return moveAmt > 0 ? forward : backwards;
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\MovePlayerToEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class MovePlayerToEffect extends CardEffect {
+	private String moveToTag;
+	
+	public MovePlayerToEffect(String moveToTag) {
+		this.moveToTag = moveToTag;
+	}
+	
+	@Override
+	public boolean useEffect(Player p) {
+		if(moveToTag.equals("Jail")) {
+			p.setInJail(true);
+			return  p.moveTo(moveToTag);
+		}
+		return p.moveTo(moveToTag);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "MovePlayerToEffect";
+	}
+
+	@Override
+	public String print(Player p) {
+		return "\t" + p + " rykker til feltet: " + moveToTag + "\n";
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\MoveToClosestShipEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+
+public class MoveToClosestShipEffect extends CardEffect {
+    private String moveToTag;
+
+    public MoveToClosestShipEffect(String moveToTag) {
+        this.moveToTag = moveToTag;
+    }
+
+    @Override
+    public boolean useEffect(Player p) {
+        Tile[] matchingTiles = p.getTilesByTag(moveToTag);
+
+        int shortestDistance = Integer.MAX_VALUE;
+        int[] shipPosition = new int[matchingTiles.length];
+        for (int i = 0; i < matchingTiles.length; i++) {
+            shipPosition[i] = matchingTiles[i].getTileIndex();
+        }
+        for (int i = 0; i < shipPosition.length; i++) {
+            int distance = shipPosition[i] - p.getCurrPos();
+            if(distance < 0)
+                distance += 40;
+            if(distance < shortestDistance) {
+                shortestDistance = distance;
+            }
+        }
+        p.setPayDouble(true);
+        p.move(shortestDistance);
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "MoveToClosestShipEffect";
+    }
+
+    @Override
+    public String print(Player p) {
+        return "\t" + p + " rykker til feltet: " + moveToTag + "\n";
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\cardEffects\PayAllEffect.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class PayAllEffect extends CardEffect {
+	private int payAllAmt;
+	public PayAllEffect(int payAllAmt) {
+		this.payAllAmt = payAllAmt;
+	}
+	
+	@Override
+	public boolean useEffect(Player p) {
+		return p.payAll(payAllAmt);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "PayAllEffect";
+	}
+
+	@Override
+	public String print(Player p) {
+		String pay = "\t" + p + " betaler " + payAllAmt + " kr til alle spillere\n";
+		String recieve = "\t" + p + " modtager " + (-payAllAmt) + " kr fra alle spillere\n";
+		
+		return payAllAmt > 0 ? pay : recieve;
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\ChanceCard.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
+
+public class ChanceCard {
+	private static ChanceCardDeck cardDeck;
+	
+	private CardEffect[] cardEffects;
+	private boolean keepCard;
+	private boolean freeJail = false;
+	
+	public ChanceCard(CardEffect[] cardEffects) {
+		this.cardEffects = cardEffects;
+		for (CardEffect cardEffect : cardEffects) {
+			if (cardEffect == null) {
+				break;
+			}
+			if (cardEffect.isKeepEffect())
+				keepCard = true;
+		}
+	}
+
+	public static void setDeck(ChanceCardDeck chanceCardDeck) {
+		cardDeck = chanceCardDeck;
+	}
+
+	public boolean useCard(Player p) {
+		for (CardEffect cardEffect : cardEffects) {
+			if (!cardEffect.useEffect(p))
+				return false;
+		}
+		return true;
+	}
+	
+	public boolean isKeepCard() {
+		return keepCard;
+	}
+	
+	public boolean isFreeJail() {
+		return freeJail;
+	}
+	
+	public void returnToDeck() {
+    	cardDeck.returnCardToDeck(this);
+    }
+	
+	public String printCard(Player p) {
+		String result = "";
+		for (CardEffect cardEffect : cardEffects)
+			result += cardEffect.print(p);
+		return result;
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\Die.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.util.*;
+
+import java.util.Random;
+
+
+public class Die {
+	private int size;
+	private int faceValue;
+	private int sides[];
+	private static Random rand = new Random(System.currentTimeMillis());
+
+	/**
+	 * Initializes a {@code Die} with a set size and rolls a value for the die
+	 * @param size the number of sides this die will have.
+	 */
+	public Die(int size) {
+		this.size = size;
+		roll();
+	}
+
+	public Die(int sides[]) {
+		this.sides = sides;
+		roll();
+	}
+
+	/**
+	 * Rolls a new random value for the die based on the {@code Random} class
+	 *
+	 * @return A random number which the die can roll
+	 */
+	public int roll() {
+		if (sides == null) {
+			faceValue = rand.nextInt(size)+1;
+			return faceValue;
+		} else {
+			faceValue = sides[rand.nextInt(6)];
+			return faceValue;
+		}
+	}
+
+		public int getFaceValue () {
+			return faceValue;
+		}
+
+		@Override
+		public String toString () {
+			return "This die has " + size + " sides, and currently shows a " + faceValue;
+		}
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\Player.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity;
+
+import java.util.ArrayList;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+
+public class Player {
+	private static Player[] players;
+	private String name;
+	private boolean inJail = false;
+	private static Logic logic;
+	private int roll;
+	private int currPos = 0;
+	private int oldPos = 0;
+	private int cardMove = 0;
+	private boolean startMoneyElegible = false;
+	private ArrayList<Tile> ownedTiles = new ArrayList<Tile>();
+	private ArrayList<ChanceCard> keepingCards = new ArrayList<ChanceCard>();
+    private Account playerAccount;
+	private boolean nextJailFree = false;
+	private boolean stillInGame = true;
+	private boolean inAuction = false;
+	private boolean payDouble = false;
+	private int maxJailRolls = 0;
+
+	/**
+	 * @param name the name this player has.
+	 * @param startMoney how much money this player starts with.
+	 */
+    public Player(String name, int startMoney) {
+		logic = Logic.getINSTANCE();
+		this.name = name;
+		playerAccount = new Account(startMoney);
+	}
+
+
+	/**
+	 * Moves the player the assisgned number around the board and handles wraparound the board
+	 * @param moving How long the player has to move
+	 * @return Returns true if players moved all the way around the board else returns false
+	 */
+
+	public boolean move(int moving){
+		cardMove = 0;
+		roll = moving;
+		oldPos = currPos;
+		currPos += moving;
+		currPos = (currPos + logic.getBoardSize()) % logic.getBoardSize();
+		return true;
+	}
+
+	public boolean moveTo(String tileName) {
+		Tile targetTile = logic.getTileByName(tileName);
+		int targetPos = targetTile.getTileIndex() - currPos;
+		move(targetPos);
+		move(0);
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
+
+	/**
+	 * Calculates whether {@code This} instance of the {@code Player} has won and set's their hasWon tag respectively.
+	 */
+
+	public boolean addMoney (int money) {
+		return playerAccount.addMoney(money);
+	}
+	public boolean withDrawMoney(int money) {
+		return playerAccount.withdrawMoney(money);
+	}
+	public boolean payMoney(Player p, int money) {
+		if (this == p)
+			return true;
+		if (this.withDrawMoney(money)) {
+			if (p.addMoney(money)) {
+				return true;
+			}
+		} return false;
+	}
+	
+	public boolean payAll(int money) {
+		boolean result = true;
+		for (Player player : players) {
+			if (player.getScore() >= 0)
+				if(!payMoney(player, money))
+					result = false;
+		}
+		return result;
+	}
+
+	public int playerFortune() {
+		int ppf = 0;
+		for (Tile tile : ownedTiles)
+			if (tile instanceof  Ownable)
+				ppf += ((Ownable)tile).getTotalTileValue();
+		return ppf + getScore();
+	}
+
+	/**
+	 * A method to get how many houses and hotels the player owns
+	 * @return a integer array of length 2 with index 0 being how many houses they own, and index 1 being hou many hotels they own
+	 */
+	public int[] getHouseAndHotelsOwned() {
+		int[] houseAndHotels = new int[2];
+
+		for (Tile tile : ownedTiles) {
+			if (tile instanceof Property) {
+				int houseLevel = ((Property)tile).getHouseLevel();
+				if (houseLevel == 5)
+					houseAndHotels[1]++;
+				else
+					houseAndHotels[0] += houseLevel;
+			}
+		}
+		return houseAndHotels;
+	}
+
+	public void returnFreeJail() {
+		for (ChanceCard card : keepingCards) {
+			if (card.isFreeJail()) {
+				keepingCards.remove(card);
+				card.returnToDeck();
+				return;
+			}
+		}
+	}
+	
+	public void setMoney(int money) {
+		playerAccount.setMoney(money);
+	}
+
+// Getters and setters
+
+	public boolean isInJail() {
+		return inJail;
+	}
+
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
+        return playerAccount.getMoney();
+    }
+
+    public int getRoll() {
+		return roll;
+    }
+
+    public int getCurrPos() {
+        return currPos;
+    }
+    
+    public boolean isStartMoneyElegible() {
+		return startMoneyElegible;
+	}
+    
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+    
+    public void setStartMoneyElegible(boolean startMoneyElegible) {
+		this.startMoneyElegible = startMoneyElegible;
+	}
+    
+    public void addOwnedTile(Tile t) {
+    	ownedTiles.add(t);
+	}
+    
+    public ArrayList<Tile> getOwnedTiles() {
+		return ownedTiles;
+	}
+    
+    public void addKeepingCard(ChanceCard card) {
+    	keepingCards.add(card);
+    }
+    
+    public boolean hasFreeJail() {
+    	return nextJailFree;
+	}
+    
+    public void setFreeJail(boolean freeJail) {
+    	this.nextJailFree = freeJail;
+    }
+    
+    public static void setPlayers(Player[] players) {
+		Player.players = players;
+	}
+
+	public boolean isInAuction() {
+		return inAuction;
+	}
+
+	public void setInAuction(boolean inAuction) {
+		this.inAuction = inAuction;
+	}
+
+	public void setPayDouble(boolean payDouble) {
+		this.payDouble = payDouble;
+	}
+
+	public boolean isPayDouble() {
+		return payDouble;
+	}
+
+	public Tile[] getTilesByTag(String tag) {
+		return logic.searchForTileType(tag);
+	}
+
+	public int getOldPos() {
+		return oldPos;
+	}
+
+	public int getCardMove() {
+		return cardMove;
+	}
+
+    public int getMaxJailRolls(){
+        return maxJailRolls;
+    }
+
+	public void setMaxJailRolls(int maxJailRolls) {
+		this.maxJailRolls = maxJailRolls;
+	}
+
+	public void addMaxJailRolls(int maxRoll){
+
+		maxJailRolls += maxRoll;
+
+	}
+
+
+
+
+	public boolean isStillInGame() {
+		return stillInGame;
+	}
+
+	public void setStillInGame(boolean stillInGame) {
+		this.stillInGame = stillInGame;
+	}
+
+	public ChanceCard nextCard() {
+		return logic.nextCard();
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Chance.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class Chance extends Tile {
+
+
+    /**
+     * representing the 4 chance tiles on the board.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
+     */
+    public Chance (String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
+
+    }
+
+    /**
+     * (NOT FINISHED) Draws a chance card, and gives the effect of the card.
+     * @param p The current player.
+     * @return returns true if everything goes right, ergo the current player hasn't lost.
+     */
+    public boolean landOnTile(Player p) {
+    	super.landOnTile(p);
+        ChanceCard currCard = p.nextCard();
+        System.out.println(currCard);
+        boolean succeded = currCard.useCard(p);
+        if (currCard.isKeepCard())
+        	p.addKeepingCard(currCard);
+        else
+            currCard.returnToDeck();
+        return succeded;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på prøv lykken og trak et chancekort";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\FreeParking.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class FreeParking extends Tile {
+    /**
+     * The basic setup for the Freeparking tile. It doesn't do anything at the moment,
+     * but we've made it for reference and if we wish to add rules to it in the future.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
+     */
+    public FreeParking(String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
+    }
+
+    /**
+     * Method used when the player lands on a tile. Doesn't do anything at the moment.
+     * @param p The current player.
+     * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
+     */
+    /*public boolean passedTile (Player p) {
+        return true;
+    }*/
+    
+    @Override
+    public boolean landOnTile(Player p) {
+    	return super.landOnTile(p);
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på grastis parkering, der skete ingenting ";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\GoToJail.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class GoToJail extends Tile {
+
+    /**
+     * Used to control what happens to the player when landing on the GoToJail tile.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
+     */
+    public GoToJail(String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
+    }
+
+    /**
+     * Sets the players inJail boolean to true, and moves their position to the Jail tile.
+     * @param p The current player.
+     * @return Returns true if everything goes right.
+     */
+    @Override
+    public boolean landOnTile(Player p) {
+    	super.landOnTile(p);
+    	//infExch.addToCurrentTurnText(p + " was sent to jail");
+        p.setInJail(true);
+        p.moveTo("Jail");
+        return true;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " skal gå direkte i fængsel og modtagger ikke penge når de passere start";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Jail.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class Jail extends Tile {
+    private int outOfJailPrice = 50;
+
+    public Jail(String tilename, String tileinfo, int tileIndex){
+        super(tilename, tileinfo, tileIndex);
+
+    }
+
+	@Override
+	public String printLandOn(Player p) {
+    	String result;
+		if (p.isInJail())
+			result =  p + " er sat i fængsel";
+		else
+			result = p + " er på besøg i fængslet";
+		return result;
+	}
+
+	@Override
+	public String printPassed(Player p) {
+		String result = "";
+		return result;
+	}
+
+	public boolean payToExit(Player p) {
+    	if (p.isInJail()) {
+		    p.setInJail(false);
+		    return p.withDrawMoney(outOfJailPrice);
+	    }
+		return true;
+    }
+
+    public boolean cardToExit(Player p) {
+    	if (p.isInJail() && p.hasFreeJail()) {
+			p.setInJail(false);
+			p.returnFreeJail();
+			return true;
+	    } return false;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Ownable.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import java.util.ArrayList;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+
+public abstract class Ownable extends Tile {
+    protected Player owner = null;
+    protected boolean ownedLastTurn = false;
+    protected int lastPrice = 0;
+    private String sisterTag;
+    protected int tilesInSet;
+    protected boolean pawned = false;
+
+
+
+    /**
+     * Class for the ownable tiles that a player can own, and that others can pay rent to stay on.
+     * There are also sistertiles to each ownable tile which will double the rent if a player owns both.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
+     */
+    public Ownable (String tilename, String tileinfo, int tileIndex) {
+        super(tilename, tileinfo, tileIndex);
+        this.buyable = true;
+        String[] tileInfoTags = tileinfo.split(";");
+        for (String string : tileInfoTags) {
+            String[] tagInfo = string.split(":");
+            switch (tagInfo[0]) {
+                case "sister":
+                    sisterTag = tagInfo[1];
+                    break;
+                case "setSize":
+                    tilesInSet = Integer.valueOf(tagInfo[1]);
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * This is a function to buy this instance of a tile.
+     * @param p the player that's buying the tile.
+     * @return True if the purchase was a success.
+     */
+    public boolean buyTile (Player p) {
+        if (p.withDrawMoney(tileValue)) {
+            this.owner = p;
+            p.addOwnedTile(this);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isOwned(){
+        return owner != null;
+    }
+
+    protected int tilesInSetOwned() {
+        ArrayList<Tile> playerOwnedTileSet = owner.getOwnedTiles();
+        int tilesInSetOwned = 0;
+        for (Tile tile : playerOwnedTileSet) {
+            if ((tile.getOwner() == this.owner) && (sisterTag.equalsIgnoreCase(tile.getSisterTag())))
+                tilesInSetOwned++;
+        }
+        return tilesInSetOwned;
+    }
+
+    public boolean tileSetowned(){
+        return tilesInSetOwned() == tilesInSet;
+    }
+
+    public int getTotalTileValue() {
+        int totalValue = tileValue / 2;
+        if (this instanceof Property)
+            totalValue += ((Property) this).getHouseLevel() * ((Property) this).getHousePrice() / 2;
+        return totalValue;
+    }
+
+    /**
+     * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
+     * @param p The current player.
+     * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
+     */
+    @Override
+    public boolean passedTile(Player p) { return true; }
+
+    public boolean isPawned() { return pawned; }
+
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public boolean isBuyable () {
+        return buyable;
+    }
+
+    public int getTilesInSet() {
+        return tilesInSet;
+    }
+
+    @Override
+    public String getSisterTag() {
+        return sisterTag;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på " + tileName;
+        if (owner == null) {
+            result += " men der var ingen der købte " + tileName;
+        } else if (owner == p && !ownedLastTurn) {
+            ownedLastTurn = true;
+            result += " og købte " + tileName;
+        } else if (owner == p) {
+            result += " og ejede allerede feltet, så der skete intet";
+        } else if (owner != p && !ownedLastTurn) {
+            ownedLastTurn = true;
+            result += " og feltet røt på auktion og blev købt af " + owner;
+        } else if (owner != p) {
+            result += " som er ejet af " + owner + " og betalte dem " + lastPrice;
+        }
+
+
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\OwnableProperties\Brewery.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties;
+
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+
+
+public class Brewery extends Ownable {
+    private int[] dieMultiplier;
+
+    public Brewery(String tilename, String tileinfo, int tileIndex, String rentInfo) {
+        super(tilename, tileinfo, tileIndex);
+        String[] rentInfoTags = rentInfo.split(";");
+        dieMultiplier = new int[rentInfoTags.length];
+        for (String infoTag: rentInfoTags) {
+            dieMultiplier[Integer.valueOf(infoTag.split(":")[0])-1] = Integer.valueOf(infoTag.split(":")[1]);
+        }
+
+    }
+
+    /**
+     * Method for landing on a brewery tile
+     * @param p The current player.
+     * @return true if p has enough money to pay rent
+     */
+
+    public boolean landOnTile(Player p) {
+        boolean payDouble = p.isPayDouble();
+        p.setPayDouble(false);
+        if (owner == null || pawned || p == owner)
+            return true;
+        lastPrice = p.getRoll() * dieMultiplier[tilesInSetOwned()-1] * (payDouble ? 2 : 1);
+        return p.payMoney(owner, lastPrice);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\OwnableProperties\Property.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+
+public class Property extends Ownable {
+    private int houseLevel = 0;
+    private int[] propertyRents;
+    private int housePrice;
+
+
+    public Property(String tilename, String tileinfo, int tileIndex, String rentInfo) {
+        super(tilename, tileinfo, tileIndex);
+        String[] rentInfoTags = rentInfo.split(";");
+        propertyRents = new int[rentInfoTags.length];
+        for (String infoTag : rentInfoTags) {
+            propertyRents[Integer.valueOf(infoTag.split(":")[0])] = Integer.valueOf(infoTag.split(":")[1]);
+        }
+        String[] tileInfo = tileinfo.split(";");
+        for (String string: tileInfo) {
+            String[] split = string.split(":");
+            switch (split[0]) {
+                case "housePrice":
+                    this.housePrice = Integer.valueOf(split[1]);
+            }
+        }
+    }
+
+    /**
+     * Method for landing on a property tile
+     *
+     * @param p The current player.
+     * @return true if p has enough money to pay rent
+     */
+
+    @Override
+    public boolean landOnTile(Player p) {
+        boolean payDouble = p.isPayDouble();
+        p.setPayDouble(false);
+        if (owner == null || pawned || p == owner)
+            return true;
+
+        if (houseLevel == 0 && tileSetowned()) {
+            lastPrice = 2 * propertyRents[0] * (payDouble ? 2 : 1);
+            return p.payMoney(owner, lastPrice);
+        }
+        lastPrice = propertyRents[houseLevel] * (payDouble ? 2 : 1);
+        return p.payMoney(owner, lastPrice);
+    }
+
+    public int getHouseLevel() {
+        return houseLevel;
+    }
+
+    public void addHouseLevel(){
+        houseLevel++;
+    }
+
+    public void removeHouseLevel() {houseLevel--;}
+
+    public int getHousePrice() { return housePrice;}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\OwnableProperties\Ship.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+
+public class Ship extends Ownable {
+    private int[] shipMultiplier;
+
+
+    public Ship(String tilename, String tileinfo, int tileIndex, String rentInfo) {
+        super(tilename, tileinfo, tileIndex);
+        String[] rentInfoTags = rentInfo.split(";");
+        shipMultiplier = new int[rentInfoTags.length];
+        for (String infoTag : rentInfoTags) {
+            shipMultiplier[Integer.valueOf(infoTag.split(":")[0])-1] = Integer.valueOf(infoTag.split(":")[1]);
+        }
+    }
+
+    /**
+     * Method for landing on a ship tile
+     *
+     * @param p The current player.
+     * @return true if p has enough money to pay rent
+     */
+
+    @Override
+    public boolean landOnTile(Player p) {
+        boolean payDouble = p.isPayDouble();
+        p.setPayDouble(false);
+        if (owner == null || pawned || p == owner)
+            return true;
+
+        lastPrice = shipMultiplier[tilesInSetOwned() - 1] * (payDouble ? 2 : 1);
+        return p.payMoney(owner, lastPrice);
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Start.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class Start extends Tile {
+    private int overStartBonus;
+    private boolean wasStartElegible = false;
+
+    /**
+     * The subclass Start represents the start Tile on the game board.
+     * @param tilename parsed to superclass constructor {@code Tile}.
+     * @param tileinfo parsed to superclass constructor {@code Tile}.
+     */
+    public Start(String tilename, String tileinfo, int tileIndex) {
+        super (tilename, tileinfo, tileIndex);
+        String[] tileInfoTags = tileinfo.split(";");
+        for (String string : tileInfoTags) {
+        	String[] tagInfo = string.split(":");
+			switch (tagInfo[0]) {
+			case "passedValue":
+				overStartBonus = Integer.valueOf(tagInfo[1]);
+				break;
+			default:
+				break;
+			}
+		}
+    }
+
+    @Override
+    public boolean landOnTile(Player p) {
+        boolean status = false;
+        wasStartElegible = p.isStartMoneyElegible();
+        if (wasStartElegible)
+            status = p.addMoney(overStartBonus);
+        p.setStartMoneyElegible(false);
+        return super.landOnTile(p);
+    }
+
+    /**
+     * What happens when the player passes start. The player receives the overStartBonus
+     * to their balance through the addMoney method in the Player class.
+     * @param p The current player.
+     * @return returns true if everything went well.
+     */
+    @Override
+    public boolean passedTile(Player p) {
+        boolean status = false;
+        wasStartElegible = p.isStartMoneyElegible();
+        if (wasStartElegible)
+            status = p.addMoney(overStartBonus);
+        p.setStartMoneyElegible(true);
+
+        return status;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på start men modtog ikke " + overStartBonus + " kr.";
+        if (wasStartElegible)
+            result = p + " landede på start og modtog " + overStartBonus + " kr.";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = p + " passerede start men modtog ikke " + overStartBonus + " kr.";
+        if (wasStartElegible)
+            result = p + " passerede på start og modtog " + overStartBonus + " kr.";
+        return result;
+    }
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Tax.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+
+public class Tax extends Tile {
+    private int taxFlat;
+    private int taxPercent = 0;
+    private final String[] options = {"Betal 10% af formue", "Betal 200 kr"};
+    private int lastPayed = 0;
+    private Logic logic = Logic.getINSTANCE();
+
+
+    public Tax(String tileName, String tileinfo, int tileIndex) {
+        super(tileName, tileinfo, tileIndex);
+        String[] tileInfo = tileinfo.split(";");
+        for (String string : tileInfo) {
+            String[] split = string.split(":");
+            switch (split[0]) {
+                case "money":
+                    this.taxFlat = Integer.valueOf(split[1]);
+                    break;
+                case "percent":
+                    this.taxPercent = Integer.valueOf(split[1]);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+        @Override
+        public boolean landOnTile (Player p) {
+            if (taxPercent != 0 && taxFlat != 0) {
+                String choice = logic.getChoice("Betal skat", false, options);
+                if (choice.equals(options[0])) {
+                    lastPayed = ((int) ((taxPercent / 100.0) * p.playerFortune()));
+                    return p.withDrawMoney((int) ((taxPercent / 100.0) * p.playerFortune()));
+                }
+            } else if (taxPercent != 0) {
+                lastPayed = ((int) ((taxPercent / 100.0) * p.playerFortune()));
+                return p.withDrawMoney((int) ((taxPercent / 100.0) * p.playerFortune()));
+            }
+            lastPayed = taxFlat;
+            return p.withDrawMoney(taxFlat);
+        }
+
+    @Override
+    public String printLandOn(Player p) {
+        return p + " landede på et betal skat fælt og betalte " + lastPayed;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        return "";
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\entity\tiles\Tile.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+
+public abstract class Tile {
+    private GameBoard board = GameBoard.getInstance();
+    protected int tileIndex;
+    protected int tileValue;
+    protected boolean buyable = false;
+    protected String tileName;
+    protected String tileMessage;
+    protected String type;
+
+
+    /**
+     * Super constructor for all tile classes, should be called in all sub classes.
+     * @param tileName the name on the current tile gathered from Tiles.txt file.
+     * @param tileInfoString Info regarding the different properties for each tile, such as rent, and type of tile.
+     */
+    public Tile(String tileName, String tileInfoString, int tileIndex) {
+        String[] nameInfo = tileName.split(";");
+        this.tileIndex = tileIndex;
+        String[] tileInfo = tileInfoString.split(";");
+        for (String string : tileInfo) {
+            String[] split = string.split(":");
+            switch (split[0]) {
+                case "Tilevalue":
+                    tileValue = Integer.valueOf(split[1]);
+                    break;
+                case "name":
+                    this.tileName = split[1];
+                    break;
+                    case "type":
+                        this.type = split[1];
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Boolean keeping track of what tile the player just passed. Used for tracking if the player crossed start.
+     * @param p The current player.
+     * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
+     */
+    public boolean passedTile(Player p) {
+        return true;
+    }
+
+    public Player getOwner() {
+        return null;
+    }
+
+    public  boolean isOwned() {
+        return false;
+    }
+
+    /**
+     * Method used when the player lands on a tile. Gets elaborated on in the tile sub classes.
+     * @param p The current player.
+     * @return Returns true if the method goes as planned, meaning that the player hasn't lost.
+     */
+    public boolean landOnTile(Player p) {
+    	System.out.println("Landed on tile: " + this);
+        return true;
+    }
+
+    // Getters
+    public int getTileValue() {
+        return tileValue;
+    }
+
+    public int getTileIndex() {
+        return tileIndex;
+    }
+
+    public String getTileName() {
+        return tileName;
+    }
+
+    public String getTileMessage() {
+        return tileMessage;
+    }
+    
+    @Override
+    public String toString() {
+    	return this.tileName;
+    }
+
+	public String getSisterTag() {
+		return null;
+	}
+
+    public boolean isBuyable() {
+        return buyable;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    protected String getChoice(String msg, boolean list, String... buttons) {
+        return board.getChoice(msg, list, buttons);
+    }
+
+    public abstract String printLandOn(Player p);
+
+    public abstract String printPassed(Player p);
+}
+
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\GameController.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador;
+
+
+import java.io.IOException;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.gui.GUI_Controller;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+
+//import static dk.dtu.CDIT_Grp_43_matador.matador.util.GameTextures.createGameBoardTextures;
+
+public class GameController {
+	//Singleton instance and getter
+	private static final GameController INSTANCE = new GameController();
+
+	private GameController() {}
+	
+	public static GameController getInstance() {
+		return INSTANCE;
+	}
+	
+	//Logical variables
+	private static boolean playing = true;
+
+	//Container variables
+	private Player[] players;
+	private GameBoard bord = GameBoard.getInstance();
+	private Logic logic = Logic.getINSTANCE();
+	private GUI_Controller gui = GUI_Controller.getINSTANCE();
+
+
+	public void init() throws IOException {
+
+
+		// Gui
+		gui.init();
+		gui.setupGame();
+		int numPlayers = gui.getNumberOfPlayers();
+		int startMoney = 1500;
+		String[] names = gui.getNames();
+		gui.addplayers(startMoney);
+		gui.displayPlayers();
+
+		bord.initBoard();
+
+		players = new Player[numPlayers];
+		for (int i = 0; i < numPlayers; i++) {
+			players[i] = new Player(names[i], startMoney);
+		}
+
+		// Init logic
+		logic.init(players);
+	}
+	
+	/**
+	 * The main game loops, that indefinitely runs through each player until one of the players (or AI's) has won
+	 */
+	public void startGameLoop() {
+		while (playing) {
+			logic.tick();
+			if(logic.isEndOfGame()){
+				endGame();
+			}
+		}
+	}
+
+	/**
+	 * The stop function that runs as the very last thing in the game 
+	 * in case any objects needs to be closed or anything similar.
+	 */
+	public void stop() {
+		System.out.println("Game end");
+		displayWinningMessage();
+		System.exit(0);
+	}
+
+	/**
+	 * The function that is run when a player has won the game and the game loop needs to stop.
+	 */
+	private void endGame() {
+		playing = false;
+	}
+
+	private void displayWinningMessage() {
+        Player winner = logic.getWinner();
+        for (Player player : players) {
+			if (player.getScore() > winner.getScore())
+				winner = player;
+		}
+		String winMsg = "The winner of the game was " + winner + " with a score of " + winner.getScore() + " and a total fortune of " + winner.playerFortune() + "\n\nThe game will close after you press ok";
+        displayMessage(winMsg);
+	}
+
+	public String getChoice(String msg, Boolean list, String... buttons) {
+		String choice = gui.displayButtons(msg, list, buttons);
+		return choice;
+	}
+
+	private void displayMessage(String msg) {
+		gui.displayMessage(msg);
+	}
+
+	public void updateDisplay(String turnInfo) {
+		gui.updateDisplay(turnInfo);
+	}
+
+
+	public GameBoard getBord() {
+		return bord;
+	}
+
+    public int getUserInt(String msg,int min, int max) {
+		return gui.getUserInt(msg ,min, max);
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\gui\GUI_Controller.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.gui;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
+import gui_fields.*;
+import gui_main.*;
+import java.awt.*;
+import java.io.IOException;
+
+public class GUI_Controller {
+    private static GUI_Controller INSTANCE = new GUI_Controller();
+    private GUI gui;
+    private GUI_Player[] allPlayer;
+    private int numberOfPlayers = 0;
+    private String[] names;
+
+    private GUI_Controller() {}
+
+    // Start game
+
+	/**
+	 * Initializes the gui with all the tiles to display.
+	 */
+    public void init(){
+        GUI_Field[] gui_fields;
+        try {
+            gui_fields = Factory.getInstance().createGuiFields();
+        } catch (IOException e) {
+	        e.printStackTrace();
+	        gui_fields = new GUI_Field[0];
+        }
+        gui = new GUI(gui_fields);
+        setChanceCard("Prøv lykken");
+    }
+
+
+	/**
+	 * Asks the user for how many will be playing and what their player names will be.
+	 * @throws IOException when an I/O error occurs.
+	 */
+	public void setupGame() throws IOException{
+        // Number of players
+        numberOfPlayers = Integer.valueOf(gui.getUserButtonPressed("Vælg antal spillere",   "3", "4", "5", "6" ));
+
+        // Add player names
+        names = new String[numberOfPlayers];
+        for(int i = 0; i < names.length; i++){
+            names[i] = gui.getUserString("Tilføj spiller " + (i+1) + "´s navn");
+            if(names[i].isEmpty()){
+                names[i] = "Spiller " + (i+1);
+            }
+        }
+    }
+
+
+    // Created players
+
+    /**
+     * initializes an array of gui payers to be displayed in the gui with a given amount of money to start with.
+     * @param money the amount of money each player starts with.
+     */
+    public void addplayers(int money) {
+        Color[] primaryColor = {new Color(51,204,255), new Color(102,255,102), new Color(255,255,153), new Color(153,102,0), new Color(102,0,153), new Color(153,0,0)};
+        Color[] secondaryColor = {new Color(51,204,255), new Color(102,255,102), new Color(255,255,153), new Color(153,102,0), new Color(102,0,153), new Color(153,0,0)};
+        GUI_Car.Type carTypes = GUI_Car.Type.CAR;
+        allPlayer = new GUI_Player[names.length];
+        for(int i = 0; i < names.length; i++){
+            GUI_Car car = new GUI_Car(primaryColor[i], secondaryColor[i], carTypes, GUI_Car.Pattern.FILL);
+            GUI_Player player = new GUI_Player(names[i], money, car);
+            gui.addPlayer(player);
+            allPlayer[i] = player;
+        }
+    }
+
+    // Update GUI
+	/**
+	 * method to call when wanting to update the display with what happened last turn.
+	 */
+    public void updateDisplay(String turnInfo){
+        String[] info = turnInfo.split(";");
+
+        for (int i = 0; i < info.length; i++) {
+            String[] thisInfo = info[i].split(":");
+            String step = thisInfo[0];
+                switch (step) {
+                    case "updateScore":
+                        String[] score = thisInfo[1].split(",");
+                        setScore(score);
+                        break;
+                    case "displayDies":
+                        String[] dies = thisInfo[1].split(",");
+                        gui.setDice(Integer.parseInt(dies[0]), Integer.parseInt(dies[1]));
+                        break;
+                    case "teleportPlayer":
+                        String[] teleportPlayer = thisInfo[1].split(",");
+                        teleportPlayer(Integer.parseInt(teleportPlayer[0]), Integer.parseInt(teleportPlayer[1]));
+                        break;
+                    case "movePlayer":
+                        String[] movePlayer = thisInfo[1].split(",");
+                        movePlayer(Integer.parseInt(movePlayer[0]),Integer.parseInt(movePlayer[1]),Integer.parseInt(movePlayer[2]),Integer.parseInt(movePlayer[3]),Integer.parseInt(movePlayer[4]));
+                        break;
+                    case "displayOwner":
+                        String[] displayOwner = thisInfo[1].split(",");
+                        displayOwner(Integer.parseInt(displayOwner[0]),Integer.parseInt(displayOwner[1]), checkForBoolean(displayOwner[2]));
+                        break;
+                    case "setHouseLevel":
+                        String[] houseLevel = thisInfo[1].split(",");
+                        setTileLevel(Integer.parseInt(houseLevel[0]), Integer.parseInt(houseLevel[1]), Integer.parseInt(houseLevel[2]));
+                        break;
+                    case "turnMessage":
+                        String message = thisInfo[1];
+                        displayMessage(message);
+                        break;
+                    case "mortgage":
+                        String[] mortgage = thisInfo[1].split(",");
+                        mortgageProperty(Integer.parseInt(mortgage[0]),Integer.parseInt(mortgage[1]), checkForBoolean(mortgage[2]));
+                        break;
+                    case "onMortgage":
+                        String[] onMortgage = thisInfo[1].split(",");
+                        displayOwner(Integer.parseInt(onMortgage[0]),Integer.parseInt(onMortgage[1]), checkForBoolean(onMortgage[2]));
+                        break;
+                    case "chanceCardMessage":
+                        String chanceCardMessage = thisInfo[1];
+                        setChanceCard(chanceCardMessage);
+                        displayChanceCard();
+                        break;
+                    case "removePlayerFromGame":
+                        String removePlayerFromGame = thisInfo[1];
+                        removePlayerFormGame(Integer.parseInt(removePlayerFromGame));
+                        break;
+                    case "setNewOwner":
+                        String[] setNewOwner = thisInfo[1].split(",");
+                        int playerIndex = 0;
+                        for(int j = 0; j < allPlayer.length; j ++){
+                            if((allPlayer[j].getName()).equals(setNewOwner[0])){
+                                playerIndex = j;
+                                System.out.println(allPlayer[j].getName());
+                            }
+                        }
+                        displayOwner(playerIndex,Integer.parseInt(setNewOwner[1]), checkForBoolean(setNewOwner[2]));
+                        break;
+                }
+        }
+    }
+
+    // Functionality
+
+    /**
+	 * Displays all the gui players on the start tile.
+	 */
+    public void displayPlayers(){
+        for(int i = 0; i < allPlayer.length; i++){
+            gui.getFields()[0].setCar(allPlayer[i], true);
+        }
+    }
+
+    // RemovePlayerFromGame
+
+    /**
+     * Removes player from gameboard when he dies
+     */
+
+    public void removePlayerFormGame(int romovePlayer){
+        for(int i = 0; i < gui.getFields().length; i++){
+            gui.getFields()[i].setCar(allPlayer[romovePlayer], false);
+        }
+    }
+
+
+    /**
+     * Method to be called when wanting to show text to the GUI (will interrupt everything else and wait for the player to press the 'ok' button)
+     * @param msg a String containing what to display
+     */
+    public void displayMessage(String msg){
+        gui.showMessage(msg);
+    }
+
+
+    // Move current player
+
+	/**
+	 * method to be called when updating the gui with a new position for a {@code Player}
+	 * @param currentPlayer the index of the current player in the range {@code 0 <= currentPlayer < Players.length}
+	 * @param playerPositionAfterRoll the index on the {@code GameBoard} of the {@code Player} after their turn is done.
+	 * @param playerPositionBeforeRoll the index on the {@code GameBoard} of the {@code Player} before their turn is done.
+	 * @param playerRoll the number the {@code Player} rolled with the dice.
+	 * @param cardMove the amount of tiles the {@code Player} moved due to drawing {@code ChanceCard}.
+	 */
+    public void movePlayer(int currentPlayer, int playerPositionAfterRoll, int playerPositionBeforeRoll, int playerRoll, int cardMove){
+        int moveDir;
+        if (playerRoll == 0)
+            moveDir = 1;
+        else
+            moveDir = playerRoll / Math.abs(playerRoll);
+        for (int i = 0; i < Math.abs(playerRoll); i++) {
+            gui.getFields()[((playerPositionBeforeRoll+(i * moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], false);
+            gui.getFields()[((playerPositionBeforeRoll+((i+1)*moveDir)) + gui.getFields().length) % gui.getFields().length].setCar(allPlayer[currentPlayer], true);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void teleportPlayer(int playerIndex, int finalPosition) {
+        try {
+            Thread.sleep(500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < gui.getFields().length; i++) {
+            gui.getFields()[i].setCar(allPlayer[playerIndex], false);
+        }
+        gui.getFields()[finalPosition].setCar(allPlayer[playerIndex], true);
+    }
+
+
+    /**
+     * Sets all players current score
+     */
+
+    public void setScore(String[] playerScores){
+    	for (int i = 0; i < allPlayer.length; i++) {
+			allPlayer[i].setBalance(Integer.parseInt(playerScores[i]));
+		}
+    }
+
+
+    /**
+     * Displays the owner of a given Ownable Tile.
+     */
+
+   public void displayOwner(int currentPlayer, int playerPosition, boolean owned){
+        if(!owned){
+            GUI_Field f = gui.getFields()[playerPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), allPlayer[currentPlayer].getSecondaryColor());
+            }
+        }
+   }
+
+    /**
+     * Displays an ownable Tile as pawned
+     */
+
+
+    public void mortgageProperty(int currentPlayer, int fieldPosition, boolean owned){
+        if(!owned){
+            GUI_Field f = gui.getFields()[fieldPosition];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                o.setBorder(allPlayer[currentPlayer].getPrimaryColor(), Color.DARK_GRAY);
+            }
+        }
+    }
+
+    /**
+     * Sets the next chanceCard in the Gui
+     */
+
+    public void setChanceCard(String chanceString){
+        gui.setChanceCard(chanceString);
+    }
+
+    /**
+     * Displays the current set chanceCard in the Gui
+     */
+
+    public void displayChanceCard(){
+        gui.displayChanceCard();
+    }
+
+    /**
+     * Displays the current TileLevel of a property as houses or a hotel.
+     */
+
+    public void setTileLevel(int currentPlayer, int tile, int numberOfHouses){
+        if(numberOfHouses < 5){
+            GUI_Field f = gui.getFields()[tile];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                if(o instanceof GUI_Street){
+                    GUI_Street s = (GUI_Street)o;
+                    s.setHouses(numberOfHouses);
+                }
+            }
+        }else{
+            GUI_Field f = gui.getFields()[tile];
+            if (f instanceof GUI_Ownable) {
+                GUI_Ownable o = (GUI_Ownable)f;
+                if(o instanceof GUI_Street){
+                    GUI_Street s = (GUI_Street)o;
+                    s.setHotel(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * Converts a string with containing true or false to at boolean
+     */
+
+    public Boolean checkForBoolean(String state){
+        if(state.equals("true")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+	/**
+	 *
+	 * @param msg the message to display to the player with the buttons
+	 * @param buttons any number of strings the amount being how many buttons to display, and the value is what to write on the buttons
+	 * @return returns the string that was written on the button that was pressed
+	 */
+   public String displayButtons(String msg, boolean list, String... buttons) {
+    if(buttons.length == 0){
+        return null;
+    }
+       String choice;
+       if(list){
+           choice = gui.getUserSelection(msg, buttons);
+       }else{
+           choice = gui.getUserButtonPressed(msg, buttons);
+       }
+       return choice;
+   }
+
+    /**
+     * Getters and setters
+     */
+    public static GUI_Controller getINSTANCE() {
+        return INSTANCE;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public int getUserInt (String msg, int min ,int max) {
+   	    return gui.getUserInteger(msg, min, max);
+    }
+
+}
+
+
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\Logic.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+
+import java.util.ArrayList;
+
+public class Logic {
+
+    private static Logic INSTANCE = new Logic();
+    private final int TURNLIMIT = 500;
+
+    private Bank bank;
+    private GameController game;
+    private ChanceCardDeck deck;
+    private Player[] players;
+    private DiceCup diceCup;
+    private GameBoard board;
+    private boolean endOfGame = false;
+    private boolean rolled = false;
+    private boolean turnEnded;
+    private int turns = 0;
+    private int currPlayerIndex = 0;
+    private int[] deadPlayers;
+
+    // Turn base variables
+    private String turnString = "";
+    private String turnMessage = "";
+    private int currentMortgageProperty;
+    private int currentOnMortgageProperty;
+    private int currentTileUpgrade;
+    private int currentTileLevel;
+    private boolean currentLandedOnTileOwned = false;
+
+    private Logic(){}
+
+    /**
+     * Initializes the sigleton class {@code Logic}
+     * @param players The players in the current game
+     */
+
+    public void init(Player[] players){
+        this.players = players;
+        Player.setPlayers(players);
+        diceCup = DiceCup.getInstance();
+        board = GameBoard.getInstance();
+        endOfGame = false;
+        game = GameController.getInstance();
+        bank = Bank.getInstance();
+        bank.initBank();
+        deadPlayers = new int[players.length];
+        deck = ChanceCardDeck.getInstance();
+        for(int i = 0; i < deadPlayers.length; i++){
+            deadPlayers[i] = 0;
+        }
+    }
+
+    /**
+     * A funktion that updates the logic in the game and should be called every logic frame
+     */
+
+    public void tick() {
+        turnEnded = false;
+        while (!turnEnded) {
+            String[] options;
+            if (!rolled)
+                options = new String[] {"Rul"};
+            else
+                options = new String[] {"Slut tur"};
+
+            if (players[currPlayerIndex].isInJail()) {
+
+                options = expandArray(options, "Betal for at komme ud");
+
+                if (players[currPlayerIndex].hasFreeJail())
+                    options = expandArray(options, "Brug chance kort");
+            }
+
+            if(canBuyHouse()){
+                options = expandArray(options, "Køb hus(e)");
+            }
+            if(canSellHouse()){
+                options = expandArray(options, "Sælg hus(e)");
+        }
+            if(canPawn()){
+                options = expandArray(options, "Pantsæt");
+            }
+            if(canUnPawn()){
+                options = expandArray(options, "Ophæv pantsætning");
+            }
+            if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()] instanceof Ownable){
+                if (board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner() == null)
+                    options = new String[] {"Køb", "Sæt på auktion"};
+            }
+
+            turnStringGenerator("updateScore");
+            updateGui();
+            String choice = getChoice((players[currPlayerIndex].isInJail() ? players[currPlayerIndex].getName()+"!! du er i fængsel, hvad vil du nu?" : players[currPlayerIndex].getName()+" hvad vil du nu?"), false, options);
+            turnChoice(choice);
+        }
+    }
+
+    /**
+     * Turnchoce displays the options the players have each turn
+     */
+
+    private void turnChoice(String choice ) {
+
+        switch (choice) {
+            case "Rul":
+                diceCup.roll();
+
+                if(players[currPlayerIndex].isInJail()) {
+                    maxJailTime();
+                    rolled = true;
+                }
+                if(diceCup.threeSame()){
+                    displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
+                    players[currPlayerIndex].setInJail(true);
+                    players[currPlayerIndex].moveTo("Jail");
+                    turnStringGenerator("displayDies");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
+                    addToTurnMessage(players[currPlayerIndex].getName()+" slog 2 ens 3 gange i træk og blev sendt i fængsels");
+                    turnStringGenerator("turnMessage", "teleportPlayer");
+                    updateGui();
+                    rolled = true;
+                } else if(diceCup.isSame() && players[currPlayerIndex].isInJail()) {
+                    players[currPlayerIndex].setInJail(false);
+                    for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
+                        board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                    }
+                    players[currPlayerIndex].move(diceCup.getDiceIntValues());
+                } else if(!players[currPlayerIndex].isInJail()) {
+                    for (int i = 0; i < diceCup.getDiceIntValues(); i++) {
+                        board.getGameTiles()[(players[currPlayerIndex].getCurrPos() + i) % board.getBoardSize()].passedTile(players[currPlayerIndex]);
+                    }
+                    players[currPlayerIndex].move(diceCup.getDiceIntValues());
+                    rolled = true;
+                }
+
+                if (diceCup.isSame() && !players[currPlayerIndex].isInJail())
+                    rolled = false;
+
+                if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
+                    turnStringGenerator("updateScore","displayDies");
+                    updateGui();
+                }else {
+                    turnStringGenerator("displayDies");
+                    updateGui();
+                    turnStringGenerator("updateScore", "movePlayer");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
+                }
+
+                Tile tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
+                board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                while (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                    turnStringGenerator("updateScore", "movePlayer");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+                    tileBeforeLandOnTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
+                }
+                addToTurnMessage(players[currPlayerIndex].getName()+" slog "+diceCup.getDiceIntValues()+" og landede på "+game.getBord().getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileName());
+
+                if(!board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isOwned() && board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isBuyable()){
+                    addToTurnMessage(", feltet du er landet på er ikke ejet, du har nu mulighed for at købe ejendommen eller sætte det på auktion.");
+                }
+
+                if(board.getGameTiles()[players[currPlayerIndex].getCurrPos()].isOwned()){
+
+                    ArrayList<Tile> currentPlayersTiles = players[currPlayerIndex].getOwnedTiles();
+
+                    for (Tile currentPlayersTile : currentPlayersTiles) {
+                        if (currentPlayersTile == board.getGameTiles()[players[currPlayerIndex].getCurrPos()]) {
+                            currentLandedOnTileOwned = true;
+                        }
+                    }
+
+                    if(currentLandedOnTileOwned){
+                        addToTurnMessage(", du ejer feltet og har nu givende muligheder ");
+                        currentLandedOnTileOwned = false;
+                    }else{
+                        addToTurnMessage(", feltet er ejet og du skal nu betal leje til "+ board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getOwner());
+                    }
+                }
+
+                if (tileBeforeLandOnTile != board.getGameTiles()[players[currPlayerIndex].getCurrPos()])
+                    board.getGameTiles()[players[currPlayerIndex].getCurrPos()].landOnTile(players[currPlayerIndex]);
+
+
+                if(players[currPlayerIndex].isInJail() && players[currPlayerIndex].getMaxJailRolls() > 0){
+                    turnStringGenerator("updateScore","turnMessage");
+                    updateGui();
+                }else {
+                    turnStringGenerator("updateScore","turnMessage");
+                    if (players[currPlayerIndex].getRoll() == 0)
+                        turnStringGenerator("teleportPlayer");
+                    updateGui();
+                    turnStringGenerator("resetMessage");
+                }
+
+                if((board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getType()).equals("Chance") || (board.getGameTiles()[(players[currPlayerIndex].getCurrPos() - players[currPlayerIndex].getCardMove() + board.getBoardSize()) % board.getBoardSize()].getType()).equals("Chance")){
+                    turnStringGenerator("chanceCardMessage");
+                    updateGui();
+                }
+                break;
+
+            case "Betal for at komme ud":
+                ((Jail) (board.getTileByName("Jail"))).payToExit(players[currPlayerIndex]);
+                turnStringGenerator("updateScore");
+                updateGui();
+                break;
+
+            case "Brug chance kort":
+                ((Jail) (board.getTileByName("Jail"))).cardToExit(players[currPlayerIndex]);
+                break;
+
+            case "Sælg hus(e)":
+                sellHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
+                break;
+
+            case "Køb hus(e)":
+                buyHouse();
+                turnStringGenerator("updateScore");
+                updateGui();
+                break;
+
+            case "Pantsæt":
+                pawn();
+                turnStringGenerator("updateScore","mortgage");
+                updateGui();
+                break;
+
+            case "Ophæv pantsætning":
+                unPawn();
+                turnStringGenerator("updateScore");
+                updateGui();
+                break;
+            case "Køb":
+                if(players[currPlayerIndex].getScore() >= board.getGameTiles()[players[currPlayerIndex].getCurrPos()].getTileValue()) {
+                    ((Ownable)board.getGameTiles()[players[currPlayerIndex].getCurrPos()]).buyTile(players[currPlayerIndex]);
+                    turnStringGenerator("displayOwner", "updateScore");
+                    updateGui();
+                    break;
+                } else {
+                    turnStringGenerator("resetMessage");
+                    addToTurnMessage("Du har ikke penge nok og må putte ejendommen på auktion");
+                    turnStringGenerator("turnMessage");
+                    updateGui();
+                    break;
+                }
+            case "Sæt på auktion":
+                bank.auctions(players, board.getGameTiles()[players[currPlayerIndex].getCurrPos()]);
+                System.out.println("Auktion complete");
+                turnStringGenerator("updateScore");
+                updateGui();
+                break;
+            case "Slut tur":
+                endTurn();
+                turnEnded = true;
+                turnStringGenerator("updateScore","resetMessage");
+                updateGui();
+                break;
+
+        }
+    }
+
+
+    /**
+     * Endturn funktion
+     */
+
+
+    private void endTurn(){
+        if(players[currPlayerIndex].getScore() < 0){
+            deadPlayers[currPlayerIndex] = 1;
+            players[currPlayerIndex].setStillInGame(false);
+            turnStringGenerator("removePlayerFromGame");
+            updateGui();
+
+            // Handle a dead player
+            deadPlayer();
+        }
+
+        int deadPlayerCount = 0;
+
+        for (int deadPlayer : deadPlayers) {
+
+            if (deadPlayer == 1) {
+                deadPlayerCount++;
+            }
+
+            if (deadPlayerCount == players.length - 1) {
+                endOfGame = true;
+            }
+        }
+
+        currPlayerIndex = ++currPlayerIndex % players.length;
+        boolean checkForDeadPlayers = false;
+        while (!checkForDeadPlayers){
+            if(deadPlayers[currPlayerIndex] != 0){
+                currPlayerIndex = ++currPlayerIndex % players.length;
+            }else{
+                checkForDeadPlayers = true;
+            }
+        }
+        turns++;
+        rolled = false;
+
+        if(turns > TURNLIMIT){
+            endOfGame = true;
+        }
+    }
+
+
+
+
+    /**
+     * BuyHouse funktions
+     */
+
+    private void buyHouse(){
+        int upgradeableProperties = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+                boolean accaptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || ((Property) otherInSet).isPawned())
+                        accaptableBuilding = false;
+                }
+                if (accaptableBuilding)
+                    upgradeableProperties++;
+            }
+        }
+
+        String[] upgradeableNames = new String[upgradeableProperties];
+        int namesFound = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).tileSetowned()){
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || (((Property) otherInSet).isPawned()))
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    upgradeableNames[namesFound++] = tile.getTileName();
+            }
+        }
+        String chosenUpgrade = getChoice("Hvor vil sætte et hus?", true, upgradeableNames);
+        bank.upgradeGround(players[currPlayerIndex], board.getTileByName(chosenUpgrade));
+        currentTileUpgrade = board.getTileByName(chosenUpgrade).getTileIndex();
+        currentTileLevel = ((Property)board.getTileByName(chosenUpgrade)).getHouseLevel();
+        turnStringGenerator("setHouseLevel");
+        updateGui();
+    }
+
+    private boolean canBuyHouse(){
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).tileSetowned()) {
+                boolean accaptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() > ((Property)otherInSet).getHouseLevel() || ((Property) tile).getHousePrice() > players[currPlayerIndex].getScore() || ((Property) tile).getHouseLevel() == 5 && ((Property) tile).getHousePrice() < players[currPlayerIndex].getScore() || ((Property) otherInSet).isPawned())
+                        accaptableBuilding = false;
+                }
+                if (accaptableBuilding)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void sellHouse(){
+
+        int downgradeableProperties = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableProperties++;
+            }
+        }
+
+        String[] downgradeableNames = new String[downgradeableProperties];
+        int i = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0){
+                boolean acceptableBuilding = true;
+                for ( Tile otherInSet : board.getTileBySet(tile.getSisterTag())) {
+                    if (((Property) tile).getHouseLevel() < ((Property)otherInSet).getHouseLevel())
+                        acceptableBuilding = false;
+                }
+                if (acceptableBuilding)
+                    downgradeableNames[i++] = tile.getTileName();
+            }
+        }
+        String chosenDowngrade = getChoice("Hvor vil sætte et hus?", true, downgradeableNames);
+        bank.downgradeGround(players[currPlayerIndex], board.getTileByName(chosenDowngrade));
+        currentTileUpgrade = board.getTileByName(chosenDowngrade).getTileIndex();
+        currentTileLevel = ((Property)board.getTileByName(chosenDowngrade)).getHouseLevel();
+        turnStringGenerator("setHouseLevel");
+        updateGui();
+    }
+
+    private boolean canSellHouse(){
+        int i = 0;
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()){
+            if( tile instanceof Property && ((Property) tile).getHouseLevel() > 0) {
+                i++;
+            }
+        }
+        return i>0;
+
+    }
+
+
+
+    /**
+     * Pawn funktions
+     */
+
+    private void pawn(){
+
+        int pawnable = 0;
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnable++;
+                        } else
+                            pawnable++;
+                    } else {
+                        pawnable++;
+                    }
+                }
+            }
+        }
+
+        String[] pawnableNames = new String[pawnable];
+        int foudNames = 0;
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                pawnableNames[foudNames++] = tile.getTileName();
+                        } else
+                            pawnableNames[foudNames++] = tile.getTileName();
+                    } else {
+                        pawnableNames[foudNames++] = tile.getTileName();
+                    }
+                }
+            }
+        }
+
+        String chosenPawn = getChoice("Hvilket hus vil du pantsætte?",true, pawnableNames);
+        currentMortgageProperty = board.getTileByName(chosenPawn).getTileIndex();
+        bank.pawnTile(players[currPlayerIndex], board.getTileByName(chosenPawn));
+        turnStringGenerator( "mortgage");
+        updateGui();
+    }
+
+    private boolean canPawn(){
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if (tile instanceof Ownable) {
+                if (!(((Ownable) tile).isPawned())) {
+                    if (tile instanceof Property) {
+                        if (((Property) tile).tileSetowned()) {
+                            boolean acceptableTile = true;
+                            for (Tile setTile : board.getTileBySet(tile.getSisterTag())) {
+                                if (((Property) setTile).getHouseLevel() != 0)
+                                    acceptableTile = false;
+                            }
+                            if (acceptableTile)
+                                return true;
+                        } else
+                            return true;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void unPawn(){
+        int unPawnable = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if (tile instanceof Ownable) {
+                if (((Ownable) tile).isPawned()) {
+                    unPawnable++;
+                }
+            }
+        }
+
+        String[] unPawnableNames = new String[unPawnable];
+        int foundNames = 0;
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Ownable)
+                if (((Ownable) tile).isPawned()) {
+                    unPawnableNames[foundNames++] = tile.getTileName();
+                }
+        }
+        String chosenUnPawn = getChoice("Hvilket hus vil du pantsætte?",true, unPawnableNames);
+        bank.unPawnTile(players[currPlayerIndex], board.getTileByName(chosenUnPawn));
+        currentOnMortgageProperty = board.getTileByName(chosenUnPawn).getTileIndex();
+        turnStringGenerator( "onMortgage");
+        updateGui();
+    }
+
+    private boolean canUnPawn(){
+
+        for (Tile tile : players[currPlayerIndex].getOwnedTiles()) {
+            if(tile instanceof Ownable)
+                if (((Ownable) tile).isPawned())
+                    return true;
+        }
+        return false;
+    }
+
+    // Controls what happens when a player dies
+
+    private void deadPlayer(){
+        Tile deadTile = board.getGameTiles()[players[currPlayerIndex].getCurrPos()];
+        if(deadTile instanceof Ownable && deadTile.getOwner() != null){
+
+            Player newPropertyOwner = deadTile.getOwner();
+            ArrayList<Tile> deadPlayersTile = players[currPlayerIndex].getOwnedTiles();
+
+            for (Tile aDeadPlayersTile : deadPlayersTile) {
+                ((Ownable) aDeadPlayersTile).setOwner(newPropertyOwner);
+                newPropertyOwner.addOwnedTile(aDeadPlayersTile);
+                setNewOwner(newPropertyOwner.getName(), aDeadPlayersTile);
+            }
+        }else{
+            int numberOfTilesGoingOnAuktion = players[currPlayerIndex].getOwnedTiles().size();
+            ArrayList<Tile> auktionTiles = players[currPlayerIndex].getOwnedTiles();
+
+            for(int i = 0; i < numberOfTilesGoingOnAuktion; i++){
+                bank.auctions(players, auktionTiles.get(i));
+                System.out.println("Auktion compleat");
+                turnStringGenerator("updateScore");
+                updateGui();
+            }
+        }
+    }
+
+    // Array funktion
+
+    private String[] expandArray(String[] startArray ,String... expandArray){
+        String[] allOptions = new String[startArray.length + expandArray.length];
+
+        for(int i = 0; i < startArray.length;i++ ){
+            allOptions[i] = startArray[i] ;
+        }
+        for(int i = 0; i < expandArray.length;i++ ){
+            allOptions[startArray.length + i] = expandArray[i] ;
+        }
+        return allOptions;
+    }
+
+    // Max jail Time
+
+
+    private void maxJailTime(){
+
+        if (diceCup.isSame())
+            players[currPlayerIndex].setMaxJailRolls(0);
+        else
+            players[currPlayerIndex].addMaxJailRolls(1);
+
+        if (players[currPlayerIndex].getMaxJailRolls() == 3){
+            ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
+            players[currPlayerIndex].setMaxJailRolls(0);
+        }
+    }
+
+
+    /**
+     * Gui funktions
+     */
+
+    private void updateGui(){
+        game.updateDisplay(turnString);
+        turnString = "";
+    }
+
+
+    private void turnStringGenerator(String... options){
+
+        for (String option : options) {
+
+            switch (option) {
+                case "updateScore":
+                    String score = "";
+                    for (int j = 0; j < players.length; j++) {
+                        score += players[j].getScore();
+                        if (j < players.length - 1) {
+                            score += ",";
+                        }
+                    }
+                    turnString += "updateScore:" + score + ";";
+                    break;
+                case "displayDies":
+                    String dies = "";
+                    dies += diceCup.getD1Val() + "," + diceCup.getD2Val();
+                    turnString += "displayDies:" + dies + ";";
+                    break;
+                case "teleportPlayer":
+                    String teleport = "";
+                    teleport += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos();
+                    turnString += "teleportPlayer:" + teleport + ";";
+                    break;
+                case "movePlayer":
+                    String move = "";
+                    move += currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + "," + players[currPlayerIndex].getOldPos() + "," + players[currPlayerIndex].getRoll() + "," + players[currPlayerIndex].getCardMove();
+                    turnString += "movePlayer:" + move + ";";
+                    break;
+                case "setHouseLevel":
+                    String setHouseLevel = currPlayerIndex + "," + currentTileUpgrade + "," + currentTileLevel;
+                    turnString += "setHouseLevel:" + setHouseLevel + ";";
+                    break;
+                case "turnMessage":
+                    turnString += "turnMessage:" + turnMessage + ";";
+                    break;
+                case "resetMessage":
+                    turnMessage = "";
+                    break;
+                case "chanceCardMessage":
+                    String chanceCardMessage = deck.getCurrCard().printCard(players[currPlayerIndex]);
+                    turnString += "chanceCardMessage:" + chanceCardMessage + ";";
+                    break;
+                case "mortgage":
+                    String mortgage = currPlayerIndex + "," + currentMortgageProperty + ",";
+                    turnString += "mortgage:" + mortgage + "false" + ";";
+                    break;
+                case "onMortgage":
+                    String onMortgage = currPlayerIndex + "," + currentOnMortgageProperty + ",";
+                    turnString += "onMortgage:" + onMortgage + "false" + ";";
+                    System.out.println("onMortgage");
+                    break;
+                case "displayOwner":
+                    String Owner = currPlayerIndex + "," + players[currPlayerIndex].getCurrPos() + ",";
+                    turnString += "displayOwner:" + Owner + "false" + ";";
+                    break;
+                case "removePlayerFromGame":
+                    String removePlayerFromGame = Integer.toString(currPlayerIndex);
+                    turnString += "removePlayerFromGame:" + removePlayerFromGame + ";";
+                    break;
+            }
+        }
+    }
+
+    private void addToTurnMessage(String information){
+        turnMessage += information;
+    }
+
+    public void displayMessage(String msg){
+        turnStringGenerator("resetMessage");
+        addToTurnMessage(msg);
+        turnStringGenerator("turnMessage");
+        updateGui();
+    }
+
+    public void setOwnerAfterAuktion (int player, Tile boughtTile){
+        ((Ownable)boughtTile).setPawned(false);
+        String Owner = player+","+ boughtTile.getTileIndex()+",";
+        turnString += "displayOwner:"+Owner+"false"+";";
+        updateGui();
+    }
+
+    private void setNewOwner(String player, Tile boughtTile){
+        String Owner = player+","+ boughtTile.getTileIndex()+",";
+        turnString += "setNewOwner:"+Owner+"false"+";";
+        updateGui();
+        if (((Ownable)boughtTile).isPawned()) {
+            String mortgage = currPlayerIndex + "," + boughtTile.getTileIndex() + ",";
+            turnString += "mortgage:" + mortgage + "false" + ";";
+            updateGui();
+        }
+    }
+
+
+
+
+    // Gets userInput from Gui
+
+    public String getChoice (String msg, Boolean list, String... buttons){
+        return game.getChoice(msg, list, buttons);
+    }
+
+    public int getUserInt (String msg,int min, int max) {
+        return game.getUserInt(msg, min, max);
+    }
+
+    // Getters and setters
+
+    public static Logic getINSTANCE () {
+        return INSTANCE;
+    }
+    public boolean isEndOfGame () {
+        return endOfGame;
+    }
+
+    Player getWinner() {
+        if (endOfGame)
+            return players[currPlayerIndex];
+        return null;
+    }
+
+    public Tile[] getTileBySet(String setTag) {
+        return board.getTileBySet(setTag);
+    }
+
+    public ChanceCard nextCard() {
+        return deck.nextCard();
+    }
+
+    public int getBoardSize() {
+        return board.getBoardSize();
+    }
+
+    public Tile getTileByName(String tileName) {
+        return board.getTileByName(tileName);
+    }
+
+    public Tile[] searchForTileType(String tag) {
+        return board.searchForTileType(tag);
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\Main.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador;
+
+import java.io.IOException;
+
+public class Main {
+	/**
+	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
+	 * then initializes the game with given arguments if there are any, otherwise it uses the default values, 
+	 * then the main game loop is started, and when that exits it closes the program
+	 * @param args the settitings registrerd when the program is launched.
+	 * @throws IOException if an I/O error occurs.
+	 */
+	public static void main(String[] args) throws IOException {
+		final GameController game = GameController.getInstance();
+		game.init();
+		System.out.println("done initializing");
+		game.startGameLoop();
+		System.out.println("now exiting the game");
+		game.stop();
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\util\Factory.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.util;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tax;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
+import gui_fields.*;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.*;
+import java.util.Queue;
+
+
+public class Factory {
+	private static final Factory INSTANCE = new Factory();
+	private Tile[] tiles;
+	
+	private Factory() { TextReader.init(); }
+	
+    public Tile[] createTiles() throws IOException {
+	    if (this.tiles != null)
+	        return  this.tiles;
+        HashMap <String, String> tileTags = TextReader.getTiles();
+        HashMap <String, String> rentTags = TextReader.getRent();
+        Tile[] tiles = new Tile[tileTags.size()];
+
+        for (int i = 0; i < tiles.length; i++) {
+            String tileInfo = tileTags.get("Tile"+i);
+            String tileName = tileInfo.split(";")[tileInfo.split(";").length-1].split(":")[1];
+            Tile tempTile;
+            String tileType = tileInfo.split(";")[0].split(":")[1];
+            switch (tileType) {
+                case "Start":
+                    tempTile = new Start(tileName, tileInfo, i);
+                    break;
+                case "Property":
+                    tempTile = new Property(tileName,tileInfo, i, rentTags.get(tileName));
+                    break;
+                case "Chance":
+                    tempTile = new Chance(tileName, tileInfo, i);
+                    break;
+                case "Jail":
+                    tempTile = new Jail(tileName,tileInfo, i);
+                    break;
+                case "FreePark":
+                    tempTile = new FreeParking(tileName,tileInfo, i);
+                    break;
+                case "GoToJail":
+                    tempTile = new GoToJail(tileName,tileInfo, i);
+                    break;
+                case "Tax":
+                    tempTile = new Tax(tileName,tileInfo, i);
+                    break;
+                case "Brewery":
+                    tempTile = new Brewery(tileName, tileInfo, i, rentTags.get("brew"));
+                    break;
+                case "Ship":
+                    tempTile = new Ship(tileName, tileInfo, i, rentTags.get("ship"));
+                    break;
+                default:
+                    tempTile = new FreeParking("","", -1);
+                    break;
+            }
+            tiles[i] = tempTile;
+        }
+        this.tiles = tiles;
+        return tiles;
+    }
+
+    
+    public Queue<ChanceCard> createCards() throws IOException {
+    	HashMap <String, String> cardTags = TextReader.fileToHashMap("./res/Cards.txt");
+    	ArrayList<ChanceCard> tmpCards = new ArrayList<ChanceCard>();
+    	for (int i = 0; i < cardTags.size(); i++) {
+    		String cardInfo = cardTags.get("Card"+i);
+    		String[] thisCardInfo = cardInfo.split(";");
+    		CardEffect[] cardEffects = new CardEffect[thisCardInfo.length];
+    		for (int j = 0; j < thisCardInfo.length; j++) {
+    			switch (thisCardInfo[j].split(":")[0]) {
+                    case "moveTo":
+                        cardEffects[j] = new MovePlayerToEffect(thisCardInfo[j].split(":")[1]);
+                        break;
+                    case "move":
+                        cardEffects[j] = new MovePlayerEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "money":
+                        cardEffects[j] = new ChangeMoneyEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "payAll":
+                        cardEffects[j] = new PayAllEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+					case "freeJail":
+					    cardEffects[j] = new FreeJailEffect();
+					    break;
+					case "matadorLegat":
+                        cardEffects[j] = new MatadorlegatEffect(Integer.valueOf(thisCardInfo[j].split(":")[2]),Integer.valueOf(thisCardInfo[j].split(":")[1]));
+                        break;
+                    case "shipMove":
+                        cardEffects[j] = new MoveToClosestShipEffect(thisCardInfo[j].split(":")[1]);
+                        break;
+                    case "kkp":
+                        cardEffects[j] = new KKPEffect(Integer.valueOf(thisCardInfo[j].split(":")[1]),Integer.valueOf(thisCardInfo[j].split(":")[2]));
+                    default:
+                        break;
+    			}
+			}
+    		tmpCards.add(new ChanceCard(cardEffects));
+		}
+    	Collections.shuffle(tmpCards);
+    	Queue<ChanceCard> cards = new LinkedList<ChanceCard>(); 
+    	for (ChanceCard newChanceCard : tmpCards) {
+			cards.add(newChanceCard);
+		}
+    	return cards;
+    }
+
+
+    
+    public GUI_Field[] createGuiFields() throws IOException {
+
+        HashMap <String, String> tileInfo = TextReader.fileToHashMap("./res/Tiles.txt");
+        HashMap <String, String> rentInfo = TextReader.fileToHashMap("./res/Rent.txt");
+
+        GUI_Field[] gui_fields = new GUI_Field[tileInfo.size()];
+
+        for(int i = 0; i < gui_fields.length; i++){
+
+            String[] thisTileInfo = tileInfo.get("Tile"+i).split(";");
+
+            String type = thisTileInfo[0];
+            //System.out.println(type);
+
+            switch (type) {
+                case "type:Start":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Start();
+                    gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]);
+                    gui_fields[i].setSubText("");
+                    gui_fields[i].setDescription("Du får " + thisTileInfo[1].split(":")[1] + " kr når du passere start");
+                    gui_fields[i].setBackGroundColor(Color.RED);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+                case "type:Property":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Street();
+                    gui_fields[i].setTitle(thisTileInfo[5].split(":")[1]);
+                    gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
+                    String currentProperty = rentInfo.get(thisTileInfo[5].split(":")[1]);
+                    gui_fields[i].setDescription("Leje af grund "+currentProperty.split(";")[0].split(":")[1]+" kr"+ "<br>" +"med 1 hus "+currentProperty.split(";")[1].split(":")[1]+" kr"+ "<br>" +"med 2 hus "+currentProperty.split(";")[2].split(":")[1]+" kr"+ "<br>" +"med 3 hus "+currentProperty.split(";")[3].split(":")[1]+" kr"+ "<br>" +"med 4 hus "+currentProperty.split(";")[4].split(":")[1]+" kr"+ "<br>" +"med hotel "+currentProperty.split(";")[5].split(":")[1]+" kr"+"<br><br>"+"Hvert hus koster "+thisTileInfo[4].split(":")[1]+" kr"+"<br>"+"Hvert hotel koster "+thisTileInfo[4].split(":")[1]+" kr + 4 huse");
+                    gui_fields[i].setBackGroundColor(makeColor(thisTileInfo[2].split(":")[1]));
+                    gui_fields[i].setForeGroundColor(Color.black);
+                    break;
+                case "type:Chance":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Chance();
+                    gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
+                    gui_fields[i].setSubText("");
+                    gui_fields[i].setDescription("");
+                    gui_fields[i].setBackGroundColor(Color.black);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+                case "type:Tax":
+                    if(thisTileInfo.length == 4){
+                        //System.out.println(i);
+                        gui_fields[i] = new GUI_Tax();
+                        gui_fields[i].setTitle(thisTileInfo[3].split(":")[1]+"<br>"+"Betal 200 kr. el. 10%");
+                        gui_fields[i].setSubText("");
+                        gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr eller "+thisTileInfo[2].split(":")[1]+" procent af din net worth");
+                        gui_fields[i].setBackGroundColor(Color.green);
+                        gui_fields[i].setForeGroundColor(Color.black);
+                        break;
+                    }else{
+                        gui_fields[i] = new GUI_Tax();
+                        gui_fields[i].setTitle(thisTileInfo[2].split(":")[1]+"<br>"+"Betal 100 kr.");
+                        gui_fields[i].setSubText("");
+                        gui_fields[i].setDescription("Betal "+thisTileInfo[1].split(":")[1]+" kr ");
+                        gui_fields[i].setBackGroundColor(Color.green);
+                        gui_fields[i].setForeGroundColor(Color.black);
+                        break;
+                    }
+
+                case "type:Ship":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Shipping();
+                    gui_fields[i].setTitle(thisTileInfo[4].split(":")[1]);
+                    gui_fields[i].setSubText("Price "+thisTileInfo[1].split(":")[1]+" kr");
+                    String currentShip = rentInfo.get("ship");
+                    gui_fields[i].setDescription("Leje af grund "+currentShip.split(";")[0].split(":")[1]+ "<br>" +"Hvis 2 skibe ejes "+currentShip.split(";")[1].split(":")[1]+ "<br>" +"Hvis 3 skibe ejes "+currentShip.split(";")[2].split(":")[1]+ "<br>" +"Hvis 4 skibe ejes "+currentShip.split(";")[3].split(":")[1]);
+                    gui_fields[i].setBackGroundColor(Color.CYAN);
+                    gui_fields[i].setForeGroundColor(Color.black);
+                    break;
+                case "type:Jail":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Jail();
+                    gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
+                    gui_fields[i].setSubText("");
+                    gui_fields[i].setDescription("Du er på besøg i fængslet");
+                    gui_fields[i].setBackGroundColor(Color.DARK_GRAY);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+                case "type:Brewery":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Brewery();
+                    gui_fields[i].setTitle(thisTileInfo[4].split(":")[1]);
+                    gui_fields[i].setSubText("Pris "+thisTileInfo[1].split(":")[1]+" kr");
+                    String currentBrewery = rentInfo.get("brew");
+                    gui_fields[i].setDescription("Hvis et bryggeri ejes, betales "+currentBrewery.split(";")[0].split(":")[1]+" gange saa meget som øjene viser"+ "<br><br>" +"Hvis begge bryggerier ejes, betales "+currentBrewery.split(";")[1].split(":")[1]+" gange saa meget som øjene viser");
+                    gui_fields[i].setBackGroundColor(Color.DARK_GRAY);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+                case "type:GoToJail":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Jail();
+                    gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
+                    gui_fields[i].setSubText("");
+                    gui_fields[i].setDescription("De fængles");
+                    gui_fields[i].setBackGroundColor(Color.DARK_GRAY);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+                case "type:FreePark":
+                    //System.out.println(i);
+                    gui_fields[i] = new GUI_Refuge();
+                    gui_fields[i].setTitle(thisTileInfo[1].split(":")[1]);
+                    gui_fields[i].setSubText("");
+                    gui_fields[i].setDescription("");
+                    gui_fields[i].setBackGroundColor(Color.DARK_GRAY);
+                    gui_fields[i].setForeGroundColor(Color.WHITE);
+                    break;
+            }
+
+        }
+        return gui_fields;
+    }
+    public static Factory getInstance() {
+		return INSTANCE;
+	}
+
+	public Color makeColor(String currentColor){
+
+	    Color thisColor = Color.pink;
+
+        switch (currentColor) {
+            case "blue":
+                thisColor = Color.blue;
+                break;
+            case "pink":
+                thisColor = Color.pink;
+                break;
+            case "green":
+                thisColor = Color.green;
+                break;
+            case "grey":
+                thisColor = Color.gray;
+                break;
+            case "red":
+                thisColor = Color.red;
+                break;
+            case "white":
+                thisColor = Color.white;
+                break;
+            case "yellow":
+                thisColor = Color.yellow;
+                break;
+            case "brown":
+                thisColor = Color.orange;
+                break;
+
+        }
+	    return thisColor;
+    }
+
+
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\util\TextReader.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.util;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+
+
+public class TextReader {
+	private static HashMap<String, String> rent;
+	private static HashMap<String, String> tiles;
+	private static HashMap<String, String> cards;
+
+	public static void init() {
+		try {
+			rent = fileToHashMap("./res/Rent.txt");
+			tiles = fileToHashMap("./res/Tiles.txt");
+			cards = fileToHashMap("./res/Cards.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static HashMap<String, String> fileToHashMap(String path) throws IOException {
+		BufferedReader fileReader = new BufferedReader(new FileReader(path));
+		HashMap<String, String> fileMap = new HashMap<String, String>();
+		String str;
+		
+		while ((str = fileReader.readLine()) != null) {
+			String[] tokens = str.split("=");
+			fileMap.put(tokens[0], tokens[1]);
+		}
+		fileReader.close();
+		return fileMap;
+	}
+
+	public static HashMap<String, String> getRent() {
+		return rent;
+	}
+
+	public static HashMap<String, String> getTiles() {
+		return tiles;
+	}
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\wraperClasses\ChanceCardDeck.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
+
+import java.io.IOException;
+import java.util.Queue;
+
+public class ChanceCardDeck {
+	private Queue<ChanceCard> cards;
+    private static final ChanceCardDeck INSTANCE = new ChanceCardDeck();
+    private ChanceCard currCard;
+    /**
+     * Sets up the deck of chance cards.
+     */
+    private ChanceCardDeck() { 
+    	try {
+			cards = Factory.getInstance().createCards();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ChanceCard.setDeck(this);
+    }
+
+    /**
+     * A method to get the next card in the deck.
+     * @return The next card in the deck
+     */
+    public ChanceCard nextCard() {
+        ChanceCard card = cards.poll();
+        currCard = card;
+        return card;
+    }
+
+    /**
+     * Puts the card back in the deck, at the bottom.
+     * @param card The card to return to the deck
+     */
+    public void returnCardToDeck(ChanceCard card) {
+        cards.add(card);
+    }
+
+    /**
+     * Method to get the amount of cards in the deck.
+     * @return the size of the deck.
+     */
+    public int size() {
+    	return cards.size();
+    }
+
+    public static ChanceCardDeck getInstance() {
+		return INSTANCE;
+	}
+
+    public ChanceCard getCurrCard() {
+        return currCard;
+    }
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\wraperClasses\DiceCup.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.*;
+
+public class DiceCup {
+	private static final DiceCup INSTANCE = new DiceCup();
+	
+	private static Die d1 = new Die(6);
+	private static Die d2 = new Die(6);
+	private static int sameInARow = 0;
+	
+	private DiceCup() { }
+
+    public boolean threeSame(){
+		if(sameInARow == 3) {
+			sameInARow = 0;
+			return true;
+		}
+		return false;
+	}
+
+    /**
+     * @return Returns the singleton instance og DiceCup
+     */
+	public static DiceCup getInstance() {
+		return INSTANCE;
+	}
+	
+	/**
+	 * Rolls the two dice in the DiceCup
+	 * @return Returns the sum of the two rolls
+	 */
+	public int roll() {
+		if (isSame())
+			sameInARow++;
+		else
+			sameInARow = 0;
+		return d1.roll() + d2.roll();
+	}
+	
+	/**
+	 * @return Returns the sum of the current rolls on the two dice without re-rolling them
+	 */
+	public int getDiceIntValues() {
+		return d1.getFaceValue() + d2.getFaceValue();
+	}
+	
+	/**
+	 * @return Returns whether the value shown on the two dice are the same
+	 */
+
+	public boolean isSame() {
+		return d1.getFaceValue() == d2.getFaceValue();
+	}
+
+	/**
+	 * @return Returns the current value of the first {@code Die}
+	 */
+	public int getD1Val() {
+		return d1.getFaceValue();
+	}
+
+	/**
+	 * @return Returns the current value of the second {@code Die}
+	 */
+
+	public int getD2Val() {
+		return d2.getFaceValue();
+	}
+
+}
+
+src\main\java\dk\dtu\CDIT_Grp_43_matador\matador\wraperClasses\GameBoard.java
+
+package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
+
+import java.io.IOException;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+
+public class GameBoard {
+    private static final GameBoard INSTANCE = new GameBoard();
+    private static final Logic logic = Logic.getINSTANCE();
+    private int boardSize;
+    private Tile[] gameTiles;
+	private Factory factory = Factory.getInstance();
+
+	private GameBoard(){    }
+
+	public void initBoard() throws IOException {
+		gameTiles = factory.createTiles();
+		boardSize = gameTiles.length;
+	}
+
+	public Tile[] searchForTileType(String type) {
+		int tilesOfType = 0;
+		for(Tile tile : gameTiles) {
+			if(tile.getType().equalsIgnoreCase(type)) {
+				tilesOfType++;
+			}
+		}
+		Tile[] matchingTiles = new Tile[tilesOfType];
+		int matchingIndex = 0;
+		for (int i = 0; i < gameTiles.length; i++) {
+			if(gameTiles[i].getType().equalsIgnoreCase(type)) {
+				matchingTiles[matchingIndex] = gameTiles[i];
+				matchingIndex++;
+			}
+		}
+		return matchingTiles;
+	}
+
+    // Getters
+
+    public Tile[] getGameTiles() {
+        return gameTiles;
+    }
+
+	public static GameBoard getInstance() {
+		return INSTANCE;
+	}
+
+	public int getBoardSize() {
+		return boardSize;
+	}
+
+	public Tile getTileByName(String name) {
+		for (Tile tile : gameTiles) {
+			if (tile.getTileName().equalsIgnoreCase(name))
+				return tile;
+		}
+		return null;
+	}
+
+	public Tile[] getTileBySet(String setTag) {
+		Tile[] tileSet = new Tile[0];
+		for (Tile tile : gameTiles) {
+			if (tile instanceof Ownable) {
+				if (tile.getSisterTag().equals(setTag)) {
+					tileSet = new Tile[((Ownable)tile).getTilesInSet()];
+					break;
+				}
+			}
+		}
+		int tilesFound = 0;
+		for (Tile tile : gameTiles) {
+			if (tile instanceof Ownable) {
+				if (tile.getSisterTag().equals(setTag)) {
+					tileSet[tilesFound] = tile;
+					tilesFound++;
+				}
+			}
+		}
+		return tileSet;
+	}
+
+	public String getChoice(String msg, boolean list, String... buttons) {
+		return logic.getChoice(msg, list, buttons);
+	}
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\BankTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class BankTest {
+
+    @Test
+    void updowngradeGround() {
+        System.out.println("---- Test af upgradeGround ----");
+        Bank bank = Bank.getInstance();
+        GameBoard board = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        TextReader.init();
+        try {
+            board.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Player[] p = {new Player("Michel (ikke Michael)", 7000)};
+        logic.init(p);
+        Tile rodovrevej = board.getGameTiles()[1];
+        Tile hvidovre = board.getGameTiles()[3];
+        ((Ownable)rodovrevej).buyTile(p[0]);
+        ((Ownable)hvidovre).buyTile(p[0]);
+
+
+        for (int i = 0; i < 5; i++) {
+            bank.upgradeGround(p[0], rodovrevej);
+            bank.upgradeGround(p[0], hvidovre);
+            assertTrue(((Property)rodovrevej).getHouseLevel() == i+1);
+
+            System.out.println("Der er nu: "+((Property)rodovrevej).getHouseLevel() + " huse/hoteller på Rødovrevej og "+((Property)hvidovre).getHouseLevel()+ " huse/hoteller på Hvidovrevej");
+        }
+
+        System.out.println("\n---- Test af downgradeGround ----");
+        System.out.println("Der er nu: "+((Property)rodovrevej).getHouseLevel() + " huse/hoteller på Rødovrevej og "+((Property)hvidovre).getHouseLevel()+ " huse/hoteller på Hvidovrevej");
+        for (int i = 0; i < 5; i++) {
+            bank.downgradeGround(p[0], rodovrevej);
+            bank.downgradeGround(p[0], hvidovre);
+            assertTrue(((Property)rodovrevej).getHouseLevel() == 4-i);
+
+            System.out.println("Der er nu: "+((Property)rodovrevej).getHouseLevel() + " huse/hoteller på Rødovrevej og "+((Property)hvidovre).getHouseLevel()+ " huse/hoteller på Hvidovrevej");
+        }
+    }
+
+    @Test
+    void PawnTile() {
+        System.out.println("---- Test af pawnedTile() ----");
+        Bank bank = Bank.getInstance();
+        Player p = new Player("Knud", 1500);
+        int scoreBefore = p.getScore();
+        Property kgsnytorv = new Property("Kgs. Nytorv", "type:Property;Tilevalue:260;name:Kgs. Nytorv", 1, "0:22;1:110;2:330;3:800;4:975;5:1150");
+        kgsnytorv.buyTile(p);
+        System.out.println(p + " ejer denne tile: " + p.getOwnedTiles());
+        bank.pawnTile(p, kgsnytorv);
+        assertTrue(kgsnytorv.isPawned(), "Kgs. nytorv is pawned = " + kgsnytorv.isPawned());
+
+        assertTrue(p.getScore() < scoreBefore);
+        System.out.println(p + " har nuværende score: " + p.getScore() + ", og tidligere score var: " + scoreBefore + " er denne grund pantsat: " + kgsnytorv.isPawned());
+
+        System.out.println("---- Test af unpawnedTile() ----");
+        bank.unPawnTile(p, kgsnytorv);
+        assertFalse(kgsnytorv.isPawned());
+        System.out.println("Er " + p.getOwnedTiles() + " pantsat: " + kgsnytorv.isPawned());
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\cardEffectTest\MatadorlegatEffectTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MatadorlegatEffect;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MatadorlegatEffectTest {
+
+    @Test
+    void matadorLegatTest() {
+        MatadorlegatEffect matadorLegat = new MatadorlegatEffect(2000,750);
+        Player p = new Player("Knud",1500);
+        Player p1 = new Player("Bo",600);
+        System.out.println("---- MatadorLegatEffectTest ----");
+        System.out.println("---- Score før test ---- \n" + p + " score: " + p.getScore() + " og " + p1 + " score: " + p1.getScore());
+        System.out.println(matadorLegat.print(p));
+        matadorLegat.useEffect(p);
+        System.out.println(matadorLegat.print(p1));
+        matadorLegat.useEffect(p1);
+
+
+        System.out.println("---- Score efter test ---- \n" + p + " score: " + p.getScore() + " og " + p1 + " score: " + p1.getScore());
+        assertEquals(1500, p.getScore());
+        assertEquals(2600, p1.getScore());
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\cardEffectTest\MovePlayerEffectsTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerToEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MovePlayerEffectsTest {
+
+    @Test
+    void useEffectMovePlayer() {
+        TextReader.init();
+        Logic logic = Logic.getINSTANCE();
+        GameBoard g = GameBoard.getInstance();
+        try {
+            g.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player[] p = {new Player("testPlayer", 1500)};
+        logic.init(p);
+
+        MovePlayerEffect movePlayer = new MovePlayerEffect(-3);
+        System.out.println("\n---- MovePlayerTest ----");
+        System.out.println("---- placering før test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+        System.out.println(movePlayer.print(p[0]));
+        movePlayer.useEffect(p[0]);
+        System.out.println("---- placering efter test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+        assertTrue(p[0].getCurrPos() == 37);
+        MovePlayerEffect movePlayer1 = new MovePlayerEffect(3);
+        System.out.println(movePlayer1.print(p[0]));
+        movePlayer1.useEffect(p[0]);
+        assertTrue(p[0].getCurrPos() == 0);
+        System.out.println("---- placering efter test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+    }
+
+    @Test
+    void useEffectMovePlayerTo() {
+        TextReader.init();
+        Logic logic = Logic.getINSTANCE();
+        GameBoard g = GameBoard.getInstance();
+        try {
+            g.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player[] p = {new Player("testPlayer", 1500)};
+        logic.init(p);
+
+
+        MovePlayerToEffect movePlayerTo = new MovePlayerToEffect("Roskildevej");
+        System.out.println("\n---- MovePlayerToTest ----");
+        System.out.println("---- placering før test ---- \n" + p + " placering: " + p[0].getCurrPos());
+        System.out.println(movePlayerTo.print(p[0]));
+        movePlayerTo.useEffect(p[0]);
+        System.out.println("---- placering efter test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+
+        assertTrue(p[0].getCurrPos() == 6);
+        MovePlayerToEffect movePlayerTo1 = new MovePlayerToEffect("Valby Langgade");
+        System.out.println(movePlayerTo1.print(p[0]));
+        movePlayerTo1.useEffect(p[0]);
+        assertTrue(p[0].getCurrPos() == 8);
+        System.out.println("---- placering efter test ---- \n" + p + " placering: " + p[0].getCurrPos());
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\cardEffectTest\MoveToClosestShipEffectTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MoveToClosestShipEffect;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MoveToClosestShipEffectTest {
+
+    @Test
+    void useEffect() {
+        TextReader.init();
+        Logic logic = Logic.getINSTANCE();
+        GameBoard g = GameBoard.getInstance();
+        try {
+            g.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player[] p = {new Player("testPlayer", 1500)};
+        logic.init(p);
+
+        System.out.println("\n---- MovePlayerToTest ----");
+        System.out.println("---- placering før test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+        MoveToClosestShipEffect moveToShip = new MoveToClosestShipEffect("Ship");
+        p[0].move(6);
+        System.out.println("we first move the player to position 6 one placement from a ship");
+        moveToShip.useEffect(p[0]);
+        System.out.println("---- placering efter test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+        assertTrue(p[0].getCurrPos() == 15);
+        System.out.println("we then move the player to startpaint");
+        p[0].move(-15);
+        moveToShip.useEffect(p[0]);
+        System.out.println("---- placering efter test ---- \n" + p[0] + " placering: " + p[0].getCurrPos());
+        assertTrue(p[0].getCurrPos() == 5);
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\cardEffectTest\PayAllEffectTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.PayAllEffect;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class PayAllEffectTest {
+
+    @Test
+    void useEffect() {
+
+        Player p = new Player("Greg", 1500);
+        Player p1 = new Player("Phillip", 1500);
+        Player p2 = new Player("Niklas med k", 1500);
+        Player[] players = {p, p1, p2};
+        Player.setPlayers(players);
+
+        PayAllEffect payAll = new PayAllEffect(25);
+
+        System.out.println("\n ---- Score før ----");
+        System.out.println(p.getScore() + ": " + p.getName());
+        System.out.println(p1.getScore() + ": " + p1.getName());
+        System.out.println(p2.getScore() + ": " + p2.getName());
+
+        payAll.useEffect(p);
+        payAll.useEffect(p1);
+
+        System.out.println("\n ---- Score efter ----");
+        System.out.println(p.getScore() + ": " + p.getName());
+        System.out.println(p1.getScore() + ": " + p1.getName());
+        System.out.println(p2.getScore() + ": " + p2.getName());
+
+        assertEquals(1475, p.getScore());
+        assertEquals(1475, p1.getScore());
+        assertEquals(1550, p2.getScore());
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\ChanceCardDeckTests.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
+
+public class ChanceCardDeckTests {
+    private ChanceCardDeck sut;
+
+    @BeforeEach
+    public void setUp() throws Exception {
+        sut = ChanceCardDeck.getInstance();
+    }
+
+    @Test
+    public void GetCardFromDeck() {
+        ChanceCard actual = sut.nextCard();
+
+        assertNotNull(actual);
+    }
+
+    @Test
+    public void DecCardFromDeck() {
+        int startSize = sut.size();
+        sut.nextCard();
+        int actual = sut.size();
+
+        assertNotEquals(startSize, actual);
+    }
+
+    @Test
+    public void ReturnCardToDeck() {
+        int startSize = sut.size();
+        ChanceCard expected = sut.nextCard();
+        sut.returnCardToDeck(expected);
+        int actual = sut.size();
+
+        assertEquals(startSize, actual);
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\DiceUnitTest.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.RepeatedTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+
+public class DiceUnitTest {
+    @RepeatedTest(50)
+    public void test() {
+        final DiceCup dc = DiceCup.getInstance();
+        final int totalRolls = 100000;
+        final double sixths = (double) totalRolls / 36.0;
+        final double lowRoll = sixths * 0.95;
+        final double highRoll = sixths * 1.05;
+
+        int[] totalEyes;
+        totalEyes = new int[11];
+
+        for (int i = 0; i < totalRolls; i++) {
+
+            totalEyes[dc.roll() - 2]++;
+        }
+
+        for (int i = 0; i < totalEyes.length; i++) {
+            System.out.println("The dice rolled " + (i + 2) + ": " + totalEyes[i] + " times");
+        }
+
+        assertTrue((lowRoll * 1) <= totalEyes[0] && totalEyes[0] <= (highRoll * 1), "Wrong output recieved with 2's output was " + totalEyes[0] + " but should had been between " + (lowRoll * 1) + " and " + (highRoll * 1));
+        assertTrue((lowRoll * 2) <= totalEyes[1] && totalEyes[1] <= (highRoll * 2), "Wrong output recieved with 3's output was " + totalEyes[1] + " but should had been between " + (lowRoll * 2) + " and " + (highRoll * 2));
+        assertTrue((lowRoll * 3) <= totalEyes[2] && totalEyes[2] <= (highRoll * 3), "Wrong output recieved with 4's output was " + totalEyes[2] + " but should had been between " + (lowRoll * 3) + " and " + (highRoll * 3));
+        assertTrue((lowRoll * 4) <= totalEyes[3] && totalEyes[3] <= (highRoll * 4), "Wrong output recieved with 5's output was " + totalEyes[3] + " but should had been between " + (lowRoll * 4) + " and " + (highRoll * 4));
+        assertTrue((lowRoll * 5) <= totalEyes[4] && totalEyes[4] <= (highRoll * 5), "Wrong output recieved with 6's output was " + totalEyes[4] + " but should had been between " + (lowRoll * 5) + " and " + (highRoll * 5));
+        assertTrue((lowRoll * 6) <= totalEyes[5] && totalEyes[5] <= (highRoll * 6), "Wrong output recieved with 7's output was " + totalEyes[5] + " but should had been between " + (lowRoll * 6) + " and " + (highRoll * 6));
+        assertTrue((lowRoll * 5) <= totalEyes[6] && totalEyes[6] <= (highRoll * 5), "Wrong output recieved with 8's output was " + totalEyes[6] + " but should had been between " + (lowRoll * 5) + " and " + (highRoll * 5));
+        assertTrue((lowRoll * 4) <= totalEyes[7] && totalEyes[7] <= (highRoll * 4), "Wrong output recieved with 9's output was " + totalEyes[7] + " but should had been between " + (lowRoll * 4) + " and " + (highRoll * 4));
+        assertTrue((lowRoll * 3) <= totalEyes[8] && totalEyes[8] <= (highRoll * 3), "Wrong output recieved with 10's output was " + totalEyes[8] + " but should had been between " + (lowRoll * 3) + " and " + (highRoll * 3));
+        assertTrue((lowRoll * 2) <= totalEyes[9] && totalEyes[9] <= (highRoll * 2), "Wrong output recieved with 11's output was " + totalEyes[9] + " but should had been between " + (lowRoll * 2) + " and " + (highRoll * 2));
+        assertTrue((lowRoll * 1) <= totalEyes[10] && totalEyes[10] <= (highRoll * 1), "Wrong output recieved with 12's output was " + totalEyes[10] + " but should had been between " + (lowRoll * 1) + " and " + (highRoll * 1));
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\testAfMoney.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import org.junit.jupiter.api.Test;
+
+public class testAfMoney{
+    @Test
+    public void moneyAdd(){
+
+        Player p = new Player("testPlayer", 10000);
+        int money = p.getScore();
+
+        System.out.println(money);
+    }
+    @Test
+    public void moneySubtract(){
+
+
+
+    }
+
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\testAfScore.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class testAfScore {
+
+
+    @Test
+    public void scoreAdd(){
+
+        Player p = new Player("testPlayer", 20);
+        int money = p.getScore();
+        p.addMoney(30);
+        assertTrue(money != p.getScore());
+        System.out.println("----Test af Add----");
+        System.out.println("Penge før:" + money + " og penge efter:"+ p.getScore());
+
+    }
+
+    @Test
+    public void scoreSubtract(){
+
+        Player p = new Player("testPlayer", 20);
+        int money = p.getScore();
+        p.withDrawMoney(10);
+        assertFalse(money == p.getScore());
+        System.out.println("----Test af Subtract----");
+        System.out.println("Penge før:" + money + " og penge efter:" + p.getScore());
+
+    }
+
+    @Test
+    public void scorePay(){
+
+        Player p = new Player("testPlayer", 20);
+        Player p1 = new Player("testPlayer1", 20);
+        int money = p.getScore();
+        int money1 = p1.getScore();
+
+        p.payMoney(p1,2);
+
+        money = p.getScore();
+        money1 = p1.getScore();
+        assertTrue(money < money1);
+        System.out.println("----Test af Pay----");
+        System.out.println("Penge før for spiller 1:" + money + " og penge efter:" + p.getScore());
+        System.out.println("Penge før for spiller 2:" + money1 + " og penge efter:" + p1.getScore());
+
+    }
+}
+
+src\test\java\dk\dtu\CDIT_Grp_43_matador\jUnitTest\testAfTile.java
+
+package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
+
+import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Die;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class testAfTile {
+
+    @Test
+    public void testAfJail(){
+        System.out.println("---- Test af Jail ----");
+        GameBoard board = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        TextReader.init();
+        DiceCup dc = DiceCup.getInstance();
+        try {
+            board.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Player[] p = {new Player("Michel (ikke Michael)", 7000)};
+        int moneyBefore = p[0].getScore();
+        logic.init(p);
+
+        assertFalse(p[0].isInJail());
+        p[0].setInJail(true);
+        assertTrue(p[0].isInJail());
+        ((Jail) (board.getTileByName("Jail"))).payToExit(p[0]);
+        assertFalse(p[0].isInJail());
+        assertFalse(p[0].getScore() == moneyBefore);
+        System.out.println(p[0].getName()+ " havde: " + moneyBefore + ", og har nu: " + p[0].getScore() + " efter at have betalt for at komme ud");
+        p[0].setInJail(true);
+
+        /*dc.setSame();
+        if(dc.isSame()) {
+            p[0].setInJail(false);
+            System.out.println("Spilleren slog 2 ens og er stadig i fængsel: " + p[0].isInJail());
+        }
+        assertTrue(!p[0].isInJail());*/
+
+        Die die1 = new Die(1);
+        Die die2 = new Die(1);
+        for(int i = 0; i < 3; i++) {
+            dc.roll();
+            System.out.println("Terning 1 slog: " + die1.getFaceValue() + " Og terning 2 slog: " + die2.getFaceValue());
+            if(dc.threeSame()){
+                p[0].setInJail(true);
+            }
+        }
+        System.out.println(p[0]+" er i fængsel: "+ p[0].isInJail());
+        assertTrue(p[0].isInJail());
+    }
+
+    @Test
+    public void testAfGoToJail(){
+        GameBoard bord = GameBoard.getInstance();
+        try {
+            bord.initBoard();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 30);
+        Player p = new Player("Find Holger", 1500);
+        assertFalse(p.isInJail());
+        System.out.println(p+" er i fængsel: "+p.isInJail());
+        GoToJailTile.landOnTile(p);
+        System.out.println(p+" er i fængsel: "+p.isInJail());
+        assertTrue(p.isInJail());
+    }
+    @Test
+    public void testAfFreeParking(){
+        FreeParking parkingTile = new FreeParking("", "Tag:FreePark;name:FreeParking", 0);
+        Player p = new Player("testPlayer", 20);
+        int pos = p.getCurrPos();int score = p.getScore();int TO = p.getOwnedTiles().size();
+        System.out.println("---- Før test position: "+ pos+" score: "+score+" tilesOwned: "+TO+" ----");
+
+        parkingTile.landOnTile(p);
+
+        int posA = p.getCurrPos();int scoreA = p.getScore();int TOA = p.getOwnedTiles().size();
+        System.out.println("---- Efter test position: "+ posA+" score: "+scoreA+" tilesOwned: "+TOA+" ----");
+
+        assertEquals(pos,posA);
+        assertEquals(score,scoreA);
+        assertEquals(TO,TOA);
+    }
+
+    @Test
+    public void testAfProperty(){
+        Property raadhusTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
+        Property frederiksbergTile = new Property("Frederiksberggade", "type:Property;Tilevalue:350;sister:brown;setSize:2;housePrice:200", 37, "0:35;1:175;2:500;3:1100;4:1300;5:1500");
+
+        Player p1 = new Player("testPlayer", 1500);
+        Player p2 = new Player("testPlayer", 1500);
+        System.out.println("---- testAfProperty ----");
+        System.out.println("---- p1 tiles owned før test:" + " " +p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score før test"+ " "+p1.getScore()+ " "+ "----");
+        System.out.println("---- p2 score før test "+ p2.getScore()+ " ----");
+        int score = p1.getScore();
+        int TO = p1.getOwnedTiles().size();
+        assertTrue(TO==0);
+
+        raadhusTile.buyTile(p1);
+        frederiksbergTile.buyTile(p1);
+
+        p1.setMoney(1500);
+        raadhusTile.landOnTile(p2);
+
+        TO = p1.getOwnedTiles().size();
+        assertTrue(TO==2);
+        assertFalse(score==p1.getScore());
+        assertTrue(1500+100 == p1.getScore());
+        assertTrue(1400 == p2.getScore());
+        System.out.println("---- p1 tiles owned efter test " + p1.getOwnedTiles().size()+" ----");
+        System.out.println("---- p1 score efter test "+ p1.getScore()+ " ----");
+        System.out.println("---- p2 score efter test "+ p2.getScore()+ "----");
+
+
+        raadhusTile.addHouseLevel();
+        raadhusTile.addHouseLevel();
+
+        raadhusTile.landOnTile(p2);
+        assertEquals(800, p2.getScore());
+
+        raadhusTile.landOnTile(p1);
+
+        raadhusTile.removeHouseLevel();
+        raadhusTile.landOnTile(p2);
+        assertEquals(600, p2.getScore());
+    }
+    @Test
+    public void testAfStart(){
+        Start startTile = new Start("", "type:Start;passedValue:200;name:Start", 0);
+        Player p = new Player("testPlayer", 1500);
+        int score = p.getScore();
+        p.setStartMoneyElegible(true);
+
+        System.out.println("---- testAfPassedStart ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
+        startTile.passedTile(p);
+
+        System.out.println("---- p score efter test " + p.getScore()+ " ----");
+        assertFalse(score==p.getScore());
+
+        p.setMoney(1500);
+        System.out.println("---- testAfLandOnStart ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
+        startTile.landOnTile(p);
+        System.out.println("---- p score efter test " + p.getScore()+ " ----");
+
+        assertEquals(1700, p.getScore());
+
+    }
+
+    @Test
+    public void testAfShip(){
+        Player p = new Player("testPlayer",1500);
+        Player p1 = new Player("testPlayer1", 1500);
+        Ship shipTile = new Ship("", "type:Ship;Tilevalue:200;setSize:4;sister:ship;name:A/S Oresund", 5,"1:25;2:50;3:100;4:200" );
+        Ship shipTile1 = new Ship("","type:Ship;Tilevalue:200;sister:ship;setSize:4;name:D.F.D.S.", 15, "1:25;2:50;3:100;4:200");
+
+        System.out.println("---- testAfShip ----");
+        System.out.println("---- p score før test " + p.getScore()+ " ----");
+        System.out.println("---- p1 score før test " + p1.getScore()+ " ----");
+
+        shipTile.buyTile(p1);
+        p1.setMoney(1500);
+        shipTile.landOnTile(p);
+
+        System.out.println("---- p score efter test "+ p.getScore()+ " ----");
+        System.out.println("---- p1 score efter test "+ p1.getScore()+ " ----");
+
+        assertEquals(1500+25, p1.getScore());
+        assertEquals(1500-25, p.getScore());
+
+        shipTile1.buyTile(p1);
+        p1.setMoney(1500);
+        p.setMoney(1500);
+        shipTile1.landOnTile(p);
+
+        assertEquals((1500+50), p1.getScore());
+        assertEquals((1500-50), p.getScore());
+
+
+        shipTile.landOnTile(p1);
+
+        assertEquals((1500+50), p1.getScore());
+    }
+
+    @Test
+    public void testAfBrewery() {
+        TextReader.init();
+        GameBoard board = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        try {
+            board.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Player[] p = {new Player("testPlayer", 1500),new Player("testPlayer1",1500)};
+        logic.init(p);
+
+        int roll = 12;
+        int x4Price = roll * 4;
+        int x10Price = roll * 10;
+
+        Tile breweryTile = board.getGameTiles()[28];
+        Tile breweryTile1 = board.getGameTiles()[12];
+
+        p[0].move(roll);
+
+        System.out.println("---- testAfBrewery ----");
+        System.out.println("---- test med roll 12 ----");
+        System.out.println("---- p1 score før test "+p[1].getScore()+" ----");
+        System.out.println("---- p score før test "+p[0].getScore()+" ----");
+
+        ((Ownable)breweryTile).buyTile(p[1]);
+        p[1].setMoney(1500);
+        breweryTile.landOnTile(p[0]);
+
+
+        assertTrue((1500+x4Price) == p[1].getScore());
+        assertTrue((1500-x4Price) == p[0].getScore());
+
+        System.out.println("---- p1 score efter test "+p[1].getScore()+" ----");
+        System.out.println("---- p score efter test "+p[0].getScore()+ "----");
+
+        ((Ownable)breweryTile1).buyTile(p[1]);
+        p[1].setMoney(1500);
+        p[0].setMoney(1500);
+        breweryTile.landOnTile(p[0]);
+
+        assertEquals((1500+x10Price), p[1].getScore());
+        assertEquals((1500-x10Price), p[0].getScore());
+
+        p[1].setMoney(1500);
+        breweryTile.landOnTile(p[1]);
+
+        assertEquals(1500, p[1].getScore());
+
+    }
+    @Test
+    public void testAfTaxPercentValgPercent() {
+        TextReader.init();
+        GameBoard gameboard = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        try {
+            gameboard.initBoard();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Player[] p = {new Player("testPlayer", 1500)};
+        logic.init(p);
+
+        Tile taxTile = new Tax("", "type:Tax;percent:10;name:Tax Percent",4);
+        Tile taxTile1 = new Tax("", "type:Tax;money:200;name:Tax Percent",4);
+
+        System.out.println("Test af Tax tile");
+        System.out.println("spillers score før 10% fratrukket "+p[0].getScore());
+
+        taxTile.landOnTile(p[0]);
+        assertEquals(1350,p[0].getScore());
+
+        System.out.println("spillers score efter 10% fratrukket "+p[0].getScore());
+
+        p[0].setMoney(1500);
+
+        System.out.println("Test af Tax tile");
+        System.out.println("spillers score før 200 kr fratrukket "+p[0].getScore());
+
+        taxTile1.landOnTile(p[0]);
+
+        System.out.println("spillers score efter 200 kr fratrukket "+p[0].getScore());
+
+        assertEquals(1300, p[0].getScore());
+
+    }
+}
+
