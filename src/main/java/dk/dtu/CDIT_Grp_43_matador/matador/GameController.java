@@ -98,6 +98,9 @@ public class GameController {
 		return choice;
 	}
 
+	private void displayMessage(String msg) {
+		gui.displayMessage(msg);
+	}
 
 	public void updateDisplay(String turnInfo) {
 		gui.updateDisplay(turnInfo);
