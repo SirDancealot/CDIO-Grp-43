@@ -18,7 +18,7 @@ public class DiceCup {
      */
 	public void changeRegularDice(int d1newSize, int d2newSize){
 	    d1 = new Die(d1newSize);
-		//d2 = new Die(d2newSize);
+		d2 = new Die(d2newSize);
     }
     /**
      * Changes the dice to have specific sides with specific values
@@ -55,14 +55,14 @@ public class DiceCup {
 			sameInARow++;
 		else
 			sameInARow = 0;
-		return 3;//d1.roll() + d2.roll();
+		return d1.roll() + d2.roll();
 	}
 	
 	/**
 	 * @return Returns the sum of the current rolls on the two dice without re-rolling them
 	 */
 	public int getDiceIntValues() {
-		return 3;//d1.getFaceValue() + d2.getFaceValue();
+		return d1.getFaceValue() + d2.getFaceValue();
 	}
 	
 	/**
