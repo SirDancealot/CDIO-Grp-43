@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerEffect;
@@ -8,7 +7,6 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MovePlayerToEffect;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 

@@ -2,7 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
-import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 
 public class Property extends Ownable {
     private int houseLevel = 0;

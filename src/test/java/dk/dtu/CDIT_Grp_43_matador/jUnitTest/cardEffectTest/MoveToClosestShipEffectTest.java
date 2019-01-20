@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest.cardEffectTest;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.MoveToClosestShipEffect;

@@ -3,13 +3,15 @@ package dk.dtu.CDIT_Grp_43_matador.matador.util;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.cardEffects.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.FreeParking;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.GoToJail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Start;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Chance;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Jail;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tax;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.*;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import gui_fields.*;
 
 import java.awt.*;

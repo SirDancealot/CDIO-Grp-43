@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.gui;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 import gui_fields.*;
 import gui_main.*;

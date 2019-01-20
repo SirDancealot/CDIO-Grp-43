@@ -1,13 +1,11 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.Factory;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 
 public class GameBoard {

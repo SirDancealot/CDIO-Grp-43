@@ -2,7 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Account;
 import org.junit.jupiter.api.Test;
 
 public class testAfMoney{

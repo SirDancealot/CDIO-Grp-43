@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 
