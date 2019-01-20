@@ -64,8 +64,6 @@ public class GameController {
 			logic.tick();
 			if(logic.isEndOfGame()){
 				endGame();
-				System.out.println("Game end");
-				displayWinningMessage();
 			}
 		}
 	}
@@ -75,6 +73,9 @@ public class GameController {
 	 * in case any objects needs to be closed or anything similar.
 	 */
 	public void stop() {
+		System.out.println("Game end");
+		displayWinningMessage();
+		System.exit(0);
 	}
 
 	/**
@@ -89,22 +90,9 @@ public class GameController {
         for (Player player : players) {
 			if (player.getScore() > winner.getScore())
 				winner = player;
-			else if (player.getScore() == winner.getScore()) {
-				int playerScore = player.getScore();
-				int winnerScore = winner.getScore();
-				
-				for (Tile tile : player.getOwnedTiles()) {
-					playerScore += tile.getTileValue();
-				}
-				for (Tile tile : winner.getOwnedTiles()) {
-					playerScore += tile.getTileValue();
-				}
-				
-				if (playerScore > winnerScore)
-					winner = player;
-			}
 		}
-        //gui.updateDisplay();
+		String winMsg = "The winner of the game was " + winner + " with a score of " + winner.getScore() + " and a total fortune of " + winner.playerFortune() + "\n\nThe game will close after you press ok";
+        displayMessage(winMsg);
 	}
 
 	public String getChoice(String msg, Boolean list, String... buttons) {
