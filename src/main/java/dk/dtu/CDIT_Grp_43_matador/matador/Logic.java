@@ -118,7 +118,7 @@ public class Logic {
                 if(players[currPlayerIndex].isInJail())
                     maxJailTime();
 
-                if(diceCup.ThreeSame()){
+                if(diceCup.threeSame()){
                     displayMessage("Slog 2 ens 3 gange i træk, og blev smidt i fængsel");
                     players[currPlayerIndex].setInJail(true);
                     players[currPlayerIndex].moveTo("Jail");
