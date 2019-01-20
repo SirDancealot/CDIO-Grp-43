@@ -2,11 +2,8 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.ChanceCard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.ChanceCardDeck;
 
 public class Chance extends Tile {
-    public String type = "Chance";
-    private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
 
 
     /**
@@ -26,14 +23,26 @@ public class Chance extends Tile {
      */
     public boolean landOnTile(Player p) {
     	super.landOnTile(p);
-        ChanceCard currCard = deck.nextCard();
+        ChanceCard currCard = p.nextCard();
         System.out.println(currCard);
         boolean succeded = currCard.useCard(p);
         if (currCard.isKeepCard())
         	p.addKeepingCard(currCard);
         else
-        	deck.returnCardToDeck(currCard);
+            currCard.returnToDeck();
         return succeded;
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på prøv lykken og trak et chancekort";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
     }
 
 }

@@ -11,6 +11,10 @@ public class MovePlayerToEffect extends CardEffect {
 	
 	@Override
 	public boolean useEffect(Player p) {
+		if(moveToTag.equals("Jail")) {
+			p.setInJail(true);
+			return  p.moveTo(moveToTag);
+		}
 		return p.moveTo(moveToTag);
 	}
 	
@@ -20,7 +24,7 @@ public class MovePlayerToEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
-		return "\t" + p + " moves to the tile: " + moveToTag + "\n";
+	public String print(Player p) {
+		return "\t" + p + " rykker til feltet: " + moveToTag + "\n";
 	}
 }

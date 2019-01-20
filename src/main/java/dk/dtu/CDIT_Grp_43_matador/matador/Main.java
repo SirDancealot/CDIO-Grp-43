@@ -2,8 +2,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador;
 
 import java.io.IOException;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.language.*;
-
 public class Main {
 	/**
 	 * The function that runs when the program is executed, it registrers wheter any arguments are given, 
@@ -15,7 +13,9 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		final GameController game = GameController.getInstance();
 		game.init();
+		System.out.println("done initializing");
 		game.startGameLoop();
+		System.out.println("now exiting the game");
 		game.stop();
 	}
 }

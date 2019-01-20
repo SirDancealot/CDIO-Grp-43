@@ -20,7 +20,7 @@ public class FreeJailEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
-		return "\t" + p + " can exit jail for free next time\n";
+	public String print(Player p) {
+		return "\t" + p + "kan komme gratis ud af fængslet næste gang\n";
 	}
 }

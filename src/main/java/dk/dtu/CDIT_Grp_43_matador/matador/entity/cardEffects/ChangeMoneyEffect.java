@@ -20,9 +20,9 @@ public class ChangeMoneyEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
-		String recieveMoney = "\t" + p + " recieves " + moneyChange + "\n";
-		String payMoney = "\t" + p + " looses " + (-moneyChange) + "\n";
+	public String print(Player p) {
+		String recieveMoney = "\t" + p + " modtager " + moneyChange + "kr\n";
+		String payMoney = "\t" + p + " mister " + (-moneyChange) + "kr\n";
 		return (moneyChange > 0) ? recieveMoney : payMoney;
 	}
 }

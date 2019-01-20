@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Account;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

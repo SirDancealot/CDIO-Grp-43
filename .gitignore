@@ -2,8 +2,6 @@
 /.settings/
 .DS_Store
 .project
-.classpath
-*.idea*
 
 # User-specific stuff
 .idea/**/workspace.xml
@@ -23,7 +21,6 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
-.idea/*
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
@@ -54,4 +51,3 @@ target/
 *.ear
 *.sar
 *.class
-.idea/misc.xml

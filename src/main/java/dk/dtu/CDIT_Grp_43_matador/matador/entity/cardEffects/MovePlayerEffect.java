@@ -19,9 +19,9 @@ public class MovePlayerEffect extends CardEffect {
 	}
 
 	@Override
-	public String printEffect(Player p) {
-		String forward = "\t" + p + " moves " + moveAmt + " forwards\n";
-		String backwards = "\t" + p + " moves " + (-moveAmt) + " backwards\n";
+	public String print(Player p) {
+		String forward = "\t" + p + " rykker " + moveAmt + " fremad\n";
+		String backwards = "\t" + p + " rykker " + (-moveAmt) + " bagud\n";
 		
 		return moveAmt > 0 ? forward : backwards;
 	}

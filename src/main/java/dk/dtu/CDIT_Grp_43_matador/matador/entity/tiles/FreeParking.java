@@ -3,7 +3,6 @@ package dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 
 public class FreeParking extends Tile {
-    public String type = "FreeParking";
     /**
      * The basic setup for the Freeparking tile. It doesn't do anything at the moment,
      * but we've made it for reference and if we wish to add rules to it in the future.
@@ -26,5 +25,17 @@ public class FreeParking extends Tile {
     @Override
     public boolean landOnTile(Player p) {
     	return super.landOnTile(p);
+    }
+
+    @Override
+    public String printLandOn(Player p) {
+        String result = p + " landede på grastis parkering, der skete ingenting ";
+        return result;
+    }
+
+    @Override
+    public String printPassed(Player p) {
+        String result = "";
+        return result;
     }
 }
