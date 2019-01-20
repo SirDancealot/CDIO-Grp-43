@@ -22,9 +22,7 @@ public class GameController {
 	}
 	
 	//Logical variables
-	private static int turns = 1;
 	private static boolean playing = true;
-	private String turnInfo;
 
 	//Container variables
 	private Player[] players;
@@ -101,30 +99,10 @@ public class GameController {
 	}
 
 
-	public void resetGame(){
-		playing = true;
-		turns = 1;
-	}
-
 	public void updateDisplay(String turnInfo) {
 		gui.updateDisplay(turnInfo);
 	}
 
-	public void displayMessage(String msg) {
-	    gui.displayMessage(msg);
-    }
-
-	public boolean isPlaying() {
-		return playing;
-	}
-
-	public int getTurn(){
-		return turns;
-	}
-
-	public Player[] getPlayers() {
-		return players;
-	}
 
 	public GameBoard getBord() {
 		return bord;

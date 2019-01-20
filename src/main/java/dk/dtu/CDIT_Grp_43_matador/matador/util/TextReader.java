@@ -34,10 +34,6 @@ public class TextReader {
 		return fileMap;
 	}
 
-	public static HashMap<String, String> getCards() {
-		return cards;
-	}
-
 	public static HashMap<String, String> getRent() {
 		return rent;
 	}
