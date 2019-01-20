@@ -55,7 +55,7 @@ public class Logic {
         bank = Bank.getInstance();
         bank.initBank();
         deadPlayers = new int[players.length];
-
+        deck = ChanceCardDeck.getInstance();
         for(int i = 0; i < deadPlayers.length; i++){
             deadPlayers[i] = 0;
         }
@@ -661,7 +661,6 @@ public class Logic {
                     turnMessage = "";
                     break;
                 case "chanceCardMessage":
-                    deck = ChanceCardDeck.getInstance();
                     String chanceCardMessage = deck.getCurrCard().printCard(players[currPlayerIndex]);
                     turnString += "chanceCardMessage:" + chanceCardMessage + ";";
                     break;
