@@ -8,7 +8,7 @@ public class Tax extends Tile {
     private int taxPercent = 0;
     private final String[] options = {"Betal 10% af formue", "Betal 200 kr"};
     private int lastPayed = 0;
-    private Logic logic = Logic.getInstance();
+    private Logic logic = Logic.getINSTANCE();
 
 
     public Tax(String tileName, String tileinfo, int tileIndex) {

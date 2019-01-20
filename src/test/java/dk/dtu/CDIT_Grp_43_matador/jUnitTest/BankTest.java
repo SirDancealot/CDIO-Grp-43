@@ -21,7 +21,7 @@ class BankTest {
         System.out.println("---- Test af upgradeGround ----");
         Bank bank = Bank.getInstance();
         GameBoard board = GameBoard.getInstance();
-        Logic logic = Logic.getInstance();
+        Logic logic = Logic.getINSTANCE();
         TextReader.init();
         try {
             board.initBoard();
