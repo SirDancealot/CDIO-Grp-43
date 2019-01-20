@@ -750,4 +750,16 @@ public class Logic {
     public ChanceCard nextCard() {
         return deck.nextCard();
     }
+
+    public int getBoardSize() {
+        return board.getBoardSize();
+    }
+
+    public Tile getTileByName(String tileName) {
+        return board.getTileByName(tileName);
+    }
+
+    public Tile[] searchForTileType(String tag) {
+        return board.searchForTileType(tag);
+    }
 }

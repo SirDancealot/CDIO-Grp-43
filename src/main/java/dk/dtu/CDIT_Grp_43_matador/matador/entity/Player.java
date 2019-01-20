@@ -12,7 +12,6 @@ public class Player {
 	private static Player[] players;
 	private String name;
 	private boolean inJail = false;
-	private static GameBoard bord;
 	private static Logic logic;
 	private int roll;
 	private int currPos = 0;
@@ -33,7 +32,6 @@ public class Player {
 	 * @param startMoney how much money this player starts with.
 	 */
     public Player(String name, int startMoney) {
-		bord = GameBoard.getInstance();
 		logic = Logic.getINSTANCE();
 		this.name = name;
 		playerAccount = new Account(startMoney);
@@ -51,12 +49,12 @@ public class Player {
 		roll = moving;
 		oldPos = currPos;
 		currPos += moving;
-		currPos = (currPos + bord.getBoardSize()) % bord.getBoardSize();
+		currPos = (currPos + logic.getBoardSize()) % logic.getBoardSize();
 		return true;
 	}
 
 	public boolean moveTo(String tileName) {
-		Tile targetTile = bord.getTileByName(tileName);
+		Tile targetTile = logic.getTileByName(tileName);
 		int targetPos = targetTile.getTileIndex() - currPos;
 		move(targetPos);
 		move(0);
@@ -215,7 +213,7 @@ public class Player {
 	}
 
 	public Tile[] getTilesByTag(String tag) {
-		return bord.searchForTileType(tag);
+		return logic.searchForTileType(tag);
 	}
 
 	public int getOldPos() {
