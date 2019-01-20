@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="23598964-066d-4f12-86c3-26124f8bae49" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/classes/artifacts/Compile_program/Matador.jar" beforeDir="false" afterPath="$PROJECT_DIR$/classes/artifacts/Compile_program/Matador.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/TextReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/TextReader.java" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <ignored path="$PROJECT_DIR$/classes/test/CDIO-Grp-43/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/CDIO_Grp_43$Main.ic" NAME="Main Coverage Results" MODIFIED="1547984787062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>dk.dtu.CDIT_Grp_43_matador.matador.*</FILTER>
+    </SUITE>
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1902462736">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="13" />
+          <entry key="project.open.time.0" value="2" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.open.time.10" value="1" />
+          <entry key="project.open.time.11" value="3" />
+          <entry key="project.open.time.13" value="2" />
+          <entry key="project.open.time.14" value="1" />
+          <entry key="project.open.time.16" value="1" />
+          <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.18" value="1" />
+          <entry key="project.open.time.19" value="1" />
+          <entry key="project.open.time.24" value="1" />
+          <entry key="project.opened" value="15" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="class" value="21" />
+          <entry key="iml" value="2" />
+          <entry key="java" value="129" />
+          <entry key="project" value="1" />
+          <entry key="txt" value="7" />
+          <entry key="xml" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CLASS" value="21" />
+          <entry key="Eclipse" value="1" />
+          <entry key="IDEA_MODULE" value="2" />
+          <entry key="JAVA" value="129" />
+          <entry key="PLAIN_TEXT" value="7" />
+          <entry key="XML" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="dummy" value="1" />
+          <entry key="java" value="7591" />
+          <entry key="txt" value="9" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="7591" />
+          <entry key="PLAIN_TEXT" value="10" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.checkout.local" value="1" />
+          <entry key="git.checkout.as.new.branch" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="CDIO-Grp-43" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/Logic.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="453">
+              <caret line="139" column="62" selection-start-line="139" selection-start-column="62" selection-end-line="139" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CDIO-Grp-43.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-68">
+              <caret line="8" column="66" lean-forward="true" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/Factory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3638">
+              <caret line="214" column="52" selection-start-line="214" selection-start-column="52" selection-end-line="214" selection-end-column="52" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/TextReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#767#783#0" expanded="true" />
+                <element signature="e#1026#1027#0" expanded="true" />
+                <element signature="e#1044#1045#0" expanded="true" />
+                <element signature="e#1097#1098#0" expanded="true" />
+                <element signature="e#1116#1117#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Jail.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Ownable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Player.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>infe</find>
+      <find>inf</find>
+      <find>lang</find>
+      <find>getUserIn</find>
+      <find>addma</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/gui/Modified_GUI_FieldFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/LogicController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/MoveToClosestShipEffect.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Brewery.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Property.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Ship.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Ownable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Jail.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/DiceCup.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/gui/GUI_Controller.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Start.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/GameBoard.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Tile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Tax.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Chance.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/ChanceCardDeck.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/ChanceCard.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Bank.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/GameController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Player.java" />
+        <option value="$PROJECT_DIR$/res/Tiles.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Die.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/Factory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/Logic.java" />
+        <option value="$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/TextReader.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="1116" />
+    <option name="width" value="1149" />
+    <option name="height" value="1455" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>AccessibilityLintAndroid</id>
+          </State>
+          <State>
+            <id>Android</id>
+          </State>
+          <State>
+            <id>Code style issuesJava</id>
+          </State>
+          <State>
+            <id>Control flow issuesJava</id>
+          </State>
+          <State>
+            <id>CorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>Declaration redundancyJava</id>
+          </State>
+          <State>
+            <id>Dependency issuesJava</id>
+          </State>
+          <State>
+            <id>Error handlingJava</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>IconsUsabilityLintAndroid</id>
+          </State>
+          <State>
+            <id>ImportsJava</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>Java 8Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>JavadocJava</id>
+          </State>
+          <State>
+            <id>Kotlin</id>
+          </State>
+          <State>
+            <id>LintAndroid</id>
+          </State>
+          <State>
+            <id>MessagesCorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>Naming conventionsJava</id>
+          </State>
+          <State>
+            <id>PerformanceLintAndroid</id>
+          </State>
+          <State>
+            <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
+            <id>Probable bugsKotlin</id>
+          </State>
+          <State>
+            <id>Properties Files</id>
+          </State>
+          <State>
+            <id>Redundant constructsKotlin</id>
+          </State>
+          <State>
+            <id>Reflective accessJava</id>
+          </State>
+          <State>
+            <id>SecurityLintAndroid</id>
+          </State>
+          <State>
+            <id>Style issuesKotlin</id>
+          </State>
+          <State>
+            <id>TestNGJava</id>
+          </State>
+          <State>
+            <id>Threading issuesJava</id>
+          </State>
+          <State>
+            <id>UsabilityLintAndroid</id>
+          </State>
+          <State>
+            <id>VisibilityJava</id>
+          </State>
+          <State>
+            <id>YAML</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="matador" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CDIO-Grp-43" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="matador" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="CDIO-Grp-43" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548002258421" />
+    <property name="jdk.selected.JAVA_MODULE" value="11" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/res" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2091954" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.CDIT_Grp_43_matador.matador.Main" />
+      <module name="CDIO-Grp-43" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dk.dtu.CDIT_Grp_43_matador.matador.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in CDIO-Grp-43" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CDIO-Grp-43" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.All in CDIO-Grp-43" />
+      <item itemvalue="Application.Main" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.All in CDIO-Grp-43" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_NON_PUBLIC" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="23598964-066d-4f12-86c3-26124f8bae49" name="Default Changelist" comment="" />
+      <created>1543487290803</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1543487290803</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="All_in_CDIO-Grp-43 - 2018.12.17 at 11h 23m 17s.xml">
+      <configuration name="All in CDIO-Grp-43" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_CDIO-Grp-43 - 2018.12.17 at 11h 24m 20s.xml">
+      <configuration name="All in CDIO-Grp-43" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1519" height="977" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.57624114" visible="true" weight="0.2864976" />
+      <window_info auto_hide="true" id="Structure" order="1" sideWeight="0.42375886" side_tool="true" type="SLIDING" weight="0.270048" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" sideWeight="0.42375886" side_tool="true" weight="0.270048" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32938388" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.17890996" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3992891" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32938388" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32938388" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.32938388" />
+      <window_info anchor="bottom" id="Dependency Viewer" order="11" weight="0.32938388" />
+      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.32938388" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Palette&#9;" order="6" />
+      <window_info anchor="right" id="Maven Projects" order="7" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="4" />
+        </breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.Player[])((Logic)this).players)[0]" language="JAVA" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.entity.Player[]" />
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[6]" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard,dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[]" />
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[8]" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard,dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[]" />
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[9]" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard,dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[]" />
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[1]" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard,dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[]" />
+        <watch expression="((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[3]" custom="dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard,dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[]" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="watch">
+      <expression>
+        <expression-string>((dk.dtu.CDIT_Grp_43_matador.matador.entity.Player[])((Logic)this).players)[0]</expression-string>
+        <language-id>JAVA</language-id>
+        <custom-info>dk.dtu.CDIT_Grp_43_matador.matador.Logic,dk.dtu.CDIT_Grp_43_matador.matador.entity.Player[]</custom-info>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="setValue">
+      <expression>
+        <expression-string>1</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>-1</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((dk.dtu.CDIT_Grp_43_matador.matador.entity.Player[])((Logic)this).players)[0]</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>null</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>((Player[])((Logic)this).players)[0].ownedTiles.add(((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[9])</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((Player[])((Logic)this).players)[0].ownedTiles.add(((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[8])</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((Player[])((Logic)this).players)[0].ownedTiles.add(((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[6])</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((Player[])((Logic)this).players)[0].ownedTiles.add(((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[3])</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>((Player[])((Logic)this).players)[0].ownedTiles.add(((dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile[])((GameBoard)((Logic)this).board).gameTiles)[1])</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/ChangeMoneyEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/FreeJailEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/MovePlayerEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/LogicController.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/MoveToClosestShipEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Brewery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="27" column="41" selection-start-line="27" selection-start-column="41" selection-end-line="27" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/diplomitdtu/matadorgui/3.1.3/matadorgui-3.1.3.jar!/gui_codebehind/FieldMouseListener.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/res/lib/matadorgui-3.1.2.jar!/gui_codebehind/GUI_BoardController.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="333" column="31" selection-start-line="333" selection-start-column="31" selection-end-line="333" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/String.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="2142" column="48" lean-forward="true" selection-start-line="2142" selection-start-column="48" selection-end-line="2142" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/Rent.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/res/lib/matadorgui-3.1.2.jar!/gui_main/GUI.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/diplomitdtu/matadorgui/3.1.3/matadorgui-3.1.3.jar!/gui_codebehind/GUI_BoardController.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="101" column="57" lean-forward="true" selection-start-line="101" selection-start-column="57" selection-end-line="101" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/diplomitdtu/matadorgui/3.1.3/matadorgui-3.1.3.jar!/gui_main/GUI.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="96" column="27" lean-forward="true" selection-start-line="96" selection-start-column="27" selection-end-line="96" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/DiceCup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/GoToJail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="25" column="19" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Account.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/GameBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="643">
+          <caret line="111" column="49" selection-start-line="111" selection-start-column="49" selection-end-line="111" selection-end-column="49" />
+          <folding>
+            <element signature="e#2620#2621#0" expanded="true" />
+            <element signature="e#2635#2636#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Tile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="104" column="51" selection-start-line="104" selection-start-column="51" selection-end-line="104" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Chance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/ChanceCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
+          <folding>
+            <element signature="e#694#695#0" expanded="true" />
+            <element signature="e#725#726#0" expanded="true" />
+            <element signature="e#1021#1022#0" expanded="true" />
+            <element signature="e#1065#1066#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Bank.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="57" column="38" selection-start-line="57" selection-start-column="38" selection-end-line="57" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/jdk/internal/misc/Unsafe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="2293" column="23" selection-start-line="2293" selection-start-column="23" selection-end-line="2293" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/GameController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="90" column="31" lean-forward="true" selection-start-line="90" selection-start-column="31" selection-end-line="90" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#664#665#0" expanded="true" />
+            <element signature="e#686#687#0" expanded="true" />
+            <element signature="e#2020#2021#0" expanded="true" />
+            <element signature="e#2042#2043#0" expanded="true" />
+            <element signature="e#2668#2669#0" expanded="true" />
+            <element signature="e#2695#2696#0" expanded="true" />
+            <element signature="e#2672#2673#0" expanded="true" />
+            <element signature="e#2706#2707#0" expanded="true" />
+            <element signature="e#2882#2883#0" expanded="true" />
+            <element signature="e#2900#2901#0" expanded="true" />
+            <element signature="e#2958#2959#0" expanded="true" />
+            <element signature="e#3004#3005#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/cardEffects/PayAllEffect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/res/lib/matadorgui-3.1.2.jar!/gui_fields/GUI_Board.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="206" selection-start-line="206" selection-end-line="206" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/gui/GUI_Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/wraperClasses/ChanceCardDeck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Start.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Tax.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="34" column="73" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/CustomRandom.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Die.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="53" lean-forward="true" selection-start-line="30" selection-start-column="53" selection-end-line="30" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="158" column="17" selection-start-line="158" selection-start-column="17" selection-end-line="158" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/AbstractMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/HashMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="137" column="41" lean-forward="true" selection-start-line="137" selection-start-column="41" selection-end-line="137" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/Tiles.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="26" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/OwnableProperties/Property.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Jail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="47" selection-start-line="31" selection-start-column="47" selection-end-line="31" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/tiles/Ownable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/entity/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1377">
+          <caret line="107" column="42" selection-start-line="107" selection-start-column="42" selection-end-line="107" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/AbstractList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="72" column="54" selection-start-line="72" selection-start-column="54" selection-end-line="72" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/AbstractCollection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="60" column="59" selection-start-line="60" selection-start-column="59" selection-end-line="60" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/util/Collection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3587">
+          <caret line="237" column="12" selection-start-line="237" selection-start-column="12" selection-end-line="237" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-11/lib/src.zip!/java.base/java/lang/Iterable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="41" column="11" selection-start-line="41" selection-start-column="11" selection-end-line="41" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.project">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="23" lean-forward="true" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/Logic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="139" column="62" selection-start-line="139" selection-start-column="62" selection-end-line="139" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CDIO-Grp-43.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="8" column="66" lean-forward="true" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/Factory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3638">
+          <caret line="214" column="52" selection-start-line="214" selection-start-column="52" selection-end-line="214" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/dk/dtu/CDIT_Grp_43_matador/matador/util/TextReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#767#783#0" expanded="true" />
+            <element signature="e#1026#1027#0" expanded="true" />
+            <element signature="e#1044#1045#0" expanded="true" />
+            <element signature="e#1097#1098#0" expanded="true" />
+            <element signature="e#1116#1117#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>Compile program2</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2091954" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>11</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>CDIO-Grp-43</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2091954" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.apiguardian:apiguardian-api:1.0.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2091954" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
