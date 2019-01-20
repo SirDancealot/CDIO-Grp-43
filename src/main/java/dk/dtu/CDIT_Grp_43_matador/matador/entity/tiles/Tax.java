@@ -31,12 +31,15 @@ public class Tax extends Tile {
 
         @Override
         public boolean landOnTile (Player p) {
-            if (taxPercent != 0) {
-                String choice = getChoice("Betal skat", false, options);
+            if (taxPercent != 0 && taxFlat != 0) {
+                String choice = logic.getChoice("Betal skat", false, options);
                 if (choice.equals(options[0])) {
                     lastPayed = ((int) ((taxPercent / 100.0) * p.playerFortune()));
                     return p.withDrawMoney((int) ((taxPercent / 100.0) * p.playerFortune()));
                 }
+            } else if (taxPercent != 0) {
+                lastPayed = ((int) ((taxPercent / 100.0) * p.playerFortune()));
+                return p.withDrawMoney((int) ((taxPercent / 100.0) * p.playerFortune()));
             }
             lastPayed = taxFlat;
             return p.withDrawMoney(taxFlat);

@@ -2,15 +2,12 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
-import dk.dtu.CDIT_Grp_43_matador.matador.entity.Die;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
-import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import org.junit.jupiter.api.Test;
 
@@ -22,52 +19,6 @@ public class testAfTile {
 
     @Test
     public void testAfJail(){
-        System.out.println("---- Test af Jail ----");
-        Bank bank = Bank.getInstance();
-        GameBoard board = GameBoard.getInstance();
-        Logic logic = Logic.getINSTANCE();
-        TextReader.init();
-        DiceCup dc = DiceCup.getInstance();
-        try {
-            board.initBoard();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Player[] p = {new Player("Michel (ikke Michael)", 7000)};
-        int moneyBefore = p[0].getScore();
-        logic.init(p);
-
-        Tile Jail = board.getGameTiles()[10];
-        assertFalse(p[0].isInJail());
-        p[0].setInJail(true);
-        assertTrue(p[0].isInJail());
-        ((Jail) (board.getTileByName("Jail"))).payToExit(p[0]);
-        assertFalse(p[0].isInJail());
-        assertFalse(p[0].getScore() == moneyBefore);
-        System.out.println(p[0].getName()+ " havde: " + moneyBefore + ", og har nu: " + p[0].getScore() + " efter at have betalt for at komme ud");
-        p[0].setInJail(true);
-
-        /*dc.setSame();
-        if(dc.isSame()) {
-            p[0].setInJail(false);
-            System.out.println("Spilleren slog 2 ens og er stadig i fængsel: " + p[0].isInJail());
-        }
-        assertTrue(!p[0].isInJail());*/
-
-        Die die1 = new Die(1);
-        Die die2 = new Die(1);
-        for(int i = 0; i < 3; i++) {
-            dc.roll();
-            System.out.println("Terning 1 slog: " + die1.getFaceValue() + " Og terning 2 slog: " + die2.getFaceValue());
-            if(dc.threeSame()){
-                p[0].setInJail(true);
-            }
-        }
-        assertTrue(p[0].isInJail());
-    }
-
-    @Test
-    public void testAfGoToJail(){
         GameBoard bord = GameBoard.getInstance();
         try {
             bord.initBoard();
@@ -75,11 +26,40 @@ public class testAfTile {
             e.printStackTrace();
         }
 
-        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 30);
+        Jail jailTile = new Jail("", "tag:Jail;name:Jail", 0);
+        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 0);
         Player p = new Player("testPlayer", 1500);
+        int currMoney = p.getScore();
+        jailTile.passedTile(p);
+        assertEquals(currMoney,p.getScore());
         assertFalse(p.isInJail());
+
         GoToJailTile.landOnTile(p);
+
         assertTrue(p.isInJail());
+        jailTile.passedTile(p);
+        assertFalse(currMoney==p.getScore());
+    }
+    @Test
+    public void testAfGoToJail(){
+        System.out.println("---- Test af GoToJail ----");
+        GameBoard bord = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
+        TextReader.init();
+        try {
+            bord.initBoard();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Player[] p = {new Player("Knudbørge", 1500)};
+        logic.init(p);
+
+        Tile goToJailTile = bord.getGameTiles()[30];
+
+        assertFalse(p[0].isInJail());
+        goToJailTile.landOnTile(p[0]);
+        assertTrue(p[0].isInJail());
     }
     @Test
     public void testAfFreeParking(){
@@ -97,7 +77,6 @@ public class testAfTile {
         assertEquals(score,scoreA);
         assertEquals(TO,TOA);
     }
-
     @Test
     public void testAfProperty(){
         Property raadhusTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
@@ -202,72 +181,91 @@ public class testAfTile {
 
     @Test
     public void testAfBrewery() {
+        TextReader.init();
         GameBoard board = GameBoard.getInstance();
-        try{
-            GameController.getInstance().init();
-        } catch (Exception e){
+        Logic logic = Logic.getINSTANCE();
+        try {
+            board.initBoard();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        Player[] p = {new Player("testPlayer", 1500),new Player("testPlayer1",1500)};
+        logic.init(p);
 
         int roll = 12;
         int x4Price = roll * 4;
         int x10Price = roll * 10;
 
-        Player p = new Player("testPlayer",1500);
-        Player p1 = new Player("testPlayer1", 1500);
-        Brewery breweryTile1 = new Brewery("","type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Carlsberg", 28, "1:4;2:10");
-        Brewery breweryTile = new Brewery("", "type:Brewery;Tilevalue:150;sister:brew;setSize:2;name:Bryggeriet Tuborg", 12,"1:4;2:10");
+        Tile breweryTile = board.getGameTiles()[28];
+        Tile breweryTile1 = board.getGameTiles()[12];
 
-        p.move(roll);
+        p[0].move(roll);
 
         System.out.println("---- testAfBrewery ----");
         System.out.println("---- test med roll 12 ----");
-        System.out.println("---- p1 score før test "+p1.getScore()+" ----");
-        System.out.println("---- p score før test "+p.getScore()+" ----");
+        System.out.println("---- p1 score før test "+p[1].getScore()+" ----");
+        System.out.println("---- p score før test "+p[0].getScore()+" ----");
 
-        breweryTile.buyTile(p1);
-        p1.setMoney(1500);
-        breweryTile.landOnTile(p);
+        ((Ownable)breweryTile).buyTile(p[1]);
+        p[1].setMoney(1500);
+        breweryTile.landOnTile(p[0]);
 
 
-        assertTrue((1500+x4Price) == p1.getScore());
-        assertTrue((1500-x4Price) == p.getScore());
+        assertTrue((1500+x4Price) == p[1].getScore());
+        assertTrue((1500-x4Price) == p[0].getScore());
 
-        System.out.println("---- p1 score efter test "+p1.getScore()+" ----");
-        System.out.println("---- p score efter test "+p.getScore()+ "----");
+        System.out.println("---- p1 score efter test "+p[1].getScore()+" ----");
+        System.out.println("---- p score efter test "+p[0].getScore()+ "----");
 
-        breweryTile1.buyTile(p1);
-        p1.setMoney(1500);
-        p.setMoney(1500);
-        breweryTile.landOnTile(p);
+        ((Ownable)breweryTile1).buyTile(p[1]);
+        p[1].setMoney(1500);
+        p[0].setMoney(1500);
+        breweryTile.landOnTile(p[0]);
 
-        assertEquals((1500+x10Price), p1.getScore());
-        assertEquals((1500-x10Price), p.getScore());
+        assertEquals((1500+x10Price), p[1].getScore());
+        assertEquals((1500-x10Price), p[0].getScore());
 
-        p1.setMoney(1500);
-        breweryTile.landOnTile(p1);
+        p[1].setMoney(1500);
+        breweryTile.landOnTile(p[1]);
 
-        assertEquals(1500, p1.getScore());
+        assertEquals(1500, p[1].getScore());
 
     }
     @Test
     public void testAfTaxPercentValgPercent() {
-
+        TextReader.init();
+        GameBoard gameboard = GameBoard.getInstance();
+        Logic logic = Logic.getINSTANCE();
         try {
-            GameController.getInstance().init();
+            gameboard.initBoard();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Player p = new Player("testPlayer",1500);
-        Tax taxTile = new Tax("","Tile4=type:Tax;money:200;percent:10;name:Tax Percent",4);
+        Player[] p = {new Player("testPlayer", 1500)};
+        logic.init(p);
 
-        System.out.println(p.getScore());
+        Tile taxTile = new Tax("", "type:Tax;percent:10;name:Tax Percent",4);
+        Tile taxTile1 = new Tax("", "type:Tax;money:200;name:Tax Percent",4);
 
-        taxTile.landOnTile(p);
-        assertEquals(1350,p.getScore());
+        System.out.println("Test af Tax tile");
+        System.out.println("spillers score før 10% fratrukket "+p[0].getScore());
 
-        System.out.println(p.getScore());
+        taxTile.landOnTile(p[0]);
+        assertEquals(1350,p[0].getScore());
+
+        System.out.println("spillers score efter 10% fratrukket "+p[0].getScore());
+
+        p[0].setMoney(1500);
+
+        System.out.println("Test af Tax tile");
+        System.out.println("spillers score før 200 kr fratrukket "+p[0].getScore());
+
+        taxTile1.landOnTile(p[0]);
+
+        System.out.println("spillers score efter 200 kr fratrukket "+p[0].getScore());
+
+        assertEquals(1300, p[0].getScore());
 
     }
 }
