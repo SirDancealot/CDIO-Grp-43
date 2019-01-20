@@ -29,7 +29,6 @@ public class GameController {
 	//Container variables
 	private Player[] players;
 	private GameBoard bord = GameBoard.getInstance();
-	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
 	private Logic logic = Logic.getINSTANCE();
 	private GUI_Controller gui = GUI_Controller.getINSTANCE();
 

@@ -10,7 +10,6 @@ import java.io.IOException;
 public class GUI_Controller {
     private static GUI_Controller INSTANCE = new GUI_Controller();
     private GUI gui;
-    private GameController game = GameController.getInstance();
     private GUI_Player[] allPlayer;
     private int numberOfPlayers = 0;
     private String[] names;
