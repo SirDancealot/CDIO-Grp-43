@@ -30,7 +30,7 @@ public class GameController {
 	private Player[] players;
 	private GameBoard bord = GameBoard.getInstance();
 	private ChanceCardDeck deck = ChanceCardDeck.getInstance();
-	private Logic logic = Logic.getINSTANCE();
+	private Logic logic = Logic.getInstance();
 	private GUI_Controller gui = GUI_Controller.getINSTANCE();
 
 

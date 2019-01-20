@@ -1,6 +1,5 @@
 package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
-import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Ownable;
@@ -9,11 +8,9 @@ import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.Tile;
 import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +21,7 @@ class BankTest {
         System.out.println("---- Test af upgradeGround ----");
         Bank bank = Bank.getInstance();
         GameBoard board = GameBoard.getInstance();
-        Logic logic = Logic.getINSTANCE();
+        Logic logic = Logic.getInstance();
         TextReader.init();
         try {
             board.initBoard();

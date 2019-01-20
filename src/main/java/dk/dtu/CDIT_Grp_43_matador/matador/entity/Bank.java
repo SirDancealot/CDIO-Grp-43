@@ -17,7 +17,7 @@ public class Bank {
 
 
     public void initBank(){
-       logic = Logic.getINSTANCE();
+       logic = Logic.getInstance();
     }
     private int housesInGame = 32;
     private int hotelsInGame = 12;

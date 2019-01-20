@@ -2,13 +2,16 @@ package dk.dtu.CDIT_Grp_43_matador.jUnitTest;
 
 import dk.dtu.CDIT_Grp_43_matador.matador.GameController;
 import dk.dtu.CDIT_Grp_43_matador.matador.Logic;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Bank;
+import dk.dtu.CDIT_Grp_43_matador.matador.entity.Die;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.Player;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.*;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Brewery;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Property;
 import dk.dtu.CDIT_Grp_43_matador.matador.entity.tiles.OwnableProperties.Ship;
+import dk.dtu.CDIT_Grp_43_matador.matador.util.TextReader;
+import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.DiceCup;
 import dk.dtu.CDIT_Grp_43_matador.matador.wraperClasses.GameBoard;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -19,27 +22,50 @@ public class testAfTile {
 
     @Test
     public void testAfJail(){
-        GameBoard bord = GameBoard.getInstance();
+        System.out.println("---- Test af Jail ----");
+        Bank bank = Bank.getInstance();
+        GameBoard board = GameBoard.getInstance();
+        Logic logic = Logic.getInstance();
+        TextReader.init();
+        DiceCup dc = DiceCup.getInstance();
         try {
-            bord.initBoard();
-        } catch (Exception e) {
+            board.initBoard();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        Player[] p = {new Player("Michel (ikke Michael)", 7000)};
+        int moneyBefore = p[0].getScore();
+        logic.init(p);
 
-        Jail jailTile = new Jail("", "tag:Jail;name:Jail", 0);
-        GoToJail GoToJailTile = new GoToJail("", "tag:GoToJail;name:GoToJail", 0);
-        Player p = new Player("testPlayer", 1500);
-        int currMoney = p.getScore();
-        jailTile.passedTile(p);
-        assertEquals(currMoney,p.getScore());
-        assertFalse(p.isInJail());
+        Tile Jail = board.getGameTiles()[10];
+        assertFalse(p[0].isInJail());
+        p[0].setInJail(true);
+        assertTrue(p[0].isInJail());
+        ((Jail) (board.getTileByName("Jail"))).payToExit(p[0]);
+        assertFalse(p[0].isInJail());
+        assertFalse(p[0].getScore() == moneyBefore);
+        System.out.println(p[0].getName()+ " havde: " + moneyBefore + ", og har nu: " + p[0].getScore() + " efter at have betalt for at komme ud");
+        p[0].setInJail(true);
 
-        GoToJailTile.landOnTile(p);
+        /*dc.setSame();
+        if(dc.isSame()) {
+            p[0].setInJail(false);
+            System.out.println("Spilleren slog 2 ens og er stadig i fængsel: " + p[0].isInJail());
+        }
+        assertTrue(!p[0].isInJail());*/
 
-        assertTrue(p.isInJail());
-        jailTile.passedTile(p);
-        assertFalse(currMoney==p.getScore());
+        Die die1 = new Die(1);
+        Die die2 = new Die(1);
+        for(int i = 0; i < 3; i++) {
+            dc.roll();
+            System.out.println("Terning 1 slog: " + die1.getFaceValue() + " Og terning 2 slog: " + die2.getFaceValue());
+            if(dc.threeSame()){
+                p[0].setInJail(true);
+            }
+        }
+        assertTrue(p[0].isInJail());
     }
+
     @Test
     public void testAfGoToJail(){
         GameBoard bord = GameBoard.getInstance();
@@ -71,6 +97,7 @@ public class testAfTile {
         assertEquals(score,scoreA);
         assertEquals(TO,TOA);
     }
+
     @Test
     public void testAfProperty(){
         Property raadhusTile = new Property("Raadhuspladsen", "type:Property;Tilevalue:400;sister:brown;setSize:2;housePrice:200", 39, "0:50;1:200;2:600;3:1400;4:1700;5:2000");
@@ -232,13 +259,13 @@ public class testAfTile {
             e.printStackTrace();
         }
 
-        Player p = new Player("testPlayer",3000);
+        Player p = new Player("testPlayer",1500);
         Tax taxTile = new Tax("","Tile4=type:Tax;money:200;percent:10;name:Tax Percent",4);
 
         System.out.println(p.getScore());
 
         taxTile.landOnTile(p);
-        assertEquals(2700,p.getScore());
+        assertEquals(1350,p.getScore());
 
         System.out.println(p.getScore());
 

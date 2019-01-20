@@ -19,7 +19,7 @@ public class testAfWinRate {
     private static Player[] players;
     private static GameBoard bord = GameBoard.getInstance();
     private static ChanceCardDeck deck = ChanceCardDeck.getInstance();
-    private static Logic logic = Logic.getINSTANCE();
+    private static Logic logic = Logic.getInstance();
 
 
     public void rungame() throws IOException {
