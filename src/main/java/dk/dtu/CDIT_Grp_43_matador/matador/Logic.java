@@ -604,7 +604,6 @@ public class Logic {
             players[currPlayerIndex].addMaxJailRolls(1);
 
         if (players[currPlayerIndex].getMaxJailRolls() == 3){
-            players[currPlayerIndex].setInJail(false);
             ((Jail)board.getTileByName("Jail")).payToExit(players[currPlayerIndex]);
             players[currPlayerIndex].setMaxJailRolls(0);
         }
